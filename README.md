@@ -1,118 +1,151 @@
-# Sage Wallet
+# Theme-o-rama
 
-A high-performance light wallet that offers users the ability to connect directly to peers on the Chia blockchain or to a trusted full node. Key features include WalletConnect for integration with decentralized applications (dApps) and DeFi services, support for Chia offer files, and compatibility with Chia's standards for NFTs and Asset Tokens (CATs). This wallet also facilitates the creation, viewing, and management of NFTs, the minting of new tokens, and the management of Decentralized Identifiers (DIDs). Sage Wallet is designed for ease of use, security, and future extensibility. It is currently available in beta, so it should be used with caution.
+A theme development and testing environment for the Sage Chia Wallet. This repository allows you to create, test, and preview custom UI themes for the Sage wallet application.
 
-Sage is built upon the reliable foundation of [chia_rs](https://github.com/Chia-Network/chia_rs), [clvm_rs](https://github.com/Chia-Network/clvm_rs), and the [Chia Wallet SDK](https://github.com/xch-dev/chia-wallet-sdk). It's designed with maintainability and future extensibility in mind from the beginning.
+## Quick Start
 
-## Installation
+### Prerequisites
 
-You can download binaries for any platform (including desktop and Android) on the releases page. For iOS, you can participate in the [public TestFlight](https://testflight.apple.com/join/BmUdFXpP).
+1. **Rust** - Install via [Rustup](https://rustup.rs)
+2. **PNPM** - Install via [pnpm.io](https://pnpm.io/installation)
+3. **Tauri dependencies** - Follow [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/)
 
-If you want to build from source, see the [Development](#development) section for instructions.
+### Building & Running
 
-## Contributing
+```bash
+# Install dependencies
+pnpm install
 
-This is an open source project, and we welcome pull requests to improve any part of the wallet.
+# Run in development mode
+pnpm tauri dev
+```
 
-The frontend is currently written in TypeScript with [React](https://react.dev/) and [Shadcn UI](https://ui.shadcn.com/), and can be found in the `src` directory.
+## Creating Custom Themes
 
-The backend is written in Rust, powered by [Tauri v2](https://v2.tauri.app/). The frontend and backend communicate via serialized commands and events over IPC. The `src-tauri` directory contains the backend wrapper code, and `crates` is the individual libraries that make up the wallet backend.
+As you create and modify your themes, you can preview them in the theme selector by running `pnpm tauri dev`. Updates will be automatically reflected in the UI when you save your changes.
 
-Finally, the wallet driver code is written on the backend using the [Chia Wallet SDK](https://github.com/xch-dev/chia-wallet-sdk).
+### Theme Structure
+
+Themes are JSON files located in `src/themes/[theme-name]/theme.json`. Each theme must include:
+
+```json
+{
+  "name": "my-theme",
+  "displayName": "My Custom Theme",
+  "schemaVersion": 1,
+  "most_like": "light",
+  "colors": { /* color definitions */ },
+  "fonts": { /* font definitions */ },
+  "corners": { /* border radius values */ },
+  "shadows": { /* shadow definitions */ }
+}
+```
+
+### Required Fields
+
+- `name`: Unique identifier (lowercase, no spaces)
+- `displayName`: Human-readable name
+- `schemaVersion`: Currently `1`
+- `most_like`: Either `"light"` or `"dark"` (affects icon selection)
+
+### Theme Inheritance
+
+Themes can inherit from other themes using the `inherits` property:
+
+```json
+{
+  "name": "my-dark-theme",
+  "displayName": "My Dark Theme",
+  "inherits": "dark",
+  "colors": {
+    "primary": "hsl(220 70% 50%)",
+    "accent": "hsl(280 100% 70%)"
+  }
+}
+```
+
+### Available Properties
+
+#### Colors
+
+Define the color palette for your theme:
+
+```json
+"colors": {
+  "background": "hsl(0 0% 100%)",
+  "foreground": "hsl(0 0% 3.9%)",
+  "primary": "hsl(0 0% 9%)",
+  "secondary": "hsl(0 0% 96.1%)",
+  "accent": "hsl(0 0% 96.1%)",
+  "destructive": "hsl(0 84.2% 60.2%)",
+  "card": "hsl(0 0% 98%)",
+  "popover": "hsl(0 0% 100%)",
+  "border": "hsl(0 0% 89.8%)",
+  "input": "hsl(0 0% 89.8%)"
+}
+```
+
+#### Background Images
+
+Add custom background images:
+
+```json
+{
+  "backgroundImage": "background.jpg",
+  "backgroundSize": "cover",
+  "backgroundPosition": "center",
+  "backgroundRepeat": "no-repeat"
+}
+```
+
+#### Custom Button Styles
+
+Define custom button appearances:
+
+```json
+"buttons": {
+  "default": {
+    "background": "hsl(220 70% 50%)",
+    "color": "white",
+    "borderRadius": "0.5rem",
+    "hover": {
+      "background": "hsl(220 70% 45%)",
+      "transform": "scale(1.02)"
+    }
+  }
+}
+```
+
+#### Advanced Features
+
+- **Backdrop filters**: Add blur effects to cards and popovers
+- **Table customization**: Style table headers, rows, and cells
+- **Switch styling**: Customize toggle switch appearances
+- **Button style flags**: Enable special effects like shimmer or gradients
+
+### Example Themes
+
+- **Light** (`src/themes/light/`) - Clean, minimal light theme
+- **Dark** (`src/themes/dark/`) - Dark theme inheriting from light
+- **Colorful** (`src/themes/colorful/`) - Vibrant theme with background image and custom styling
+
+### Testing Your Theme
+
+1. Create your theme folder: `src/themes/my-theme/`
+2. Add `theme.json` with your theme definition
+3. Run `pnpm tauri dev` to see your theme in the theme selector
+4. Navigate to the Themes page to preview and test your theme
+
+### Theme Validation
+
+Themes are automatically validated against the schema defined in `src/themes/schema.json`. Invalid themes will show error messages in the console.
 
 ## Development
 
-### Setting up the environment
+This is a Tauri-based application with:
 
-These instructions should get you up and running with a source installation.
+- **Frontend**: React + TypeScript + Tailwind CSS
+- **Backend**: Rust with Tauri v2
+- **UI Components**: Shadcn/ui components
 
-First, there are some prerequisites:
-
-1. Clone the repo
-2. Install Rust via [Rustup](https://rustup.rs)
-3. Install [PNPM](https://pnpm.io/installation)
-4. Setup system dependencies for [Tauri](https://v2.tauri.app/start/prerequisites/)
-
-Install the frontend dependencies:
-
-```bash
-pnpm install
-```
-
-### Starting the app
-
-You can run the app with:
-
-```bash
-# For development purposes:
-pnpm tauri dev
-
-# If you need optimizations:
-pnpm tauri dev --release
-```
-
-And build the application with:
-
-```bash
-pnpm tauri build
-```
-
-You can also run the app in the iOS or Android simulator, though it may take some prior setup:
-
-```bash
-pnpm tauri ios dev
-pnpm tauri android dev
-```
-
-### Working in the database
-
-If you are going to be working on the wallet database follow the steps below.
-
-Sage uses [sqlx](https://github.com/launchbadge/sqlx) for database integration, so first install the [sqlx-cli](https://lib.rs/crates/sqlx-cli)
-
-```bash
-cargo install sqlx-cli
-```
-
-Next create a `.env` file in the project root with these contents:
-
-```bash
-DATABASE_URL=sqlite://./test.sqlite
-```
-
-In order to sync your local environment to incoming query or schema changes or if you see rust compile errors like `error: error returned from database` you probably need to run this command:
-
-```bash
-sqlx db reset -y
-```
-
-If you add or change queries run this command to generate new sqlx SQL files:
-
-```bash
-cargo sqlx prepare --workspace
-```
-
-Schema changes, including new indices, go into the `migrations` folder as SQL DDL scripts.
-
-### Testing
-
-Currently, only the wallet driver code has tests. These can be run with:
-
-```bash
-RUST_LOG=debug,sqlx=off cargo t -p sage-wallet
-```
-
-The `sqlx=off` portion gets rid of noisy log spam from SQLx.
-
-Most of the tests for the underlying coin spend implementations live in the Wallet SDK repo.
-
-### Before Release
-
-The following things have to be done before a new release is published:
-
-1. Bump the version of all crates
-2. Bump the versions in `src-tauri/gen/apple/sage-tauri_iOS/Info.plist`
-3. Run `pnpm prettier` to format the code
-4. Run `pnpm extract` to extract new translations
-5. Create a new tagged release
-6. Upload to TestFlight and the Google Play Store
+For more detailed development information, see the main [Sage Wallet repository](https://github.com/Chia-Network/sage-wallet).
