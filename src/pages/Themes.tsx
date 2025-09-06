@@ -10,15 +10,70 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { useTheme } from '@/contexts/ThemeContext';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { Info, Loader2, Palette } from 'lucide-react';
+import { Info, Loader2, Palette, Upload, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function Themes() {
-  const { currentTheme, isLoading, error } = useTheme();
+  const { currentTheme, isLoading, error, setTheme, setCustomTheme } =
+    useTheme();
+  const [themeJson, setThemeJson] = useState('');
+  const [isApplying, setIsApplying] = useState(false);
+  const [applyError, setApplyError] = useState<string | null>(null);
+
+  // Load theme JSON from localStorage on component mount
+  useEffect(() => {
+    const savedThemeJson = localStorage.getItem('custom-theme-json');
+    if (savedThemeJson) {
+      setThemeJson(savedThemeJson);
+    }
+  }, []);
+
+  // Save theme JSON to localStorage whenever it changes
+  const updateThemeJson = (value: string) => {
+    setThemeJson(value);
+    if (value.trim()) {
+      localStorage.setItem('custom-theme-json', value);
+    } else {
+      localStorage.removeItem('custom-theme-json');
+    }
+  };
+
+  const handleApplyTheme = async () => {
+    if (!themeJson.trim()) {
+      setApplyError('Please enter theme JSON');
+      return;
+    }
+
+    setIsApplying(true);
+    setApplyError(null);
+
+    try {
+      const success = await setCustomTheme(themeJson);
+      if (success) {
+        // Keep the JSON in the textarea for easy reapplication
+        setApplyError(null);
+      } else {
+        setApplyError('Failed to apply theme. Please check your JSON format.');
+      }
+    } catch (err) {
+      setApplyError('An error occurred while applying the theme');
+      console.error('Error applying theme:', err);
+    } finally {
+      setIsApplying(false);
+    }
+  };
+
+  const handleClearTheme = async () => {
+    setThemeJson('');
+    setApplyError(null);
+    localStorage.removeItem('custom-theme-json');
+    await setTheme('light');
+  };
 
   if (isLoading) {
     return (
@@ -97,120 +152,67 @@ export default function Themes() {
               </CardContent>
             </Card>
 
-            {/* Current Theme Info */}
+            {/* Custom Theme Input */}
             <Card>
               <CardHeader>
-                <CardTitle>
-                  <Trans>Current Theme: {currentTheme.displayName}</Trans>
+                <CardTitle className='flex items-center gap-2'>
+                  <Upload className='h-5 w-5' />
+                  <Trans>Apply Custom Theme</Trans>
                 </CardTitle>
                 <CardDescription>
                   <Trans>
-                    Preview of the current theme&apos;s color palette and
-                    styling.
+                    Paste your theme JSON below to apply a custom theme to the
+                    entire application.
                   </Trans>
                 </CardDescription>
               </CardHeader>
-              <CardContent className='space-y-6'>
-                {/* Color Palette */}
-                <div>
-                  <Label className='text-base font-semibold mb-3 block'>
-                    <Trans>Colors</Trans>
+              <CardContent className='space-y-4'>
+                <div className='space-y-2'>
+                  <Label htmlFor='theme-json'>
+                    <Trans>Theme JSON</Trans>
                   </Label>
-                  <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
-                    <div className='space-y-2'>
-                      <Label>
-                        <Trans>Primary</Trans>
-                      </Label>
-                      <div className='h-12 rounded-md border bg-primary' />
-                    </div>
-                    <div className='space-y-2'>
-                      <Label>
-                        <Trans>Secondary</Trans>
-                      </Label>
-                      <div className='h-12 rounded-md border bg-secondary' />
-                    </div>
-                    <div className='space-y-2'>
-                      <Label>
-                        <Trans>Accent</Trans>
-                      </Label>
-                      <div className='h-12 rounded-md border bg-accent' />
-                    </div>
-                    <div className='space-y-2'>
-                      <Label>
-                        <Trans>Destructive</Trans>
-                      </Label>
-                      <div className='h-12 rounded-md border bg-destructive' />
-                    </div>
-                  </div>
+                  <Textarea
+                    id='theme-json'
+                    placeholder={t`Paste your theme JSON here...`}
+                    value={themeJson}
+                    onChange={(e) => updateThemeJson(e.target.value)}
+                    className='min-h-[200px] font-mono text-sm'
+                  />
                 </div>
 
-                {/* Border Radius */}
-                <div>
-                  <Label className='text-base font-semibold mb-3 block'>
-                    <Trans>Border Radius</Trans>
-                  </Label>
-                  <div className='space-y-4'>
-                    <div>
-                      <Trans>Border Radius</Trans>:{' '}
-                      {currentTheme.corners?.lg || 'Default'}
-                      <div className='mt-2 flex gap-2'>
-                        <div className='w-8 h-8 bg-primary rounded-none' />
-                        <div className='w-8 h-8 bg-primary rounded-sm' />
-                        <div className='w-8 h-8 bg-primary rounded-md' />
-                        <div className='w-8 h-8 bg-primary rounded-lg' />
-                        <div className='w-8 h-8 bg-primary rounded-xl' />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {applyError && (
+                  <Alert variant='destructive'>
+                    <Info className='h-4 w-4' />
+                    <AlertDescription>{applyError}</AlertDescription>
+                  </Alert>
+                )}
 
-                <div>
-                  <Label className='text-base font-semibold mb-3 block'>
-                    <Trans>Component Examples</Trans>
-                  </Label>
-                  <div className='space-y-4'>
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>
-                          <Trans>Card Component</Trans>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p>
-                          <Trans>
-                            This is how a card component looks with the current
-                            theme.
-                          </Trans>
-                        </p>
-                        <div className='mt-4'>
-                          <Input placeholder={t`Input field example`} />
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    <div className='space-y-4'>
-                      <Label className='text-base font-semibold block'>
-                        <Trans>Buttons</Trans>
-                      </Label>
-                      <div className='flex flex-col sm:flex-row gap-2 flex-wrap'>
-                        <Button>
-                          <Trans>Primary</Trans>
-                        </Button>
-                        <Button variant='outline'>
-                          <Trans>Outline</Trans>
-                        </Button>
-                        <Button variant='destructive'>
-                          <Trans>Destructive</Trans>
-                        </Button>
-                        <Button variant='ghost'>
-                          <Trans>Ghost</Trans>
-                        </Button>
-                        <Button variant='link'>
-                          <Trans>Link</Trans>
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
+                <div className='flex flex-col sm:flex-row gap-2'>
+                  <Button
+                    onClick={handleApplyTheme}
+                    disabled={isApplying || !themeJson.trim()}
+                    className='w-full sm:w-auto'
+                  >
+                    {isApplying ? (
+                      <>
+                        <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                        <Trans>Applying...</Trans>
+                      </>
+                    ) : (
+                      <>
+                        <Upload className='mr-2 h-4 w-4' />
+                        <Trans>Apply Theme</Trans>
+                      </>
+                    )}
+                  </Button>
+                  <Button
+                    onClick={handleClearTheme}
+                    variant='outline'
+                    className='w-full sm:w-auto'
+                  >
+                    <X className='mr-2 h-4 w-4' />
+                    <Trans>Clear & Reset</Trans>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
