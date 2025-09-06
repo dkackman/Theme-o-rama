@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
-import { platform } from '@tauri-apps/plugin-os';
 import { ClipboardPasteIcon, ScanIcon } from 'lucide-react';
 import { forwardRef } from 'react';
+import { getPlatformSync } from '../lib/platform';
 import { Input, InputProps } from './ui/input';
 
 export interface PasteInputProps extends InputProps {
@@ -24,7 +24,8 @@ export const PasteInput = forwardRef<HTMLInputElement, PasteInputProps>(
     },
     ref,
   ) => {
-    const isMobile = platform() === 'ios' || platform() === 'android';
+    const isMobile =
+      getPlatformSync() === 'ios' || getPlatformSync() === 'android';
 
     return (
       <div

@@ -1,10 +1,4 @@
 import {
-  authenticate,
-  BiometryType,
-  checkStatus,
-} from '@tauri-apps/plugin-biometric';
-import { platform } from '@tauri-apps/plugin-os';
-import {
   createContext,
   ReactNode,
   useCallback,
@@ -12,6 +6,7 @@ import {
   useState,
 } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
+import { getPlatformSync } from '../lib/platform';
 
 export interface BiometricContextType {
   enabled: boolean;
@@ -25,14 +20,24 @@ export const BiometricContext = createContext<BiometricContextType | undefined>(
   undefined,
 );
 
-const isMobile = platform() === 'ios' || platform() === 'android';
+const isMobile = getPlatformSync() === 'ios' || getPlatformSync() === 'android';
 
 // It's unclear why this causes a crash if inside of the BiometricProvider useEffect,
 // but it does - so moving it out here is a workaround for the issue until it's properly
 // investigated.
 const status = isMobile
-  ? checkStatus()
-  : Promise.resolve({ isAvailable: false, biometryType: BiometryType.None });
+  ? (async () => {
+      try {
+        const { checkStatus, BiometryType } = await import(
+          '@tauri-apps/plugin-biometric'
+        );
+        return await checkStatus();
+      } catch (error) {
+        console.warn('Biometric plugin not available:', error);
+        return { isAvailable: false, biometryType: 'None' as any };
+      }
+    })()
+  : Promise.resolve({ isAvailable: false, biometryType: 'None' as any });
 
 export function BiometricProvider({ children }: { children: ReactNode }) {
   const [enabled, setEnabled] = useLocalStorage('biometric', false);
@@ -43,9 +48,7 @@ export function BiometricProvider({ children }: { children: ReactNode }) {
     if (!isMobile) return;
 
     status.then((status) =>
-      setAvailable(
-        status.isAvailable && status.biometryType !== BiometryType.None,
-      ),
+      setAvailable(status.isAvailable && status.biometryType !== 'None'),
     );
   }, []);
 
@@ -55,12 +58,14 @@ export function BiometricProvider({ children }: { children: ReactNode }) {
     // Required every 5 minutes
     if (enabled && (lastPrompt === null || now - lastPrompt >= 1000 * 300)) {
       try {
+        const { authenticate } = await import('@tauri-apps/plugin-biometric');
         await authenticate('Authenticate with biometric', {
           allowDeviceCredential: false,
         });
         setLastPrompt(now);
         return true;
-      } catch {
+      } catch (error) {
+        console.warn('Biometric authentication failed:', error);
         return false;
       }
     }
@@ -71,14 +76,23 @@ export function BiometricProvider({ children }: { children: ReactNode }) {
   const enableIfAvailable = useCallback(async () => {
     if (!available) return;
 
-    await authenticate('Enable biometric authentication');
-
-    setEnabled(true);
+    try {
+      const { authenticate } = await import('@tauri-apps/plugin-biometric');
+      await authenticate('Enable biometric authentication');
+      setEnabled(true);
+    } catch (error) {
+      console.warn('Failed to enable biometric authentication:', error);
+    }
   }, [available, setEnabled]);
 
   const disable = useCallback(async () => {
     if (available) {
-      await authenticate('Disable biometric authentication');
+      try {
+        const { authenticate } = await import('@tauri-apps/plugin-biometric');
+        await authenticate('Disable biometric authentication');
+      } catch (error) {
+        console.warn('Failed to disable biometric authentication:', error);
+      }
     }
 
     setEnabled(false);
