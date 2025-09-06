@@ -57,7 +57,6 @@ function isLocaleNumber(stringNumber: string, locale?: string): boolean {
 
 MaskedInput.displayName = 'MaskedInput';
 
-
 // Integer input that only accepts positive integers
 interface IntegerInputProps extends MaskedInputProps {
   min?: number;

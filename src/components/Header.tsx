@@ -115,13 +115,13 @@ export default function Header(
                 className='flex items-center gap-2 font-semibold font-heading'
                 aria-label={t`Go to wallet`}
               >
-                  <img
-                    src={currentTheme?.icon_path}
-                    className='h-6 w-6'
-                    alt={t`Theme icon`}
-                    aria-hidden='true'
-                  />
-                
+                <img
+                  src={currentTheme?.icon_path}
+                  className='h-6 w-6'
+                  alt={t`Theme icon`}
+                  aria-hidden='true'
+                />
+
                 <span className='text-lg'>Theme-o-rama</span>
               </Link>
             </div>

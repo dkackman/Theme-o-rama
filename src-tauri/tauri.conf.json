@@ -1,17 +1,17 @@
 {
-  "productName": "Sage",
-  "version": "0.12.1",
-  "identifier": "com.rigidnetwork.sage",
+  "productName": "Theme-o-rama",
+  "version": "0.1.0",
+  "identifier": "net.kackman.theme-o-rama",
   "build": {
     "frontendDist": "../dist",
-    "devUrl": "http://localhost:1420",
+    "devUrl": "http://localhost:1425",
     "beforeDevCommand": "pnpm run dev",
     "beforeBuildCommand": "pnpm run build"
   },
   "app": {
     "windows": [
       {
-        "title": "Sage",
+        "title": "Theme-o-rama",
         "width": 1150,
         "height": 750,
         "resizable": true,

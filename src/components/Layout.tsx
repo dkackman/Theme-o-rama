@@ -34,13 +34,12 @@ export function FullLayout(props: LayoutProps) {
       to='/'
       className={`flex items-center gap-2 font-semibold font-heading`}
     >
+      <img
+        src={currentTheme?.icon_path}
+        className='h-6 w-6'
+        alt={t`Theme icon`}
+      />
 
-        <img
-          src={currentTheme?.icon_path}
-          className='h-6 w-6'
-          alt={t`Theme icon`}
-        />
-      
       <span
         className={`text-lg transition-opacity duration-300 ${
           isCollapsed ? 'opacity-0 hidden' : 'opacity-100'
@@ -58,14 +57,14 @@ export function FullLayout(props: LayoutProps) {
           to='/wallet'
           className={`flex items-center gap-2 font-semibold font-heading`}
         >
-            <img
-              src={currentTheme?.icon_path}
-              className='h-6 w-6'
-              alt={t`Theme icon`}
-            />
+          <img
+            src={currentTheme?.icon_path}
+            className='h-6 w-6'
+            alt={t`Theme icon`}
+          />
         </Link>
       </TooltipTrigger>
-      <TooltipContent side='right'>{ t`Theme-o-rama`}</TooltipContent>
+      <TooltipContent side='right'>{t`Theme-o-rama`}</TooltipContent>
     </Tooltip>
   ) : (
     walletIcon
@@ -93,36 +92,34 @@ export function FullLayout(props: LayoutProps) {
         >
           <div className='bg-background flex h-full max-h-screen flex-col gap-2'>
             <div className='flex h-14 items-center pt-2 px-5 justify-between'>
-                <>
-                  {!isCollapsed && walletIconWithTooltip}
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <button
-                        type='button'
-                        onClick={() => setIsCollapsed(!isCollapsed)}
-                        className='text-muted-foreground hover:text-primary transition-colors'
-                        aria-label={
-                          isCollapsed ? t`Expand sidebar` : t`Collapse sidebar`
-                        }
-                        aria-expanded={!isCollapsed}
-                      >
-                        {isCollapsed ? (
-                          <PanelLeft className='h-5 w-5' aria-hidden='true' />
-                        ) : (
-                          <PanelLeftClose
-                            className='h-5 w-5'
-                            aria-hidden='true'
-                          />
-                        )}
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent side='right' role='tooltip'>
-                      {isCollapsed
-                        ? t`Expand sidebar`
-                        : t`Collapse sidebar`}
-                    </TooltipContent>
-                  </Tooltip>
-                </>
+              <>
+                {!isCollapsed && walletIconWithTooltip}
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      type='button'
+                      onClick={() => setIsCollapsed(!isCollapsed)}
+                      className='text-muted-foreground hover:text-primary transition-colors'
+                      aria-label={
+                        isCollapsed ? t`Expand sidebar` : t`Collapse sidebar`
+                      }
+                      aria-expanded={!isCollapsed}
+                    >
+                      {isCollapsed ? (
+                        <PanelLeft className='h-5 w-5' aria-hidden='true' />
+                      ) : (
+                        <PanelLeftClose
+                          className='h-5 w-5'
+                          aria-hidden='true'
+                        />
+                      )}
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side='right' role='tooltip'>
+                    {isCollapsed ? t`Expand sidebar` : t`Collapse sidebar`}
+                  </TooltipContent>
+                </Tooltip>
+              </>
             </div>
 
             <div className='flex-1 flex flex-col justify-between pb-4'>
@@ -163,5 +160,5 @@ export function FullLayout(props: LayoutProps) {
 }
 
 export default function Layout(props: LayoutProps) {
-  return <FullLayout {...props}/>;
+  return <FullLayout {...props} />;
 }

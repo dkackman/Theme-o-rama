@@ -23,7 +23,8 @@ import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { loadCatalog } from './i18n';
 import Themes from './pages/Themes';
 import Tables from './pages/Tables';
-
+import Components from './pages/Components';
+import Dialogs from './pages/Dialogs';
 // Theme-aware toast container component
 function ThemeAwareToastContainer() {
   const { currentTheme } = useTheme();
@@ -58,6 +59,8 @@ const router = createHashRouter(
     <>
       <Route path='/' element={<Themes />} />
       <Route path='/tables' element={<Tables />} />
+      <Route path='/components' element={<Components />} />
+      <Route path='/dialogs' element={<Dialogs />} />
     </>,
   ),
 );
@@ -87,7 +90,6 @@ export default function App() {
 function AppInner() {
   const { locale } = useLanguage();
   const [isLocaleInitialized, setIsLocaleInitialized] = useState(false);
-
 
   useEffect(() => {
     const initLocale = async () => {

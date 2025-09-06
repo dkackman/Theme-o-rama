@@ -1,4 +1,3 @@
-
 import { applyThemeIsolated } from '@/lib/theme';
 import { Theme } from '@/lib/theme.type';
 import { t } from '@lingui/core/macro';

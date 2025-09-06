@@ -53,7 +53,7 @@ export async function loadThemes(): Promise<Theme[]> {
       return defaultThemes;
     })
     .then(async (defaultThemes) => {
-      const allThemes = [...(defaultThemes || []),];
+      const allThemes = [...(defaultThemes || [])];
 
       themesCache = allThemes;
       return allThemes;

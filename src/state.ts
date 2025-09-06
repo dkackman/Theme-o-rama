@@ -33,4 +33,3 @@ export const useNavigationStore = create<NavigationStore>((set) => ({
       returnValues: { ...state.returnValues, [pageId]: value },
     })),
 }));
-

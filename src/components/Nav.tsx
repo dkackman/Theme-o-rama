@@ -5,12 +5,7 @@ import {
 } from '@/components/ui/tooltip';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import {
-  Component,
-  Table,
-  Image,
-  SwatchBook,
-} from 'lucide-react';
+import { Component, Table, AppWindow, SwatchBook } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Separator } from './ui/separator';
@@ -39,7 +34,6 @@ export function TopNav({ isCollapsed }: NavProps) {
         <SwatchBook className={className} aria-hidden='true' />
       </NavLink>
 
-
       <NavLink
         url={'/components'}
         isCollapsed={isCollapsed}
@@ -56,13 +50,13 @@ export function TopNav({ isCollapsed }: NavProps) {
         <Table className={className} />
       </NavLink>
 
-        <NavLink
-          url={'/background-options'}
-          isCollapsed={isCollapsed}
-          message={<Trans>Backgrounds</Trans>}
-        >
-          <Image className={className} />
-        </NavLink>
+      <NavLink
+        url={'/dialogs'}
+        isCollapsed={isCollapsed}
+        message={<Trans>Dialogs</Trans>}
+      >
+        <AppWindow className={className} />
+      </NavLink>
     </nav>
   );
 }

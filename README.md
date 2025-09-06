@@ -34,10 +34,18 @@ Themes are JSON files located in `src/themes/[theme-name]/theme.json`. Each them
   "displayName": "My Custom Theme",
   "schemaVersion": 1,
   "most_like": "light",
-  "colors": { /* color definitions */ },
-  "fonts": { /* font definitions */ },
-  "corners": { /* border radius values */ },
-  "shadows": { /* shadow definitions */ }
+  "colors": {
+    /* color definitions */
+  },
+  "fonts": {
+    /* font definitions */
+  },
+  "corners": {
+    /* border radius values */
+  },
+  "shadows": {
+    /* shadow definitions */
+  }
 }
 ```
 

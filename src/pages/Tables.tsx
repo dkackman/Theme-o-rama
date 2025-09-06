@@ -54,7 +54,6 @@ export default function Tables() {
 
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6 space-y-8'>
-
             {/* Current Theme Info */}
             <Card>
               <CardHeader>

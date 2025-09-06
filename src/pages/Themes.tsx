@@ -17,7 +17,6 @@ import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { Info, Loader2, Palette } from 'lucide-react';
 
-
 export default function Themes() {
   const { currentTheme, isLoading, error } = useTheme();
 
