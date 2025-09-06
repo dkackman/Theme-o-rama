@@ -1,4 +1,4 @@
-import { applyTheme } from '@/lib/theme';
+import { applyTheme, loadUserTheme } from '@/lib/theme';
 import { Theme } from '@/lib/theme.type';
 import { getThemeByName, invalidateThemeCache, loadThemes } from '@/lib/themes';
 import React, { createContext, useContext, useEffect, useState } from 'react';
@@ -7,6 +7,7 @@ import { useLocalStorage } from 'usehooks-ts';
 interface ThemeContextType {
   currentTheme: Theme | null;
   setTheme: (themeName: string) => void;
+  setCustomTheme: (themeJson: string) => Promise<boolean>;
   availableThemes: Theme[];
   isLoading: boolean;
   error: string | null;
@@ -52,6 +53,31 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     } catch (err) {
       console.error('Error setting theme:', err);
       setError('Failed to set theme');
+    } finally {
+      setIsSettingTheme(false);
+    }
+  };
+
+  const setCustomTheme = async (themeJson: string): Promise<boolean> => {
+    if (isSettingTheme) return false; // Prevent concurrent calls
+
+    setIsSettingTheme(true);
+    try {
+      const theme = await loadUserTheme(themeJson);
+      if (theme) {
+        setCurrentTheme(theme);
+        applyTheme(theme, document.documentElement);
+        setSavedTheme('custom'); // Mark as custom theme
+        setError(null); // Clear any previous errors
+        return true;
+      } else {
+        setError('Invalid theme JSON');
+        return false;
+      }
+    } catch (err) {
+      console.error('Error setting custom theme:', err);
+      setError('Failed to load custom theme');
+      return false;
     } finally {
       setIsSettingTheme(false);
     }
@@ -132,6 +158,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       value={{
         currentTheme,
         setTheme,
+        setCustomTheme,
         availableThemes,
         isLoading,
         error,

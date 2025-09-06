@@ -1,4 +1,5 @@
-import{r as y,R as Vr,a as Kr}from"./vendor-i4_lSgkZ.js";/**
+import { r as y, R as Vr, a as Kr } from './vendor-i4_lSgkZ.js';
+/**
  * @remix-run/router v1.19.0
  *
  * Copyright (c) Remix Software Inc.
@@ -7,9 +8,2778 @@ import{r as y,R as Vr,a as Kr}from"./vendor-i4_lSgkZ.js";/**
  * LICENSE.md file in the root directory of this source tree.
  *
  * @license MIT
- */function $(){return $=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e},$.apply(this,arguments)}var Q;(function(e){e.Pop="POP",e.Push="PUSH",e.Replace="REPLACE"})(Q||(Q={}));const kt="popstate";function $r(e){e===void 0&&(e={});function t(a,s){let{pathname:o="/",search:c="",hash:u=""}=pe(a.location.hash.substr(1));return!o.startsWith("/")&&!o.startsWith(".")&&(o="/"+o),Ye("",{pathname:o,search:c,hash:u},s.state&&s.state.usr||null,s.state&&s.state.key||"default")}function r(a,s){let o=a.document.querySelector("base"),c="";if(o&&o.getAttribute("href")){let u=a.location.href,p=u.indexOf("#");c=p===-1?u:u.slice(0,p)}return c+"#"+(typeof s=="string"?s:Ce(s))}function n(a,s){Pe(a.pathname.charAt(0)==="/","relative pathnames are not supported in hash history.push("+JSON.stringify(s)+")")}return Yr(t,r,n,e)}function U(e,t){if(e===!1||e===null||typeof e>"u")throw new Error(t)}function Pe(e,t){if(!e){typeof console<"u"&&console.warn(t);try{throw new Error(t)}catch{}}}function Jr(){return Math.random().toString(36).substr(2,8)}function Ht(e,t){return{usr:e.state,key:e.key,idx:t}}function Ye(e,t,r,n){return r===void 0&&(r=null),$({pathname:typeof e=="string"?e:e.pathname,search:"",hash:""},typeof t=="string"?pe(t):t,{state:r,key:t&&t.key||n||Jr()})}function Ce(e){let{pathname:t="/",search:r="",hash:n=""}=e;return r&&r!=="?"&&(t+=r.charAt(0)==="?"?r:"?"+r),n&&n!=="#"&&(t+=n.charAt(0)==="#"?n:"#"+n),t}function pe(e){let t={};if(e){let r=e.indexOf("#");r>=0&&(t.hash=e.substr(r),e=e.substr(0,r));let n=e.indexOf("?");n>=0&&(t.search=e.substr(n),e=e.substr(0,n)),e&&(t.pathname=e)}return t}function Yr(e,t,r,n){n===void 0&&(n={});let{window:a=document.defaultView,v5Compat:s=!1}=n,o=a.history,c=Q.Pop,u=null,p=v();p==null&&(p=0,o.replaceState($({},o.state,{idx:p}),""));function v(){return(o.state||{idx:null}).idx}function f(){c=Q.Pop;let D=v(),j=D==null?null:D-p;p=D,u&&u({action:c,location:R.location,delta:j})}function g(D,j){c=Q.Push;let M=Ye(R.location,D,j);r&&r(M,D),p=v()+1;let z=Ht(M,p),V=R.createHref(M);try{o.pushState(z,"",V)}catch(Z){if(Z instanceof DOMException&&Z.name==="DataCloneError")throw Z;a.location.assign(V)}s&&u&&u({action:c,location:R.location,delta:1})}function L(D,j){c=Q.Replace;let M=Ye(R.location,D,j);r&&r(M,D),p=v();let z=Ht(M,p),V=R.createHref(M);o.replaceState(z,"",V),s&&u&&u({action:c,location:R.location,delta:0})}function x(D){let j=a.location.origin!=="null"?a.location.origin:a.location.href,M=typeof D=="string"?D:Ce(D);return M=M.replace(/ $/,"%20"),U(j,"No window.location.(origin|href) available to create URL for href: "+M),new URL(M,j)}let R={get action(){return c},get location(){return e(a,o)},listen(D){if(u)throw new Error("A history only accepts one active listener");return a.addEventListener(kt,f),u=D,()=>{a.removeEventListener(kt,f),u=null}},createHref(D){return t(a,D)},createURL:x,encodeLocation(D){let j=x(D);return{pathname:j.pathname,search:j.search,hash:j.hash}},push:g,replace:L,go(D){return o.go(D)}};return R}var B;(function(e){e.data="data",e.deferred="deferred",e.redirect="redirect",e.error="error"})(B||(B={}));const Gr=new Set(["lazy","caseSensitive","path","id","index","children"]);function Xr(e){return e.index===!0}function Ge(e,t,r,n){return r===void 0&&(r=[]),n===void 0&&(n={}),e.map((a,s)=>{let o=[...r,String(s)],c=typeof a.id=="string"?a.id:o.join("-");if(U(a.index!==!0||!a.children,"Cannot specify children on an index route"),U(!n[c],'Found a route id collision on id "'+c+`".  Route id's must be globally unique within Data Router usages`),Xr(a)){let u=$({},a,t(a),{id:c});return n[c]=u,u}else{let u=$({},a,t(a),{id:c,children:void 0});return n[c]=u,a.children&&(u.children=Ge(a.children,t,o,n)),u}})}function xe(e,t,r){return r===void 0&&(r="/"),st(e,t,r,!1)}function st(e,t,r,n){let a=typeof t=="string"?pe(t):t,s=Ae(a.pathname||"/",r);if(s==null)return null;let o=dr(e);Zr(o);let c=null;for(let u=0;c==null&&u<o.length;++u){let p=dn(s);c=sn(o[u],p,n)}return c}function Qr(e,t){let{route:r,pathname:n,params:a}=e;return{id:r.id,pathname:n,params:a,data:t[r.id],handle:r.handle}}function dr(e,t,r,n){t===void 0&&(t=[]),r===void 0&&(r=[]),n===void 0&&(n="");let a=(s,o,c)=>{let u={relativePath:c===void 0?s.path||"":c,caseSensitive:s.caseSensitive===!0,childrenIndex:o,route:s};u.relativePath.startsWith("/")&&(U(u.relativePath.startsWith(n),'Absolute route path "'+u.relativePath+'" nested under path '+('"'+n+'" is not valid. An absolute child route path ')+"must start with the combined path of all its parent routes."),u.relativePath=u.relativePath.slice(n.length));let p=he([n,u.relativePath]),v=r.concat(u);s.children&&s.children.length>0&&(U(s.index!==!0,"Index routes must not have child routes. Please remove "+('all child routes from route path "'+p+'".')),dr(s.children,t,v,p)),!(s.path==null&&!s.index)&&t.push({path:p,score:on(p,s.index),routesMeta:v})};return e.forEach((s,o)=>{var c;if(s.path===""||!((c=s.path)!=null&&c.includes("?")))a(s,o);else for(let u of cr(s.path))a(s,o,u)}),t}function cr(e){let t=e.split("/");if(t.length===0)return[];let[r,...n]=t,a=r.endsWith("?"),s=r.replace(/\?$/,"");if(n.length===0)return a?[s,""]:[s];let o=cr(n.join("/")),c=[];return c.push(...o.map(u=>u===""?s:[s,u].join("/"))),a&&c.push(...o),c.map(u=>e.startsWith("/")&&u===""?"/":u)}function Zr(e){e.sort((t,r)=>t.score!==r.score?r.score-t.score:ln(t.routesMeta.map(n=>n.childrenIndex),r.routesMeta.map(n=>n.childrenIndex)))}const qr=/^:[\w-]+$/,en=3,tn=2,rn=1,nn=10,an=-2,Wt=e=>e==="*";function on(e,t){let r=e.split("/"),n=r.length;return r.some(Wt)&&(n+=an),t&&(n+=tn),r.filter(a=>!Wt(a)).reduce((a,s)=>a+(qr.test(s)?en:s===""?rn:nn),n)}function ln(e,t){return e.length===t.length&&e.slice(0,-1).every((n,a)=>n===t[a])?e[e.length-1]-t[t.length-1]:0}function sn(e,t,r){r===void 0&&(r=!1);let{routesMeta:n}=e,a={},s="/",o=[];for(let c=0;c<n.length;++c){let u=n[c],p=c===n.length-1,v=s==="/"?t:t.slice(s.length)||"/",f=Vt({path:u.relativePath,caseSensitive:u.caseSensitive,end:p},v),g=u.route;if(!f&&p&&r&&!n[n.length-1].route.index&&(f=Vt({path:u.relativePath,caseSensitive:u.caseSensitive,end:!1},v)),!f)return null;Object.assign(a,f.params),o.push({params:a,pathname:he([s,f.pathname]),pathnameBase:hn(he([s,f.pathnameBase])),route:g}),f.pathnameBase!=="/"&&(s=he([s,f.pathnameBase]))}return o}function Vt(e,t){typeof e=="string"&&(e={path:e,caseSensitive:!1,end:!0});let[r,n]=un(e.path,e.caseSensitive,e.end),a=t.match(r);if(!a)return null;let s=a[0],o=s.replace(/(.)\/+$/,"$1"),c=a.slice(1);return{params:n.reduce((p,v,f)=>{let{paramName:g,isOptional:L}=v;if(g==="*"){let R=c[f]||"";o=s.slice(0,s.length-R.length).replace(/(.)\/+$/,"$1")}const x=c[f];return L&&!x?p[g]=void 0:p[g]=(x||"").replace(/%2F/g,"/"),p},{}),pathname:s,pathnameBase:o,pattern:e}}function un(e,t,r){t===void 0&&(t=!1),r===void 0&&(r=!0),Pe(e==="*"||!e.endsWith("*")||e.endsWith("/*"),'Route path "'+e+'" will be treated as if it were '+('"'+e.replace(/\*$/,"/*")+'" because the `*` character must ')+"always follow a `/` in the pattern. To get rid of this warning, "+('please change the route path to "'+e.replace(/\*$/,"/*")+'".'));let n=[],a="^"+e.replace(/\/*\*?$/,"").replace(/^\/*/,"/").replace(/[\\.*+^${}|()[\]]/g,"\\$&").replace(/\/:([\w-]+)(\?)?/g,(o,c,u)=>(n.push({paramName:c,isOptional:u!=null}),u?"/?([^\\/]+)?":"/([^\\/]+)"));return e.endsWith("*")?(n.push({paramName:"*"}),a+=e==="*"||e==="/*"?"(.*)$":"(?:\\/(.+)|\\/*)$"):r?a+="\\/*$":e!==""&&e!=="/"&&(a+="(?:(?=\\/|$))"),[new RegExp(a,t?void 0:"i"),n]}function dn(e){try{return e.split("/").map(t=>decodeURIComponent(t).replace(/\//g,"%2F")).join("/")}catch(t){return Pe(!1,'The URL path "'+e+'" could not be decoded because it is is a malformed URL segment. This is probably due to a bad percent '+("encoding ("+t+").")),e}}function Ae(e,t){if(t==="/")return e;if(!e.toLowerCase().startsWith(t.toLowerCase()))return null;let r=t.endsWith("/")?t.length-1:t.length,n=e.charAt(r);return n&&n!=="/"?null:e.slice(r)||"/"}function cn(e,t){t===void 0&&(t="/");let{pathname:r,search:n="",hash:a=""}=typeof e=="string"?pe(e):e;return{pathname:r?r.startsWith("/")?r:fn(r,t):t,search:pn(n),hash:mn(a)}}function fn(e,t){let r=t.replace(/\/+$/,"").split("/");return e.split("/").forEach(a=>{a===".."?r.length>1&&r.pop():a!=="."&&r.push(a)}),r.length>1?r.join("/"):"/"}function bt(e,t,r,n){return"Cannot include a '"+e+"' character in a manually specified "+("`to."+t+"` field ["+JSON.stringify(n)+"].  Please separate it out to the ")+("`to."+r+"` field. Alternatively you may provide the full path as ")+'a string in <Link to="..."> and the router will parse it for you.'}function fr(e){return e.filter((t,r)=>r===0||t.route.path&&t.route.path.length>0)}function St(e,t){let r=fr(e);return t?r.map((n,a)=>a===r.length-1?n.pathname:n.pathnameBase):r.map(n=>n.pathnameBase)}function Dt(e,t,r,n){n===void 0&&(n=!1);let a;typeof e=="string"?a=pe(e):(a=$({},e),U(!a.pathname||!a.pathname.includes("?"),bt("?","pathname","search",a)),U(!a.pathname||!a.pathname.includes("#"),bt("#","pathname","hash",a)),U(!a.search||!a.search.includes("#"),bt("#","search","hash",a)));let s=e===""||a.pathname==="",o=s?"/":a.pathname,c;if(o==null)c=r;else{let f=t.length-1;if(!n&&o.startsWith("..")){let g=o.split("/");for(;g[0]==="..";)g.shift(),f-=1;a.pathname=g.join("/")}c=f>=0?t[f]:"/"}let u=cn(a,c),p=o&&o!=="/"&&o.endsWith("/"),v=(s||o===".")&&r.endsWith("/");return!u.pathname.endsWith("/")&&(p||v)&&(u.pathname+="/"),u}const he=e=>e.join("/").replace(/\/\/+/g,"/"),hn=e=>e.replace(/\/+$/,"").replace(/^\/*/,"/"),pn=e=>!e||e==="?"?"":e.startsWith("?")?e:"?"+e,mn=e=>!e||e==="#"?"":e.startsWith("#")?e:"#"+e;class ut{constructor(t,r,n,a){a===void 0&&(a=!1),this.status=t,this.statusText=r||"",this.internal=a,n instanceof Error?(this.data=n.toString(),this.error=n):this.data=n}}function ft(e){return e!=null&&typeof e.status=="number"&&typeof e.statusText=="string"&&typeof e.internal=="boolean"&&"data"in e}const hr=["post","put","patch","delete"],vn=new Set(hr),gn=["get",...hr],yn=new Set(gn),bn=new Set([301,302,303,307,308]),wn=new Set([307,308]),wt={state:"idle",location:void 0,formMethod:void 0,formAction:void 0,formEncType:void 0,formData:void 0,json:void 0,text:void 0},Rn={state:"idle",data:void 0,formMethod:void 0,formAction:void 0,formEncType:void 0,formData:void 0,json:void 0,text:void 0},Ve={state:"unblocked",proceed:void 0,reset:void 0,location:void 0},Pt=/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i,En=e=>({hasErrorBoundary:!!e.hasErrorBoundary}),pr="remix-router-transitions";function xn(e){const t=e.window?e.window:typeof window<"u"?window:void 0,r=typeof t<"u"&&typeof t.document<"u"&&typeof t.document.createElement<"u",n=!r;U(e.routes.length>0,"You must provide a non-empty routes array to createRouter");let a;if(e.mapRouteProperties)a=e.mapRouteProperties;else if(e.detectErrorBoundary){let i=e.detectErrorBoundary;a=l=>({hasErrorBoundary:i(l)})}else a=En;let s={},o=Ge(e.routes,a,void 0,s),c,u=e.basename||"/",p=e.unstable_dataStrategy||Ln,v=e.unstable_patchRoutesOnMiss,f=$({v7_fetcherPersist:!1,v7_normalizeFormMethod:!1,v7_partialHydration:!1,v7_prependBasename:!1,v7_relativeSplatPath:!1,v7_skipActionErrorRevalidation:!1},e.future),g=null,L=new Set,x=null,R=null,D=null,j=e.hydrationData!=null,M=xe(o,e.history.location,u),z=null;if(M==null&&!v){let i=re(404,{pathname:e.history.location.pathname}),{matches:l,route:d}=er(o);M=l,z={[d.id]:i}}M&&!e.hydrationData&&nt(M,o,e.history.location.pathname).active&&(M=null);let V;if(M)if(M.some(i=>i.route.lazy))V=!1;else if(!M.some(i=>i.route.loader))V=!0;else if(f.v7_partialHydration){let i=e.hydrationData?e.hydrationData.loaderData:null,l=e.hydrationData?e.hydrationData.errors:null,d=m=>m.route.loader?typeof m.route.loader=="function"&&m.route.loader.hydrate===!0?!1:i&&i[m.route.id]!==void 0||l&&l[m.route.id]!==void 0:!0;if(l){let m=M.findIndex(w=>l[w.route.id]!==void 0);V=M.slice(0,m+1).every(d)}else V=M.every(d)}else V=e.hydrationData!=null;else if(V=!1,M=[],f.v7_partialHydration){let i=nt(null,o,e.history.location.pathname);i.active&&i.matches&&(M=i.matches)}let Z,h={historyAction:e.history.action,location:e.history.location,matches:M,initialized:V,navigation:wt,restoreScrollPosition:e.hydrationData!=null?!1:null,preventScrollReset:!1,revalidation:"idle",loaderData:e.hydrationData&&e.hydrationData.loaderData||{},actionData:e.hydrationData&&e.hydrationData.actionData||null,errors:e.hydrationData&&e.hydrationData.errors||z,fetchers:new Map,blockers:new Map},ne=Q.Pop,N=!1,_,H=!1,Y=new Map,q=null,oe=!1,K=!1,me=[],Ze=new Set,G=new Map,qe=0,Be=-1,Te=new Map,ue=new Set,Ue=new Map,ze=new Map,de=new Set,we=new Map,Re=new Map,Pr=new Map,mt=!1;function Cr(){if(g=e.history.listen(i=>{let{action:l,location:d,delta:m}=i;if(mt){mt=!1;return}Pe(Re.size===0||m!=null,"You are trying to use a blocker on a POP navigation to a location that was not created by @remix-run/router. This will fail silently in production. This can happen if you are navigating outside the router via `window.history.pushState`/`window.location.hash` instead of using router navigation APIs.  This can also happen if you are using createHashRouter and the user manually changes the URL.");let w=Nt({currentLocation:h.location,nextLocation:d,historyAction:l});if(w&&m!=null){mt=!0,e.history.go(m*-1),tt(w,{state:"blocked",location:d,proceed(){tt(w,{state:"proceeding",proceed:void 0,reset:void 0,location:d}),e.history.go(m)},reset(){let E=new Map(h.blockers);E.set(w,Ve),te({blockers:E})}});return}return Ee(l,d)}),r){kn(t,Y);let i=()=>Hn(t,Y);t.addEventListener("pagehide",i),q=()=>t.removeEventListener("pagehide",i)}return h.initialized||Ee(Q.Pop,h.location,{initialHydration:!0}),Z}function Lr(){g&&g(),q&&q(),L.clear(),_&&_.abort(),h.fetchers.forEach((i,l)=>et(l)),h.blockers.forEach((i,l)=>It(l))}function Mr(i){return L.add(i),()=>L.delete(i)}function te(i,l){l===void 0&&(l={}),h=$({},h,i);let d=[],m=[];f.v7_fetcherPersist&&h.fetchers.forEach((w,E)=>{w.state==="idle"&&(de.has(E)?m.push(E):d.push(E))}),[...L].forEach(w=>w(h,{deletedFetchers:m,unstable_viewTransitionOpts:l.viewTransitionOpts,unstable_flushSync:l.flushSync===!0})),f.v7_fetcherPersist&&(d.forEach(w=>h.fetchers.delete(w)),m.forEach(w=>et(w)))}function Fe(i,l,d){var m,w;let{flushSync:E}=d===void 0?{}:d,C=h.actionData!=null&&h.navigation.formMethod!=null&&le(h.navigation.formMethod)&&h.navigation.state==="loading"&&((m=i.state)==null?void 0:m._isRedirect)!==!0,b;l.actionData?Object.keys(l.actionData).length>0?b=l.actionData:b=null:C?b=h.actionData:b=null;let T=l.loaderData?Zt(h.loaderData,l.loaderData,l.matches||[],l.errors):h.loaderData,S=h.blockers;S.size>0&&(S=new Map(S),S.forEach((I,k)=>S.set(k,Ve)));let P=N===!0||h.navigation.formMethod!=null&&le(h.navigation.formMethod)&&((w=i.state)==null?void 0:w._isRedirect)!==!0;c&&(o=c,c=void 0),oe||ne===Q.Pop||(ne===Q.Push?e.history.push(i,i.state):ne===Q.Replace&&e.history.replace(i,i.state));let A;if(ne===Q.Pop){let I=Y.get(h.location.pathname);I&&I.has(i.pathname)?A={currentLocation:h.location,nextLocation:i}:Y.has(i.pathname)&&(A={currentLocation:i,nextLocation:h.location})}else if(H){let I=Y.get(h.location.pathname);I?I.add(i.pathname):(I=new Set([i.pathname]),Y.set(h.location.pathname,I)),A={currentLocation:h.location,nextLocation:i}}te($({},l,{actionData:b,loaderData:T,historyAction:ne,location:i,initialized:!0,navigation:wt,revalidation:"idle",restoreScrollPosition:Bt(i,l.matches||h.matches),preventScrollReset:P,blockers:S}),{viewTransitionOpts:A,flushSync:E===!0}),ne=Q.Pop,N=!1,H=!1,oe=!1,K=!1,me=[]}async function Mt(i,l){if(typeof i=="number"){e.history.go(i);return}let d=Et(h.location,h.matches,u,f.v7_prependBasename,i,f.v7_relativeSplatPath,l==null?void 0:l.fromRouteId,l==null?void 0:l.relative),{path:m,submission:w,error:E}=Kt(f.v7_normalizeFormMethod,!1,d,l),C=h.location,b=Ye(h.location,m,l&&l.state);b=$({},b,e.history.encodeLocation(b));let T=l&&l.replace!=null?l.replace:void 0,S=Q.Push;T===!0?S=Q.Replace:T===!1||w!=null&&le(w.formMethod)&&w.formAction===h.location.pathname+h.location.search&&(S=Q.Replace);let P=l&&"preventScrollReset"in l?l.preventScrollReset===!0:void 0,A=(l&&l.unstable_flushSync)===!0,I=Nt({currentLocation:C,nextLocation:b,historyAction:S});if(I){tt(I,{state:"blocked",location:b,proceed(){tt(I,{state:"proceeding",proceed:void 0,reset:void 0,location:b}),Mt(i,l)},reset(){let k=new Map(h.blockers);k.set(I,Ve),te({blockers:k})}});return}return await Ee(S,b,{submission:w,pendingError:E,preventScrollReset:P,replace:l&&l.replace,enableViewTransition:l&&l.unstable_viewTransition,flushSync:A})}function Tr(){if(vt(),te({revalidation:"loading"}),h.navigation.state!=="submitting"){if(h.navigation.state==="idle"){Ee(h.historyAction,h.location,{startUninterruptedRevalidation:!0});return}Ee(ne||h.historyAction,h.navigation.location,{overrideNavigation:h.navigation})}}async function Ee(i,l,d){_&&_.abort(),_=null,ne=i,oe=(d&&d.startUninterruptedRevalidation)===!0,zr(h.location,h.matches),N=(d&&d.preventScrollReset)===!0,H=(d&&d.enableViewTransition)===!0;let m=c||o,w=d&&d.overrideNavigation,E=xe(m,l,u),C=(d&&d.flushSync)===!0,b=nt(E,m,l.pathname);if(b.active&&b.matches&&(E=b.matches),!E){let{error:O,notFoundMatches:ee,route:X}=gt(l.pathname);Fe(l,{matches:ee,loaderData:{},errors:{[X.id]:O}},{flushSync:C});return}if(h.initialized&&!K&&On(h.location,l)&&!(d&&d.submission&&le(d.submission.formMethod))){Fe(l,{matches:E},{flushSync:C});return}_=new AbortController;let T=Ie(e.history,l,_.signal,d&&d.submission),S;if(d&&d.pendingError)S=[Ne(E).route.id,{type:B.error,error:d.pendingError}];else if(d&&d.submission&&le(d.submission.formMethod)){let O=await Ur(T,l,d.submission,E,b.active,{replace:d.replace,flushSync:C});if(O.shortCircuited)return;if(O.pendingActionResult){let[ee,X]=O.pendingActionResult;if(ie(X)&&ft(X.error)&&X.error.status===404){_=null,Fe(l,{matches:O.matches,loaderData:{},errors:{[ee]:X.error}});return}}E=O.matches||E,S=O.pendingActionResult,w=Rt(l,d.submission),C=!1,b.active=!1,T=Ie(e.history,T.url,T.signal)}let{shortCircuited:P,matches:A,loaderData:I,errors:k}=await Fr(T,l,E,b.active,w,d&&d.submission,d&&d.fetcherSubmission,d&&d.replace,d&&d.initialHydration===!0,C,S);P||(_=null,Fe(l,$({matches:A||E},qt(S),{loaderData:I,errors:k})))}async function Ur(i,l,d,m,w,E){E===void 0&&(E={}),vt();let C=Bn(l,d);if(te({navigation:C},{flushSync:E.flushSync===!0}),w){let S=await at(m,l.pathname,i.signal);if(S.type==="aborted")return{shortCircuited:!0};if(S.type==="error"){let{boundaryId:P,error:A}=rt(l.pathname,S);return{matches:S.partialMatches,pendingActionResult:[P,{type:B.error,error:A}]}}else if(S.matches)m=S.matches;else{let{notFoundMatches:P,error:A,route:I}=gt(l.pathname);return{matches:P,pendingActionResult:[I.id,{type:B.error,error:A}]}}}let b,T=Je(m,l);if(!T.route.action&&!T.route.lazy)b={type:B.error,error:re(405,{method:i.method,pathname:l.pathname,routeId:T.route.id})};else if(b=(await He("action",i,[T],m))[0],i.signal.aborted)return{shortCircuited:!0};if(De(b)){let S;return E&&E.replace!=null?S=E.replace:S=Gt(b.response.headers.get("Location"),new URL(i.url),u)===h.location.pathname+h.location.search,await ke(i,b,{submission:d,replace:S}),{shortCircuited:!0}}if(Se(b))throw re(400,{type:"defer-action"});if(ie(b)){let S=Ne(m,T.route.id);return(E&&E.replace)!==!0&&(ne=Q.Push),{matches:m,pendingActionResult:[S.route.id,b]}}return{matches:m,pendingActionResult:[T.route.id,b]}}async function Fr(i,l,d,m,w,E,C,b,T,S,P){let A=w||Rt(l,E),I=E||C||ar(A),k=!oe&&(!f.v7_partialHydration||!T);if(m){if(k){let J=Tt(P);te($({navigation:A},J!==void 0?{actionData:J}:{}),{flushSync:S})}let F=await at(d,l.pathname,i.signal);if(F.type==="aborted")return{shortCircuited:!0};if(F.type==="error"){let{boundaryId:J,error:ae}=rt(l.pathname,F);return{matches:F.partialMatches,loaderData:{},errors:{[J]:ae}}}else if(F.matches)d=F.matches;else{let{error:J,notFoundMatches:ae,route:W}=gt(l.pathname);return{matches:ae,loaderData:{},errors:{[W.id]:J}}}}let O=c||o,[ee,X]=$t(e.history,h,d,I,l,f.v7_partialHydration&&T===!0,f.v7_skipActionErrorRevalidation,K,me,Ze,de,Ue,ue,O,u,P);if(yt(F=>!(d&&d.some(J=>J.route.id===F))||ee&&ee.some(J=>J.route.id===F)),Be=++qe,ee.length===0&&X.length===0){let F=Ot();return Fe(l,$({matches:d,loaderData:{},errors:P&&ie(P[1])?{[P[0]]:P[1].error}:null},qt(P),F?{fetchers:new Map(h.fetchers)}:{}),{flushSync:S}),{shortCircuited:!0}}if(k){let F={};if(!m){F.navigation=A;let J=Tt(P);J!==void 0&&(F.actionData=J)}X.length>0&&(F.fetchers=_r(X)),te(F,{flushSync:S})}X.forEach(F=>{G.has(F.key)&&ge(F.key),F.controller&&G.set(F.key,F.controller)});let We=()=>X.forEach(F=>ge(F.key));_&&_.signal.addEventListener("abort",We);let{loaderResults:ye,fetcherResults:_e}=await Ut(h.matches,d,ee,X,i);if(i.signal.aborted)return{shortCircuited:!0};_&&_.signal.removeEventListener("abort",We),X.forEach(F=>G.delete(F.key));let Oe=tr([...ye,..._e]);if(Oe){if(Oe.idx>=ee.length){let F=X[Oe.idx-ee.length].key;ue.add(F)}return await ke(i,Oe.result,{replace:b}),{shortCircuited:!0}}let{loaderData:je,errors:se}=Qt(h,d,ee,ye,P,X,_e,we);we.forEach((F,J)=>{F.subscribe(ae=>{(ae||F.done)&&we.delete(J)})}),f.v7_partialHydration&&T&&h.errors&&Object.entries(h.errors).filter(F=>{let[J]=F;return!ee.some(ae=>ae.route.id===J)}).forEach(F=>{let[J,ae]=F;se=Object.assign(se||{},{[J]:ae})});let it=Ot(),ot=jt(Be),lt=it||ot||X.length>0;return $({matches:d,loaderData:je,errors:se},lt?{fetchers:new Map(h.fetchers)}:{})}function Tt(i){if(i&&!ie(i[1]))return{[i[0]]:i[1].data};if(h.actionData)return Object.keys(h.actionData).length===0?null:h.actionData}function _r(i){return i.forEach(l=>{let d=h.fetchers.get(l.key),m=Ke(void 0,d?d.data:void 0);h.fetchers.set(l.key,m)}),new Map(h.fetchers)}function Or(i,l,d,m){if(n)throw new Error("router.fetch() was called during the server render, but it shouldn't be. You are likely calling a useFetcher() method in the body of your component. Try moving it to a useEffect or a callback.");G.has(i)&&ge(i);let w=(m&&m.unstable_flushSync)===!0,E=c||o,C=Et(h.location,h.matches,u,f.v7_prependBasename,d,f.v7_relativeSplatPath,l,m==null?void 0:m.relative),b=xe(E,C,u),T=nt(b,E,C);if(T.active&&T.matches&&(b=T.matches),!b){ce(i,l,re(404,{pathname:C}),{flushSync:w});return}let{path:S,submission:P,error:A}=Kt(f.v7_normalizeFormMethod,!0,C,m);if(A){ce(i,l,A,{flushSync:w});return}let I=Je(b,S);if(N=(m&&m.preventScrollReset)===!0,P&&le(P.formMethod)){jr(i,l,S,I,b,T.active,w,P);return}Ue.set(i,{routeId:l,path:S}),Ir(i,l,S,I,b,T.active,w,P)}async function jr(i,l,d,m,w,E,C,b){vt(),Ue.delete(i);function T(W){if(!W.route.action&&!W.route.lazy){let fe=re(405,{method:b.formMethod,pathname:d,routeId:l});return ce(i,l,fe,{flushSync:C}),!0}return!1}if(!E&&T(m))return;let S=h.fetchers.get(i);ve(i,zn(b,S),{flushSync:C});let P=new AbortController,A=Ie(e.history,d,P.signal,b);if(E){let W=await at(w,d,A.signal);if(W.type==="aborted")return;if(W.type==="error"){let{error:fe}=rt(d,W);ce(i,l,fe,{flushSync:C});return}else if(W.matches){if(w=W.matches,m=Je(w,d),T(m))return}else{ce(i,l,re(404,{pathname:d}),{flushSync:C});return}}G.set(i,P);let I=qe,O=(await He("action",A,[m],w))[0];if(A.signal.aborted){G.get(i)===P&&G.delete(i);return}if(f.v7_fetcherPersist&&de.has(i)){if(De(O)||ie(O)){ve(i,be(void 0));return}}else{if(De(O))if(G.delete(i),Be>I){ve(i,be(void 0));return}else return ue.add(i),ve(i,Ke(b)),ke(A,O,{fetcherSubmission:b});if(ie(O)){ce(i,l,O.error);return}}if(Se(O))throw re(400,{type:"defer-action"});let ee=h.navigation.location||h.location,X=Ie(e.history,ee,P.signal),We=c||o,ye=h.navigation.state!=="idle"?xe(We,h.navigation.location,u):h.matches;U(ye,"Didn't find any matches after fetcher action");let _e=++qe;Te.set(i,_e);let Oe=Ke(b,O.data);h.fetchers.set(i,Oe);let[je,se]=$t(e.history,h,ye,b,ee,!1,f.v7_skipActionErrorRevalidation,K,me,Ze,de,Ue,ue,We,u,[m.route.id,O]);se.filter(W=>W.key!==i).forEach(W=>{let fe=W.key,zt=h.fetchers.get(fe),Wr=Ke(void 0,zt?zt.data:void 0);h.fetchers.set(fe,Wr),G.has(fe)&&ge(fe),W.controller&&G.set(fe,W.controller)}),te({fetchers:new Map(h.fetchers)});let it=()=>se.forEach(W=>ge(W.key));P.signal.addEventListener("abort",it);let{loaderResults:ot,fetcherResults:lt}=await Ut(h.matches,ye,je,se,X);if(P.signal.aborted)return;P.signal.removeEventListener("abort",it),Te.delete(i),G.delete(i),se.forEach(W=>G.delete(W.key));let F=tr([...ot,...lt]);if(F){if(F.idx>=je.length){let W=se[F.idx-je.length].key;ue.add(W)}return ke(X,F.result)}let{loaderData:J,errors:ae}=Qt(h,h.matches,je,ot,void 0,se,lt,we);if(h.fetchers.has(i)){let W=be(O.data);h.fetchers.set(i,W)}jt(_e),h.navigation.state==="loading"&&_e>Be?(U(ne,"Expected pending action"),_&&_.abort(),Fe(h.navigation.location,{matches:ye,loaderData:J,errors:ae,fetchers:new Map(h.fetchers)})):(te({errors:ae,loaderData:Zt(h.loaderData,J,ye,ae),fetchers:new Map(h.fetchers)}),K=!1)}async function Ir(i,l,d,m,w,E,C,b){let T=h.fetchers.get(i);ve(i,Ke(b,T?T.data:void 0),{flushSync:C});let S=new AbortController,P=Ie(e.history,d,S.signal);if(E){let O=await at(w,d,P.signal);if(O.type==="aborted")return;if(O.type==="error"){let{error:ee}=rt(d,O);ce(i,l,ee,{flushSync:C});return}else if(O.matches)w=O.matches,m=Je(w,d);else{ce(i,l,re(404,{pathname:d}),{flushSync:C});return}}G.set(i,S);let A=qe,k=(await He("loader",P,[m],w))[0];if(Se(k)&&(k=await br(k,P.signal,!0)||k),G.get(i)===S&&G.delete(i),!P.signal.aborted){if(de.has(i)){ve(i,be(void 0));return}if(De(k))if(Be>A){ve(i,be(void 0));return}else{ue.add(i),await ke(P,k);return}if(ie(k)){ce(i,l,k.error);return}U(!Se(k),"Unhandled fetcher deferred data"),ve(i,be(k.data))}}async function ke(i,l,d){let{submission:m,fetcherSubmission:w,replace:E}=d===void 0?{}:d;l.response.headers.has("X-Remix-Revalidate")&&(K=!0);let C=l.response.headers.get("Location");U(C,"Expected a Location header on the redirect Response"),C=Gt(C,new URL(i.url),u);let b=Ye(h.location,C,{_isRedirect:!0});if(r){let k=!1;if(l.response.headers.has("X-Remix-Reload-Document"))k=!0;else if(Pt.test(C)){const O=e.history.createURL(C);k=O.origin!==t.location.origin||Ae(O.pathname,u)==null}if(k){E?t.location.replace(C):t.location.assign(C);return}}_=null;let T=E===!0||l.response.headers.has("X-Remix-Replace")?Q.Replace:Q.Push,{formMethod:S,formAction:P,formEncType:A}=h.navigation;!m&&!w&&S&&P&&A&&(m=ar(h.navigation));let I=m||w;if(wn.has(l.response.status)&&I&&le(I.formMethod))await Ee(T,b,{submission:$({},I,{formAction:C}),preventScrollReset:N});else{let k=Rt(b,m);await Ee(T,b,{overrideNavigation:k,fetcherSubmission:w,preventScrollReset:N})}}async function He(i,l,d,m){try{let w=await Mn(p,i,l,d,m,s,a);return await Promise.all(w.map((E,C)=>{if(In(E)){let b=E.result;return{type:B.redirect,response:Fn(b,l,d[C].route.id,m,u,f.v7_relativeSplatPath)}}return Un(E)}))}catch(w){return d.map(()=>({type:B.error,error:w}))}}async function Ut(i,l,d,m,w){let[E,...C]=await Promise.all([d.length?He("loader",w,d,l):[],...m.map(b=>{if(b.matches&&b.match&&b.controller){let T=Ie(e.history,b.path,b.controller.signal);return He("loader",T,[b.match],b.matches).then(S=>S[0])}else return Promise.resolve({type:B.error,error:re(404,{pathname:b.path})})})]);return await Promise.all([nr(i,d,E,E.map(()=>w.signal),!1,h.loaderData),nr(i,m.map(b=>b.match),C,m.map(b=>b.controller?b.controller.signal:null),!0)]),{loaderResults:E,fetcherResults:C}}function vt(){K=!0,me.push(...yt()),Ue.forEach((i,l)=>{G.has(l)&&(Ze.add(l),ge(l))})}function ve(i,l,d){d===void 0&&(d={}),h.fetchers.set(i,l),te({fetchers:new Map(h.fetchers)},{flushSync:(d&&d.flushSync)===!0})}function ce(i,l,d,m){m===void 0&&(m={});let w=Ne(h.matches,l);et(i),te({errors:{[w.route.id]:d},fetchers:new Map(h.fetchers)},{flushSync:(m&&m.flushSync)===!0})}function Ft(i){return f.v7_fetcherPersist&&(ze.set(i,(ze.get(i)||0)+1),de.has(i)&&de.delete(i)),h.fetchers.get(i)||Rn}function et(i){let l=h.fetchers.get(i);G.has(i)&&!(l&&l.state==="loading"&&Te.has(i))&&ge(i),Ue.delete(i),Te.delete(i),ue.delete(i),de.delete(i),Ze.delete(i),h.fetchers.delete(i)}function Nr(i){if(f.v7_fetcherPersist){let l=(ze.get(i)||0)-1;l<=0?(ze.delete(i),de.add(i)):ze.set(i,l)}else et(i);te({fetchers:new Map(h.fetchers)})}function ge(i){let l=G.get(i);U(l,"Expected fetch controller: "+i),l.abort(),G.delete(i)}function _t(i){for(let l of i){let d=Ft(l),m=be(d.data);h.fetchers.set(l,m)}}function Ot(){let i=[],l=!1;for(let d of ue){let m=h.fetchers.get(d);U(m,"Expected fetcher: "+d),m.state==="loading"&&(ue.delete(d),i.push(d),l=!0)}return _t(i),l}function jt(i){let l=[];for(let[d,m]of Te)if(m<i){let w=h.fetchers.get(d);U(w,"Expected fetcher: "+d),w.state==="loading"&&(ge(d),Te.delete(d),l.push(d))}return _t(l),l.length>0}function Ar(i,l){let d=h.blockers.get(i)||Ve;return Re.get(i)!==l&&Re.set(i,l),d}function It(i){h.blockers.delete(i),Re.delete(i)}function tt(i,l){let d=h.blockers.get(i)||Ve;U(d.state==="unblocked"&&l.state==="blocked"||d.state==="blocked"&&l.state==="blocked"||d.state==="blocked"&&l.state==="proceeding"||d.state==="blocked"&&l.state==="unblocked"||d.state==="proceeding"&&l.state==="unblocked","Invalid blocker state transition: "+d.state+" -> "+l.state);let m=new Map(h.blockers);m.set(i,l),te({blockers:m})}function Nt(i){let{currentLocation:l,nextLocation:d,historyAction:m}=i;if(Re.size===0)return;Re.size>1&&Pe(!1,"A router only supports one blocker at a time");let w=Array.from(Re.entries()),[E,C]=w[w.length-1],b=h.blockers.get(E);if(!(b&&b.state==="proceeding")&&C({currentLocation:l,nextLocation:d,historyAction:m}))return E}function gt(i){let l=re(404,{pathname:i}),d=c||o,{matches:m,route:w}=er(d);return yt(),{notFoundMatches:m,route:w,error:l}}function rt(i,l){return{boundaryId:Ne(l.partialMatches).route.id,error:re(400,{type:"route-discovery",pathname:i,message:l.error!=null&&"message"in l.error?l.error:String(l.error)})}}function yt(i){let l=[];return we.forEach((d,m)=>{(!i||i(m))&&(d.cancel(),l.push(m),we.delete(m))}),l}function Br(i,l,d){if(x=i,D=l,R=d||null,!j&&h.navigation===wt){j=!0;let m=Bt(h.location,h.matches);m!=null&&te({restoreScrollPosition:m})}return()=>{x=null,D=null,R=null}}function At(i,l){return R&&R(i,l.map(m=>Qr(m,h.loaderData)))||i.key}function zr(i,l){if(x&&D){let d=At(i,l);x[d]=D()}}function Bt(i,l){if(x){let d=At(i,l),m=x[d];if(typeof m=="number")return m}return null}function nt(i,l,d){if(v)if(i){let m=i[i.length-1].route;if(m.path&&(m.path==="*"||m.path.endsWith("/*")))return{active:!0,matches:st(l,d,u,!0)}}else return{active:!0,matches:st(l,d,u,!0)||[]};return{active:!1,matches:null}}async function at(i,l,d){let m=i,w=m.length>0?m[m.length-1].route:null;for(;;){let E=c==null,C=c||o;try{await Cn(v,l,m,C,s,a,Pr,d)}catch(P){return{type:"error",error:P,partialMatches:m}}finally{E&&(o=[...o])}if(d.aborted)return{type:"aborted"};let b=xe(C,l,u),T=!1;if(b){let P=b[b.length-1].route;if(P.index)return{type:"success",matches:b};if(P.path&&P.path.length>0)if(P.path==="*")T=!0;else return{type:"success",matches:b}}let S=st(C,l,u,!0);if(!S||m.map(P=>P.route.id).join("-")===S.map(P=>P.route.id).join("-"))return{type:"success",matches:T?b:null};if(m=S,w=m[m.length-1].route,w.path==="*")return{type:"success",matches:m}}}function kr(i){s={},c=Ge(i,a,void 0,s)}function Hr(i,l){let d=c==null;vr(i,l,c||o,s,a),d&&(o=[...o],te({}))}return Z={get basename(){return u},get future(){return f},get state(){return h},get routes(){return o},get window(){return t},initialize:Cr,subscribe:Mr,enableScrollRestoration:Br,navigate:Mt,fetch:Or,revalidate:Tr,createHref:i=>e.history.createHref(i),encodeLocation:i=>e.history.encodeLocation(i),getFetcher:Ft,deleteFetcher:Nr,dispose:Lr,getBlocker:Ar,deleteBlocker:It,patchRoutes:Hr,_internalFetchControllers:G,_internalActiveDeferreds:we,_internalSetRoutes:kr},Z}function Sn(e){return e!=null&&("formData"in e&&e.formData!=null||"body"in e&&e.body!==void 0)}function Et(e,t,r,n,a,s,o,c){let u,p;if(o){u=[];for(let f of t)if(u.push(f),f.route.id===o){p=f;break}}else u=t,p=t[t.length-1];let v=Dt(a||".",St(u,s),Ae(e.pathname,r)||e.pathname,c==="path");return a==null&&(v.search=e.search,v.hash=e.hash),(a==null||a===""||a===".")&&p&&p.route.index&&!Ct(v.search)&&(v.search=v.search?v.search.replace(/^\?/,"?index&"):"?index"),n&&r!=="/"&&(v.pathname=v.pathname==="/"?r:he([r,v.pathname])),Ce(v)}function Kt(e,t,r,n){if(!n||!Sn(n))return{path:r};if(n.formMethod&&!An(n.formMethod))return{path:r,error:re(405,{method:n.formMethod})};let a=()=>({path:r,error:re(400,{type:"invalid-body"})}),s=n.formMethod||"get",o=e?s.toUpperCase():s.toLowerCase(),c=gr(r);if(n.body!==void 0){if(n.formEncType==="text/plain"){if(!le(o))return a();let g=typeof n.body=="string"?n.body:n.body instanceof FormData||n.body instanceof URLSearchParams?Array.from(n.body.entries()).reduce((L,x)=>{let[R,D]=x;return""+L+R+"="+D+`
-`},""):String(n.body);return{path:r,submission:{formMethod:o,formAction:c,formEncType:n.formEncType,formData:void 0,json:void 0,text:g}}}else if(n.formEncType==="application/json"){if(!le(o))return a();try{let g=typeof n.body=="string"?JSON.parse(n.body):n.body;return{path:r,submission:{formMethod:o,formAction:c,formEncType:n.formEncType,formData:void 0,json:g,text:void 0}}}catch{return a()}}}U(typeof FormData=="function","FormData is not available in this environment");let u,p;if(n.formData)u=xt(n.formData),p=n.formData;else if(n.body instanceof FormData)u=xt(n.body),p=n.body;else if(n.body instanceof URLSearchParams)u=n.body,p=Xt(u);else if(n.body==null)u=new URLSearchParams,p=new FormData;else try{u=new URLSearchParams(n.body),p=Xt(u)}catch{return a()}let v={formMethod:o,formAction:c,formEncType:n&&n.formEncType||"application/x-www-form-urlencoded",formData:p,json:void 0,text:void 0};if(le(v.formMethod))return{path:r,submission:v};let f=pe(r);return t&&f.search&&Ct(f.search)&&u.append("index",""),f.search="?"+u,{path:Ce(f),submission:v}}function Dn(e,t){let r=e;if(t){let n=e.findIndex(a=>a.route.id===t);n>=0&&(r=e.slice(0,n))}return r}function $t(e,t,r,n,a,s,o,c,u,p,v,f,g,L,x,R){let D=R?ie(R[1])?R[1].error:R[1].data:void 0,j=e.createURL(t.location),M=e.createURL(a),z=R&&ie(R[1])?R[0]:void 0,V=z?Dn(r,z):r,Z=R?R[1].statusCode:void 0,h=o&&Z&&Z>=400,ne=V.filter((_,H)=>{let{route:Y}=_;if(Y.lazy)return!0;if(Y.loader==null)return!1;if(s)return typeof Y.loader!="function"||Y.loader.hydrate?!0:t.loaderData[Y.id]===void 0&&(!t.errors||t.errors[Y.id]===void 0);if(Pn(t.loaderData,t.matches[H],_)||u.some(K=>K===_.route.id))return!0;let q=t.matches[H],oe=_;return Jt(_,$({currentUrl:j,currentParams:q.params,nextUrl:M,nextParams:oe.params},n,{actionResult:D,actionStatus:Z,defaultShouldRevalidate:h?!1:c||j.pathname+j.search===M.pathname+M.search||j.search!==M.search||mr(q,oe)}))}),N=[];return f.forEach((_,H)=>{if(s||!r.some(me=>me.route.id===_.routeId)||v.has(H))return;let Y=xe(L,_.path,x);if(!Y){N.push({key:H,routeId:_.routeId,path:_.path,matches:null,match:null,controller:null});return}let q=t.fetchers.get(H),oe=Je(Y,_.path),K=!1;g.has(H)?K=!1:p.has(H)?(p.delete(H),K=!0):q&&q.state!=="idle"&&q.data===void 0?K=c:K=Jt(oe,$({currentUrl:j,currentParams:t.matches[t.matches.length-1].params,nextUrl:M,nextParams:r[r.length-1].params},n,{actionResult:D,actionStatus:Z,defaultShouldRevalidate:h?!1:c})),K&&N.push({key:H,routeId:_.routeId,path:_.path,matches:Y,match:oe,controller:new AbortController})}),[ne,N]}function Pn(e,t,r){let n=!t||r.route.id!==t.route.id,a=e[r.route.id]===void 0;return n||a}function mr(e,t){let r=e.route.path;return e.pathname!==t.pathname||r!=null&&r.endsWith("*")&&e.params["*"]!==t.params["*"]}function Jt(e,t){if(e.route.shouldRevalidate){let r=e.route.shouldRevalidate(t);if(typeof r=="boolean")return r}return t.defaultShouldRevalidate}async function Cn(e,t,r,n,a,s,o,c){let u=[t,...r.map(p=>p.route.id)].join("-");try{let p=o.get(u);p||(p=e({path:t,matches:r,patch:(v,f)=>{c.aborted||vr(v,f,n,a,s)}}),o.set(u,p)),p&&jn(p)&&await p}finally{o.delete(u)}}function vr(e,t,r,n,a){if(e){var s;let o=n[e];U(o,"No route found to patch children into: routeId = "+e);let c=Ge(t,a,[e,"patch",String(((s=o.children)==null?void 0:s.length)||"0")],n);o.children?o.children.push(...c):o.children=c}else{let o=Ge(t,a,["patch",String(r.length||"0")],n);r.push(...o)}}async function Yt(e,t,r){if(!e.lazy)return;let n=await e.lazy();if(!e.lazy)return;let a=r[e.id];U(a,"No route found in manifest");let s={};for(let o in n){let u=a[o]!==void 0&&o!=="hasErrorBoundary";Pe(!u,'Route "'+a.id+'" has a static property "'+o+'" defined but its lazy function is also returning a value for this property. '+('The lazy route property "'+o+'" will be ignored.')),!u&&!Gr.has(o)&&(s[o]=n[o])}Object.assign(a,s),Object.assign(a,$({},t(a),{lazy:void 0}))}function Ln(e){return Promise.all(e.matches.map(t=>t.resolve()))}async function Mn(e,t,r,n,a,s,o,c){let u=n.reduce((f,g)=>f.add(g.route.id),new Set),p=new Set,v=await e({matches:a.map(f=>{let g=u.has(f.route.id);return $({},f,{shouldLoad:g,resolve:x=>(p.add(f.route.id),g?Tn(t,r,f,s,o,x,c):Promise.resolve({type:B.data,result:void 0}))})}),request:r,params:a[0].params,context:c});return a.forEach(f=>U(p.has(f.route.id),'`match.resolve()` was not called for route id "'+f.route.id+'". You must call `match.resolve()` on every match passed to `dataStrategy` to ensure all routes are properly loaded.')),v.filter((f,g)=>u.has(a[g].route.id))}async function Tn(e,t,r,n,a,s,o){let c,u,p=v=>{let f,g=new Promise((R,D)=>f=D);u=()=>f(),t.signal.addEventListener("abort",u);let L=R=>typeof v!="function"?Promise.reject(new Error("You cannot call the handler for a route which defines a boolean "+('"'+e+'" [routeId: '+r.route.id+"]"))):v({request:t,params:r.params,context:o},...R!==void 0?[R]:[]),x;return s?x=s(R=>L(R)):x=(async()=>{try{return{type:"data",result:await L()}}catch(R){return{type:"error",result:R}}})(),Promise.race([x,g])};try{let v=r.route[e];if(r.route.lazy)if(v){let f,[g]=await Promise.all([p(v).catch(L=>{f=L}),Yt(r.route,a,n)]);if(f!==void 0)throw f;c=g}else if(await Yt(r.route,a,n),v=r.route[e],v)c=await p(v);else if(e==="action"){let f=new URL(t.url),g=f.pathname+f.search;throw re(405,{method:t.method,pathname:g,routeId:r.route.id})}else return{type:B.data,result:void 0};else if(v)c=await p(v);else{let f=new URL(t.url),g=f.pathname+f.search;throw re(404,{pathname:g})}U(c.result!==void 0,"You defined "+(e==="action"?"an action":"a loader")+" for route "+('"'+r.route.id+"\" but didn't return anything from your `"+e+"` ")+"function. Please return a value or `null`.")}catch(v){return{type:B.error,result:v}}finally{u&&t.signal.removeEventListener("abort",u)}return c}async function Un(e){let{result:t,type:r}=e;if(yr(t)){let p;try{let v=t.headers.get("Content-Type");v&&/\bapplication\/json\b/.test(v)?t.body==null?p=null:p=await t.json():p=await t.text()}catch(v){return{type:B.error,error:v}}return r===B.error?{type:B.error,error:new ut(t.status,t.statusText,p),statusCode:t.status,headers:t.headers}:{type:B.data,data:p,statusCode:t.status,headers:t.headers}}if(r===B.error){if(rr(t)){var n;if(t.data instanceof Error){var a;return{type:B.error,error:t.data,statusCode:(a=t.init)==null?void 0:a.status}}t=new ut(((n=t.init)==null?void 0:n.status)||500,void 0,t.data)}return{type:B.error,error:t,statusCode:ft(t)?t.status:void 0}}if(Nn(t)){var s,o;return{type:B.deferred,deferredData:t,statusCode:(s=t.init)==null?void 0:s.status,headers:((o=t.init)==null?void 0:o.headers)&&new Headers(t.init.headers)}}if(rr(t)){var c,u;return{type:B.data,data:t.data,statusCode:(c=t.init)==null?void 0:c.status,headers:(u=t.init)!=null&&u.headers?new Headers(t.init.headers):void 0}}return{type:B.data,data:t}}function Fn(e,t,r,n,a,s){let o=e.headers.get("Location");if(U(o,"Redirects returned/thrown from loaders/actions must have a Location header"),!Pt.test(o)){let c=n.slice(0,n.findIndex(u=>u.route.id===r)+1);o=Et(new URL(t.url),c,a,!0,o,s),e.headers.set("Location",o)}return e}function Gt(e,t,r){if(Pt.test(e)){let n=e,a=n.startsWith("//")?new URL(t.protocol+n):new URL(n),s=Ae(a.pathname,r)!=null;if(a.origin===t.origin&&s)return a.pathname+a.search+a.hash}return e}function Ie(e,t,r,n){let a=e.createURL(gr(t)).toString(),s={signal:r};if(n&&le(n.formMethod)){let{formMethod:o,formEncType:c}=n;s.method=o.toUpperCase(),c==="application/json"?(s.headers=new Headers({"Content-Type":c}),s.body=JSON.stringify(n.json)):c==="text/plain"?s.body=n.text:c==="application/x-www-form-urlencoded"&&n.formData?s.body=xt(n.formData):s.body=n.formData}return new Request(a,s)}function xt(e){let t=new URLSearchParams;for(let[r,n]of e.entries())t.append(r,typeof n=="string"?n:n.name);return t}function Xt(e){let t=new FormData;for(let[r,n]of e.entries())t.append(r,n);return t}function _n(e,t,r,n,a,s){let o={},c=null,u,p=!1,v={},f=n&&ie(n[1])?n[1].error:void 0;return r.forEach((g,L)=>{let x=t[L].route.id;if(U(!De(g),"Cannot handle redirect results in processLoaderData"),ie(g)){let R=g.error;f!==void 0&&(R=f,f=void 0),c=c||{};{let D=Ne(e,x);c[D.route.id]==null&&(c[D.route.id]=R)}o[x]=void 0,p||(p=!0,u=ft(g.error)?g.error.status:500),g.headers&&(v[x]=g.headers)}else Se(g)?(a.set(x,g.deferredData),o[x]=g.deferredData.data,g.statusCode!=null&&g.statusCode!==200&&!p&&(u=g.statusCode),g.headers&&(v[x]=g.headers)):(o[x]=g.data,g.statusCode&&g.statusCode!==200&&!p&&(u=g.statusCode),g.headers&&(v[x]=g.headers))}),f!==void 0&&n&&(c={[n[0]]:f},o[n[0]]=void 0),{loaderData:o,errors:c,statusCode:u||200,loaderHeaders:v}}function Qt(e,t,r,n,a,s,o,c){let{loaderData:u,errors:p}=_n(t,r,n,a,c);for(let v=0;v<s.length;v++){let{key:f,match:g,controller:L}=s[v];U(o!==void 0&&o[v]!==void 0,"Did not find corresponding fetcher result");let x=o[v];if(!(L&&L.signal.aborted))if(ie(x)){let R=Ne(e.matches,g==null?void 0:g.route.id);p&&p[R.route.id]||(p=$({},p,{[R.route.id]:x.error})),e.fetchers.delete(f)}else if(De(x))U(!1,"Unhandled fetcher revalidation redirect");else if(Se(x))U(!1,"Unhandled fetcher deferred data");else{let R=be(x.data);e.fetchers.set(f,R)}}return{loaderData:u,errors:p}}function Zt(e,t,r,n){let a=$({},t);for(let s of r){let o=s.route.id;if(t.hasOwnProperty(o)?t[o]!==void 0&&(a[o]=t[o]):e[o]!==void 0&&s.route.loader&&(a[o]=e[o]),n&&n.hasOwnProperty(o))break}return a}function qt(e){return e?ie(e[1])?{actionData:{}}:{actionData:{[e[0]]:e[1].data}}:{}}function Ne(e,t){return(t?e.slice(0,e.findIndex(n=>n.route.id===t)+1):[...e]).reverse().find(n=>n.route.hasErrorBoundary===!0)||e[0]}function er(e){let t=e.length===1?e[0]:e.find(r=>r.index||!r.path||r.path==="/")||{id:"__shim-error-route__"};return{matches:[{params:{},pathname:"",pathnameBase:"",route:t}],route:t}}function re(e,t){let{pathname:r,routeId:n,method:a,type:s,message:o}=t===void 0?{}:t,c="Unknown Server Error",u="Unknown @remix-run/router error";return e===400?(c="Bad Request",s==="route-discovery"?u='Unable to match URL "'+r+'" - the `unstable_patchRoutesOnMiss()` '+(`function threw the following error:
-`+o):a&&r&&n?u="You made a "+a+' request to "'+r+'" but '+('did not provide a `loader` for route "'+n+'", ')+"so there is no way to handle the request.":s==="defer-action"?u="defer() is not supported in actions":s==="invalid-body"&&(u="Unable to encode submission body")):e===403?(c="Forbidden",u='Route "'+n+'" does not match URL "'+r+'"'):e===404?(c="Not Found",u='No route matches URL "'+r+'"'):e===405&&(c="Method Not Allowed",a&&r&&n?u="You made a "+a.toUpperCase()+' request to "'+r+'" but '+('did not provide an `action` for route "'+n+'", ')+"so there is no way to handle the request.":a&&(u='Invalid request method "'+a.toUpperCase()+'"')),new ut(e||500,c,new Error(u),!0)}function tr(e){for(let t=e.length-1;t>=0;t--){let r=e[t];if(De(r))return{result:r,idx:t}}}function gr(e){let t=typeof e=="string"?pe(e):e;return Ce($({},t,{hash:""}))}function On(e,t){return e.pathname!==t.pathname||e.search!==t.search?!1:e.hash===""?t.hash!=="":e.hash===t.hash?!0:t.hash!==""}function jn(e){return typeof e=="object"&&e!=null&&"then"in e}function In(e){return yr(e.result)&&bn.has(e.result.status)}function Se(e){return e.type===B.deferred}function ie(e){return e.type===B.error}function De(e){return(e&&e.type)===B.redirect}function rr(e){return typeof e=="object"&&e!=null&&"type"in e&&"data"in e&&"init"in e&&e.type==="DataWithResponseInit"}function Nn(e){let t=e;return t&&typeof t=="object"&&typeof t.data=="object"&&typeof t.subscribe=="function"&&typeof t.cancel=="function"&&typeof t.resolveData=="function"}function yr(e){return e!=null&&typeof e.status=="number"&&typeof e.statusText=="string"&&typeof e.headers=="object"&&typeof e.body<"u"}function An(e){return yn.has(e.toLowerCase())}function le(e){return vn.has(e.toLowerCase())}async function nr(e,t,r,n,a,s){for(let o=0;o<r.length;o++){let c=r[o],u=t[o];if(!u)continue;let p=e.find(f=>f.route.id===u.route.id),v=p!=null&&!mr(p,u)&&(s&&s[u.route.id])!==void 0;if(Se(c)&&(a||v)){let f=n[o];U(f,"Expected an AbortSignal for revalidating fetcher deferred result"),await br(c,f,a).then(g=>{g&&(r[o]=g||r[o])})}}}async function br(e,t,r){if(r===void 0&&(r=!1),!await e.deferredData.resolveData(t)){if(r)try{return{type:B.data,data:e.deferredData.unwrappedData}}catch(a){return{type:B.error,error:a}}return{type:B.data,data:e.deferredData.data}}}function Ct(e){return new URLSearchParams(e).getAll("index").some(t=>t==="")}function Je(e,t){let r=typeof t=="string"?pe(t).search:t.search;if(e[e.length-1].route.index&&Ct(r||""))return e[e.length-1];let n=fr(e);return n[n.length-1]}function ar(e){let{formMethod:t,formAction:r,formEncType:n,text:a,formData:s,json:o}=e;if(!(!t||!r||!n)){if(a!=null)return{formMethod:t,formAction:r,formEncType:n,formData:void 0,json:void 0,text:a};if(s!=null)return{formMethod:t,formAction:r,formEncType:n,formData:s,json:void 0,text:void 0};if(o!==void 0)return{formMethod:t,formAction:r,formEncType:n,formData:void 0,json:o,text:void 0}}}function Rt(e,t){return t?{state:"loading",location:e,formMethod:t.formMethod,formAction:t.formAction,formEncType:t.formEncType,formData:t.formData,json:t.json,text:t.text}:{state:"loading",location:e,formMethod:void 0,formAction:void 0,formEncType:void 0,formData:void 0,json:void 0,text:void 0}}function Bn(e,t){return{state:"submitting",location:e,formMethod:t.formMethod,formAction:t.formAction,formEncType:t.formEncType,formData:t.formData,json:t.json,text:t.text}}function Ke(e,t){return e?{state:"loading",formMethod:e.formMethod,formAction:e.formAction,formEncType:e.formEncType,formData:e.formData,json:e.json,text:e.text,data:t}:{state:"loading",formMethod:void 0,formAction:void 0,formEncType:void 0,formData:void 0,json:void 0,text:void 0,data:t}}function zn(e,t){return{state:"submitting",formMethod:e.formMethod,formAction:e.formAction,formEncType:e.formEncType,formData:e.formData,json:e.json,text:e.text,data:t?t.data:void 0}}function be(e){return{state:"idle",formMethod:void 0,formAction:void 0,formEncType:void 0,formData:void 0,json:void 0,text:void 0,data:e}}function kn(e,t){try{let r=e.sessionStorage.getItem(pr);if(r){let n=JSON.parse(r);for(let[a,s]of Object.entries(n||{}))s&&Array.isArray(s)&&t.set(a,new Set(s||[]))}}catch{}}function Hn(e,t){if(t.size>0){let r={};for(let[n,a]of t)r[n]=[...a];try{e.sessionStorage.setItem(pr,JSON.stringify(r))}catch(n){Pe(!1,"Failed to save applied view transitions in sessionStorage ("+n+").")}}}/**
+ */ function $() {
+  return (
+    ($ = Object.assign
+      ? Object.assign.bind()
+      : function (e) {
+          for (var t = 1; t < arguments.length; t++) {
+            var r = arguments[t];
+            for (var n in r)
+              Object.prototype.hasOwnProperty.call(r, n) && (e[n] = r[n]);
+          }
+          return e;
+        }),
+    $.apply(this, arguments)
+  );
+}
+var Q;
+(function (e) {
+  (e.Pop = 'POP'), (e.Push = 'PUSH'), (e.Replace = 'REPLACE');
+})(Q || (Q = {}));
+const kt = 'popstate';
+function $r(e) {
+  e === void 0 && (e = {});
+  function t(a, s) {
+    let {
+      pathname: o = '/',
+      search: c = '',
+      hash: u = '',
+    } = pe(a.location.hash.substr(1));
+    return (
+      !o.startsWith('/') && !o.startsWith('.') && (o = '/' + o),
+      Ye(
+        '',
+        { pathname: o, search: c, hash: u },
+        (s.state && s.state.usr) || null,
+        (s.state && s.state.key) || 'default',
+      )
+    );
+  }
+  function r(a, s) {
+    let o = a.document.querySelector('base'),
+      c = '';
+    if (o && o.getAttribute('href')) {
+      let u = a.location.href,
+        p = u.indexOf('#');
+      c = p === -1 ? u : u.slice(0, p);
+    }
+    return c + '#' + (typeof s == 'string' ? s : Ce(s));
+  }
+  function n(a, s) {
+    Pe(
+      a.pathname.charAt(0) === '/',
+      'relative pathnames are not supported in hash history.push(' +
+        JSON.stringify(s) +
+        ')',
+    );
+  }
+  return Yr(t, r, n, e);
+}
+function U(e, t) {
+  if (e === !1 || e === null || typeof e > 'u') throw new Error(t);
+}
+function Pe(e, t) {
+  if (!e) {
+    typeof console < 'u' && console.warn(t);
+    try {
+      throw new Error(t);
+    } catch {}
+  }
+}
+function Jr() {
+  return Math.random().toString(36).substr(2, 8);
+}
+function Ht(e, t) {
+  return { usr: e.state, key: e.key, idx: t };
+}
+function Ye(e, t, r, n) {
+  return (
+    r === void 0 && (r = null),
+    $(
+      { pathname: typeof e == 'string' ? e : e.pathname, search: '', hash: '' },
+      typeof t == 'string' ? pe(t) : t,
+      { state: r, key: (t && t.key) || n || Jr() },
+    )
+  );
+}
+function Ce(e) {
+  let { pathname: t = '/', search: r = '', hash: n = '' } = e;
+  return (
+    r && r !== '?' && (t += r.charAt(0) === '?' ? r : '?' + r),
+    n && n !== '#' && (t += n.charAt(0) === '#' ? n : '#' + n),
+    t
+  );
+}
+function pe(e) {
+  let t = {};
+  if (e) {
+    let r = e.indexOf('#');
+    r >= 0 && ((t.hash = e.substr(r)), (e = e.substr(0, r)));
+    let n = e.indexOf('?');
+    n >= 0 && ((t.search = e.substr(n)), (e = e.substr(0, n))),
+      e && (t.pathname = e);
+  }
+  return t;
+}
+function Yr(e, t, r, n) {
+  n === void 0 && (n = {});
+  let { window: a = document.defaultView, v5Compat: s = !1 } = n,
+    o = a.history,
+    c = Q.Pop,
+    u = null,
+    p = v();
+  p == null && ((p = 0), o.replaceState($({}, o.state, { idx: p }), ''));
+  function v() {
+    return (o.state || { idx: null }).idx;
+  }
+  function f() {
+    c = Q.Pop;
+    let D = v(),
+      j = D == null ? null : D - p;
+    (p = D), u && u({ action: c, location: R.location, delta: j });
+  }
+  function g(D, j) {
+    c = Q.Push;
+    let M = Ye(R.location, D, j);
+    r && r(M, D), (p = v() + 1);
+    let z = Ht(M, p),
+      V = R.createHref(M);
+    try {
+      o.pushState(z, '', V);
+    } catch (Z) {
+      if (Z instanceof DOMException && Z.name === 'DataCloneError') throw Z;
+      a.location.assign(V);
+    }
+    s && u && u({ action: c, location: R.location, delta: 1 });
+  }
+  function L(D, j) {
+    c = Q.Replace;
+    let M = Ye(R.location, D, j);
+    r && r(M, D), (p = v());
+    let z = Ht(M, p),
+      V = R.createHref(M);
+    o.replaceState(z, '', V),
+      s && u && u({ action: c, location: R.location, delta: 0 });
+  }
+  function x(D) {
+    let j = a.location.origin !== 'null' ? a.location.origin : a.location.href,
+      M = typeof D == 'string' ? D : Ce(D);
+    return (
+      (M = M.replace(/ $/, '%20')),
+      U(
+        j,
+        'No window.location.(origin|href) available to create URL for href: ' +
+          M,
+      ),
+      new URL(M, j)
+    );
+  }
+  let R = {
+    get action() {
+      return c;
+    },
+    get location() {
+      return e(a, o);
+    },
+    listen(D) {
+      if (u) throw new Error('A history only accepts one active listener');
+      return (
+        a.addEventListener(kt, f),
+        (u = D),
+        () => {
+          a.removeEventListener(kt, f), (u = null);
+        }
+      );
+    },
+    createHref(D) {
+      return t(a, D);
+    },
+    createURL: x,
+    encodeLocation(D) {
+      let j = x(D);
+      return { pathname: j.pathname, search: j.search, hash: j.hash };
+    },
+    push: g,
+    replace: L,
+    go(D) {
+      return o.go(D);
+    },
+  };
+  return R;
+}
+var B;
+(function (e) {
+  (e.data = 'data'),
+    (e.deferred = 'deferred'),
+    (e.redirect = 'redirect'),
+    (e.error = 'error');
+})(B || (B = {}));
+const Gr = new Set([
+  'lazy',
+  'caseSensitive',
+  'path',
+  'id',
+  'index',
+  'children',
+]);
+function Xr(e) {
+  return e.index === !0;
+}
+function Ge(e, t, r, n) {
+  return (
+    r === void 0 && (r = []),
+    n === void 0 && (n = {}),
+    e.map((a, s) => {
+      let o = [...r, String(s)],
+        c = typeof a.id == 'string' ? a.id : o.join('-');
+      if (
+        (U(
+          a.index !== !0 || !a.children,
+          'Cannot specify children on an index route',
+        ),
+        U(
+          !n[c],
+          'Found a route id collision on id "' +
+            c +
+            `".  Route id's must be globally unique within Data Router usages`,
+        ),
+        Xr(a))
+      ) {
+        let u = $({}, a, t(a), { id: c });
+        return (n[c] = u), u;
+      } else {
+        let u = $({}, a, t(a), { id: c, children: void 0 });
+        return (
+          (n[c] = u), a.children && (u.children = Ge(a.children, t, o, n)), u
+        );
+      }
+    })
+  );
+}
+function xe(e, t, r) {
+  return r === void 0 && (r = '/'), st(e, t, r, !1);
+}
+function st(e, t, r, n) {
+  let a = typeof t == 'string' ? pe(t) : t,
+    s = Ae(a.pathname || '/', r);
+  if (s == null) return null;
+  let o = dr(e);
+  Zr(o);
+  let c = null;
+  for (let u = 0; c == null && u < o.length; ++u) {
+    let p = dn(s);
+    c = sn(o[u], p, n);
+  }
+  return c;
+}
+function Qr(e, t) {
+  let { route: r, pathname: n, params: a } = e;
+  return { id: r.id, pathname: n, params: a, data: t[r.id], handle: r.handle };
+}
+function dr(e, t, r, n) {
+  t === void 0 && (t = []), r === void 0 && (r = []), n === void 0 && (n = '');
+  let a = (s, o, c) => {
+    let u = {
+      relativePath: c === void 0 ? s.path || '' : c,
+      caseSensitive: s.caseSensitive === !0,
+      childrenIndex: o,
+      route: s,
+    };
+    u.relativePath.startsWith('/') &&
+      (U(
+        u.relativePath.startsWith(n),
+        'Absolute route path "' +
+          u.relativePath +
+          '" nested under path ' +
+          ('"' + n + '" is not valid. An absolute child route path ') +
+          'must start with the combined path of all its parent routes.',
+      ),
+      (u.relativePath = u.relativePath.slice(n.length)));
+    let p = he([n, u.relativePath]),
+      v = r.concat(u);
+    s.children &&
+      s.children.length > 0 &&
+      (U(
+        s.index !== !0,
+        'Index routes must not have child routes. Please remove ' +
+          ('all child routes from route path "' + p + '".'),
+      ),
+      dr(s.children, t, v, p)),
+      !(s.path == null && !s.index) &&
+        t.push({ path: p, score: on(p, s.index), routesMeta: v });
+  };
+  return (
+    e.forEach((s, o) => {
+      var c;
+      if (s.path === '' || !((c = s.path) != null && c.includes('?'))) a(s, o);
+      else for (let u of cr(s.path)) a(s, o, u);
+    }),
+    t
+  );
+}
+function cr(e) {
+  let t = e.split('/');
+  if (t.length === 0) return [];
+  let [r, ...n] = t,
+    a = r.endsWith('?'),
+    s = r.replace(/\?$/, '');
+  if (n.length === 0) return a ? [s, ''] : [s];
+  let o = cr(n.join('/')),
+    c = [];
+  return (
+    c.push(...o.map((u) => (u === '' ? s : [s, u].join('/')))),
+    a && c.push(...o),
+    c.map((u) => (e.startsWith('/') && u === '' ? '/' : u))
+  );
+}
+function Zr(e) {
+  e.sort((t, r) =>
+    t.score !== r.score
+      ? r.score - t.score
+      : ln(
+          t.routesMeta.map((n) => n.childrenIndex),
+          r.routesMeta.map((n) => n.childrenIndex),
+        ),
+  );
+}
+const qr = /^:[\w-]+$/,
+  en = 3,
+  tn = 2,
+  rn = 1,
+  nn = 10,
+  an = -2,
+  Wt = (e) => e === '*';
+function on(e, t) {
+  let r = e.split('/'),
+    n = r.length;
+  return (
+    r.some(Wt) && (n += an),
+    t && (n += tn),
+    r
+      .filter((a) => !Wt(a))
+      .reduce((a, s) => a + (qr.test(s) ? en : s === '' ? rn : nn), n)
+  );
+}
+function ln(e, t) {
+  return e.length === t.length && e.slice(0, -1).every((n, a) => n === t[a])
+    ? e[e.length - 1] - t[t.length - 1]
+    : 0;
+}
+function sn(e, t, r) {
+  r === void 0 && (r = !1);
+  let { routesMeta: n } = e,
+    a = {},
+    s = '/',
+    o = [];
+  for (let c = 0; c < n.length; ++c) {
+    let u = n[c],
+      p = c === n.length - 1,
+      v = s === '/' ? t : t.slice(s.length) || '/',
+      f = Vt(
+        { path: u.relativePath, caseSensitive: u.caseSensitive, end: p },
+        v,
+      ),
+      g = u.route;
+    if (
+      (!f &&
+        p &&
+        r &&
+        !n[n.length - 1].route.index &&
+        (f = Vt(
+          { path: u.relativePath, caseSensitive: u.caseSensitive, end: !1 },
+          v,
+        )),
+      !f)
+    )
+      return null;
+    Object.assign(a, f.params),
+      o.push({
+        params: a,
+        pathname: he([s, f.pathname]),
+        pathnameBase: hn(he([s, f.pathnameBase])),
+        route: g,
+      }),
+      f.pathnameBase !== '/' && (s = he([s, f.pathnameBase]));
+  }
+  return o;
+}
+function Vt(e, t) {
+  typeof e == 'string' && (e = { path: e, caseSensitive: !1, end: !0 });
+  let [r, n] = un(e.path, e.caseSensitive, e.end),
+    a = t.match(r);
+  if (!a) return null;
+  let s = a[0],
+    o = s.replace(/(.)\/+$/, '$1'),
+    c = a.slice(1);
+  return {
+    params: n.reduce((p, v, f) => {
+      let { paramName: g, isOptional: L } = v;
+      if (g === '*') {
+        let R = c[f] || '';
+        o = s.slice(0, s.length - R.length).replace(/(.)\/+$/, '$1');
+      }
+      const x = c[f];
+      return (
+        L && !x ? (p[g] = void 0) : (p[g] = (x || '').replace(/%2F/g, '/')), p
+      );
+    }, {}),
+    pathname: s,
+    pathnameBase: o,
+    pattern: e,
+  };
+}
+function un(e, t, r) {
+  t === void 0 && (t = !1),
+    r === void 0 && (r = !0),
+    Pe(
+      e === '*' || !e.endsWith('*') || e.endsWith('/*'),
+      'Route path "' +
+        e +
+        '" will be treated as if it were ' +
+        ('"' + e.replace(/\*$/, '/*') + '" because the `*` character must ') +
+        'always follow a `/` in the pattern. To get rid of this warning, ' +
+        ('please change the route path to "' + e.replace(/\*$/, '/*') + '".'),
+    );
+  let n = [],
+    a =
+      '^' +
+      e
+        .replace(/\/*\*?$/, '')
+        .replace(/^\/*/, '/')
+        .replace(/[\\.*+^${}|()[\]]/g, '\\$&')
+        .replace(
+          /\/:([\w-]+)(\?)?/g,
+          (o, c, u) => (
+            n.push({ paramName: c, isOptional: u != null }),
+            u ? '/?([^\\/]+)?' : '/([^\\/]+)'
+          ),
+        );
+  return (
+    e.endsWith('*')
+      ? (n.push({ paramName: '*' }),
+        (a += e === '*' || e === '/*' ? '(.*)$' : '(?:\\/(.+)|\\/*)$'))
+      : r
+        ? (a += '\\/*$')
+        : e !== '' && e !== '/' && (a += '(?:(?=\\/|$))'),
+    [new RegExp(a, t ? void 0 : 'i'), n]
+  );
+}
+function dn(e) {
+  try {
+    return e
+      .split('/')
+      .map((t) => decodeURIComponent(t).replace(/\//g, '%2F'))
+      .join('/');
+  } catch (t) {
+    return (
+      Pe(
+        !1,
+        'The URL path "' +
+          e +
+          '" could not be decoded because it is is a malformed URL segment. This is probably due to a bad percent ' +
+          ('encoding (' + t + ').'),
+      ),
+      e
+    );
+  }
+}
+function Ae(e, t) {
+  if (t === '/') return e;
+  if (!e.toLowerCase().startsWith(t.toLowerCase())) return null;
+  let r = t.endsWith('/') ? t.length - 1 : t.length,
+    n = e.charAt(r);
+  return n && n !== '/' ? null : e.slice(r) || '/';
+}
+function cn(e, t) {
+  t === void 0 && (t = '/');
+  let {
+    pathname: r,
+    search: n = '',
+    hash: a = '',
+  } = typeof e == 'string' ? pe(e) : e;
+  return {
+    pathname: r ? (r.startsWith('/') ? r : fn(r, t)) : t,
+    search: pn(n),
+    hash: mn(a),
+  };
+}
+function fn(e, t) {
+  let r = t.replace(/\/+$/, '').split('/');
+  return (
+    e.split('/').forEach((a) => {
+      a === '..' ? r.length > 1 && r.pop() : a !== '.' && r.push(a);
+    }),
+    r.length > 1 ? r.join('/') : '/'
+  );
+}
+function bt(e, t, r, n) {
+  return (
+    "Cannot include a '" +
+    e +
+    "' character in a manually specified " +
+    ('`to.' +
+      t +
+      '` field [' +
+      JSON.stringify(n) +
+      '].  Please separate it out to the ') +
+    ('`to.' + r + '` field. Alternatively you may provide the full path as ') +
+    'a string in <Link to="..."> and the router will parse it for you.'
+  );
+}
+function fr(e) {
+  return e.filter(
+    (t, r) => r === 0 || (t.route.path && t.route.path.length > 0),
+  );
+}
+function St(e, t) {
+  let r = fr(e);
+  return t
+    ? r.map((n, a) => (a === r.length - 1 ? n.pathname : n.pathnameBase))
+    : r.map((n) => n.pathnameBase);
+}
+function Dt(e, t, r, n) {
+  n === void 0 && (n = !1);
+  let a;
+  typeof e == 'string'
+    ? (a = pe(e))
+    : ((a = $({}, e)),
+      U(
+        !a.pathname || !a.pathname.includes('?'),
+        bt('?', 'pathname', 'search', a),
+      ),
+      U(
+        !a.pathname || !a.pathname.includes('#'),
+        bt('#', 'pathname', 'hash', a),
+      ),
+      U(!a.search || !a.search.includes('#'), bt('#', 'search', 'hash', a)));
+  let s = e === '' || a.pathname === '',
+    o = s ? '/' : a.pathname,
+    c;
+  if (o == null) c = r;
+  else {
+    let f = t.length - 1;
+    if (!n && o.startsWith('..')) {
+      let g = o.split('/');
+      for (; g[0] === '..'; ) g.shift(), (f -= 1);
+      a.pathname = g.join('/');
+    }
+    c = f >= 0 ? t[f] : '/';
+  }
+  let u = cn(a, c),
+    p = o && o !== '/' && o.endsWith('/'),
+    v = (s || o === '.') && r.endsWith('/');
+  return !u.pathname.endsWith('/') && (p || v) && (u.pathname += '/'), u;
+}
+const he = (e) => e.join('/').replace(/\/\/+/g, '/'),
+  hn = (e) => e.replace(/\/+$/, '').replace(/^\/*/, '/'),
+  pn = (e) => (!e || e === '?' ? '' : e.startsWith('?') ? e : '?' + e),
+  mn = (e) => (!e || e === '#' ? '' : e.startsWith('#') ? e : '#' + e);
+class ut {
+  constructor(t, r, n, a) {
+    a === void 0 && (a = !1),
+      (this.status = t),
+      (this.statusText = r || ''),
+      (this.internal = a),
+      n instanceof Error
+        ? ((this.data = n.toString()), (this.error = n))
+        : (this.data = n);
+  }
+}
+function ft(e) {
+  return (
+    e != null &&
+    typeof e.status == 'number' &&
+    typeof e.statusText == 'string' &&
+    typeof e.internal == 'boolean' &&
+    'data' in e
+  );
+}
+const hr = ['post', 'put', 'patch', 'delete'],
+  vn = new Set(hr),
+  gn = ['get', ...hr],
+  yn = new Set(gn),
+  bn = new Set([301, 302, 303, 307, 308]),
+  wn = new Set([307, 308]),
+  wt = {
+    state: 'idle',
+    location: void 0,
+    formMethod: void 0,
+    formAction: void 0,
+    formEncType: void 0,
+    formData: void 0,
+    json: void 0,
+    text: void 0,
+  },
+  Rn = {
+    state: 'idle',
+    data: void 0,
+    formMethod: void 0,
+    formAction: void 0,
+    formEncType: void 0,
+    formData: void 0,
+    json: void 0,
+    text: void 0,
+  },
+  Ve = { state: 'unblocked', proceed: void 0, reset: void 0, location: void 0 },
+  Pt = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i,
+  En = (e) => ({ hasErrorBoundary: !!e.hasErrorBoundary }),
+  pr = 'remix-router-transitions';
+function xn(e) {
+  const t = e.window ? e.window : typeof window < 'u' ? window : void 0,
+    r =
+      typeof t < 'u' &&
+      typeof t.document < 'u' &&
+      typeof t.document.createElement < 'u',
+    n = !r;
+  U(
+    e.routes.length > 0,
+    'You must provide a non-empty routes array to createRouter',
+  );
+  let a;
+  if (e.mapRouteProperties) a = e.mapRouteProperties;
+  else if (e.detectErrorBoundary) {
+    let i = e.detectErrorBoundary;
+    a = (l) => ({ hasErrorBoundary: i(l) });
+  } else a = En;
+  let s = {},
+    o = Ge(e.routes, a, void 0, s),
+    c,
+    u = e.basename || '/',
+    p = e.unstable_dataStrategy || Ln,
+    v = e.unstable_patchRoutesOnMiss,
+    f = $(
+      {
+        v7_fetcherPersist: !1,
+        v7_normalizeFormMethod: !1,
+        v7_partialHydration: !1,
+        v7_prependBasename: !1,
+        v7_relativeSplatPath: !1,
+        v7_skipActionErrorRevalidation: !1,
+      },
+      e.future,
+    ),
+    g = null,
+    L = new Set(),
+    x = null,
+    R = null,
+    D = null,
+    j = e.hydrationData != null,
+    M = xe(o, e.history.location, u),
+    z = null;
+  if (M == null && !v) {
+    let i = re(404, { pathname: e.history.location.pathname }),
+      { matches: l, route: d } = er(o);
+    (M = l), (z = { [d.id]: i });
+  }
+  M &&
+    !e.hydrationData &&
+    nt(M, o, e.history.location.pathname).active &&
+    (M = null);
+  let V;
+  if (M)
+    if (M.some((i) => i.route.lazy)) V = !1;
+    else if (!M.some((i) => i.route.loader)) V = !0;
+    else if (f.v7_partialHydration) {
+      let i = e.hydrationData ? e.hydrationData.loaderData : null,
+        l = e.hydrationData ? e.hydrationData.errors : null,
+        d = (m) =>
+          m.route.loader
+            ? typeof m.route.loader == 'function' &&
+              m.route.loader.hydrate === !0
+              ? !1
+              : (i && i[m.route.id] !== void 0) ||
+                (l && l[m.route.id] !== void 0)
+            : !0;
+      if (l) {
+        let m = M.findIndex((w) => l[w.route.id] !== void 0);
+        V = M.slice(0, m + 1).every(d);
+      } else V = M.every(d);
+    } else V = e.hydrationData != null;
+  else if (((V = !1), (M = []), f.v7_partialHydration)) {
+    let i = nt(null, o, e.history.location.pathname);
+    i.active && i.matches && (M = i.matches);
+  }
+  let Z,
+    h = {
+      historyAction: e.history.action,
+      location: e.history.location,
+      matches: M,
+      initialized: V,
+      navigation: wt,
+      restoreScrollPosition: e.hydrationData != null ? !1 : null,
+      preventScrollReset: !1,
+      revalidation: 'idle',
+      loaderData: (e.hydrationData && e.hydrationData.loaderData) || {},
+      actionData: (e.hydrationData && e.hydrationData.actionData) || null,
+      errors: (e.hydrationData && e.hydrationData.errors) || z,
+      fetchers: new Map(),
+      blockers: new Map(),
+    },
+    ne = Q.Pop,
+    N = !1,
+    _,
+    H = !1,
+    Y = new Map(),
+    q = null,
+    oe = !1,
+    K = !1,
+    me = [],
+    Ze = new Set(),
+    G = new Map(),
+    qe = 0,
+    Be = -1,
+    Te = new Map(),
+    ue = new Set(),
+    Ue = new Map(),
+    ze = new Map(),
+    de = new Set(),
+    we = new Map(),
+    Re = new Map(),
+    Pr = new Map(),
+    mt = !1;
+  function Cr() {
+    if (
+      ((g = e.history.listen((i) => {
+        let { action: l, location: d, delta: m } = i;
+        if (mt) {
+          mt = !1;
+          return;
+        }
+        Pe(
+          Re.size === 0 || m != null,
+          'You are trying to use a blocker on a POP navigation to a location that was not created by @remix-run/router. This will fail silently in production. This can happen if you are navigating outside the router via `window.history.pushState`/`window.location.hash` instead of using router navigation APIs.  This can also happen if you are using createHashRouter and the user manually changes the URL.',
+        );
+        let w = Nt({
+          currentLocation: h.location,
+          nextLocation: d,
+          historyAction: l,
+        });
+        if (w && m != null) {
+          (mt = !0),
+            e.history.go(m * -1),
+            tt(w, {
+              state: 'blocked',
+              location: d,
+              proceed() {
+                tt(w, {
+                  state: 'proceeding',
+                  proceed: void 0,
+                  reset: void 0,
+                  location: d,
+                }),
+                  e.history.go(m);
+              },
+              reset() {
+                let E = new Map(h.blockers);
+                E.set(w, Ve), te({ blockers: E });
+              },
+            });
+          return;
+        }
+        return Ee(l, d);
+      })),
+      r)
+    ) {
+      kn(t, Y);
+      let i = () => Hn(t, Y);
+      t.addEventListener('pagehide', i),
+        (q = () => t.removeEventListener('pagehide', i));
+    }
+    return h.initialized || Ee(Q.Pop, h.location, { initialHydration: !0 }), Z;
+  }
+  function Lr() {
+    g && g(),
+      q && q(),
+      L.clear(),
+      _ && _.abort(),
+      h.fetchers.forEach((i, l) => et(l)),
+      h.blockers.forEach((i, l) => It(l));
+  }
+  function Mr(i) {
+    return L.add(i), () => L.delete(i);
+  }
+  function te(i, l) {
+    l === void 0 && (l = {}), (h = $({}, h, i));
+    let d = [],
+      m = [];
+    f.v7_fetcherPersist &&
+      h.fetchers.forEach((w, E) => {
+        w.state === 'idle' && (de.has(E) ? m.push(E) : d.push(E));
+      }),
+      [...L].forEach((w) =>
+        w(h, {
+          deletedFetchers: m,
+          unstable_viewTransitionOpts: l.viewTransitionOpts,
+          unstable_flushSync: l.flushSync === !0,
+        }),
+      ),
+      f.v7_fetcherPersist &&
+        (d.forEach((w) => h.fetchers.delete(w)), m.forEach((w) => et(w)));
+  }
+  function Fe(i, l, d) {
+    var m, w;
+    let { flushSync: E } = d === void 0 ? {} : d,
+      C =
+        h.actionData != null &&
+        h.navigation.formMethod != null &&
+        le(h.navigation.formMethod) &&
+        h.navigation.state === 'loading' &&
+        ((m = i.state) == null ? void 0 : m._isRedirect) !== !0,
+      b;
+    l.actionData
+      ? Object.keys(l.actionData).length > 0
+        ? (b = l.actionData)
+        : (b = null)
+      : C
+        ? (b = h.actionData)
+        : (b = null);
+    let T = l.loaderData
+        ? Zt(h.loaderData, l.loaderData, l.matches || [], l.errors)
+        : h.loaderData,
+      S = h.blockers;
+    S.size > 0 && ((S = new Map(S)), S.forEach((I, k) => S.set(k, Ve)));
+    let P =
+      N === !0 ||
+      (h.navigation.formMethod != null &&
+        le(h.navigation.formMethod) &&
+        ((w = i.state) == null ? void 0 : w._isRedirect) !== !0);
+    c && ((o = c), (c = void 0)),
+      oe ||
+        ne === Q.Pop ||
+        (ne === Q.Push
+          ? e.history.push(i, i.state)
+          : ne === Q.Replace && e.history.replace(i, i.state));
+    let A;
+    if (ne === Q.Pop) {
+      let I = Y.get(h.location.pathname);
+      I && I.has(i.pathname)
+        ? (A = { currentLocation: h.location, nextLocation: i })
+        : Y.has(i.pathname) &&
+          (A = { currentLocation: i, nextLocation: h.location });
+    } else if (H) {
+      let I = Y.get(h.location.pathname);
+      I
+        ? I.add(i.pathname)
+        : ((I = new Set([i.pathname])), Y.set(h.location.pathname, I)),
+        (A = { currentLocation: h.location, nextLocation: i });
+    }
+    te(
+      $({}, l, {
+        actionData: b,
+        loaderData: T,
+        historyAction: ne,
+        location: i,
+        initialized: !0,
+        navigation: wt,
+        revalidation: 'idle',
+        restoreScrollPosition: Bt(i, l.matches || h.matches),
+        preventScrollReset: P,
+        blockers: S,
+      }),
+      { viewTransitionOpts: A, flushSync: E === !0 },
+    ),
+      (ne = Q.Pop),
+      (N = !1),
+      (H = !1),
+      (oe = !1),
+      (K = !1),
+      (me = []);
+  }
+  async function Mt(i, l) {
+    if (typeof i == 'number') {
+      e.history.go(i);
+      return;
+    }
+    let d = Et(
+        h.location,
+        h.matches,
+        u,
+        f.v7_prependBasename,
+        i,
+        f.v7_relativeSplatPath,
+        l == null ? void 0 : l.fromRouteId,
+        l == null ? void 0 : l.relative,
+      ),
+      {
+        path: m,
+        submission: w,
+        error: E,
+      } = Kt(f.v7_normalizeFormMethod, !1, d, l),
+      C = h.location,
+      b = Ye(h.location, m, l && l.state);
+    b = $({}, b, e.history.encodeLocation(b));
+    let T = l && l.replace != null ? l.replace : void 0,
+      S = Q.Push;
+    T === !0
+      ? (S = Q.Replace)
+      : T === !1 ||
+        (w != null &&
+          le(w.formMethod) &&
+          w.formAction === h.location.pathname + h.location.search &&
+          (S = Q.Replace));
+    let P =
+        l && 'preventScrollReset' in l ? l.preventScrollReset === !0 : void 0,
+      A = (l && l.unstable_flushSync) === !0,
+      I = Nt({ currentLocation: C, nextLocation: b, historyAction: S });
+    if (I) {
+      tt(I, {
+        state: 'blocked',
+        location: b,
+        proceed() {
+          tt(I, {
+            state: 'proceeding',
+            proceed: void 0,
+            reset: void 0,
+            location: b,
+          }),
+            Mt(i, l);
+        },
+        reset() {
+          let k = new Map(h.blockers);
+          k.set(I, Ve), te({ blockers: k });
+        },
+      });
+      return;
+    }
+    return await Ee(S, b, {
+      submission: w,
+      pendingError: E,
+      preventScrollReset: P,
+      replace: l && l.replace,
+      enableViewTransition: l && l.unstable_viewTransition,
+      flushSync: A,
+    });
+  }
+  function Tr() {
+    if (
+      (vt(),
+      te({ revalidation: 'loading' }),
+      h.navigation.state !== 'submitting')
+    ) {
+      if (h.navigation.state === 'idle') {
+        Ee(h.historyAction, h.location, { startUninterruptedRevalidation: !0 });
+        return;
+      }
+      Ee(ne || h.historyAction, h.navigation.location, {
+        overrideNavigation: h.navigation,
+      });
+    }
+  }
+  async function Ee(i, l, d) {
+    _ && _.abort(),
+      (_ = null),
+      (ne = i),
+      (oe = (d && d.startUninterruptedRevalidation) === !0),
+      zr(h.location, h.matches),
+      (N = (d && d.preventScrollReset) === !0),
+      (H = (d && d.enableViewTransition) === !0);
+    let m = c || o,
+      w = d && d.overrideNavigation,
+      E = xe(m, l, u),
+      C = (d && d.flushSync) === !0,
+      b = nt(E, m, l.pathname);
+    if ((b.active && b.matches && (E = b.matches), !E)) {
+      let { error: O, notFoundMatches: ee, route: X } = gt(l.pathname);
+      Fe(
+        l,
+        { matches: ee, loaderData: {}, errors: { [X.id]: O } },
+        { flushSync: C },
+      );
+      return;
+    }
+    if (
+      h.initialized &&
+      !K &&
+      On(h.location, l) &&
+      !(d && d.submission && le(d.submission.formMethod))
+    ) {
+      Fe(l, { matches: E }, { flushSync: C });
+      return;
+    }
+    _ = new AbortController();
+    let T = Ie(e.history, l, _.signal, d && d.submission),
+      S;
+    if (d && d.pendingError)
+      S = [Ne(E).route.id, { type: B.error, error: d.pendingError }];
+    else if (d && d.submission && le(d.submission.formMethod)) {
+      let O = await Ur(T, l, d.submission, E, b.active, {
+        replace: d.replace,
+        flushSync: C,
+      });
+      if (O.shortCircuited) return;
+      if (O.pendingActionResult) {
+        let [ee, X] = O.pendingActionResult;
+        if (ie(X) && ft(X.error) && X.error.status === 404) {
+          (_ = null),
+            Fe(l, {
+              matches: O.matches,
+              loaderData: {},
+              errors: { [ee]: X.error },
+            });
+          return;
+        }
+      }
+      (E = O.matches || E),
+        (S = O.pendingActionResult),
+        (w = Rt(l, d.submission)),
+        (C = !1),
+        (b.active = !1),
+        (T = Ie(e.history, T.url, T.signal));
+    }
+    let {
+      shortCircuited: P,
+      matches: A,
+      loaderData: I,
+      errors: k,
+    } = await Fr(
+      T,
+      l,
+      E,
+      b.active,
+      w,
+      d && d.submission,
+      d && d.fetcherSubmission,
+      d && d.replace,
+      d && d.initialHydration === !0,
+      C,
+      S,
+    );
+    P ||
+      ((_ = null),
+      Fe(l, $({ matches: A || E }, qt(S), { loaderData: I, errors: k })));
+  }
+  async function Ur(i, l, d, m, w, E) {
+    E === void 0 && (E = {}), vt();
+    let C = Bn(l, d);
+    if ((te({ navigation: C }, { flushSync: E.flushSync === !0 }), w)) {
+      let S = await at(m, l.pathname, i.signal);
+      if (S.type === 'aborted') return { shortCircuited: !0 };
+      if (S.type === 'error') {
+        let { boundaryId: P, error: A } = rt(l.pathname, S);
+        return {
+          matches: S.partialMatches,
+          pendingActionResult: [P, { type: B.error, error: A }],
+        };
+      } else if (S.matches) m = S.matches;
+      else {
+        let { notFoundMatches: P, error: A, route: I } = gt(l.pathname);
+        return {
+          matches: P,
+          pendingActionResult: [I.id, { type: B.error, error: A }],
+        };
+      }
+    }
+    let b,
+      T = Je(m, l);
+    if (!T.route.action && !T.route.lazy)
+      b = {
+        type: B.error,
+        error: re(405, {
+          method: i.method,
+          pathname: l.pathname,
+          routeId: T.route.id,
+        }),
+      };
+    else if (((b = (await He('action', i, [T], m))[0]), i.signal.aborted))
+      return { shortCircuited: !0 };
+    if (De(b)) {
+      let S;
+      return (
+        E && E.replace != null
+          ? (S = E.replace)
+          : (S =
+              Gt(b.response.headers.get('Location'), new URL(i.url), u) ===
+              h.location.pathname + h.location.search),
+        await ke(i, b, { submission: d, replace: S }),
+        { shortCircuited: !0 }
+      );
+    }
+    if (Se(b)) throw re(400, { type: 'defer-action' });
+    if (ie(b)) {
+      let S = Ne(m, T.route.id);
+      return (
+        (E && E.replace) !== !0 && (ne = Q.Push),
+        { matches: m, pendingActionResult: [S.route.id, b] }
+      );
+    }
+    return { matches: m, pendingActionResult: [T.route.id, b] };
+  }
+  async function Fr(i, l, d, m, w, E, C, b, T, S, P) {
+    let A = w || Rt(l, E),
+      I = E || C || ar(A),
+      k = !oe && (!f.v7_partialHydration || !T);
+    if (m) {
+      if (k) {
+        let J = Tt(P);
+        te($({ navigation: A }, J !== void 0 ? { actionData: J } : {}), {
+          flushSync: S,
+        });
+      }
+      let F = await at(d, l.pathname, i.signal);
+      if (F.type === 'aborted') return { shortCircuited: !0 };
+      if (F.type === 'error') {
+        let { boundaryId: J, error: ae } = rt(l.pathname, F);
+        return {
+          matches: F.partialMatches,
+          loaderData: {},
+          errors: { [J]: ae },
+        };
+      } else if (F.matches) d = F.matches;
+      else {
+        let { error: J, notFoundMatches: ae, route: W } = gt(l.pathname);
+        return { matches: ae, loaderData: {}, errors: { [W.id]: J } };
+      }
+    }
+    let O = c || o,
+      [ee, X] = $t(
+        e.history,
+        h,
+        d,
+        I,
+        l,
+        f.v7_partialHydration && T === !0,
+        f.v7_skipActionErrorRevalidation,
+        K,
+        me,
+        Ze,
+        de,
+        Ue,
+        ue,
+        O,
+        u,
+        P,
+      );
+    if (
+      (yt(
+        (F) =>
+          !(d && d.some((J) => J.route.id === F)) ||
+          (ee && ee.some((J) => J.route.id === F)),
+      ),
+      (Be = ++qe),
+      ee.length === 0 && X.length === 0)
+    ) {
+      let F = Ot();
+      return (
+        Fe(
+          l,
+          $(
+            {
+              matches: d,
+              loaderData: {},
+              errors: P && ie(P[1]) ? { [P[0]]: P[1].error } : null,
+            },
+            qt(P),
+            F ? { fetchers: new Map(h.fetchers) } : {},
+          ),
+          { flushSync: S },
+        ),
+        { shortCircuited: !0 }
+      );
+    }
+    if (k) {
+      let F = {};
+      if (!m) {
+        F.navigation = A;
+        let J = Tt(P);
+        J !== void 0 && (F.actionData = J);
+      }
+      X.length > 0 && (F.fetchers = _r(X)), te(F, { flushSync: S });
+    }
+    X.forEach((F) => {
+      G.has(F.key) && ge(F.key), F.controller && G.set(F.key, F.controller);
+    });
+    let We = () => X.forEach((F) => ge(F.key));
+    _ && _.signal.addEventListener('abort', We);
+    let { loaderResults: ye, fetcherResults: _e } = await Ut(
+      h.matches,
+      d,
+      ee,
+      X,
+      i,
+    );
+    if (i.signal.aborted) return { shortCircuited: !0 };
+    _ && _.signal.removeEventListener('abort', We),
+      X.forEach((F) => G.delete(F.key));
+    let Oe = tr([...ye, ..._e]);
+    if (Oe) {
+      if (Oe.idx >= ee.length) {
+        let F = X[Oe.idx - ee.length].key;
+        ue.add(F);
+      }
+      return await ke(i, Oe.result, { replace: b }), { shortCircuited: !0 };
+    }
+    let { loaderData: je, errors: se } = Qt(h, d, ee, ye, P, X, _e, we);
+    we.forEach((F, J) => {
+      F.subscribe((ae) => {
+        (ae || F.done) && we.delete(J);
+      });
+    }),
+      f.v7_partialHydration &&
+        T &&
+        h.errors &&
+        Object.entries(h.errors)
+          .filter((F) => {
+            let [J] = F;
+            return !ee.some((ae) => ae.route.id === J);
+          })
+          .forEach((F) => {
+            let [J, ae] = F;
+            se = Object.assign(se || {}, { [J]: ae });
+          });
+    let it = Ot(),
+      ot = jt(Be),
+      lt = it || ot || X.length > 0;
+    return $(
+      { matches: d, loaderData: je, errors: se },
+      lt ? { fetchers: new Map(h.fetchers) } : {},
+    );
+  }
+  function Tt(i) {
+    if (i && !ie(i[1])) return { [i[0]]: i[1].data };
+    if (h.actionData)
+      return Object.keys(h.actionData).length === 0 ? null : h.actionData;
+  }
+  function _r(i) {
+    return (
+      i.forEach((l) => {
+        let d = h.fetchers.get(l.key),
+          m = Ke(void 0, d ? d.data : void 0);
+        h.fetchers.set(l.key, m);
+      }),
+      new Map(h.fetchers)
+    );
+  }
+  function Or(i, l, d, m) {
+    if (n)
+      throw new Error(
+        "router.fetch() was called during the server render, but it shouldn't be. You are likely calling a useFetcher() method in the body of your component. Try moving it to a useEffect or a callback.",
+      );
+    G.has(i) && ge(i);
+    let w = (m && m.unstable_flushSync) === !0,
+      E = c || o,
+      C = Et(
+        h.location,
+        h.matches,
+        u,
+        f.v7_prependBasename,
+        d,
+        f.v7_relativeSplatPath,
+        l,
+        m == null ? void 0 : m.relative,
+      ),
+      b = xe(E, C, u),
+      T = nt(b, E, C);
+    if ((T.active && T.matches && (b = T.matches), !b)) {
+      ce(i, l, re(404, { pathname: C }), { flushSync: w });
+      return;
+    }
+    let {
+      path: S,
+      submission: P,
+      error: A,
+    } = Kt(f.v7_normalizeFormMethod, !0, C, m);
+    if (A) {
+      ce(i, l, A, { flushSync: w });
+      return;
+    }
+    let I = Je(b, S);
+    if (((N = (m && m.preventScrollReset) === !0), P && le(P.formMethod))) {
+      jr(i, l, S, I, b, T.active, w, P);
+      return;
+    }
+    Ue.set(i, { routeId: l, path: S }), Ir(i, l, S, I, b, T.active, w, P);
+  }
+  async function jr(i, l, d, m, w, E, C, b) {
+    vt(), Ue.delete(i);
+    function T(W) {
+      if (!W.route.action && !W.route.lazy) {
+        let fe = re(405, { method: b.formMethod, pathname: d, routeId: l });
+        return ce(i, l, fe, { flushSync: C }), !0;
+      }
+      return !1;
+    }
+    if (!E && T(m)) return;
+    let S = h.fetchers.get(i);
+    ve(i, zn(b, S), { flushSync: C });
+    let P = new AbortController(),
+      A = Ie(e.history, d, P.signal, b);
+    if (E) {
+      let W = await at(w, d, A.signal);
+      if (W.type === 'aborted') return;
+      if (W.type === 'error') {
+        let { error: fe } = rt(d, W);
+        ce(i, l, fe, { flushSync: C });
+        return;
+      } else if (W.matches) {
+        if (((w = W.matches), (m = Je(w, d)), T(m))) return;
+      } else {
+        ce(i, l, re(404, { pathname: d }), { flushSync: C });
+        return;
+      }
+    }
+    G.set(i, P);
+    let I = qe,
+      O = (await He('action', A, [m], w))[0];
+    if (A.signal.aborted) {
+      G.get(i) === P && G.delete(i);
+      return;
+    }
+    if (f.v7_fetcherPersist && de.has(i)) {
+      if (De(O) || ie(O)) {
+        ve(i, be(void 0));
+        return;
+      }
+    } else {
+      if (De(O))
+        if ((G.delete(i), Be > I)) {
+          ve(i, be(void 0));
+          return;
+        } else
+          return ue.add(i), ve(i, Ke(b)), ke(A, O, { fetcherSubmission: b });
+      if (ie(O)) {
+        ce(i, l, O.error);
+        return;
+      }
+    }
+    if (Se(O)) throw re(400, { type: 'defer-action' });
+    let ee = h.navigation.location || h.location,
+      X = Ie(e.history, ee, P.signal),
+      We = c || o,
+      ye =
+        h.navigation.state !== 'idle'
+          ? xe(We, h.navigation.location, u)
+          : h.matches;
+    U(ye, "Didn't find any matches after fetcher action");
+    let _e = ++qe;
+    Te.set(i, _e);
+    let Oe = Ke(b, O.data);
+    h.fetchers.set(i, Oe);
+    let [je, se] = $t(
+      e.history,
+      h,
+      ye,
+      b,
+      ee,
+      !1,
+      f.v7_skipActionErrorRevalidation,
+      K,
+      me,
+      Ze,
+      de,
+      Ue,
+      ue,
+      We,
+      u,
+      [m.route.id, O],
+    );
+    se
+      .filter((W) => W.key !== i)
+      .forEach((W) => {
+        let fe = W.key,
+          zt = h.fetchers.get(fe),
+          Wr = Ke(void 0, zt ? zt.data : void 0);
+        h.fetchers.set(fe, Wr),
+          G.has(fe) && ge(fe),
+          W.controller && G.set(fe, W.controller);
+      }),
+      te({ fetchers: new Map(h.fetchers) });
+    let it = () => se.forEach((W) => ge(W.key));
+    P.signal.addEventListener('abort', it);
+    let { loaderResults: ot, fetcherResults: lt } = await Ut(
+      h.matches,
+      ye,
+      je,
+      se,
+      X,
+    );
+    if (P.signal.aborted) return;
+    P.signal.removeEventListener('abort', it),
+      Te.delete(i),
+      G.delete(i),
+      se.forEach((W) => G.delete(W.key));
+    let F = tr([...ot, ...lt]);
+    if (F) {
+      if (F.idx >= je.length) {
+        let W = se[F.idx - je.length].key;
+        ue.add(W);
+      }
+      return ke(X, F.result);
+    }
+    let { loaderData: J, errors: ae } = Qt(
+      h,
+      h.matches,
+      je,
+      ot,
+      void 0,
+      se,
+      lt,
+      we,
+    );
+    if (h.fetchers.has(i)) {
+      let W = be(O.data);
+      h.fetchers.set(i, W);
+    }
+    jt(_e),
+      h.navigation.state === 'loading' && _e > Be
+        ? (U(ne, 'Expected pending action'),
+          _ && _.abort(),
+          Fe(h.navigation.location, {
+            matches: ye,
+            loaderData: J,
+            errors: ae,
+            fetchers: new Map(h.fetchers),
+          }))
+        : (te({
+            errors: ae,
+            loaderData: Zt(h.loaderData, J, ye, ae),
+            fetchers: new Map(h.fetchers),
+          }),
+          (K = !1));
+  }
+  async function Ir(i, l, d, m, w, E, C, b) {
+    let T = h.fetchers.get(i);
+    ve(i, Ke(b, T ? T.data : void 0), { flushSync: C });
+    let S = new AbortController(),
+      P = Ie(e.history, d, S.signal);
+    if (E) {
+      let O = await at(w, d, P.signal);
+      if (O.type === 'aborted') return;
+      if (O.type === 'error') {
+        let { error: ee } = rt(d, O);
+        ce(i, l, ee, { flushSync: C });
+        return;
+      } else if (O.matches) (w = O.matches), (m = Je(w, d));
+      else {
+        ce(i, l, re(404, { pathname: d }), { flushSync: C });
+        return;
+      }
+    }
+    G.set(i, S);
+    let A = qe,
+      k = (await He('loader', P, [m], w))[0];
+    if (
+      (Se(k) && (k = (await br(k, P.signal, !0)) || k),
+      G.get(i) === S && G.delete(i),
+      !P.signal.aborted)
+    ) {
+      if (de.has(i)) {
+        ve(i, be(void 0));
+        return;
+      }
+      if (De(k))
+        if (Be > A) {
+          ve(i, be(void 0));
+          return;
+        } else {
+          ue.add(i), await ke(P, k);
+          return;
+        }
+      if (ie(k)) {
+        ce(i, l, k.error);
+        return;
+      }
+      U(!Se(k), 'Unhandled fetcher deferred data'), ve(i, be(k.data));
+    }
+  }
+  async function ke(i, l, d) {
+    let {
+      submission: m,
+      fetcherSubmission: w,
+      replace: E,
+    } = d === void 0 ? {} : d;
+    l.response.headers.has('X-Remix-Revalidate') && (K = !0);
+    let C = l.response.headers.get('Location');
+    U(C, 'Expected a Location header on the redirect Response'),
+      (C = Gt(C, new URL(i.url), u));
+    let b = Ye(h.location, C, { _isRedirect: !0 });
+    if (r) {
+      let k = !1;
+      if (l.response.headers.has('X-Remix-Reload-Document')) k = !0;
+      else if (Pt.test(C)) {
+        const O = e.history.createURL(C);
+        k = O.origin !== t.location.origin || Ae(O.pathname, u) == null;
+      }
+      if (k) {
+        E ? t.location.replace(C) : t.location.assign(C);
+        return;
+      }
+    }
+    _ = null;
+    let T =
+        E === !0 || l.response.headers.has('X-Remix-Replace')
+          ? Q.Replace
+          : Q.Push,
+      { formMethod: S, formAction: P, formEncType: A } = h.navigation;
+    !m && !w && S && P && A && (m = ar(h.navigation));
+    let I = m || w;
+    if (wn.has(l.response.status) && I && le(I.formMethod))
+      await Ee(T, b, {
+        submission: $({}, I, { formAction: C }),
+        preventScrollReset: N,
+      });
+    else {
+      let k = Rt(b, m);
+      await Ee(T, b, {
+        overrideNavigation: k,
+        fetcherSubmission: w,
+        preventScrollReset: N,
+      });
+    }
+  }
+  async function He(i, l, d, m) {
+    try {
+      let w = await Mn(p, i, l, d, m, s, a);
+      return await Promise.all(
+        w.map((E, C) => {
+          if (In(E)) {
+            let b = E.result;
+            return {
+              type: B.redirect,
+              response: Fn(b, l, d[C].route.id, m, u, f.v7_relativeSplatPath),
+            };
+          }
+          return Un(E);
+        }),
+      );
+    } catch (w) {
+      return d.map(() => ({ type: B.error, error: w }));
+    }
+  }
+  async function Ut(i, l, d, m, w) {
+    let [E, ...C] = await Promise.all([
+      d.length ? He('loader', w, d, l) : [],
+      ...m.map((b) => {
+        if (b.matches && b.match && b.controller) {
+          let T = Ie(e.history, b.path, b.controller.signal);
+          return He('loader', T, [b.match], b.matches).then((S) => S[0]);
+        } else
+          return Promise.resolve({
+            type: B.error,
+            error: re(404, { pathname: b.path }),
+          });
+      }),
+    ]);
+    return (
+      await Promise.all([
+        nr(
+          i,
+          d,
+          E,
+          E.map(() => w.signal),
+          !1,
+          h.loaderData,
+        ),
+        nr(
+          i,
+          m.map((b) => b.match),
+          C,
+          m.map((b) => (b.controller ? b.controller.signal : null)),
+          !0,
+        ),
+      ]),
+      { loaderResults: E, fetcherResults: C }
+    );
+  }
+  function vt() {
+    (K = !0),
+      me.push(...yt()),
+      Ue.forEach((i, l) => {
+        G.has(l) && (Ze.add(l), ge(l));
+      });
+  }
+  function ve(i, l, d) {
+    d === void 0 && (d = {}),
+      h.fetchers.set(i, l),
+      te(
+        { fetchers: new Map(h.fetchers) },
+        { flushSync: (d && d.flushSync) === !0 },
+      );
+  }
+  function ce(i, l, d, m) {
+    m === void 0 && (m = {});
+    let w = Ne(h.matches, l);
+    et(i),
+      te(
+        { errors: { [w.route.id]: d }, fetchers: new Map(h.fetchers) },
+        { flushSync: (m && m.flushSync) === !0 },
+      );
+  }
+  function Ft(i) {
+    return (
+      f.v7_fetcherPersist &&
+        (ze.set(i, (ze.get(i) || 0) + 1), de.has(i) && de.delete(i)),
+      h.fetchers.get(i) || Rn
+    );
+  }
+  function et(i) {
+    let l = h.fetchers.get(i);
+    G.has(i) && !(l && l.state === 'loading' && Te.has(i)) && ge(i),
+      Ue.delete(i),
+      Te.delete(i),
+      ue.delete(i),
+      de.delete(i),
+      Ze.delete(i),
+      h.fetchers.delete(i);
+  }
+  function Nr(i) {
+    if (f.v7_fetcherPersist) {
+      let l = (ze.get(i) || 0) - 1;
+      l <= 0 ? (ze.delete(i), de.add(i)) : ze.set(i, l);
+    } else et(i);
+    te({ fetchers: new Map(h.fetchers) });
+  }
+  function ge(i) {
+    let l = G.get(i);
+    U(l, 'Expected fetch controller: ' + i), l.abort(), G.delete(i);
+  }
+  function _t(i) {
+    for (let l of i) {
+      let d = Ft(l),
+        m = be(d.data);
+      h.fetchers.set(l, m);
+    }
+  }
+  function Ot() {
+    let i = [],
+      l = !1;
+    for (let d of ue) {
+      let m = h.fetchers.get(d);
+      U(m, 'Expected fetcher: ' + d),
+        m.state === 'loading' && (ue.delete(d), i.push(d), (l = !0));
+    }
+    return _t(i), l;
+  }
+  function jt(i) {
+    let l = [];
+    for (let [d, m] of Te)
+      if (m < i) {
+        let w = h.fetchers.get(d);
+        U(w, 'Expected fetcher: ' + d),
+          w.state === 'loading' && (ge(d), Te.delete(d), l.push(d));
+      }
+    return _t(l), l.length > 0;
+  }
+  function Ar(i, l) {
+    let d = h.blockers.get(i) || Ve;
+    return Re.get(i) !== l && Re.set(i, l), d;
+  }
+  function It(i) {
+    h.blockers.delete(i), Re.delete(i);
+  }
+  function tt(i, l) {
+    let d = h.blockers.get(i) || Ve;
+    U(
+      (d.state === 'unblocked' && l.state === 'blocked') ||
+        (d.state === 'blocked' && l.state === 'blocked') ||
+        (d.state === 'blocked' && l.state === 'proceeding') ||
+        (d.state === 'blocked' && l.state === 'unblocked') ||
+        (d.state === 'proceeding' && l.state === 'unblocked'),
+      'Invalid blocker state transition: ' + d.state + ' -> ' + l.state,
+    );
+    let m = new Map(h.blockers);
+    m.set(i, l), te({ blockers: m });
+  }
+  function Nt(i) {
+    let { currentLocation: l, nextLocation: d, historyAction: m } = i;
+    if (Re.size === 0) return;
+    Re.size > 1 && Pe(!1, 'A router only supports one blocker at a time');
+    let w = Array.from(Re.entries()),
+      [E, C] = w[w.length - 1],
+      b = h.blockers.get(E);
+    if (
+      !(b && b.state === 'proceeding') &&
+      C({ currentLocation: l, nextLocation: d, historyAction: m })
+    )
+      return E;
+  }
+  function gt(i) {
+    let l = re(404, { pathname: i }),
+      d = c || o,
+      { matches: m, route: w } = er(d);
+    return yt(), { notFoundMatches: m, route: w, error: l };
+  }
+  function rt(i, l) {
+    return {
+      boundaryId: Ne(l.partialMatches).route.id,
+      error: re(400, {
+        type: 'route-discovery',
+        pathname: i,
+        message:
+          l.error != null && 'message' in l.error ? l.error : String(l.error),
+      }),
+    };
+  }
+  function yt(i) {
+    let l = [];
+    return (
+      we.forEach((d, m) => {
+        (!i || i(m)) && (d.cancel(), l.push(m), we.delete(m));
+      }),
+      l
+    );
+  }
+  function Br(i, l, d) {
+    if (((x = i), (D = l), (R = d || null), !j && h.navigation === wt)) {
+      j = !0;
+      let m = Bt(h.location, h.matches);
+      m != null && te({ restoreScrollPosition: m });
+    }
+    return () => {
+      (x = null), (D = null), (R = null);
+    };
+  }
+  function At(i, l) {
+    return (
+      (R &&
+        R(
+          i,
+          l.map((m) => Qr(m, h.loaderData)),
+        )) ||
+      i.key
+    );
+  }
+  function zr(i, l) {
+    if (x && D) {
+      let d = At(i, l);
+      x[d] = D();
+    }
+  }
+  function Bt(i, l) {
+    if (x) {
+      let d = At(i, l),
+        m = x[d];
+      if (typeof m == 'number') return m;
+    }
+    return null;
+  }
+  function nt(i, l, d) {
+    if (v)
+      if (i) {
+        let m = i[i.length - 1].route;
+        if (m.path && (m.path === '*' || m.path.endsWith('/*')))
+          return { active: !0, matches: st(l, d, u, !0) };
+      } else return { active: !0, matches: st(l, d, u, !0) || [] };
+    return { active: !1, matches: null };
+  }
+  async function at(i, l, d) {
+    let m = i,
+      w = m.length > 0 ? m[m.length - 1].route : null;
+    for (;;) {
+      let E = c == null,
+        C = c || o;
+      try {
+        await Cn(v, l, m, C, s, a, Pr, d);
+      } catch (P) {
+        return { type: 'error', error: P, partialMatches: m };
+      } finally {
+        E && (o = [...o]);
+      }
+      if (d.aborted) return { type: 'aborted' };
+      let b = xe(C, l, u),
+        T = !1;
+      if (b) {
+        let P = b[b.length - 1].route;
+        if (P.index) return { type: 'success', matches: b };
+        if (P.path && P.path.length > 0)
+          if (P.path === '*') T = !0;
+          else return { type: 'success', matches: b };
+      }
+      let S = st(C, l, u, !0);
+      if (
+        !S ||
+        m.map((P) => P.route.id).join('-') ===
+          S.map((P) => P.route.id).join('-')
+      )
+        return { type: 'success', matches: T ? b : null };
+      if (((m = S), (w = m[m.length - 1].route), w.path === '*'))
+        return { type: 'success', matches: m };
+    }
+  }
+  function kr(i) {
+    (s = {}), (c = Ge(i, a, void 0, s));
+  }
+  function Hr(i, l) {
+    let d = c == null;
+    vr(i, l, c || o, s, a), d && ((o = [...o]), te({}));
+  }
+  return (
+    (Z = {
+      get basename() {
+        return u;
+      },
+      get future() {
+        return f;
+      },
+      get state() {
+        return h;
+      },
+      get routes() {
+        return o;
+      },
+      get window() {
+        return t;
+      },
+      initialize: Cr,
+      subscribe: Mr,
+      enableScrollRestoration: Br,
+      navigate: Mt,
+      fetch: Or,
+      revalidate: Tr,
+      createHref: (i) => e.history.createHref(i),
+      encodeLocation: (i) => e.history.encodeLocation(i),
+      getFetcher: Ft,
+      deleteFetcher: Nr,
+      dispose: Lr,
+      getBlocker: Ar,
+      deleteBlocker: It,
+      patchRoutes: Hr,
+      _internalFetchControllers: G,
+      _internalActiveDeferreds: we,
+      _internalSetRoutes: kr,
+    }),
+    Z
+  );
+}
+function Sn(e) {
+  return (
+    e != null &&
+    (('formData' in e && e.formData != null) ||
+      ('body' in e && e.body !== void 0))
+  );
+}
+function Et(e, t, r, n, a, s, o, c) {
+  let u, p;
+  if (o) {
+    u = [];
+    for (let f of t)
+      if ((u.push(f), f.route.id === o)) {
+        p = f;
+        break;
+      }
+  } else (u = t), (p = t[t.length - 1]);
+  let v = Dt(a || '.', St(u, s), Ae(e.pathname, r) || e.pathname, c === 'path');
+  return (
+    a == null && ((v.search = e.search), (v.hash = e.hash)),
+    (a == null || a === '' || a === '.') &&
+      p &&
+      p.route.index &&
+      !Ct(v.search) &&
+      (v.search = v.search ? v.search.replace(/^\?/, '?index&') : '?index'),
+    n &&
+      r !== '/' &&
+      (v.pathname = v.pathname === '/' ? r : he([r, v.pathname])),
+    Ce(v)
+  );
+}
+function Kt(e, t, r, n) {
+  if (!n || !Sn(n)) return { path: r };
+  if (n.formMethod && !An(n.formMethod))
+    return { path: r, error: re(405, { method: n.formMethod }) };
+  let a = () => ({ path: r, error: re(400, { type: 'invalid-body' }) }),
+    s = n.formMethod || 'get',
+    o = e ? s.toUpperCase() : s.toLowerCase(),
+    c = gr(r);
+  if (n.body !== void 0) {
+    if (n.formEncType === 'text/plain') {
+      if (!le(o)) return a();
+      let g =
+        typeof n.body == 'string'
+          ? n.body
+          : n.body instanceof FormData || n.body instanceof URLSearchParams
+            ? Array.from(n.body.entries()).reduce((L, x) => {
+                let [R, D] = x;
+                return (
+                  '' +
+                  L +
+                  R +
+                  '=' +
+                  D +
+                  `
+`
+                );
+              }, '')
+            : String(n.body);
+      return {
+        path: r,
+        submission: {
+          formMethod: o,
+          formAction: c,
+          formEncType: n.formEncType,
+          formData: void 0,
+          json: void 0,
+          text: g,
+        },
+      };
+    } else if (n.formEncType === 'application/json') {
+      if (!le(o)) return a();
+      try {
+        let g = typeof n.body == 'string' ? JSON.parse(n.body) : n.body;
+        return {
+          path: r,
+          submission: {
+            formMethod: o,
+            formAction: c,
+            formEncType: n.formEncType,
+            formData: void 0,
+            json: g,
+            text: void 0,
+          },
+        };
+      } catch {
+        return a();
+      }
+    }
+  }
+  U(
+    typeof FormData == 'function',
+    'FormData is not available in this environment',
+  );
+  let u, p;
+  if (n.formData) (u = xt(n.formData)), (p = n.formData);
+  else if (n.body instanceof FormData) (u = xt(n.body)), (p = n.body);
+  else if (n.body instanceof URLSearchParams) (u = n.body), (p = Xt(u));
+  else if (n.body == null) (u = new URLSearchParams()), (p = new FormData());
+  else
+    try {
+      (u = new URLSearchParams(n.body)), (p = Xt(u));
+    } catch {
+      return a();
+    }
+  let v = {
+    formMethod: o,
+    formAction: c,
+    formEncType: (n && n.formEncType) || 'application/x-www-form-urlencoded',
+    formData: p,
+    json: void 0,
+    text: void 0,
+  };
+  if (le(v.formMethod)) return { path: r, submission: v };
+  let f = pe(r);
+  return (
+    t && f.search && Ct(f.search) && u.append('index', ''),
+    (f.search = '?' + u),
+    { path: Ce(f), submission: v }
+  );
+}
+function Dn(e, t) {
+  let r = e;
+  if (t) {
+    let n = e.findIndex((a) => a.route.id === t);
+    n >= 0 && (r = e.slice(0, n));
+  }
+  return r;
+}
+function $t(e, t, r, n, a, s, o, c, u, p, v, f, g, L, x, R) {
+  let D = R ? (ie(R[1]) ? R[1].error : R[1].data) : void 0,
+    j = e.createURL(t.location),
+    M = e.createURL(a),
+    z = R && ie(R[1]) ? R[0] : void 0,
+    V = z ? Dn(r, z) : r,
+    Z = R ? R[1].statusCode : void 0,
+    h = o && Z && Z >= 400,
+    ne = V.filter((_, H) => {
+      let { route: Y } = _;
+      if (Y.lazy) return !0;
+      if (Y.loader == null) return !1;
+      if (s)
+        return typeof Y.loader != 'function' || Y.loader.hydrate
+          ? !0
+          : t.loaderData[Y.id] === void 0 &&
+              (!t.errors || t.errors[Y.id] === void 0);
+      if (Pn(t.loaderData, t.matches[H], _) || u.some((K) => K === _.route.id))
+        return !0;
+      let q = t.matches[H],
+        oe = _;
+      return Jt(
+        _,
+        $(
+          {
+            currentUrl: j,
+            currentParams: q.params,
+            nextUrl: M,
+            nextParams: oe.params,
+          },
+          n,
+          {
+            actionResult: D,
+            actionStatus: Z,
+            defaultShouldRevalidate: h
+              ? !1
+              : c ||
+                j.pathname + j.search === M.pathname + M.search ||
+                j.search !== M.search ||
+                mr(q, oe),
+          },
+        ),
+      );
+    }),
+    N = [];
+  return (
+    f.forEach((_, H) => {
+      if (s || !r.some((me) => me.route.id === _.routeId) || v.has(H)) return;
+      let Y = xe(L, _.path, x);
+      if (!Y) {
+        N.push({
+          key: H,
+          routeId: _.routeId,
+          path: _.path,
+          matches: null,
+          match: null,
+          controller: null,
+        });
+        return;
+      }
+      let q = t.fetchers.get(H),
+        oe = Je(Y, _.path),
+        K = !1;
+      g.has(H)
+        ? (K = !1)
+        : p.has(H)
+          ? (p.delete(H), (K = !0))
+          : q && q.state !== 'idle' && q.data === void 0
+            ? (K = c)
+            : (K = Jt(
+                oe,
+                $(
+                  {
+                    currentUrl: j,
+                    currentParams: t.matches[t.matches.length - 1].params,
+                    nextUrl: M,
+                    nextParams: r[r.length - 1].params,
+                  },
+                  n,
+                  {
+                    actionResult: D,
+                    actionStatus: Z,
+                    defaultShouldRevalidate: h ? !1 : c,
+                  },
+                ),
+              )),
+        K &&
+          N.push({
+            key: H,
+            routeId: _.routeId,
+            path: _.path,
+            matches: Y,
+            match: oe,
+            controller: new AbortController(),
+          });
+    }),
+    [ne, N]
+  );
+}
+function Pn(e, t, r) {
+  let n = !t || r.route.id !== t.route.id,
+    a = e[r.route.id] === void 0;
+  return n || a;
+}
+function mr(e, t) {
+  let r = e.route.path;
+  return (
+    e.pathname !== t.pathname ||
+    (r != null && r.endsWith('*') && e.params['*'] !== t.params['*'])
+  );
+}
+function Jt(e, t) {
+  if (e.route.shouldRevalidate) {
+    let r = e.route.shouldRevalidate(t);
+    if (typeof r == 'boolean') return r;
+  }
+  return t.defaultShouldRevalidate;
+}
+async function Cn(e, t, r, n, a, s, o, c) {
+  let u = [t, ...r.map((p) => p.route.id)].join('-');
+  try {
+    let p = o.get(u);
+    p ||
+      ((p = e({
+        path: t,
+        matches: r,
+        patch: (v, f) => {
+          c.aborted || vr(v, f, n, a, s);
+        },
+      })),
+      o.set(u, p)),
+      p && jn(p) && (await p);
+  } finally {
+    o.delete(u);
+  }
+}
+function vr(e, t, r, n, a) {
+  if (e) {
+    var s;
+    let o = n[e];
+    U(o, 'No route found to patch children into: routeId = ' + e);
+    let c = Ge(
+      t,
+      a,
+      [
+        e,
+        'patch',
+        String(((s = o.children) == null ? void 0 : s.length) || '0'),
+      ],
+      n,
+    );
+    o.children ? o.children.push(...c) : (o.children = c);
+  } else {
+    let o = Ge(t, a, ['patch', String(r.length || '0')], n);
+    r.push(...o);
+  }
+}
+async function Yt(e, t, r) {
+  if (!e.lazy) return;
+  let n = await e.lazy();
+  if (!e.lazy) return;
+  let a = r[e.id];
+  U(a, 'No route found in manifest');
+  let s = {};
+  for (let o in n) {
+    let u = a[o] !== void 0 && o !== 'hasErrorBoundary';
+    Pe(
+      !u,
+      'Route "' +
+        a.id +
+        '" has a static property "' +
+        o +
+        '" defined but its lazy function is also returning a value for this property. ' +
+        ('The lazy route property "' + o + '" will be ignored.'),
+    ),
+      !u && !Gr.has(o) && (s[o] = n[o]);
+  }
+  Object.assign(a, s), Object.assign(a, $({}, t(a), { lazy: void 0 }));
+}
+function Ln(e) {
+  return Promise.all(e.matches.map((t) => t.resolve()));
+}
+async function Mn(e, t, r, n, a, s, o, c) {
+  let u = n.reduce((f, g) => f.add(g.route.id), new Set()),
+    p = new Set(),
+    v = await e({
+      matches: a.map((f) => {
+        let g = u.has(f.route.id);
+        return $({}, f, {
+          shouldLoad: g,
+          resolve: (x) => (
+            p.add(f.route.id),
+            g
+              ? Tn(t, r, f, s, o, x, c)
+              : Promise.resolve({ type: B.data, result: void 0 })
+          ),
+        });
+      }),
+      request: r,
+      params: a[0].params,
+      context: c,
+    });
+  return (
+    a.forEach((f) =>
+      U(
+        p.has(f.route.id),
+        '`match.resolve()` was not called for route id "' +
+          f.route.id +
+          '". You must call `match.resolve()` on every match passed to `dataStrategy` to ensure all routes are properly loaded.',
+      ),
+    ),
+    v.filter((f, g) => u.has(a[g].route.id))
+  );
+}
+async function Tn(e, t, r, n, a, s, o) {
+  let c,
+    u,
+    p = (v) => {
+      let f,
+        g = new Promise((R, D) => (f = D));
+      (u = () => f()), t.signal.addEventListener('abort', u);
+      let L = (R) =>
+          typeof v != 'function'
+            ? Promise.reject(
+                new Error(
+                  'You cannot call the handler for a route which defines a boolean ' +
+                    ('"' + e + '" [routeId: ' + r.route.id + ']'),
+                ),
+              )
+            : v(
+                { request: t, params: r.params, context: o },
+                ...(R !== void 0 ? [R] : []),
+              ),
+        x;
+      return (
+        s
+          ? (x = s((R) => L(R)))
+          : (x = (async () => {
+              try {
+                return { type: 'data', result: await L() };
+              } catch (R) {
+                return { type: 'error', result: R };
+              }
+            })()),
+        Promise.race([x, g])
+      );
+    };
+  try {
+    let v = r.route[e];
+    if (r.route.lazy)
+      if (v) {
+        let f,
+          [g] = await Promise.all([
+            p(v).catch((L) => {
+              f = L;
+            }),
+            Yt(r.route, a, n),
+          ]);
+        if (f !== void 0) throw f;
+        c = g;
+      } else if ((await Yt(r.route, a, n), (v = r.route[e]), v)) c = await p(v);
+      else if (e === 'action') {
+        let f = new URL(t.url),
+          g = f.pathname + f.search;
+        throw re(405, { method: t.method, pathname: g, routeId: r.route.id });
+      } else return { type: B.data, result: void 0 };
+    else if (v) c = await p(v);
+    else {
+      let f = new URL(t.url),
+        g = f.pathname + f.search;
+      throw re(404, { pathname: g });
+    }
+    U(
+      c.result !== void 0,
+      'You defined ' +
+        (e === 'action' ? 'an action' : 'a loader') +
+        ' for route ' +
+        ('"' +
+          r.route.id +
+          '" but didn\'t return anything from your `' +
+          e +
+          '` ') +
+        'function. Please return a value or `null`.',
+    );
+  } catch (v) {
+    return { type: B.error, result: v };
+  } finally {
+    u && t.signal.removeEventListener('abort', u);
+  }
+  return c;
+}
+async function Un(e) {
+  let { result: t, type: r } = e;
+  if (yr(t)) {
+    let p;
+    try {
+      let v = t.headers.get('Content-Type');
+      v && /\bapplication\/json\b/.test(v)
+        ? t.body == null
+          ? (p = null)
+          : (p = await t.json())
+        : (p = await t.text());
+    } catch (v) {
+      return { type: B.error, error: v };
+    }
+    return r === B.error
+      ? {
+          type: B.error,
+          error: new ut(t.status, t.statusText, p),
+          statusCode: t.status,
+          headers: t.headers,
+        }
+      : { type: B.data, data: p, statusCode: t.status, headers: t.headers };
+  }
+  if (r === B.error) {
+    if (rr(t)) {
+      var n;
+      if (t.data instanceof Error) {
+        var a;
+        return {
+          type: B.error,
+          error: t.data,
+          statusCode: (a = t.init) == null ? void 0 : a.status,
+        };
+      }
+      t = new ut(
+        ((n = t.init) == null ? void 0 : n.status) || 500,
+        void 0,
+        t.data,
+      );
+    }
+    return { type: B.error, error: t, statusCode: ft(t) ? t.status : void 0 };
+  }
+  if (Nn(t)) {
+    var s, o;
+    return {
+      type: B.deferred,
+      deferredData: t,
+      statusCode: (s = t.init) == null ? void 0 : s.status,
+      headers:
+        ((o = t.init) == null ? void 0 : o.headers) &&
+        new Headers(t.init.headers),
+    };
+  }
+  if (rr(t)) {
+    var c, u;
+    return {
+      type: B.data,
+      data: t.data,
+      statusCode: (c = t.init) == null ? void 0 : c.status,
+      headers:
+        (u = t.init) != null && u.headers
+          ? new Headers(t.init.headers)
+          : void 0,
+    };
+  }
+  return { type: B.data, data: t };
+}
+function Fn(e, t, r, n, a, s) {
+  let o = e.headers.get('Location');
+  if (
+    (U(
+      o,
+      'Redirects returned/thrown from loaders/actions must have a Location header',
+    ),
+    !Pt.test(o))
+  ) {
+    let c = n.slice(0, n.findIndex((u) => u.route.id === r) + 1);
+    (o = Et(new URL(t.url), c, a, !0, o, s)), e.headers.set('Location', o);
+  }
+  return e;
+}
+function Gt(e, t, r) {
+  if (Pt.test(e)) {
+    let n = e,
+      a = n.startsWith('//') ? new URL(t.protocol + n) : new URL(n),
+      s = Ae(a.pathname, r) != null;
+    if (a.origin === t.origin && s) return a.pathname + a.search + a.hash;
+  }
+  return e;
+}
+function Ie(e, t, r, n) {
+  let a = e.createURL(gr(t)).toString(),
+    s = { signal: r };
+  if (n && le(n.formMethod)) {
+    let { formMethod: o, formEncType: c } = n;
+    (s.method = o.toUpperCase()),
+      c === 'application/json'
+        ? ((s.headers = new Headers({ 'Content-Type': c })),
+          (s.body = JSON.stringify(n.json)))
+        : c === 'text/plain'
+          ? (s.body = n.text)
+          : c === 'application/x-www-form-urlencoded' && n.formData
+            ? (s.body = xt(n.formData))
+            : (s.body = n.formData);
+  }
+  return new Request(a, s);
+}
+function xt(e) {
+  let t = new URLSearchParams();
+  for (let [r, n] of e.entries())
+    t.append(r, typeof n == 'string' ? n : n.name);
+  return t;
+}
+function Xt(e) {
+  let t = new FormData();
+  for (let [r, n] of e.entries()) t.append(r, n);
+  return t;
+}
+function _n(e, t, r, n, a, s) {
+  let o = {},
+    c = null,
+    u,
+    p = !1,
+    v = {},
+    f = n && ie(n[1]) ? n[1].error : void 0;
+  return (
+    r.forEach((g, L) => {
+      let x = t[L].route.id;
+      if (
+        (U(!De(g), 'Cannot handle redirect results in processLoaderData'),
+        ie(g))
+      ) {
+        let R = g.error;
+        f !== void 0 && ((R = f), (f = void 0)), (c = c || {});
+        {
+          let D = Ne(e, x);
+          c[D.route.id] == null && (c[D.route.id] = R);
+        }
+        (o[x] = void 0),
+          p || ((p = !0), (u = ft(g.error) ? g.error.status : 500)),
+          g.headers && (v[x] = g.headers);
+      } else
+        Se(g)
+          ? (a.set(x, g.deferredData),
+            (o[x] = g.deferredData.data),
+            g.statusCode != null &&
+              g.statusCode !== 200 &&
+              !p &&
+              (u = g.statusCode),
+            g.headers && (v[x] = g.headers))
+          : ((o[x] = g.data),
+            g.statusCode && g.statusCode !== 200 && !p && (u = g.statusCode),
+            g.headers && (v[x] = g.headers));
+    }),
+    f !== void 0 && n && ((c = { [n[0]]: f }), (o[n[0]] = void 0)),
+    { loaderData: o, errors: c, statusCode: u || 200, loaderHeaders: v }
+  );
+}
+function Qt(e, t, r, n, a, s, o, c) {
+  let { loaderData: u, errors: p } = _n(t, r, n, a, c);
+  for (let v = 0; v < s.length; v++) {
+    let { key: f, match: g, controller: L } = s[v];
+    U(
+      o !== void 0 && o[v] !== void 0,
+      'Did not find corresponding fetcher result',
+    );
+    let x = o[v];
+    if (!(L && L.signal.aborted))
+      if (ie(x)) {
+        let R = Ne(e.matches, g == null ? void 0 : g.route.id);
+        (p && p[R.route.id]) || (p = $({}, p, { [R.route.id]: x.error })),
+          e.fetchers.delete(f);
+      } else if (De(x)) U(!1, 'Unhandled fetcher revalidation redirect');
+      else if (Se(x)) U(!1, 'Unhandled fetcher deferred data');
+      else {
+        let R = be(x.data);
+        e.fetchers.set(f, R);
+      }
+  }
+  return { loaderData: u, errors: p };
+}
+function Zt(e, t, r, n) {
+  let a = $({}, t);
+  for (let s of r) {
+    let o = s.route.id;
+    if (
+      (t.hasOwnProperty(o)
+        ? t[o] !== void 0 && (a[o] = t[o])
+        : e[o] !== void 0 && s.route.loader && (a[o] = e[o]),
+      n && n.hasOwnProperty(o))
+    )
+      break;
+  }
+  return a;
+}
+function qt(e) {
+  return e
+    ? ie(e[1])
+      ? { actionData: {} }
+      : { actionData: { [e[0]]: e[1].data } }
+    : {};
+}
+function Ne(e, t) {
+  return (
+    (t ? e.slice(0, e.findIndex((n) => n.route.id === t) + 1) : [...e])
+      .reverse()
+      .find((n) => n.route.hasErrorBoundary === !0) || e[0]
+  );
+}
+function er(e) {
+  let t =
+    e.length === 1
+      ? e[0]
+      : e.find((r) => r.index || !r.path || r.path === '/') || {
+          id: '__shim-error-route__',
+        };
+  return {
+    matches: [{ params: {}, pathname: '', pathnameBase: '', route: t }],
+    route: t,
+  };
+}
+function re(e, t) {
+  let {
+      pathname: r,
+      routeId: n,
+      method: a,
+      type: s,
+      message: o,
+    } = t === void 0 ? {} : t,
+    c = 'Unknown Server Error',
+    u = 'Unknown @remix-run/router error';
+  return (
+    e === 400
+      ? ((c = 'Bad Request'),
+        s === 'route-discovery'
+          ? (u =
+              'Unable to match URL "' +
+              r +
+              '" - the `unstable_patchRoutesOnMiss()` ' +
+              (`function threw the following error:
+` +
+                o))
+          : a && r && n
+            ? (u =
+                'You made a ' +
+                a +
+                ' request to "' +
+                r +
+                '" but ' +
+                ('did not provide a `loader` for route "' + n + '", ') +
+                'so there is no way to handle the request.')
+            : s === 'defer-action'
+              ? (u = 'defer() is not supported in actions')
+              : s === 'invalid-body' &&
+                (u = 'Unable to encode submission body'))
+      : e === 403
+        ? ((c = 'Forbidden'),
+          (u = 'Route "' + n + '" does not match URL "' + r + '"'))
+        : e === 404
+          ? ((c = 'Not Found'), (u = 'No route matches URL "' + r + '"'))
+          : e === 405 &&
+            ((c = 'Method Not Allowed'),
+            a && r && n
+              ? (u =
+                  'You made a ' +
+                  a.toUpperCase() +
+                  ' request to "' +
+                  r +
+                  '" but ' +
+                  ('did not provide an `action` for route "' + n + '", ') +
+                  'so there is no way to handle the request.')
+              : a && (u = 'Invalid request method "' + a.toUpperCase() + '"')),
+    new ut(e || 500, c, new Error(u), !0)
+  );
+}
+function tr(e) {
+  for (let t = e.length - 1; t >= 0; t--) {
+    let r = e[t];
+    if (De(r)) return { result: r, idx: t };
+  }
+}
+function gr(e) {
+  let t = typeof e == 'string' ? pe(e) : e;
+  return Ce($({}, t, { hash: '' }));
+}
+function On(e, t) {
+  return e.pathname !== t.pathname || e.search !== t.search
+    ? !1
+    : e.hash === ''
+      ? t.hash !== ''
+      : e.hash === t.hash
+        ? !0
+        : t.hash !== '';
+}
+function jn(e) {
+  return typeof e == 'object' && e != null && 'then' in e;
+}
+function In(e) {
+  return yr(e.result) && bn.has(e.result.status);
+}
+function Se(e) {
+  return e.type === B.deferred;
+}
+function ie(e) {
+  return e.type === B.error;
+}
+function De(e) {
+  return (e && e.type) === B.redirect;
+}
+function rr(e) {
+  return (
+    typeof e == 'object' &&
+    e != null &&
+    'type' in e &&
+    'data' in e &&
+    'init' in e &&
+    e.type === 'DataWithResponseInit'
+  );
+}
+function Nn(e) {
+  let t = e;
+  return (
+    t &&
+    typeof t == 'object' &&
+    typeof t.data == 'object' &&
+    typeof t.subscribe == 'function' &&
+    typeof t.cancel == 'function' &&
+    typeof t.resolveData == 'function'
+  );
+}
+function yr(e) {
+  return (
+    e != null &&
+    typeof e.status == 'number' &&
+    typeof e.statusText == 'string' &&
+    typeof e.headers == 'object' &&
+    typeof e.body < 'u'
+  );
+}
+function An(e) {
+  return yn.has(e.toLowerCase());
+}
+function le(e) {
+  return vn.has(e.toLowerCase());
+}
+async function nr(e, t, r, n, a, s) {
+  for (let o = 0; o < r.length; o++) {
+    let c = r[o],
+      u = t[o];
+    if (!u) continue;
+    let p = e.find((f) => f.route.id === u.route.id),
+      v = p != null && !mr(p, u) && (s && s[u.route.id]) !== void 0;
+    if (Se(c) && (a || v)) {
+      let f = n[o];
+      U(f, 'Expected an AbortSignal for revalidating fetcher deferred result'),
+        await br(c, f, a).then((g) => {
+          g && (r[o] = g || r[o]);
+        });
+    }
+  }
+}
+async function br(e, t, r) {
+  if ((r === void 0 && (r = !1), !(await e.deferredData.resolveData(t)))) {
+    if (r)
+      try {
+        return { type: B.data, data: e.deferredData.unwrappedData };
+      } catch (a) {
+        return { type: B.error, error: a };
+      }
+    return { type: B.data, data: e.deferredData.data };
+  }
+}
+function Ct(e) {
+  return new URLSearchParams(e).getAll('index').some((t) => t === '');
+}
+function Je(e, t) {
+  let r = typeof t == 'string' ? pe(t).search : t.search;
+  if (e[e.length - 1].route.index && Ct(r || '')) return e[e.length - 1];
+  let n = fr(e);
+  return n[n.length - 1];
+}
+function ar(e) {
+  let {
+    formMethod: t,
+    formAction: r,
+    formEncType: n,
+    text: a,
+    formData: s,
+    json: o,
+  } = e;
+  if (!(!t || !r || !n)) {
+    if (a != null)
+      return {
+        formMethod: t,
+        formAction: r,
+        formEncType: n,
+        formData: void 0,
+        json: void 0,
+        text: a,
+      };
+    if (s != null)
+      return {
+        formMethod: t,
+        formAction: r,
+        formEncType: n,
+        formData: s,
+        json: void 0,
+        text: void 0,
+      };
+    if (o !== void 0)
+      return {
+        formMethod: t,
+        formAction: r,
+        formEncType: n,
+        formData: void 0,
+        json: o,
+        text: void 0,
+      };
+  }
+}
+function Rt(e, t) {
+  return t
+    ? {
+        state: 'loading',
+        location: e,
+        formMethod: t.formMethod,
+        formAction: t.formAction,
+        formEncType: t.formEncType,
+        formData: t.formData,
+        json: t.json,
+        text: t.text,
+      }
+    : {
+        state: 'loading',
+        location: e,
+        formMethod: void 0,
+        formAction: void 0,
+        formEncType: void 0,
+        formData: void 0,
+        json: void 0,
+        text: void 0,
+      };
+}
+function Bn(e, t) {
+  return {
+    state: 'submitting',
+    location: e,
+    formMethod: t.formMethod,
+    formAction: t.formAction,
+    formEncType: t.formEncType,
+    formData: t.formData,
+    json: t.json,
+    text: t.text,
+  };
+}
+function Ke(e, t) {
+  return e
+    ? {
+        state: 'loading',
+        formMethod: e.formMethod,
+        formAction: e.formAction,
+        formEncType: e.formEncType,
+        formData: e.formData,
+        json: e.json,
+        text: e.text,
+        data: t,
+      }
+    : {
+        state: 'loading',
+        formMethod: void 0,
+        formAction: void 0,
+        formEncType: void 0,
+        formData: void 0,
+        json: void 0,
+        text: void 0,
+        data: t,
+      };
+}
+function zn(e, t) {
+  return {
+    state: 'submitting',
+    formMethod: e.formMethod,
+    formAction: e.formAction,
+    formEncType: e.formEncType,
+    formData: e.formData,
+    json: e.json,
+    text: e.text,
+    data: t ? t.data : void 0,
+  };
+}
+function be(e) {
+  return {
+    state: 'idle',
+    formMethod: void 0,
+    formAction: void 0,
+    formEncType: void 0,
+    formData: void 0,
+    json: void 0,
+    text: void 0,
+    data: e,
+  };
+}
+function kn(e, t) {
+  try {
+    let r = e.sessionStorage.getItem(pr);
+    if (r) {
+      let n = JSON.parse(r);
+      for (let [a, s] of Object.entries(n || {}))
+        s && Array.isArray(s) && t.set(a, new Set(s || []));
+    }
+  } catch {}
+}
+function Hn(e, t) {
+  if (t.size > 0) {
+    let r = {};
+    for (let [n, a] of t) r[n] = [...a];
+    try {
+      e.sessionStorage.setItem(pr, JSON.stringify(r));
+    } catch (n) {
+      Pe(
+        !1,
+        'Failed to save applied view transitions in sessionStorage (' +
+          n +
+          ').',
+      );
+    }
+  }
+}
+/**
  * React Router v6.26.0
  *
  * Copyright (c) Remix Software Inc.
@@ -18,7 +2788,476 @@ import{r as y,R as Vr,a as Kr}from"./vendor-i4_lSgkZ.js";/**
  * LICENSE.md file in the root directory of this source tree.
  *
  * @license MIT
- */function dt(){return dt=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e},dt.apply(this,arguments)}const ht=y.createContext(null),wr=y.createContext(null),Le=y.createContext(null),Lt=y.createContext(null),Me=y.createContext({outlet:null,matches:[],isDataRoute:!1}),Rr=y.createContext(null);function Wn(e,t){let{relative:r}=t===void 0?{}:t;Qe()||U(!1);let{basename:n,navigator:a}=y.useContext(Le),{hash:s,pathname:o,search:c}=xr(e,{relative:r}),u=o;return n!=="/"&&(u=o==="/"?n:he([n,o])),a.createHref({pathname:u,search:c,hash:s})}function Qe(){return y.useContext(Lt)!=null}function pt(){return Qe()||U(!1),y.useContext(Lt).location}function Er(e){y.useContext(Le).static||y.useLayoutEffect(e)}function Vn(){let{isDataRoute:e}=y.useContext(Me);return e?ra():Kn()}function Kn(){Qe()||U(!1);let e=y.useContext(ht),{basename:t,future:r,navigator:n}=y.useContext(Le),{matches:a}=y.useContext(Me),{pathname:s}=pt(),o=JSON.stringify(St(a,r.v7_relativeSplatPath)),c=y.useRef(!1);return Er(()=>{c.current=!0}),y.useCallback(function(p,v){if(v===void 0&&(v={}),!c.current)return;if(typeof p=="number"){n.go(p);return}let f=Dt(p,JSON.parse(o),s,v.relative==="path");e==null&&t!=="/"&&(f.pathname=f.pathname==="/"?t:he([t,f.pathname])),(v.replace?n.replace:n.push)(f,v.state,v)},[t,n,o,s,e])}function xr(e,t){let{relative:r}=t===void 0?{}:t,{future:n}=y.useContext(Le),{matches:a}=y.useContext(Me),{pathname:s}=pt(),o=JSON.stringify(St(a,n.v7_relativeSplatPath));return y.useMemo(()=>Dt(e,JSON.parse(o),s,r==="path"),[e,o,s,r])}function $n(e,t,r,n){Qe()||U(!1);let{navigator:a}=y.useContext(Le),{matches:s}=y.useContext(Me),o=s[s.length-1],c=o?o.params:{};o&&o.pathname;let u=o?o.pathnameBase:"/";o&&o.route;let p=pt(),v;v=p;let f=v.pathname||"/",g=f;if(u!=="/"){let R=u.replace(/^\//,"").split("/");g="/"+f.replace(/^\//,"").split("/").slice(R.length).join("/")}let L=xe(e,{pathname:g});return Qn(L&&L.map(R=>Object.assign({},R,{params:Object.assign({},c,R.params),pathname:he([u,a.encodeLocation?a.encodeLocation(R.pathname).pathname:R.pathname]),pathnameBase:R.pathnameBase==="/"?u:he([u,a.encodeLocation?a.encodeLocation(R.pathnameBase).pathname:R.pathnameBase])})),s,r,n)}function Jn(){let e=ta(),t=ft(e)?e.status+" "+e.statusText:e instanceof Error?e.message:JSON.stringify(e),r=e instanceof Error?e.stack:null,a={padding:"0.5rem",backgroundColor:"rgba(200,200,200, 0.5)"};return y.createElement(y.Fragment,null,y.createElement("h2",null,"Unexpected Application Error!"),y.createElement("h3",{style:{fontStyle:"italic"}},t),r?y.createElement("pre",{style:a},r):null,null)}const Yn=y.createElement(Jn,null);class Gn extends y.Component{constructor(t){super(t),this.state={location:t.location,revalidation:t.revalidation,error:t.error}}static getDerivedStateFromError(t){return{error:t}}static getDerivedStateFromProps(t,r){return r.location!==t.location||r.revalidation!=="idle"&&t.revalidation==="idle"?{error:t.error,location:t.location,revalidation:t.revalidation}:{error:t.error!==void 0?t.error:r.error,location:r.location,revalidation:t.revalidation||r.revalidation}}componentDidCatch(t,r){console.error("React Router caught the following error during render",t,r)}render(){return this.state.error!==void 0?y.createElement(Me.Provider,{value:this.props.routeContext},y.createElement(Rr.Provider,{value:this.state.error,children:this.props.component})):this.props.children}}function Xn(e){let{routeContext:t,match:r,children:n}=e,a=y.useContext(ht);return a&&a.static&&a.staticContext&&(r.route.errorElement||r.route.ErrorBoundary)&&(a.staticContext._deepestRenderedBoundaryId=r.route.id),y.createElement(Me.Provider,{value:t},n)}function Qn(e,t,r,n){var a;if(t===void 0&&(t=[]),r===void 0&&(r=null),n===void 0&&(n=null),e==null){var s;if(!r)return null;if(r.errors)e=r.matches;else if((s=n)!=null&&s.v7_partialHydration&&t.length===0&&!r.initialized&&r.matches.length>0)e=r.matches;else return null}let o=e,c=(a=r)==null?void 0:a.errors;if(c!=null){let v=o.findIndex(f=>f.route.id&&(c==null?void 0:c[f.route.id])!==void 0);v>=0||U(!1),o=o.slice(0,Math.min(o.length,v+1))}let u=!1,p=-1;if(r&&n&&n.v7_partialHydration)for(let v=0;v<o.length;v++){let f=o[v];if((f.route.HydrateFallback||f.route.hydrateFallbackElement)&&(p=v),f.route.id){let{loaderData:g,errors:L}=r,x=f.route.loader&&g[f.route.id]===void 0&&(!L||L[f.route.id]===void 0);if(f.route.lazy||x){u=!0,p>=0?o=o.slice(0,p+1):o=[o[0]];break}}}return o.reduceRight((v,f,g)=>{let L,x=!1,R=null,D=null;r&&(L=c&&f.route.id?c[f.route.id]:void 0,R=f.route.errorElement||Yn,u&&(p<0&&g===0?(x=!0,D=null):p===g&&(x=!0,D=f.route.hydrateFallbackElement||null)));let j=t.concat(o.slice(0,g+1)),M=()=>{let z;return L?z=R:x?z=D:f.route.Component?z=y.createElement(f.route.Component,null):f.route.element?z=f.route.element:z=v,y.createElement(Xn,{match:f,routeContext:{outlet:v,matches:j,isDataRoute:r!=null},children:z})};return r&&(f.route.ErrorBoundary||f.route.errorElement||g===0)?y.createElement(Gn,{location:r.location,revalidation:r.revalidation,component:R,error:L,children:M(),routeContext:{outlet:null,matches:j,isDataRoute:!0}}):M()},null)}var Sr=function(e){return e.UseBlocker="useBlocker",e.UseRevalidator="useRevalidator",e.UseNavigateStable="useNavigate",e}(Sr||{}),ct=function(e){return e.UseBlocker="useBlocker",e.UseLoaderData="useLoaderData",e.UseActionData="useActionData",e.UseRouteError="useRouteError",e.UseNavigation="useNavigation",e.UseRouteLoaderData="useRouteLoaderData",e.UseMatches="useMatches",e.UseRevalidator="useRevalidator",e.UseNavigateStable="useNavigate",e.UseRouteId="useRouteId",e}(ct||{});function Zn(e){let t=y.useContext(ht);return t||U(!1),t}function qn(e){let t=y.useContext(wr);return t||U(!1),t}function ea(e){let t=y.useContext(Me);return t||U(!1),t}function Dr(e){let t=ea(),r=t.matches[t.matches.length-1];return r.route.id||U(!1),r.route.id}function ta(){var e;let t=y.useContext(Rr),r=qn(ct.UseRouteError),n=Dr(ct.UseRouteError);return t!==void 0?t:(e=r.errors)==null?void 0:e[n]}function ra(){let{router:e}=Zn(Sr.UseNavigateStable),t=Dr(ct.UseNavigateStable),r=y.useRef(!1);return Er(()=>{r.current=!0}),y.useCallback(function(a,s){s===void 0&&(s={}),r.current&&(typeof a=="number"?e.navigate(a):e.navigate(a,dt({fromRouteId:t},s)))},[e,t])}function na(e){U(!1)}function aa(e){let{basename:t="/",children:r=null,location:n,navigationType:a=Q.Pop,navigator:s,static:o=!1,future:c}=e;Qe()&&U(!1);let u=t.replace(/^\/*/,"/"),p=y.useMemo(()=>({basename:u,navigator:s,static:o,future:dt({v7_relativeSplatPath:!1},c)}),[u,c,s,o]);typeof n=="string"&&(n=pe(n));let{pathname:v="/",search:f="",hash:g="",state:L=null,key:x="default"}=n,R=y.useMemo(()=>{let D=Ae(v,u);return D==null?null:{location:{pathname:D,search:f,hash:g,state:L,key:x},navigationType:a}},[u,v,f,g,L,x,a]);return R==null?null:y.createElement(Le.Provider,{value:p},y.createElement(Lt.Provider,{children:r,value:R}))}new Promise(()=>{});function ir(e,t){t===void 0&&(t=[]);let r=[];return y.Children.forEach(e,(n,a)=>{if(!y.isValidElement(n))return;let s=[...t,a];if(n.type===y.Fragment){r.push.apply(r,ir(n.props.children,s));return}n.type!==na&&U(!1),!n.props.index||!n.props.children||U(!1);let o={id:n.props.id||s.join("-"),caseSensitive:n.props.caseSensitive,element:n.props.element,Component:n.props.Component,index:n.props.index,path:n.props.path,loader:n.props.loader,action:n.props.action,errorElement:n.props.errorElement,ErrorBoundary:n.props.ErrorBoundary,hasErrorBoundary:n.props.ErrorBoundary!=null||n.props.errorElement!=null,shouldRevalidate:n.props.shouldRevalidate,handle:n.props.handle,lazy:n.props.lazy};n.props.children&&(o.children=ir(n.props.children,s)),r.push(o)}),r}function ia(e){let t={hasErrorBoundary:e.ErrorBoundary!=null||e.errorElement!=null};return e.Component&&Object.assign(t,{element:y.createElement(e.Component),Component:void 0}),e.HydrateFallback&&Object.assign(t,{hydrateFallbackElement:y.createElement(e.HydrateFallback),HydrateFallback:void 0}),e.ErrorBoundary&&Object.assign(t,{errorElement:y.createElement(e.ErrorBoundary),ErrorBoundary:void 0}),t}/**
+ */ function dt() {
+  return (
+    (dt = Object.assign
+      ? Object.assign.bind()
+      : function (e) {
+          for (var t = 1; t < arguments.length; t++) {
+            var r = arguments[t];
+            for (var n in r)
+              Object.prototype.hasOwnProperty.call(r, n) && (e[n] = r[n]);
+          }
+          return e;
+        }),
+    dt.apply(this, arguments)
+  );
+}
+const ht = y.createContext(null),
+  wr = y.createContext(null),
+  Le = y.createContext(null),
+  Lt = y.createContext(null),
+  Me = y.createContext({ outlet: null, matches: [], isDataRoute: !1 }),
+  Rr = y.createContext(null);
+function Wn(e, t) {
+  let { relative: r } = t === void 0 ? {} : t;
+  Qe() || U(!1);
+  let { basename: n, navigator: a } = y.useContext(Le),
+    { hash: s, pathname: o, search: c } = xr(e, { relative: r }),
+    u = o;
+  return (
+    n !== '/' && (u = o === '/' ? n : he([n, o])),
+    a.createHref({ pathname: u, search: c, hash: s })
+  );
+}
+function Qe() {
+  return y.useContext(Lt) != null;
+}
+function pt() {
+  return Qe() || U(!1), y.useContext(Lt).location;
+}
+function Er(e) {
+  y.useContext(Le).static || y.useLayoutEffect(e);
+}
+function Vn() {
+  let { isDataRoute: e } = y.useContext(Me);
+  return e ? ra() : Kn();
+}
+function Kn() {
+  Qe() || U(!1);
+  let e = y.useContext(ht),
+    { basename: t, future: r, navigator: n } = y.useContext(Le),
+    { matches: a } = y.useContext(Me),
+    { pathname: s } = pt(),
+    o = JSON.stringify(St(a, r.v7_relativeSplatPath)),
+    c = y.useRef(!1);
+  return (
+    Er(() => {
+      c.current = !0;
+    }),
+    y.useCallback(
+      function (p, v) {
+        if ((v === void 0 && (v = {}), !c.current)) return;
+        if (typeof p == 'number') {
+          n.go(p);
+          return;
+        }
+        let f = Dt(p, JSON.parse(o), s, v.relative === 'path');
+        e == null &&
+          t !== '/' &&
+          (f.pathname = f.pathname === '/' ? t : he([t, f.pathname])),
+          (v.replace ? n.replace : n.push)(f, v.state, v);
+      },
+      [t, n, o, s, e],
+    )
+  );
+}
+function xr(e, t) {
+  let { relative: r } = t === void 0 ? {} : t,
+    { future: n } = y.useContext(Le),
+    { matches: a } = y.useContext(Me),
+    { pathname: s } = pt(),
+    o = JSON.stringify(St(a, n.v7_relativeSplatPath));
+  return y.useMemo(() => Dt(e, JSON.parse(o), s, r === 'path'), [e, o, s, r]);
+}
+function $n(e, t, r, n) {
+  Qe() || U(!1);
+  let { navigator: a } = y.useContext(Le),
+    { matches: s } = y.useContext(Me),
+    o = s[s.length - 1],
+    c = o ? o.params : {};
+  o && o.pathname;
+  let u = o ? o.pathnameBase : '/';
+  o && o.route;
+  let p = pt(),
+    v;
+  v = p;
+  let f = v.pathname || '/',
+    g = f;
+  if (u !== '/') {
+    let R = u.replace(/^\//, '').split('/');
+    g = '/' + f.replace(/^\//, '').split('/').slice(R.length).join('/');
+  }
+  let L = xe(e, { pathname: g });
+  return Qn(
+    L &&
+      L.map((R) =>
+        Object.assign({}, R, {
+          params: Object.assign({}, c, R.params),
+          pathname: he([
+            u,
+            a.encodeLocation
+              ? a.encodeLocation(R.pathname).pathname
+              : R.pathname,
+          ]),
+          pathnameBase:
+            R.pathnameBase === '/'
+              ? u
+              : he([
+                  u,
+                  a.encodeLocation
+                    ? a.encodeLocation(R.pathnameBase).pathname
+                    : R.pathnameBase,
+                ]),
+        }),
+      ),
+    s,
+    r,
+    n,
+  );
+}
+function Jn() {
+  let e = ta(),
+    t = ft(e)
+      ? e.status + ' ' + e.statusText
+      : e instanceof Error
+        ? e.message
+        : JSON.stringify(e),
+    r = e instanceof Error ? e.stack : null,
+    a = { padding: '0.5rem', backgroundColor: 'rgba(200,200,200, 0.5)' };
+  return y.createElement(
+    y.Fragment,
+    null,
+    y.createElement('h2', null, 'Unexpected Application Error!'),
+    y.createElement('h3', { style: { fontStyle: 'italic' } }, t),
+    r ? y.createElement('pre', { style: a }, r) : null,
+    null,
+  );
+}
+const Yn = y.createElement(Jn, null);
+class Gn extends y.Component {
+  constructor(t) {
+    super(t),
+      (this.state = {
+        location: t.location,
+        revalidation: t.revalidation,
+        error: t.error,
+      });
+  }
+  static getDerivedStateFromError(t) {
+    return { error: t };
+  }
+  static getDerivedStateFromProps(t, r) {
+    return r.location !== t.location ||
+      (r.revalidation !== 'idle' && t.revalidation === 'idle')
+      ? { error: t.error, location: t.location, revalidation: t.revalidation }
+      : {
+          error: t.error !== void 0 ? t.error : r.error,
+          location: r.location,
+          revalidation: t.revalidation || r.revalidation,
+        };
+  }
+  componentDidCatch(t, r) {
+    console.error(
+      'React Router caught the following error during render',
+      t,
+      r,
+    );
+  }
+  render() {
+    return this.state.error !== void 0
+      ? y.createElement(
+          Me.Provider,
+          { value: this.props.routeContext },
+          y.createElement(Rr.Provider, {
+            value: this.state.error,
+            children: this.props.component,
+          }),
+        )
+      : this.props.children;
+  }
+}
+function Xn(e) {
+  let { routeContext: t, match: r, children: n } = e,
+    a = y.useContext(ht);
+  return (
+    a &&
+      a.static &&
+      a.staticContext &&
+      (r.route.errorElement || r.route.ErrorBoundary) &&
+      (a.staticContext._deepestRenderedBoundaryId = r.route.id),
+    y.createElement(Me.Provider, { value: t }, n)
+  );
+}
+function Qn(e, t, r, n) {
+  var a;
+  if (
+    (t === void 0 && (t = []),
+    r === void 0 && (r = null),
+    n === void 0 && (n = null),
+    e == null)
+  ) {
+    var s;
+    if (!r) return null;
+    if (r.errors) e = r.matches;
+    else if (
+      (s = n) != null &&
+      s.v7_partialHydration &&
+      t.length === 0 &&
+      !r.initialized &&
+      r.matches.length > 0
+    )
+      e = r.matches;
+    else return null;
+  }
+  let o = e,
+    c = (a = r) == null ? void 0 : a.errors;
+  if (c != null) {
+    let v = o.findIndex(
+      (f) => f.route.id && (c == null ? void 0 : c[f.route.id]) !== void 0,
+    );
+    v >= 0 || U(!1), (o = o.slice(0, Math.min(o.length, v + 1)));
+  }
+  let u = !1,
+    p = -1;
+  if (r && n && n.v7_partialHydration)
+    for (let v = 0; v < o.length; v++) {
+      let f = o[v];
+      if (
+        ((f.route.HydrateFallback || f.route.hydrateFallbackElement) && (p = v),
+        f.route.id)
+      ) {
+        let { loaderData: g, errors: L } = r,
+          x =
+            f.route.loader &&
+            g[f.route.id] === void 0 &&
+            (!L || L[f.route.id] === void 0);
+        if (f.route.lazy || x) {
+          (u = !0), p >= 0 ? (o = o.slice(0, p + 1)) : (o = [o[0]]);
+          break;
+        }
+      }
+    }
+  return o.reduceRight((v, f, g) => {
+    let L,
+      x = !1,
+      R = null,
+      D = null;
+    r &&
+      ((L = c && f.route.id ? c[f.route.id] : void 0),
+      (R = f.route.errorElement || Yn),
+      u &&
+        (p < 0 && g === 0
+          ? ((x = !0), (D = null))
+          : p === g &&
+            ((x = !0), (D = f.route.hydrateFallbackElement || null))));
+    let j = t.concat(o.slice(0, g + 1)),
+      M = () => {
+        let z;
+        return (
+          L
+            ? (z = R)
+            : x
+              ? (z = D)
+              : f.route.Component
+                ? (z = y.createElement(f.route.Component, null))
+                : f.route.element
+                  ? (z = f.route.element)
+                  : (z = v),
+          y.createElement(Xn, {
+            match: f,
+            routeContext: { outlet: v, matches: j, isDataRoute: r != null },
+            children: z,
+          })
+        );
+      };
+    return r && (f.route.ErrorBoundary || f.route.errorElement || g === 0)
+      ? y.createElement(Gn, {
+          location: r.location,
+          revalidation: r.revalidation,
+          component: R,
+          error: L,
+          children: M(),
+          routeContext: { outlet: null, matches: j, isDataRoute: !0 },
+        })
+      : M();
+  }, null);
+}
+var Sr = (function (e) {
+    return (
+      (e.UseBlocker = 'useBlocker'),
+      (e.UseRevalidator = 'useRevalidator'),
+      (e.UseNavigateStable = 'useNavigate'),
+      e
+    );
+  })(Sr || {}),
+  ct = (function (e) {
+    return (
+      (e.UseBlocker = 'useBlocker'),
+      (e.UseLoaderData = 'useLoaderData'),
+      (e.UseActionData = 'useActionData'),
+      (e.UseRouteError = 'useRouteError'),
+      (e.UseNavigation = 'useNavigation'),
+      (e.UseRouteLoaderData = 'useRouteLoaderData'),
+      (e.UseMatches = 'useMatches'),
+      (e.UseRevalidator = 'useRevalidator'),
+      (e.UseNavigateStable = 'useNavigate'),
+      (e.UseRouteId = 'useRouteId'),
+      e
+    );
+  })(ct || {});
+function Zn(e) {
+  let t = y.useContext(ht);
+  return t || U(!1), t;
+}
+function qn(e) {
+  let t = y.useContext(wr);
+  return t || U(!1), t;
+}
+function ea(e) {
+  let t = y.useContext(Me);
+  return t || U(!1), t;
+}
+function Dr(e) {
+  let t = ea(),
+    r = t.matches[t.matches.length - 1];
+  return r.route.id || U(!1), r.route.id;
+}
+function ta() {
+  var e;
+  let t = y.useContext(Rr),
+    r = qn(ct.UseRouteError),
+    n = Dr(ct.UseRouteError);
+  return t !== void 0 ? t : (e = r.errors) == null ? void 0 : e[n];
+}
+function ra() {
+  let { router: e } = Zn(Sr.UseNavigateStable),
+    t = Dr(ct.UseNavigateStable),
+    r = y.useRef(!1);
+  return (
+    Er(() => {
+      r.current = !0;
+    }),
+    y.useCallback(
+      function (a, s) {
+        s === void 0 && (s = {}),
+          r.current &&
+            (typeof a == 'number'
+              ? e.navigate(a)
+              : e.navigate(a, dt({ fromRouteId: t }, s)));
+      },
+      [e, t],
+    )
+  );
+}
+function na(e) {
+  U(!1);
+}
+function aa(e) {
+  let {
+    basename: t = '/',
+    children: r = null,
+    location: n,
+    navigationType: a = Q.Pop,
+    navigator: s,
+    static: o = !1,
+    future: c,
+  } = e;
+  Qe() && U(!1);
+  let u = t.replace(/^\/*/, '/'),
+    p = y.useMemo(
+      () => ({
+        basename: u,
+        navigator: s,
+        static: o,
+        future: dt({ v7_relativeSplatPath: !1 }, c),
+      }),
+      [u, c, s, o],
+    );
+  typeof n == 'string' && (n = pe(n));
+  let {
+      pathname: v = '/',
+      search: f = '',
+      hash: g = '',
+      state: L = null,
+      key: x = 'default',
+    } = n,
+    R = y.useMemo(() => {
+      let D = Ae(v, u);
+      return D == null
+        ? null
+        : {
+            location: { pathname: D, search: f, hash: g, state: L, key: x },
+            navigationType: a,
+          };
+    }, [u, v, f, g, L, x, a]);
+  return R == null
+    ? null
+    : y.createElement(
+        Le.Provider,
+        { value: p },
+        y.createElement(Lt.Provider, { children: r, value: R }),
+      );
+}
+new Promise(() => {});
+function ir(e, t) {
+  t === void 0 && (t = []);
+  let r = [];
+  return (
+    y.Children.forEach(e, (n, a) => {
+      if (!y.isValidElement(n)) return;
+      let s = [...t, a];
+      if (n.type === y.Fragment) {
+        r.push.apply(r, ir(n.props.children, s));
+        return;
+      }
+      n.type !== na && U(!1), !n.props.index || !n.props.children || U(!1);
+      let o = {
+        id: n.props.id || s.join('-'),
+        caseSensitive: n.props.caseSensitive,
+        element: n.props.element,
+        Component: n.props.Component,
+        index: n.props.index,
+        path: n.props.path,
+        loader: n.props.loader,
+        action: n.props.action,
+        errorElement: n.props.errorElement,
+        ErrorBoundary: n.props.ErrorBoundary,
+        hasErrorBoundary:
+          n.props.ErrorBoundary != null || n.props.errorElement != null,
+        shouldRevalidate: n.props.shouldRevalidate,
+        handle: n.props.handle,
+        lazy: n.props.lazy,
+      };
+      n.props.children && (o.children = ir(n.props.children, s)), r.push(o);
+    }),
+    r
+  );
+}
+function ia(e) {
+  let t = {
+    hasErrorBoundary: e.ErrorBoundary != null || e.errorElement != null,
+  };
+  return (
+    e.Component &&
+      Object.assign(t, {
+        element: y.createElement(e.Component),
+        Component: void 0,
+      }),
+    e.HydrateFallback &&
+      Object.assign(t, {
+        hydrateFallbackElement: y.createElement(e.HydrateFallback),
+        HydrateFallback: void 0,
+      }),
+    e.ErrorBoundary &&
+      Object.assign(t, {
+        errorElement: y.createElement(e.ErrorBoundary),
+        ErrorBoundary: void 0,
+      }),
+    t
+  );
+}
+/**
  * React Router DOM v6.26.0
  *
  * Copyright (c) Remix Software Inc.
@@ -27,4 +3266,385 @@ import{r as y,R as Vr,a as Kr}from"./vendor-i4_lSgkZ.js";/**
  * LICENSE.md file in the root directory of this source tree.
  *
  * @license MIT
- */function Xe(){return Xe=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e},Xe.apply(this,arguments)}function oa(e,t){if(e==null)return{};var r={},n=Object.keys(e),a,s;for(s=0;s<n.length;s++)a=n[s],!(t.indexOf(a)>=0)&&(r[a]=e[a]);return r}function la(e){return!!(e.metaKey||e.altKey||e.ctrlKey||e.shiftKey)}function sa(e,t){return e.button===0&&(!t||t==="_self")&&!la(e)}const ua=["onClick","relative","reloadDocument","replace","state","target","to","preventScrollReset","unstable_viewTransition"],da="6";try{window.__reactRouterVersion=da}catch{}function Da(e,t){return xn({basename:void 0,future:Xe({},void 0,{v7_prependBasename:!0}),history:$r({window:void 0}),hydrationData:ca(),routes:e,mapRouteProperties:ia,unstable_dataStrategy:void 0,unstable_patchRoutesOnMiss:void 0,window:void 0}).initialize()}function ca(){var e;let t=(e=window)==null?void 0:e.__staticRouterHydrationData;return t&&t.errors&&(t=Xe({},t,{errors:fa(t.errors)})),t}function fa(e){if(!e)return null;let t=Object.entries(e),r={};for(let[n,a]of t)if(a&&a.__type==="RouteErrorResponse")r[n]=new ut(a.status,a.statusText,a.data,a.internal===!0);else if(a&&a.__type==="Error"){if(a.__subType){let s=window[a.__subType];if(typeof s=="function")try{let o=new s(a.message);o.stack="",r[n]=o}catch{}}if(r[n]==null){let s=new Error(a.message);s.stack="",r[n]=s}}else r[n]=a;return r}const ha=y.createContext({isTransitioning:!1}),pa=y.createContext(new Map),ma="startTransition",or=Vr[ma],va="flushSync",lr=Kr[va];function ga(e){or?or(e):e()}function $e(e){lr?lr(e):e()}class ya{constructor(){this.status="pending",this.promise=new Promise((t,r)=>{this.resolve=n=>{this.status==="pending"&&(this.status="resolved",t(n))},this.reject=n=>{this.status==="pending"&&(this.status="rejected",r(n))}})}}function Pa(e){let{fallbackElement:t,router:r,future:n}=e,[a,s]=y.useState(r.state),[o,c]=y.useState(),[u,p]=y.useState({isTransitioning:!1}),[v,f]=y.useState(),[g,L]=y.useState(),[x,R]=y.useState(),D=y.useRef(new Map),{v7_startTransition:j}=n||{},M=y.useCallback(N=>{j?ga(N):N()},[j]),z=y.useCallback((N,_)=>{let{deletedFetchers:H,unstable_flushSync:Y,unstable_viewTransitionOpts:q}=_;H.forEach(K=>D.current.delete(K)),N.fetchers.forEach((K,me)=>{K.data!==void 0&&D.current.set(me,K.data)});let oe=r.window==null||r.window.document==null||typeof r.window.document.startViewTransition!="function";if(!q||oe){Y?$e(()=>s(N)):M(()=>s(N));return}if(Y){$e(()=>{g&&(v&&v.resolve(),g.skipTransition()),p({isTransitioning:!0,flushSync:!0,currentLocation:q.currentLocation,nextLocation:q.nextLocation})});let K=r.window.document.startViewTransition(()=>{$e(()=>s(N))});K.finished.finally(()=>{$e(()=>{f(void 0),L(void 0),c(void 0),p({isTransitioning:!1})})}),$e(()=>L(K));return}g?(v&&v.resolve(),g.skipTransition(),R({state:N,currentLocation:q.currentLocation,nextLocation:q.nextLocation})):(c(N),p({isTransitioning:!0,flushSync:!1,currentLocation:q.currentLocation,nextLocation:q.nextLocation}))},[r.window,g,v,D,M]);y.useLayoutEffect(()=>r.subscribe(z),[r,z]),y.useEffect(()=>{u.isTransitioning&&!u.flushSync&&f(new ya)},[u]),y.useEffect(()=>{if(v&&o&&r.window){let N=o,_=v.promise,H=r.window.document.startViewTransition(async()=>{M(()=>s(N)),await _});H.finished.finally(()=>{f(void 0),L(void 0),c(void 0),p({isTransitioning:!1})}),L(H)}},[M,o,v,r.window]),y.useEffect(()=>{v&&o&&a.location.key===o.location.key&&v.resolve()},[v,g,a.location,o]),y.useEffect(()=>{!u.isTransitioning&&x&&(c(x.state),p({isTransitioning:!0,flushSync:!1,currentLocation:x.currentLocation,nextLocation:x.nextLocation}),R(void 0))},[u.isTransitioning,x]),y.useEffect(()=>{},[]);let V=y.useMemo(()=>({createHref:r.createHref,encodeLocation:r.encodeLocation,go:N=>r.navigate(N),push:(N,_,H)=>r.navigate(N,{state:_,preventScrollReset:H==null?void 0:H.preventScrollReset}),replace:(N,_,H)=>r.navigate(N,{replace:!0,state:_,preventScrollReset:H==null?void 0:H.preventScrollReset})}),[r]),Z=r.basename||"/",h=y.useMemo(()=>({router:r,navigator:V,static:!1,basename:Z}),[r,V,Z]),ne=y.useMemo(()=>({v7_relativeSplatPath:r.future.v7_relativeSplatPath}),[r.future.v7_relativeSplatPath]);return y.createElement(y.Fragment,null,y.createElement(ht.Provider,{value:h},y.createElement(wr.Provider,{value:a},y.createElement(pa.Provider,{value:D.current},y.createElement(ha.Provider,{value:u},y.createElement(aa,{basename:Z,location:a.location,navigationType:a.historyAction,navigator:V,future:ne},a.initialized||r.future.v7_partialHydration?y.createElement(ba,{routes:r.routes,future:r.future,state:a}):t))))),null)}const ba=y.memo(wa);function wa(e){let{routes:t,future:r,state:n}=e;return $n(t,void 0,n,r)}const Ra=typeof window<"u"&&typeof window.document<"u"&&typeof window.document.createElement<"u",Ea=/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i,Ca=y.forwardRef(function(t,r){let{onClick:n,relative:a,reloadDocument:s,replace:o,state:c,target:u,to:p,preventScrollReset:v,unstable_viewTransition:f}=t,g=oa(t,ua),{basename:L}=y.useContext(Le),x,R=!1;if(typeof p=="string"&&Ea.test(p)&&(x=p,Ra))try{let z=new URL(window.location.href),V=p.startsWith("//")?new URL(z.protocol+p):new URL(p),Z=Ae(V.pathname,L);V.origin===z.origin&&Z!=null?p=Z+V.search+V.hash:R=!0}catch{}let D=Wn(p,{relative:a}),j=xa(p,{replace:o,state:c,target:u,preventScrollReset:v,relative:a,unstable_viewTransition:f});function M(z){n&&n(z),z.defaultPrevented||j(z)}return y.createElement("a",Xe({},g,{href:x||D,onClick:R||s?n:M,ref:r,target:u}))});var sr;(function(e){e.UseScrollRestoration="useScrollRestoration",e.UseSubmit="useSubmit",e.UseSubmitFetcher="useSubmitFetcher",e.UseFetcher="useFetcher",e.useViewTransitionState="useViewTransitionState"})(sr||(sr={}));var ur;(function(e){e.UseFetcher="useFetcher",e.UseFetchers="useFetchers",e.UseScrollRestoration="useScrollRestoration"})(ur||(ur={}));function xa(e,t){let{target:r,replace:n,state:a,preventScrollReset:s,relative:o,unstable_viewTransition:c}=t===void 0?{}:t,u=Vn(),p=pt(),v=xr(e,{relative:o});return y.useCallback(f=>{if(sa(f,r)){f.preventDefault();let g=n!==void 0?n:Ce(p)===Ce(v);u(e,{replace:g,state:a,preventScrollReset:s,relative:o,unstable_viewTransition:c})}},[p,u,v,n,a,r,e,s,o,c])}export{Ca as L,na as R,Vn as a,ir as b,Da as c,Pa as d,pt as u};
+ */ function Xe() {
+  return (
+    (Xe = Object.assign
+      ? Object.assign.bind()
+      : function (e) {
+          for (var t = 1; t < arguments.length; t++) {
+            var r = arguments[t];
+            for (var n in r)
+              Object.prototype.hasOwnProperty.call(r, n) && (e[n] = r[n]);
+          }
+          return e;
+        }),
+    Xe.apply(this, arguments)
+  );
+}
+function oa(e, t) {
+  if (e == null) return {};
+  var r = {},
+    n = Object.keys(e),
+    a,
+    s;
+  for (s = 0; s < n.length; s++)
+    (a = n[s]), !(t.indexOf(a) >= 0) && (r[a] = e[a]);
+  return r;
+}
+function la(e) {
+  return !!(e.metaKey || e.altKey || e.ctrlKey || e.shiftKey);
+}
+function sa(e, t) {
+  return e.button === 0 && (!t || t === '_self') && !la(e);
+}
+const ua = [
+    'onClick',
+    'relative',
+    'reloadDocument',
+    'replace',
+    'state',
+    'target',
+    'to',
+    'preventScrollReset',
+    'unstable_viewTransition',
+  ],
+  da = '6';
+try {
+  window.__reactRouterVersion = da;
+} catch {}
+function Da(e, t) {
+  return xn({
+    basename: void 0,
+    future: Xe({}, void 0, { v7_prependBasename: !0 }),
+    history: $r({ window: void 0 }),
+    hydrationData: ca(),
+    routes: e,
+    mapRouteProperties: ia,
+    unstable_dataStrategy: void 0,
+    unstable_patchRoutesOnMiss: void 0,
+    window: void 0,
+  }).initialize();
+}
+function ca() {
+  var e;
+  let t = (e = window) == null ? void 0 : e.__staticRouterHydrationData;
+  return t && t.errors && (t = Xe({}, t, { errors: fa(t.errors) })), t;
+}
+function fa(e) {
+  if (!e) return null;
+  let t = Object.entries(e),
+    r = {};
+  for (let [n, a] of t)
+    if (a && a.__type === 'RouteErrorResponse')
+      r[n] = new ut(a.status, a.statusText, a.data, a.internal === !0);
+    else if (a && a.__type === 'Error') {
+      if (a.__subType) {
+        let s = window[a.__subType];
+        if (typeof s == 'function')
+          try {
+            let o = new s(a.message);
+            (o.stack = ''), (r[n] = o);
+          } catch {}
+      }
+      if (r[n] == null) {
+        let s = new Error(a.message);
+        (s.stack = ''), (r[n] = s);
+      }
+    } else r[n] = a;
+  return r;
+}
+const ha = y.createContext({ isTransitioning: !1 }),
+  pa = y.createContext(new Map()),
+  ma = 'startTransition',
+  or = Vr[ma],
+  va = 'flushSync',
+  lr = Kr[va];
+function ga(e) {
+  or ? or(e) : e();
+}
+function $e(e) {
+  lr ? lr(e) : e();
+}
+class ya {
+  constructor() {
+    (this.status = 'pending'),
+      (this.promise = new Promise((t, r) => {
+        (this.resolve = (n) => {
+          this.status === 'pending' && ((this.status = 'resolved'), t(n));
+        }),
+          (this.reject = (n) => {
+            this.status === 'pending' && ((this.status = 'rejected'), r(n));
+          });
+      }));
+  }
+}
+function Pa(e) {
+  let { fallbackElement: t, router: r, future: n } = e,
+    [a, s] = y.useState(r.state),
+    [o, c] = y.useState(),
+    [u, p] = y.useState({ isTransitioning: !1 }),
+    [v, f] = y.useState(),
+    [g, L] = y.useState(),
+    [x, R] = y.useState(),
+    D = y.useRef(new Map()),
+    { v7_startTransition: j } = n || {},
+    M = y.useCallback(
+      (N) => {
+        j ? ga(N) : N();
+      },
+      [j],
+    ),
+    z = y.useCallback(
+      (N, _) => {
+        let {
+          deletedFetchers: H,
+          unstable_flushSync: Y,
+          unstable_viewTransitionOpts: q,
+        } = _;
+        H.forEach((K) => D.current.delete(K)),
+          N.fetchers.forEach((K, me) => {
+            K.data !== void 0 && D.current.set(me, K.data);
+          });
+        let oe =
+          r.window == null ||
+          r.window.document == null ||
+          typeof r.window.document.startViewTransition != 'function';
+        if (!q || oe) {
+          Y ? $e(() => s(N)) : M(() => s(N));
+          return;
+        }
+        if (Y) {
+          $e(() => {
+            g && (v && v.resolve(), g.skipTransition()),
+              p({
+                isTransitioning: !0,
+                flushSync: !0,
+                currentLocation: q.currentLocation,
+                nextLocation: q.nextLocation,
+              });
+          });
+          let K = r.window.document.startViewTransition(() => {
+            $e(() => s(N));
+          });
+          K.finished.finally(() => {
+            $e(() => {
+              f(void 0), L(void 0), c(void 0), p({ isTransitioning: !1 });
+            });
+          }),
+            $e(() => L(K));
+          return;
+        }
+        g
+          ? (v && v.resolve(),
+            g.skipTransition(),
+            R({
+              state: N,
+              currentLocation: q.currentLocation,
+              nextLocation: q.nextLocation,
+            }))
+          : (c(N),
+            p({
+              isTransitioning: !0,
+              flushSync: !1,
+              currentLocation: q.currentLocation,
+              nextLocation: q.nextLocation,
+            }));
+      },
+      [r.window, g, v, D, M],
+    );
+  y.useLayoutEffect(() => r.subscribe(z), [r, z]),
+    y.useEffect(() => {
+      u.isTransitioning && !u.flushSync && f(new ya());
+    }, [u]),
+    y.useEffect(() => {
+      if (v && o && r.window) {
+        let N = o,
+          _ = v.promise,
+          H = r.window.document.startViewTransition(async () => {
+            M(() => s(N)), await _;
+          });
+        H.finished.finally(() => {
+          f(void 0), L(void 0), c(void 0), p({ isTransitioning: !1 });
+        }),
+          L(H);
+      }
+    }, [M, o, v, r.window]),
+    y.useEffect(() => {
+      v && o && a.location.key === o.location.key && v.resolve();
+    }, [v, g, a.location, o]),
+    y.useEffect(() => {
+      !u.isTransitioning &&
+        x &&
+        (c(x.state),
+        p({
+          isTransitioning: !0,
+          flushSync: !1,
+          currentLocation: x.currentLocation,
+          nextLocation: x.nextLocation,
+        }),
+        R(void 0));
+    }, [u.isTransitioning, x]),
+    y.useEffect(() => {}, []);
+  let V = y.useMemo(
+      () => ({
+        createHref: r.createHref,
+        encodeLocation: r.encodeLocation,
+        go: (N) => r.navigate(N),
+        push: (N, _, H) =>
+          r.navigate(N, {
+            state: _,
+            preventScrollReset: H == null ? void 0 : H.preventScrollReset,
+          }),
+        replace: (N, _, H) =>
+          r.navigate(N, {
+            replace: !0,
+            state: _,
+            preventScrollReset: H == null ? void 0 : H.preventScrollReset,
+          }),
+      }),
+      [r],
+    ),
+    Z = r.basename || '/',
+    h = y.useMemo(
+      () => ({ router: r, navigator: V, static: !1, basename: Z }),
+      [r, V, Z],
+    ),
+    ne = y.useMemo(
+      () => ({ v7_relativeSplatPath: r.future.v7_relativeSplatPath }),
+      [r.future.v7_relativeSplatPath],
+    );
+  return y.createElement(
+    y.Fragment,
+    null,
+    y.createElement(
+      ht.Provider,
+      { value: h },
+      y.createElement(
+        wr.Provider,
+        { value: a },
+        y.createElement(
+          pa.Provider,
+          { value: D.current },
+          y.createElement(
+            ha.Provider,
+            { value: u },
+            y.createElement(
+              aa,
+              {
+                basename: Z,
+                location: a.location,
+                navigationType: a.historyAction,
+                navigator: V,
+                future: ne,
+              },
+              a.initialized || r.future.v7_partialHydration
+                ? y.createElement(ba, {
+                    routes: r.routes,
+                    future: r.future,
+                    state: a,
+                  })
+                : t,
+            ),
+          ),
+        ),
+      ),
+    ),
+    null,
+  );
+}
+const ba = y.memo(wa);
+function wa(e) {
+  let { routes: t, future: r, state: n } = e;
+  return $n(t, void 0, n, r);
+}
+const Ra =
+    typeof window < 'u' &&
+    typeof window.document < 'u' &&
+    typeof window.document.createElement < 'u',
+  Ea = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i,
+  Ca = y.forwardRef(function (t, r) {
+    let {
+        onClick: n,
+        relative: a,
+        reloadDocument: s,
+        replace: o,
+        state: c,
+        target: u,
+        to: p,
+        preventScrollReset: v,
+        unstable_viewTransition: f,
+      } = t,
+      g = oa(t, ua),
+      { basename: L } = y.useContext(Le),
+      x,
+      R = !1;
+    if (typeof p == 'string' && Ea.test(p) && ((x = p), Ra))
+      try {
+        let z = new URL(window.location.href),
+          V = p.startsWith('//') ? new URL(z.protocol + p) : new URL(p),
+          Z = Ae(V.pathname, L);
+        V.origin === z.origin && Z != null
+          ? (p = Z + V.search + V.hash)
+          : (R = !0);
+      } catch {}
+    let D = Wn(p, { relative: a }),
+      j = xa(p, {
+        replace: o,
+        state: c,
+        target: u,
+        preventScrollReset: v,
+        relative: a,
+        unstable_viewTransition: f,
+      });
+    function M(z) {
+      n && n(z), z.defaultPrevented || j(z);
+    }
+    return y.createElement(
+      'a',
+      Xe({}, g, { href: x || D, onClick: R || s ? n : M, ref: r, target: u }),
+    );
+  });
+var sr;
+(function (e) {
+  (e.UseScrollRestoration = 'useScrollRestoration'),
+    (e.UseSubmit = 'useSubmit'),
+    (e.UseSubmitFetcher = 'useSubmitFetcher'),
+    (e.UseFetcher = 'useFetcher'),
+    (e.useViewTransitionState = 'useViewTransitionState');
+})(sr || (sr = {}));
+var ur;
+(function (e) {
+  (e.UseFetcher = 'useFetcher'),
+    (e.UseFetchers = 'useFetchers'),
+    (e.UseScrollRestoration = 'useScrollRestoration');
+})(ur || (ur = {}));
+function xa(e, t) {
+  let {
+      target: r,
+      replace: n,
+      state: a,
+      preventScrollReset: s,
+      relative: o,
+      unstable_viewTransition: c,
+    } = t === void 0 ? {} : t,
+    u = Vn(),
+    p = pt(),
+    v = xr(e, { relative: o });
+  return y.useCallback(
+    (f) => {
+      if (sa(f, r)) {
+        f.preventDefault();
+        let g = n !== void 0 ? n : Ce(p) === Ce(v);
+        u(e, {
+          replace: g,
+          state: a,
+          preventScrollReset: s,
+          relative: o,
+          unstable_viewTransition: c,
+        });
+      }
+    },
+    [p, u, v, n, a, r, e, s, o, c],
+  );
+}
+export { Ca as L, na as R, Vn as a, ir as b, Da as c, Pa as d, pt as u };
