@@ -5,6 +5,7 @@ import { defineConfig } from 'vite';
 
 // Web-specific Vite configuration
 export default defineConfig({
+  base: './', // Use relative paths for GitHub Pages
   plugins: [
     react({
       plugins: [['@lingui/swc-plugin', {}]],
