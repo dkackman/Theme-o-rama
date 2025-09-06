@@ -2,11 +2,11 @@ import { useInsets } from '@/contexts/SafeAreaContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { platform } from '@tauri-apps/plugin-os';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, Menu } from 'lucide-react';
 import { PropsWithChildren, ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { getPlatformSync } from '../lib/platform';
 import { TopNav } from './Nav';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
@@ -31,7 +31,8 @@ export default function Header(
   const location = useLocation();
   const insets = useInsets();
   const hasBackButton = props.back || location.pathname.split('/').length > 2;
-  const isMobile = platform() === 'ios' || platform() === 'android';
+  const isMobile =
+    getPlatformSync() === 'ios' || getPlatformSync() === 'android';
 
   const { currentTheme } = useTheme();
 

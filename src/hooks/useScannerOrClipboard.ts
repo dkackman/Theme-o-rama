@@ -1,18 +1,19 @@
-import { platform } from '@tauri-apps/plugin-os';
-import {
-  openAppSettings,
-  requestPermissions,
-} from '@tauri-apps/plugin-barcode-scanner';
-import { readText } from '@tauri-apps/plugin-clipboard-manager';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { useNavigationStore } from '@/state';
 import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getPlatformSync } from '../lib/platform';
+import {
+  openWebBarcodeScanner,
+  readClipboardText,
+  requestWebPermissions,
+} from '../lib/web-fallbacks';
 
 export function useScannerOrClipboard(onScanResult: (text: string) => void) {
   const navigate = useNavigate();
   const location = useLocation();
   const { returnValues, setReturnValue } = useNavigationStore();
-  const isMobile = platform() === 'ios' || platform() === 'android';
+  const isMobile =
+    getPlatformSync() === 'ios' || getPlatformSync() === 'android';
 
   useEffect(() => {
     const returnValue = returnValues[location.pathname];
@@ -26,19 +27,38 @@ export function useScannerOrClipboard(onScanResult: (text: string) => void) {
 
   const handleScanOrPaste = async () => {
     if (isMobile) {
-      const permissionState = await requestPermissions();
-      if (permissionState === 'denied') {
-        await openAppSettings();
-      } else if (permissionState === 'granted') {
-        navigate('/scan', {
-          state: {
-            returnTo: location.pathname,
-          },
-        });
+      // Check if we're in Tauri environment
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        try {
+          const { requestPermissions, openAppSettings } = await import(
+            '@tauri-apps/plugin-barcode-scanner'
+          );
+          const permissionState = await requestPermissions();
+          if (permissionState === 'denied') {
+            await openAppSettings();
+          } else if (permissionState === 'granted') {
+            navigate('/scan', {
+              state: {
+                returnTo: location.pathname,
+              },
+            });
+          }
+        } catch (error) {
+          console.error('Failed to access Tauri scanner:', error);
+          openWebBarcodeScanner();
+        }
+      } else {
+        // Web fallback
+        const permissionState = await requestWebPermissions();
+        if (permissionState === 'granted') {
+          openWebBarcodeScanner();
+        } else {
+          alert('Camera permission is required for barcode scanning');
+        }
       }
     } else {
       try {
-        const clipboardText = await readText();
+        const clipboardText = await readClipboardText();
         if (clipboardText) {
           onScanResult(clipboardText);
         }

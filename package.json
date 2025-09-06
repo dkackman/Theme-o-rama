@@ -7,8 +7,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:web": "tsc -b && vite build --config vite.config.web.ts",
     "lint": "eslint .",
     "preview": "vite preview",
+    "preview:web": "vite preview --config vite.config.web.ts",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
     "extract": "lingui extract",

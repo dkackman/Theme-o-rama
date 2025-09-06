@@ -428,6 +428,10 @@ msgstr ""
 #~ msgid "Assign profile for {nftName}"
 #~ msgstr ""
 
+#: src/pages/Dialogs.tsx:43
+msgid "At least one spoon is required"
+msgstr ""
+
 #: src/components/Layout.tsx:89
 #: src/components/Header.tsx:133
 #~ msgid "at peak {peerMaxHeight}"
@@ -463,8 +467,8 @@ msgstr ""
 #~ msgid "Automatically start the RPC server when the app launches"
 #~ msgstr ""
 
-#: src/components/Header.tsx:53
-#: src/components/Header.tsx:141
+#: src/components/Header.tsx:54
+#: src/components/Header.tsx:142
 msgid "Back"
 msgstr "返回"
 
@@ -590,6 +594,7 @@ msgstr ""
 #~ msgid "By disabling this you are creating a cold wallet, with no ability to sign transactions. The mnemonic will need to be saved elsewhere."
 #~ msgstr "禁用此功能后, 将创建一个冷钱包, 该钱包无法签署交易. 需要将助记词保存在其他地方."
 
+#: src/pages/Dialogs.tsx:122
 #: src/components/ThemeCard.tsx:187
 msgid "Cancel"
 msgstr "取消"
@@ -1348,8 +1353,16 @@ msgstr ""
 #~ msgid "Dexie QR Code"
 #~ msgstr ""
 
+#: src/pages/Dialogs.tsx:94
+msgid "Dialog"
+msgstr ""
+
 #: src/components/Nav.tsx:56
 msgid "Dialogs"
+msgstr ""
+
+#: src/pages/Dialogs.tsx:63
+msgid "Dialogs Theme"
 msgstr ""
 
 #: src/components/confirmations/DidConfirmation.tsx:90
@@ -1773,7 +1786,7 @@ msgstr ""
 msgid "Go to previous page"
 msgstr ""
 
-#: src/components/Header.tsx:116
+#: src/components/Header.tsx:117
 msgid "Go to wallet"
 msgstr "前往钱包"
 
@@ -2313,7 +2326,7 @@ msgstr ""
 msgid "Navigate to: {content}"
 msgstr ""
 
-#: src/components/Header.tsx:76
+#: src/components/Header.tsx:77
 msgid "Navigation menu"
 msgstr ""
 
@@ -2485,6 +2498,10 @@ msgstr "下一页"
 #~ msgid "No matching log entries found"
 #~ msgstr ""
 
+#: src/pages/Dialogs.tsx:44
+msgid "No more than 10 spoons"
+msgstr ""
+
 #: src/components/dialogs/MakeOfferConfirmationDialog.tsx:277
 #: src/components/dialogs/MakeOfferConfirmationDialog.tsx:324
 #~ msgid "No NFTs offered or details unavailable."
@@ -2545,18 +2562,9 @@ msgstr "无"
 #~ msgid "Normalize Profiles"
 #~ msgstr ""
 
-#: src/pages/Offers.tsx:75
-#: src/components/TransferDialog.tsx:50
-#: src/components/OwnedCoinsCard.tsx:243
-#: src/components/OwnedCoinsCard.tsx:288
-#: src/components/OwnedCoinsCard.tsx:337
-#: src/components/OfferRowCard.tsx:51
-#: src/components/NftCard.tsx:218
-#: src/components/FeeOnlyDialog.tsx:50
-#: src/components/ClawbackCoinsCard.tsx:197
-#: src/components/AssignNftDialog.tsx:58
-#~ msgid "Not enough funds to cover the fee"
-#~ msgstr "余额不足以支付手续费"
+#: src/pages/Dialogs.tsx:45
+msgid "Not enough funds to cover the fee"
+msgstr "余额不足以支付手续费"
 
 #: src/pages/Transactions.tsx:161
 #~ msgid "Note"
@@ -2577,6 +2585,10 @@ msgstr "无"
 #: src/pages/Settings.tsx:628
 #~ msgid "Number of peers to maintain connections with"
 #~ msgstr ""
+
+#: src/pages/Dialogs.tsx:107
+msgid "Number of spoons"
+msgstr ""
 
 #: src/components/OfferCard.tsx:63
 #~ msgid "Offer"
@@ -2637,9 +2649,9 @@ msgstr "无"
 #~ msgid "Offers Created"
 #~ msgstr ""
 
-#: src/pages/MakeOffer.tsx:421
-#~ msgid "Ok"
-#~ msgstr "Ok"
+#: src/pages/Dialogs.tsx:125
+msgid "Ok"
+msgstr "Ok"
 
 #: src/components/WalletCard.tsx:559
 #~ msgid "OK"
@@ -2659,6 +2671,10 @@ msgstr ""
 #: src/components/OptionColumns.tsx:179
 #~ msgid "Open actions menu"
 #~ msgstr ""
+
+#: src/pages/Dialogs.tsx:83
+msgid "Open Dialog"
+msgstr ""
 
 #: src/components/LabeledItem.tsx:60
 msgid "Open external link: {content}"
@@ -2960,6 +2976,10 @@ msgstr ""
 
 #: src/pages/Themes.tsx:107
 msgid "Preview of the current theme's color palette and styling."
+msgstr ""
+
+#: src/pages/Dialogs.tsx:66
+msgid "Preview of the current theme's dialogs and alerts."
 msgstr ""
 
 #: src/pages/OptionList.tsx:162
@@ -3904,7 +3924,7 @@ msgstr ""
 
 #: src/components/Layout.tsx:40
 #: src/components/Layout.tsx:63
-#: src/components/Header.tsx:121
+#: src/components/Header.tsx:122
 msgid "Theme icon"
 msgstr ""
 
@@ -3919,7 +3939,7 @@ msgstr ""
 
 #: src/pages/Themes.tsx:225
 #: src/pages/Tables.tsx:89
-#: src/pages/Dialogs.tsx:20
+#: src/pages/Dialogs.tsx:138
 #: src/pages/Components.tsx:270
 #: src/components/Nav.tsx:31
 msgid "Themes"
@@ -3990,6 +4010,10 @@ msgstr ""
 
 #: src/pages/Components.tsx:57
 msgid "This is a card"
+msgstr ""
+
+#: src/pages/Dialogs.tsx:97
+msgid "This is a dialog."
 msgstr ""
 
 #: src/pages/Themes.tsx:180
@@ -4184,7 +4208,7 @@ msgstr ""
 #~ msgid "Toggle multi-select"
 #~ msgstr "切换多重选择"
 
-#: src/components/Header.tsx:63
+#: src/components/Header.tsx:64
 msgid "Toggle navigation menu"
 msgstr "切换导航菜单"
 

@@ -1,6 +1,6 @@
-import { platform } from '@tauri-apps/plugin-os';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { getInsets, Insets } from 'tauri-plugin-safe-area-insets';
+import { getPlatformSync } from '../lib/platform';
+import { getWebSafeAreaInsets, type Insets } from '../lib/web-fallbacks';
 
 const defaultInsets: Insets = {
   top: 0,
@@ -14,15 +14,27 @@ const SafeAreaContext = createContext<Insets>(defaultInsets);
 export function SafeAreaProvider({ children }: { children: React.ReactNode }) {
   const [insets, setInsets] = useState<Insets>(defaultInsets);
 
-  const isMobile = platform() === 'ios' || platform() === 'android';
+  const isMobile =
+    getPlatformSync() === 'ios' || getPlatformSync() === 'android';
 
   useEffect(() => {
     async function loadInsets() {
       try {
-        const newInsets = await getInsets();
-        setInsets(newInsets);
+        // Try Tauri API first, fallback to web
+        if (typeof window !== 'undefined' && '__TAURI__' in window) {
+          const { getInsets } = await import('tauri-plugin-safe-area-insets');
+          const newInsets = await getInsets();
+          setInsets(newInsets);
+        } else {
+          // Web fallback
+          const newInsets = getWebSafeAreaInsets();
+          setInsets(newInsets);
+        }
       } catch (error) {
         console.error('Failed to load insets:', error);
+        // Fallback to web implementation
+        const newInsets = getWebSafeAreaInsets();
+        setInsets(newInsets);
       }
     }
 

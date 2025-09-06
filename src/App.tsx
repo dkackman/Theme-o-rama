@@ -10,7 +10,6 @@ import {
 import { Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useLocalStorage } from 'usehooks-ts';
-import { BiometricProvider } from './contexts/BiometricContext';
 import { ErrorProvider } from './contexts/ErrorContext';
 import {
   getBrowserLanguage,
@@ -21,10 +20,11 @@ import {
 import { SafeAreaProvider } from './contexts/SafeAreaContext';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { loadCatalog } from './i18n';
-import Themes from './pages/Themes';
-import Tables from './pages/Tables';
 import Components from './pages/Components';
 import Dialogs from './pages/Dialogs';
+import Tables from './pages/Tables';
+import Themes from './pages/Themes';
+
 // Theme-aware toast container component
 function ThemeAwareToastContainer() {
   const { currentTheme } = useTheme();
@@ -76,10 +76,8 @@ export default function App() {
       <ThemeProvider>
         <SafeAreaProvider>
           <ErrorProvider>
-            <BiometricProvider>
-              <AppInner />
-              <ThemeAwareToastContainer />
-            </BiometricProvider>
+            <AppInner />
+            <ThemeAwareToastContainer />
           </ErrorProvider>
         </SafeAreaProvider>
       </ThemeProvider>
