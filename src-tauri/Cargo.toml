@@ -1,10 +1,10 @@
 [package]
-name = "sage-tauri"
-version = "0.12.1"
-description = "A next generation Chia wallet."
-authors = ["Rigidity <me@rigidnetwork.com>"]
+name = "theme-o-rama"
+version = "0.1.0"
+description = "Theme designer for the sage wallet."
+authors = ["dkackman <@dkackman>"]
 license = "Apache-2.0"
-repository = "https://github.com/rigidity/sage"
+repository = "https://github.com/dkackman/Theme-o-rama"
 edition = "2021"
 
 [lints]

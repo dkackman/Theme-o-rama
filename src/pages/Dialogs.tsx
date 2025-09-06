@@ -1,23 +1,141 @@
 import Header from '@/components/Header';
 import Layout from '@/components/Layout';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { t } from '@lingui/core/macro';
-import { Info } from 'lucide-react';
+import { Trans } from '@lingui/react/macro';
+import { AppWindow, Info } from 'lucide-react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 export default function Dialogs() {
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const schema = z.object({
+    spoons: z
+      .string()
+      .min(1, t`At least one spoon is required`)
+      .max(10, t`No more than 10 spoons`),
+    combineFee: z.string().min(1, t`Not enough funds to cover the fee`),
+  });
+
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+  });
+
   try {
     return (
       <Layout>
         <Header title='Dialogs' />
 
-        <div className='flex-1 overflow-auto'></div>
+        <div className='flex-1 overflow-auto'>
+          <div className='container mx-auto p-6 space-y-8'>
+            {/* Current Theme Info */}
+            <Card>
+              <CardHeader>
+                <CardTitle>
+                  <Trans>Dialogs Theme</Trans>
+                </CardTitle>
+                <CardDescription>
+                  <Trans>
+                    Preview of the current theme&apos;s dialogs and alerts.
+                  </Trans>
+                </CardDescription>
+              </CardHeader>
+              <CardContent className='space-y-6'>
+                <Alert variant='destructive'>
+                  <Info className='h-4 w-4' />
+                  <AlertDescription>This is an alert.</AlertDescription>
+                </Alert>
+                <Button
+                  variant='outline'
+                  onClick={() => {
+                    setDialogOpen(true);
+                  }}
+                >
+                  <AppWindow className='mr-2 h-4 w-4' />
+                  <Trans>Open Dialog</Trans>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                <Trans>Dialog</Trans>
+              </DialogTitle>
+              <DialogDescription>
+                <Trans>This is a dialog.</Trans>
+              </DialogDescription>
+            </DialogHeader>
+            <Form {...form}>
+              <form className='space-y-4'>
+                <FormField
+                  name='combineFee'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        <Trans>Number of spoons</Trans>
+                      </FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DialogFooter className='gap-2'>
+                  <Button
+                    type='button'
+                    variant='outline'
+                    onClick={() => setDialogOpen(false)}
+                  >
+                    <Trans>Cancel</Trans>
+                  </Button>
+                  <Button type='submit'>
+                    <Trans>Ok</Trans>
+                  </Button>
+                </DialogFooter>
+              </form>
+            </Form>
+          </DialogContent>
+        </Dialog>
       </Layout>
     );
   } catch (error) {
     console.error('Error rendering theme page:', error);
     return (
       <Layout>
-        <Header title={t`Themes`} back={() => window.history.back()} />
+        <Header title={t`Themes`} />
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
             <Alert variant='destructive'>

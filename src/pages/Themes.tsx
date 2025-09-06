@@ -23,7 +23,7 @@ export default function Themes() {
   if (isLoading) {
     return (
       <Layout>
-        <Header title='Theme' back={() => window.history.back()} />
+        <Header title='Theme' />
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
             <div className='flex items-center justify-center p-8'>
@@ -41,7 +41,7 @@ export default function Themes() {
   if (error) {
     return (
       <Layout>
-        <Header title='Theme' back={() => window.history.back()} />
+        <Header title='Theme' />
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
             <Alert variant='destructive'>
@@ -59,7 +59,7 @@ export default function Themes() {
   if (!currentTheme) {
     return (
       <Layout>
-        <Header title='Theme' back={() => window.history.back()} />
+        <Header title='Theme' />
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
             <Alert>
@@ -77,7 +77,7 @@ export default function Themes() {
   try {
     return (
       <Layout>
-        <Header title='Themes' back={() => window.history.back()} />
+        <Header title='Themes' />
 
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6 space-y-8'>
@@ -222,7 +222,7 @@ export default function Themes() {
     console.error('Error rendering theme page:', error);
     return (
       <Layout>
-        <Header title={t`Themes`} back={() => window.history.back()} />
+        <Header title={t`Themes`} />
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
             <Alert variant='destructive'>

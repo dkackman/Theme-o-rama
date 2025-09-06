@@ -1,6 +1,7 @@
 import Header from '@/components/Header';
 import Layout from '@/components/Layout';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -8,14 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
-import { Info } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Select,
   SelectContent,
@@ -24,6 +20,17 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
+import { t } from '@lingui/core/macro';
+import { Trans } from '@lingui/react/macro';
+import {
+  Copy,
+  Info,
+  LinkIcon,
+  MoreVertical,
+  SendIcon,
+  UserRoundPlus,
+} from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,13 +39,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../components/ui/dropdown-menu';
-import {
-  Copy,
-  LinkIcon,
-  MoreVertical,
-  SendIcon,
-  UserRoundPlus,
-} from 'lucide-react';
 
 export default function Components() {
   try {
@@ -267,7 +267,7 @@ export default function Components() {
     console.error('Error rendering theme page:', error);
     return (
       <Layout>
-        <Header title={t`Themes`} back={() => window.history.back()} />
+        <Header title={t`Themes`} />
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
             <Alert variant='destructive'>

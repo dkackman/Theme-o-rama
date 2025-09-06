@@ -86,7 +86,7 @@ export default function Tables() {
     console.error('Error rendering theme page:', error);
     return (
       <Layout>
-        <Header title={t`Themes`} back={() => window.history.back()} />
+        <Header title={t`Themes`} />
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
             <Alert variant='destructive'>
