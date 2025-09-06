@@ -1,0 +1,515 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 63;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01F19EE188458C3FBC0FAC1C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F5E5720FDE8B96D681CBAED /* QuartzCore.framework */; };
+		08123E47E36510857B843AC0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 164E2E350268ED2A04513FEE /* UIKit.framework */; };
+		1ACB1DFBDEB0809BFDA2C513 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CDD10E891CE5538614601C2 /* LaunchScreen.storyboard */; };
+		4935DEBDC84053B71A354C40 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B47ECAF54C86639AF69E484 /* Metal.framework */; };
+		719111851834D6EE97A0113E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A61E0D1642C6570A5101E3A /* CoreGraphics.framework */; };
+		79D4CDB9EB3D4A13BA84481F /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCDAEB1DE5FD02983C866661 /* MetalKit.framework */; };
+		88144AD19AA674BA2B248770 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = A5A605B7CB8DC8CA37D58A02 /* assets */; };
+		9F56F158C37B5AB178A24BD5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BE24BD519EDDCAD25BB3710 /* Security.framework */; };
+		D77BB436DA92BA7054DB296F /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D52136706249F106003A2 /* main.mm */; };
+		DC8A7E7BC85CF72391F7DB06 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1272591EA92E9E93072C73F8 /* WebKit.framework */; };
+		ED56FD091A61C5EF0E4B49FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32D9D63B1548E841957A1E32 /* Assets.xcassets */; };
+		FEF377FC1FC81BF2E0E465DF /* libapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9E557ADA88D73B10BF473F /* libapp.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		046EF1EBB621DCF40B92A2D8 /* sage-tauri_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "sage-tauri_iOS.entitlements"; sourceTree = "<group>"; };
+		1272591EA92E9E93072C73F8 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		15FC168902390DCBEBF851A4 /* Sage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sage.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		164E2E350268ED2A04513FEE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1A61E0D1642C6570A5101E3A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1CDD10E891CE5538614601C2 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		1F9E557ADA88D73B10BF473F /* libapp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libapp.a; sourceTree = "<group>"; };
+		2095E574A265BCC2EA05F42F /* app_state.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = app_state.rs; sourceTree = "<group>"; };
+		2304A1988156A19CBDF4A717 /* main.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.rs; sourceTree = "<group>"; };
+		32D9D63B1548E841957A1E32 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4A3D52136706249F106003A2 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		4F5E5720FDE8B96D681CBAED /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		518875D00FD14133C61149AB /* commands.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = commands.rs; sourceTree = "<group>"; };
+		7F5BF2F34A8FE054D23E3F41 /* lib.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = lib.rs; sourceTree = "<group>"; };
+		99381C16136E96C3E129FD55 /* bindings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bindings.h; sourceTree = "<group>"; };
+		9B47ECAF54C86639AF69E484 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		9BE24BD519EDDCAD25BB3710 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		A5A605B7CB8DC8CA37D58A02 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = SOURCE_ROOT; };
+		BCDAEB1DE5FD02983C866661 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		F7817F2DF56B54F478F55A1C /* error.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = error.rs; sourceTree = "<group>"; };
+		FFAE4B03B84DF1CE0FF7B0B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9061C01953D64C8AEC22191C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEF377FC1FC81BF2E0E465DF /* libapp.a in Frameworks */,
+				719111851834D6EE97A0113E /* CoreGraphics.framework in Frameworks */,
+				4935DEBDC84053B71A354C40 /* Metal.framework in Frameworks */,
+				79D4CDB9EB3D4A13BA84481F /* MetalKit.framework in Frameworks */,
+				01F19EE188458C3FBC0FAC1C /* QuartzCore.framework in Frameworks */,
+				9F56F158C37B5AB178A24BD5 /* Security.framework in Frameworks */,
+				08123E47E36510857B843AC0 /* UIKit.framework in Frameworks */,
+				DC8A7E7BC85CF72391F7DB06 /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		005CAC9C6FA87B40B7B3BCE3 = {
+			isa = PBXGroup;
+			children = (
+				A5A605B7CB8DC8CA37D58A02 /* assets */,
+				32D9D63B1548E841957A1E32 /* Assets.xcassets */,
+				1CDD10E891CE5538614601C2 /* LaunchScreen.storyboard */,
+				3CF3CF12A7E4842C67184352 /* Externals */,
+				C6641728095DCADE87EEA506 /* sage-tauri_iOS */,
+				17C1C8FEB58F64143D8B2E7F /* Sources */,
+				57B2C6D1FA6A049877186812 /* src */,
+				7F61207D768263745DF88A25 /* Frameworks */,
+				8FA733EA2608F62686E85E83 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		17C1C8FEB58F64143D8B2E7F /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8DB181AA59B45B8767FC41C8 /* sage-tauri */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		3CF3CF12A7E4842C67184352 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Externals;
+			sourceTree = "<group>";
+		};
+		57B2C6D1FA6A049877186812 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				2095E574A265BCC2EA05F42F /* app_state.rs */,
+				518875D00FD14133C61149AB /* commands.rs */,
+				F7817F2DF56B54F478F55A1C /* error.rs */,
+				7F5BF2F34A8FE054D23E3F41 /* lib.rs */,
+				2304A1988156A19CBDF4A717 /* main.rs */,
+			);
+			name = src;
+			path = ../../src;
+			sourceTree = "<group>";
+		};
+		7F61207D768263745DF88A25 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1A61E0D1642C6570A5101E3A /* CoreGraphics.framework */,
+				1F9E557ADA88D73B10BF473F /* libapp.a */,
+				9B47ECAF54C86639AF69E484 /* Metal.framework */,
+				BCDAEB1DE5FD02983C866661 /* MetalKit.framework */,
+				4F5E5720FDE8B96D681CBAED /* QuartzCore.framework */,
+				9BE24BD519EDDCAD25BB3710 /* Security.framework */,
+				164E2E350268ED2A04513FEE /* UIKit.framework */,
+				1272591EA92E9E93072C73F8 /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8DB181AA59B45B8767FC41C8 /* sage-tauri */ = {
+			isa = PBXGroup;
+			children = (
+				4A3D52136706249F106003A2 /* main.mm */,
+				90AD9DBC6ECDD35EC959591F /* bindings */,
+			);
+			path = "sage-tauri";
+			sourceTree = "<group>";
+		};
+		8FA733EA2608F62686E85E83 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				15FC168902390DCBEBF851A4 /* Sage.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		90AD9DBC6ECDD35EC959591F /* bindings */ = {
+			isa = PBXGroup;
+			children = (
+				99381C16136E96C3E129FD55 /* bindings.h */,
+			);
+			path = bindings;
+			sourceTree = "<group>";
+		};
+		C6641728095DCADE87EEA506 /* sage-tauri_iOS */ = {
+			isa = PBXGroup;
+			children = (
+				FFAE4B03B84DF1CE0FF7B0B3 /* Info.plist */,
+				046EF1EBB621DCF40B92A2D8 /* sage-tauri_iOS.entitlements */,
+			);
+			path = "sage-tauri_iOS";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		24D652EC5BE9A86367B2B089 /* sage-tauri_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFB163CB2B59F36E615EE5F6 /* Build configuration list for PBXNativeTarget "sage-tauri_iOS" */;
+			buildPhases = (
+				C9D5E3749D1BBE8E35075F23 /* Build Rust Code */,
+				0FF86E56B85697634E1732D4 /* Sources */,
+				52D85ECFAD350899D168AFBC /* Resources */,
+				9061C01953D64C8AEC22191C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "sage-tauri_iOS";
+			packageProductDependencies = (
+			);
+			productName = "sage-tauri_iOS";
+			productReference = 15FC168902390DCBEBF851A4 /* Sage.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B54314D0962B409650053FA9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					24D652EC5BE9A86367B2B089 = {
+						DevelopmentTeam = NQJQRYZZG3;
+					};
+				};
+			};
+			buildConfigurationList = DA6C23F1856A16A27853A977 /* Build configuration list for PBXProject "sage-tauri" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 005CAC9C6FA87B40B7B3BCE3;
+			minimizedProjectReferenceProxies = 1;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				24D652EC5BE9A86367B2B089 /* sage-tauri_iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		52D85ECFAD350899D168AFBC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ED56FD091A61C5EF0E4B49FB /* Assets.xcassets in Resources */,
+				1ACB1DFBDEB0809BFDA2C513 /* LaunchScreen.storyboard in Resources */,
+				88144AD19AA674BA2B248770 /* assets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C9D5E3749D1BBE8E35075F23 /* Build Rust Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Rust Code";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/Externals/x86_64/${CONFIGURATION}/libapp.a",
+				"$(SRCROOT)/Externals/arm64/${CONFIGURATION}/libapp.a",
+				"$(SRCROOT)/Externals/arm64-sim/${CONFIGURATION}/libapp.a",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "pnpm tauri ios xcode-script -v --platform ${PLATFORM_DISPLAY_NAME:?} --sdk-root ${SDKROOT:?} --framework-search-paths \"${FRAMEWORK_SEARCH_PATHS:?}\" --header-search-paths \"${HEADER_SEARCH_PATHS:?}\" --gcc-preprocessor-definitions \"${GCC_PREPROCESSOR_DEFINITIONS:-}\" --configuration ${CONFIGURATION:?} ${FORCE_COLOR} ${ARCHS:?}";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0FF86E56B85697634E1732D4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D77BB436DA92BA7054DB296F /* main.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		26A999E312D3BECD078DAECB /* release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = release;
+		};
+		78CBA7A0F4678870E3678473 /* release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ARCHS = (
+					arm64,
+					"arm64-sim",
+				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "sage-tauri_iOS/sage-tauri_iOS.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = "NQJQRYZZG3";
+				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphoneos*]" = "arm64-sim x86_64";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\".\"",
+				);
+				INFOPLIST_FILE = "sage-tauri_iOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					/usr/lib/swift,
+				);
+				"LIBRARY_SEARCH_PATHS[arch=arm64-sim]" = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Externals/arm64-sim/$(CONFIGURATION)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=arm64]" = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Externals/arm64/$(CONFIGURATION)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Externals/x86_64/$(CONFIGURATION)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.rigidnetwork.sage;
+				PRODUCT_NAME = "Sage";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64  arm64-sim";
+			};
+			name = release;
+		};
+		C619FBB774EDB108671B1687 /* debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = debug;
+		};
+		E38941181259EB3BA1D8FB77 /* debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ARCHS = (
+					arm64,
+					"arm64-sim",
+				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "sage-tauri_iOS/sage-tauri_iOS.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = "NQJQRYZZG3";
+				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphoneos*]" = "arm64-sim x86_64";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\".\"",
+				);
+				INFOPLIST_FILE = "sage-tauri_iOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					/usr/lib/swift,
+				);
+				"LIBRARY_SEARCH_PATHS[arch=arm64-sim]" = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Externals/arm64-sim/$(CONFIGURATION)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=arm64]" = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Externals/arm64/$(CONFIGURATION)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Externals/x86_64/$(CONFIGURATION)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.rigidnetwork.sage;
+				PRODUCT_NAME = "Sage";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64  arm64-sim";
+			};
+			name = debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CFB163CB2B59F36E615EE5F6 /* Build configuration list for PBXNativeTarget "sage-tauri_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E38941181259EB3BA1D8FB77 /* debug */,
+				78CBA7A0F4678870E3678473 /* release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = debug;
+		};
+		DA6C23F1856A16A27853A977 /* Build configuration list for PBXProject "sage-tauri" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C619FBB774EDB108671B1687 /* debug */,
+				26A999E312D3BECD078DAECB /* release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B54314D0962B409650053FA9 /* Project object */;
+}
