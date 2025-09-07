@@ -347,15 +347,15 @@ msgstr ""
 #~ msgid "Analyze Duration"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:160
+#: src/pages/Themes.tsx:177
 msgid "Apply Custom Theme"
 msgstr ""
 
-#: src/pages/Themes.tsx:204
+#: src/pages/Themes.tsx:239
 msgid "Apply Theme"
 msgstr ""
 
-#: src/pages/Themes.tsx:199
+#: src/pages/Themes.tsx:234
 msgid "Applying..."
 msgstr ""
 
@@ -706,7 +706,7 @@ msgstr ""
 #~ msgid "Choose your preferred theme"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:144
+#: src/pages/Themes.tsx:156
 msgid "Choose Your Theme"
 msgstr ""
 
@@ -736,7 +736,7 @@ msgstr ""
 #~ msgid "Clawback Expiration"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:214
+#: src/pages/Themes.tsx:249
 msgid "Clear & Reset"
 msgstr ""
 
@@ -1560,7 +1560,7 @@ msgstr ""
 #~ msgid "Enter your mnemonic, private key, or public key below. If it's a public key, it will be imported as a read-only cold wallet."
 #~ msgstr "请输入助记词、私钥或公钥. 如果是公钥, 它将作为只读冷钱包导入."
 
-#: src/pages/Themes.tsx:105
+#: src/pages/Themes.tsx:114
 msgid "Error loading themes"
 msgstr ""
 
@@ -2131,7 +2131,7 @@ msgstr ""
 #~ msgid "Loading profile"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:87
+#: src/pages/Themes.tsx:96
 #: src/components/ThemeSelector.tsx:15
 #: src/components/ThemeSelector.tsx:132
 msgid "Loading themes..."
@@ -2538,7 +2538,7 @@ msgstr ""
 msgid "No results."
 msgstr "无结果."
 
-#: src/pages/Themes.tsx:123
+#: src/pages/Themes.tsx:132
 #: src/components/ThemeSelector.tsx:34
 msgid "No theme available"
 msgstr ""
@@ -2886,11 +2886,11 @@ msgstr ""
 #~ msgid "Paste your offer string or URL here..."
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:163
+#: src/pages/Themes.tsx:180
 msgid "Paste your theme JSON below to apply a custom theme to the entire application."
 msgstr ""
 
-#: src/pages/Themes.tsx:176
+#: src/pages/Themes.tsx:211
 msgid "Paste your theme JSON here..."
 msgstr ""
 
@@ -3388,7 +3388,7 @@ msgstr ""
 #~ msgid "Select coin row"
 #~ msgstr "选择硬币行"
 
-#: src/pages/Themes.tsx:147
+#: src/pages/Themes.tsx:159
 msgid "Select from our collection of beautiful themes"
 msgstr ""
 
@@ -3946,7 +3946,7 @@ msgstr ""
 msgid "Theme icon"
 msgstr ""
 
-#: src/pages/Themes.tsx:172
+#: src/pages/Themes.tsx:207
 msgid "Theme JSON"
 msgstr ""
 
@@ -3959,7 +3959,7 @@ msgstr ""
 msgid "Theme-o-rama"
 msgstr ""
 
-#: src/pages/Themes.tsx:227
+#: src/pages/Themes.tsx:262
 #: src/pages/Tables.tsx:89
 #: src/pages/Mint.tsx:43
 #: src/pages/Dialogs.tsx:138

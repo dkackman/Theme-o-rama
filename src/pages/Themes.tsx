@@ -15,7 +15,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { useTheme } from '@/contexts/ThemeContext';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { Info, Loader2, Palette, Upload, X } from 'lucide-react';
+import {
+  Info,
+  Loader2,
+  Maximize2,
+  Minimize2,
+  Palette,
+  Upload,
+  X,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function Themes() {
@@ -24,6 +32,7 @@ export default function Themes() {
   const [themeJson, setThemeJson] = useState('');
   const [isApplying, setIsApplying] = useState(false);
   const [applyError, setApplyError] = useState<string | null>(null);
+  const [isMaximized, setIsMaximized] = useState(false);
 
   // Load theme JSON from localStorage on component mount
   useEffect(() => {
@@ -135,39 +144,65 @@ export default function Themes() {
         <Header title='Themes' />
 
         <div className='flex-1 overflow-auto'>
-          <div className='container mx-auto p-6 space-y-8'>
-            {/* Theme Selector */}
-            <Card>
-              <CardHeader>
-                <CardTitle className='flex items-center gap-2'>
-                  <Palette className='h-5 w-5' />
-                  <Trans>Choose Your Theme</Trans>
-                </CardTitle>
-                <CardDescription>
-                  <Trans>Select from our collection of beautiful themes</Trans>
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ThemeSelector />
-              </CardContent>
-            </Card>
+          <div
+            className={`container mx-auto p-6 ${isMaximized ? 'h-full flex flex-col' : 'space-y-8'}`}
+          >
+            {/* Theme Selector - Hidden when custom theme card is maximized */}
+            {!isMaximized && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className='flex items-center gap-2'>
+                    <Palette className='h-5 w-5' />
+                    <Trans>Choose Your Theme</Trans>
+                  </CardTitle>
+                  <CardDescription>
+                    <Trans>
+                      Select from our collection of beautiful themes
+                    </Trans>
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ThemeSelector />
+                </CardContent>
+              </Card>
+            )}
 
             {/* Custom Theme Input */}
-            <Card>
+            <Card className={isMaximized ? 'flex-1 flex flex-col' : ''}>
               <CardHeader>
-                <CardTitle className='flex items-center gap-2'>
-                  <Upload className='h-5 w-5' />
-                  <Trans>Apply Custom Theme</Trans>
-                </CardTitle>
-                <CardDescription>
-                  <Trans>
-                    Paste your theme JSON below to apply a custom theme to the
-                    entire application.
-                  </Trans>
-                </CardDescription>
+                <div className='flex items-center justify-between'>
+                  <div>
+                    <CardTitle className='flex items-center gap-2'>
+                      <Upload className='h-5 w-5' />
+                      <Trans>Apply Custom Theme</Trans>
+                    </CardTitle>
+                    <CardDescription>
+                      <Trans>
+                        Paste your theme JSON below to apply a custom theme to
+                        the entire application.
+                      </Trans>
+                    </CardDescription>
+                  </div>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    onClick={() => setIsMaximized(!isMaximized)}
+                    className='shrink-0'
+                  >
+                    {isMaximized ? (
+                      <Minimize2 className='h-4 w-4' />
+                    ) : (
+                      <Maximize2 className='h-4 w-4' />
+                    )}
+                  </Button>
+                </div>
               </CardHeader>
-              <CardContent className='space-y-4'>
-                <div className='space-y-2'>
+              <CardContent
+                className={`space-y-4 ${isMaximized ? 'flex-1 flex flex-col' : ''}`}
+              >
+                <div
+                  className={`space-y-2 ${isMaximized ? 'flex-1 flex flex-col' : ''}`}
+                >
                   <Label htmlFor='theme-json'>
                     <Trans>Theme JSON</Trans>
                   </Label>
@@ -176,7 +211,7 @@ export default function Themes() {
                     placeholder={t`Paste your theme JSON here...`}
                     value={themeJson}
                     onChange={(e) => updateThemeJson(e.target.value)}
-                    className='min-h-[200px] font-mono text-sm'
+                    className={`font-mono text-sm ${isMaximized ? 'flex-1 min-h-0' : 'min-h-[200px]'}`}
                   />
                 </div>
 
