@@ -156,7 +156,6 @@ msgstr ""
 #~ msgid "A more lightweight sync that only checks unseen blocks"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:134
 #: src/pages/Components.tsx:102
 msgid "Accent"
 msgstr ""
@@ -348,6 +347,18 @@ msgstr ""
 #~ msgid "Analyze Duration"
 #~ msgstr ""
 
+#: src/pages/Themes.tsx:160
+msgid "Apply Custom Theme"
+msgstr ""
+
+#: src/pages/Themes.tsx:204
+msgid "Apply Theme"
+msgstr ""
+
+#: src/pages/Themes.tsx:199
+msgid "Applying..."
+msgstr ""
+
 #: src/contexts/WalletConnectContext.tsx:778
 #~ msgid "Approve"
 #~ msgstr ""
@@ -523,8 +534,6 @@ msgstr "Zurück"
 #~ msgid "Body Font"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:150
-#: src/pages/Themes.tsx:154
 #: src/pages/Components.tsx:118
 #: src/pages/Components.tsx:122
 msgid "Border Radius"
@@ -585,7 +594,6 @@ msgstr ""
 #~ msgid "Burn Profile"
 #~ msgstr "Profil verbrennen"
 
-#: src/pages/Themes.tsx:193
 #: src/pages/Components.tsx:238
 msgid "Buttons"
 msgstr ""
@@ -630,8 +638,8 @@ msgstr "Abbrechen"
 #~ msgstr "Abgebrochen"
 
 #: src/pages/Themes.tsx:175
-msgid "Card Component"
-msgstr ""
+#~ msgid "Card Component"
+#~ msgstr ""
 
 #: src/pages/Components.tsx:54
 msgid "Cards"
@@ -698,7 +706,7 @@ msgstr ""
 #~ msgid "Choose your preferred theme"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:89
+#: src/pages/Themes.tsx:144
 msgid "Choose Your Theme"
 msgstr ""
 
@@ -727,6 +735,10 @@ msgstr ""
 #: src/components/CoinList.tsx:236
 #~ msgid "Clawback Expiration"
 #~ msgstr ""
+
+#: src/pages/Themes.tsx:214
+msgid "Clear & Reset"
+msgstr ""
 
 #: src/components/TransactionOptions.tsx:88
 #: src/components/TransactionOptions.tsx:89
@@ -851,7 +863,6 @@ msgstr ""
 #~ msgid "Collections"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:117
 #: src/pages/Components.tsx:85
 msgid "Colors"
 msgstr ""
@@ -888,13 +899,12 @@ msgstr ""
 #~ msgid "Compactable Space"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:169
 #: src/pages/Components.tsx:136
 msgid "Component Examples"
 msgstr ""
 
 #: src/pages/Components.tsx:70
-#: src/components/Nav.tsx:40
+#: src/components/Nav.tsx:44
 msgid "Components"
 msgstr ""
 
@@ -1144,8 +1154,8 @@ msgstr ""
 #~ msgstr ""
 
 #: src/pages/Themes.tsx:104
-msgid "Current Theme: {0}"
-msgstr ""
+#~ msgid "Current Theme: {0}"
+#~ msgstr ""
 
 #: src/pages/Settings.tsx:287
 #~ msgid "Dark Mode"
@@ -1324,8 +1334,6 @@ msgstr ""
 #~ msgid "Deselect NFT"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:140
-#: src/pages/Themes.tsx:203
 #: src/pages/Components.tsx:108
 #: src/pages/Components.tsx:248
 msgid "Destructive"
@@ -1357,7 +1365,7 @@ msgstr ""
 msgid "Dialog"
 msgstr ""
 
-#: src/components/Nav.tsx:56
+#: src/components/Nav.tsx:58
 msgid "Dialogs"
 msgstr ""
 
@@ -1552,7 +1560,7 @@ msgstr ""
 #~ msgid "Enter your mnemonic, private key, or public key below. If it's a public key, it will be imported as a read-only cold wallet."
 #~ msgstr "Geben Sie unten Ihre Mnemonic, Ihren Private Key oder Ihren Public Key ein. Wenn es sich um einen Public Key handelt, wird er als schreibgeschütztes Cold Wallet importiert."
 
-#: src/pages/Themes.tsx:50
+#: src/pages/Themes.tsx:105
 msgid "Error loading themes"
 msgstr ""
 
@@ -1761,7 +1769,6 @@ msgstr ""
 #~ msgid "Generating"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:206
 #: src/pages/Components.tsx:251
 msgid "Ghost"
 msgstr ""
@@ -1974,8 +1981,8 @@ msgid "Input field"
 msgstr ""
 
 #: src/pages/Themes.tsx:186
-msgid "Input field example"
-msgstr ""
+#~ msgid "Input field example"
+#~ msgstr ""
 
 #: src/pages/Send.tsx:127
 #~ msgid "Invalid address"
@@ -2079,7 +2086,6 @@ msgstr ""
 #~ msgid "License URLs"
 #~ msgstr "Lizenz URLs"
 
-#: src/pages/Themes.tsx:209
 #: src/pages/Components.tsx:254
 msgid "Link"
 msgstr ""
@@ -2125,7 +2131,7 @@ msgstr ""
 #~ msgid "Loading profile"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:32
+#: src/pages/Themes.tsx:87
 #: src/components/ThemeSelector.tsx:15
 #: src/components/ThemeSelector.tsx:132
 msgid "Loading themes..."
@@ -2168,7 +2174,7 @@ msgstr ""
 #~ msgid "Logout"
 #~ msgstr "Abmelden"
 
-#: src/components/Nav.tsx:24
+#: src/components/Nav.tsx:30
 msgid "Main navigation"
 msgstr ""
 
@@ -2230,9 +2236,9 @@ msgstr ""
 #~ msgid "Metadata URLs"
 #~ msgstr "Metadaten URLs"
 
-#: src/pages/MintNft.tsx:341
-#~ msgid "Mint"
-#~ msgstr "Mint"
+#: src/components/Nav.tsx:65
+msgid "Mint"
+msgstr "Mint"
 
 #: src/pages/NftList.tsx:126
 #~ msgid "Mint an NFT?"
@@ -2252,6 +2258,10 @@ msgstr ""
 #: src/pages/MintOption.tsx:309
 #~ msgid "Mint Option"
 #~ msgstr ""
+
+#: src/pages/Mint.tsx:27
+msgid "Mint Sage Compatible Theme NFT"
+msgstr ""
 
 #: src/components/NftGroupCard.tsx:199
 #~ msgid "Minter {cardName}"
@@ -2528,7 +2538,7 @@ msgstr ""
 msgid "No results."
 msgstr "Keine Ergebnisse."
 
-#: src/pages/Themes.tsx:68
+#: src/pages/Themes.tsx:123
 #: src/components/ThemeSelector.tsx:34
 msgid "No theme available"
 msgstr ""
@@ -2782,7 +2792,6 @@ msgstr ""
 #~ msgid "Options for {nftName}"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:200
 #: src/pages/Components.tsx:245
 msgid "Outline"
 msgstr ""
@@ -2876,6 +2885,14 @@ msgstr ""
 #: src/components/dialogs/ViewOfferDialog.tsx:43
 #~ msgid "Paste your offer string or URL here..."
 #~ msgstr ""
+
+#: src/pages/Themes.tsx:163
+msgid "Paste your theme JSON below to apply a custom theme to the entire application."
+msgstr ""
+
+#: src/pages/Themes.tsx:176
+msgid "Paste your theme JSON here..."
+msgstr ""
 
 #: src/components/confirmations/TakeOfferConfirmation.tsx:33
 #~ msgid "Paying"
@@ -2975,8 +2992,8 @@ msgid "Preview of the current theme's color palette and styling for tables."
 msgstr ""
 
 #: src/pages/Themes.tsx:107
-msgid "Preview of the current theme's color palette and styling."
-msgstr ""
+#~ msgid "Preview of the current theme's color palette and styling."
+#~ msgstr ""
 
 #: src/pages/Dialogs.tsx:66
 msgid "Preview of the current theme's dialogs and alerts."
@@ -3002,8 +3019,6 @@ msgstr "Vorherige Seite"
 #~ msgid "Price per token: "
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:122
-#: src/pages/Themes.tsx:197
 #: src/pages/Components.tsx:90
 #: src/pages/Components.tsx:242
 msgid "Primary"
@@ -3345,7 +3360,6 @@ msgstr ""
 #~ msgid "Search transactions..."
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:128
 #: src/pages/Components.tsx:96
 msgid "Secondary"
 msgstr ""
@@ -3374,7 +3388,7 @@ msgstr ""
 #~ msgid "Select coin row"
 #~ msgstr "Coin-Reihe auswählen"
 
-#: src/pages/Themes.tsx:92
+#: src/pages/Themes.tsx:147
 msgid "Select from our collection of beautiful themes"
 msgstr ""
 
@@ -3609,6 +3623,10 @@ msgstr ""
 #~ msgid "Small Cards"
 #~ msgstr ""
 
+#: src/pages/Mint.tsx:30
+msgid "Soon"
+msgstr ""
+
 #: src/pages/TokenList.tsx:330
 #~ msgid "Sort Alphabetically"
 #~ msgstr "Alphabetisch sortieren"
@@ -3816,7 +3834,7 @@ msgstr ""
 #~ msgid "Syncing in progress..."
 #~ msgstr "Synchronisierung läuft..."
 
-#: src/components/Nav.tsx:48
+#: src/components/Nav.tsx:51
 msgid "Tables"
 msgstr ""
 
@@ -3928,6 +3946,10 @@ msgstr ""
 msgid "Theme icon"
 msgstr ""
 
+#: src/pages/Themes.tsx:172
+msgid "Theme JSON"
+msgstr ""
+
 #: src/components/ThemeCard.tsx:127
 msgid "Theme selected"
 msgstr ""
@@ -3937,11 +3959,12 @@ msgstr ""
 msgid "Theme-o-rama"
 msgstr ""
 
-#: src/pages/Themes.tsx:225
+#: src/pages/Themes.tsx:227
 #: src/pages/Tables.tsx:89
+#: src/pages/Mint.tsx:43
 #: src/pages/Dialogs.tsx:138
 #: src/pages/Components.tsx:270
-#: src/components/Nav.tsx:31
+#: src/components/Nav.tsx:36
 msgid "Themes"
 msgstr ""
 
@@ -4018,8 +4041,8 @@ msgid "This is a dialog."
 msgstr ""
 
 #: src/pages/Themes.tsx:180
-msgid "This is how a card component looks with the current theme."
-msgstr ""
+#~ msgid "This is how a card component looks with the current theme."
+#~ msgstr ""
 
 #: src/pages/Themes.tsx:107
 #~ msgid "This is how your selected theme looks across different components"
