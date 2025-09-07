@@ -1,7 +1,12 @@
-import { loadUserTheme } from '@/lib/theme';
-import { getThemeByName, invalidateThemeCache, loadThemes } from '@/lib/themes';
+import { discoverThemes } from '@/lib/themes';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { applyTheme, Theme } from 'theme-o-rama';
+import {
+  applyTheme,
+  getThemeByName,
+  invalidateThemesCache,
+  loadThemes,
+  Theme,
+} from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 
 interface ThemeContextType {
@@ -63,7 +68,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     setIsSettingTheme(true);
     try {
-      const theme = await loadUserTheme(themeJson);
+      const theme = await loadTheme(themeJson);
       if (theme) {
         setCurrentTheme(theme);
         applyTheme(theme, document.documentElement);
@@ -88,10 +93,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(true);
       setError(null);
 
+      const themeData = await discoverThemes();
       // Invalidate cache to force fresh load
-      invalidateThemeCache();
+      invalidateThemesCache();
 
-      const themes = await loadThemes();
+      const themes = await loadThemes(themeData);
       setAvailableThemes(themes);
       if (themes.length === 0) {
         setCurrentTheme(null);
@@ -118,8 +124,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(true);
         setError(null);
 
+        const themeData = await discoverThemes();
+
         // Load all themes
-        const themes = await loadThemes();
+        const themes = await loadThemes(themeData);
         setAvailableThemes(themes);
 
         // If no themes loaded, just use CSS defaults
