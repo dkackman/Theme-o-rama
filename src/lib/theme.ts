@@ -11,6 +11,7 @@ export async function loadUserTheme(themeJson: string): Promise<Theme | null> {
     if (theme.inherits) {
       const inheritedTheme = await loadBuiltInTheme(
         theme.inherits,
+        new Map<string, Theme>(),
         new Set<string>(),
       );
       if (inheritedTheme) {
@@ -30,6 +31,7 @@ export async function loadUserTheme(themeJson: string): Promise<Theme | null> {
 
 export async function loadBuiltInTheme(
   themeName: string,
+  themes: Map<string, Theme>,
   loadedThemes: Set<string> = new Set<string>(),
 ): Promise<Theme | null> {
   try {
@@ -49,10 +51,7 @@ export async function loadBuiltInTheme(
     let theme = themeModule.default as Theme;
 
     if (theme.inherits) {
-      const inheritedTheme = await loadBuiltInTheme(
-        theme.inherits,
-        loadedThemes,
-      );
+      const inheritedTheme = themes.get(theme.inherits);
       if (inheritedTheme) {
         theme = deepMerge(inheritedTheme, theme);
       }

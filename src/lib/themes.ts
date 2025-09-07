@@ -1,8 +1,7 @@
-import { Theme } from 'theme-o-rama';
+import { dark, light, Theme } from 'theme-o-rama';
 import { loadBuiltInTheme } from './theme';
 
 let themesCache: Theme[] | null = null;
-let cachePromise: Promise<Theme[]> | null = null;
 
 // Dynamically discover theme folders by scanning the themes directory
 async function discoverThemeFolders(): Promise<string[]> {
@@ -21,8 +20,7 @@ async function discoverThemeFolders(): Promise<string[]> {
       })
       .filter((name): name is string => name !== null);
 
-    // Sort theme names alphabetically
-    return themeNames.sort();
+    return themeNames;
   } catch (error) {
     console.warn('Could not discover theme folders:', error);
     return [];
@@ -35,36 +33,22 @@ export async function loadThemes(): Promise<Theme[]> {
     return themesCache;
   }
 
-  // If already loading, return the existing promise
-  if (cachePromise !== null) {
-    return cachePromise;
+  const themeFolders = await discoverThemeFolders();
+  const themes = new Map<string, Theme>();
+  themes.set('dark', dark);
+  themes.set('light', light);
+
+  for (const themeName of themeFolders) {
+    const theme = await loadBuiltInTheme(themeName, themes);
+    if (theme) {
+      themes.set(themeName, theme);
+    }
   }
 
-  // Start loading themes and cache the promise
-  cachePromise = discoverThemeFolders()
-    .then((themeFolders) =>
-      Promise.all(themeFolders.map((themeName) => loadBuiltInTheme(themeName))),
-    )
-    .then((themes) => {
-      // Filter out null themes (themes that failed to load)
-      const defaultThemes = themes.filter(
-        (theme): theme is Theme => theme !== null,
-      );
-      return defaultThemes;
-    })
-    .then(async (defaultThemes) => {
-      const allThemes = [...(defaultThemes || [])];
-
-      themesCache = allThemes;
-      return allThemes;
-    })
-    .catch((error) => {
-      console.error('Error loading themes:', error);
-      cachePromise = null;
-      return [];
-    });
-
-  return cachePromise;
+  themesCache = Array.from(themes.values()).sort((a, b) =>
+    a.name.localeCompare(b.name),
+  );
+  return themesCache;
 }
 
 export async function getThemeByName(name: string): Promise<Theme | undefined> {
@@ -74,5 +58,4 @@ export async function getThemeByName(name: string): Promise<Theme | undefined> {
 
 export function invalidateThemeCache(): void {
   themesCache = null;
-  cachePromise = null;
 }
