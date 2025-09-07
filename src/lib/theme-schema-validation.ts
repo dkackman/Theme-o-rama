@@ -1,4 +1,4 @@
-import { Theme } from './theme.type';
+import { Theme } from 'theme-o-rama';
 
 export function validateTheme(data: unknown): Theme {
   if (typeof data !== 'object' || data === null)

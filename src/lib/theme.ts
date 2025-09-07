@@ -1,7 +1,7 @@
 import iconDark from '@/icon-dark.png';
 import iconLight from '@/icon-light.png';
+import { Theme } from 'theme-o-rama';
 import { validateTheme } from './theme-schema-validation';
-import { Theme } from './theme.type';
 import { deepMerge } from './utils';
 
 export async function loadUserTheme(themeJson: string): Promise<Theme | null> {

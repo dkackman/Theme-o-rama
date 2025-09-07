@@ -1,9 +1,9 @@
 import { applyThemeIsolated } from '@/lib/theme';
-import { Theme } from '@/lib/theme.type';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { Check, Trash2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { Theme } from 'theme-o-rama';
 import { Button } from './ui/button';
 import {
   Dialog,

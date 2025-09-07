@@ -1,5 +1,5 @@
+import { Theme } from 'theme-o-rama';
 import { loadBuiltInTheme } from './theme';
-import { Theme } from './theme.type';
 
 let themesCache: Theme[] | null = null;
 let cachePromise: Promise<Theme[]> | null = null;
