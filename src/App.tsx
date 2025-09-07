@@ -22,7 +22,6 @@ import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { loadCatalog } from './i18n';
 import Components from './pages/Components';
 import Dialogs from './pages/Dialogs';
-import Mint from './pages/Mint';
 import Tables from './pages/Tables';
 import Themes from './pages/Themes';
 
@@ -62,7 +61,6 @@ const router = createHashRouter(
       <Route path='/tables' element={<Tables />} />
       <Route path='/components' element={<Components />} />
       <Route path='/dialogs' element={<Dialogs />} />
-      <Route path='/mint' element={<Mint />} />
     </>,
   ),
 );

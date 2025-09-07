@@ -904,7 +904,7 @@ msgid "Component Examples"
 msgstr "Component Examples"
 
 #: src/pages/Components.tsx:70
-#: src/components/Nav.tsx:44
+#: src/components/Nav.tsx:38
 msgid "Components"
 msgstr "Components"
 
@@ -1365,7 +1365,7 @@ msgstr "Destructive"
 msgid "Dialog"
 msgstr "Dialog"
 
-#: src/components/Nav.tsx:58
+#: src/components/Nav.tsx:52
 msgid "Dialogs"
 msgstr "Dialogs"
 
@@ -2174,7 +2174,7 @@ msgstr "Loading themes..."
 #~ msgid "Logout"
 #~ msgstr "Logout"
 
-#: src/components/Nav.tsx:30
+#: src/components/Nav.tsx:24
 msgid "Main navigation"
 msgstr "Main navigation"
 
@@ -2237,8 +2237,8 @@ msgstr "Main navigation"
 #~ msgstr "Metadata URLs"
 
 #: src/components/Nav.tsx:65
-msgid "Mint"
-msgstr "Mint"
+#~ msgid "Mint"
+#~ msgstr "Mint"
 
 #: src/pages/NftList.tsx:126
 #~ msgid "Mint an NFT?"
@@ -3834,7 +3834,7 @@ msgstr "Switch to list view"
 #~ msgid "Syncing in progress..."
 #~ msgstr "Syncing in progress..."
 
-#: src/components/Nav.tsx:51
+#: src/components/Nav.tsx:45
 msgid "Tables"
 msgstr "Tables"
 
@@ -3964,7 +3964,7 @@ msgstr "Theme-o-rama"
 #: src/pages/Mint.tsx:43
 #: src/pages/Dialogs.tsx:138
 #: src/pages/Components.tsx:270
-#: src/components/Nav.tsx:36
+#: src/components/Nav.tsx:30
 msgid "Themes"
 msgstr "Themes"
 

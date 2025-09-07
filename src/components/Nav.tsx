@@ -5,13 +5,7 @@ import {
 } from '@/components/ui/tooltip';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import {
-  AppWindow,
-  Component,
-  Squirrel,
-  SwatchBook,
-  Table,
-} from 'lucide-react';
+import { AppWindow, Component, SwatchBook, Table } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Separator } from './ui/separator';
@@ -59,13 +53,6 @@ export function TopNav({ isCollapsed }: NavProps) {
       >
         <AppWindow className={className} />
       </NavLink>{' '}
-      <NavLink
-        url={'/mint'}
-        isCollapsed={isCollapsed}
-        message={<Trans>Mint</Trans>}
-      >
-        <Squirrel className={className} />
-      </NavLink>
     </nav>
   );
 }
