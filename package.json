@@ -15,7 +15,8 @@
     "prettier:check": "prettier --check .",
     "extract": "lingui extract",
     "compile": "lingui compile",
-    "extract:watch": "lingui extract --watch"
+    "extract:watch": "lingui extract --watch",
+    "clean": "rm -rf dist-web dist"
   },
   "dependencies": {
     "theme-o-rama": "file:src-lib",

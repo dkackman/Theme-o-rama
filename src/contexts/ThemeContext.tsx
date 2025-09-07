@@ -1,7 +1,7 @@
-import { applyTheme, loadUserTheme } from '@/lib/theme';
+import { loadUserTheme } from '@/lib/theme';
 import { getThemeByName, invalidateThemeCache, loadThemes } from '@/lib/themes';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Theme } from 'theme-o-rama';
+import { applyTheme, Theme } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 
 interface ThemeContextType {
