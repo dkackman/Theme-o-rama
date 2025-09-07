@@ -1,7 +1,7 @@
 {
   "name": "theme-o-rama",
   "version": "0.1.0",
-  "description": "A TypeScript library for theme management",
+  "description": "A TypeScript library for dynamic theme management",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -24,6 +24,7 @@
   },
   "keywords": [
     "theme",
+    "dynamic",
     "typescript",
     "react",
     "ui",
@@ -39,8 +40,5 @@
   "peerDependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
-  },
-  "dependencies": {
-    "zod": "^3.23.8"
   }
 }

@@ -4,20 +4,17 @@ import { validateTheme } from './theme-schema-validation';
 import { Theme } from './theme.type';
 import { deepMerge } from './utils';
 
-let themesCache: Map<string, Theme> = new Map<string, Theme>();
+const themesCache: Map<string, Theme> = new Map<string, Theme>();
 
 export function getThemesCache(): Theme[] | null {
   return Array.from(themesCache.values());
 }
 
 export function invalidateThemesCache(): void {
-  themesCache = new Map<string, Theme>();
+  themesCache.clear();
 }
 
 export async function getThemeByName(name: string): Promise<Theme | undefined> {
-  if (themesCache === null) {
-    return undefined;
-  }
   return themesCache.get(name);
 }
 
@@ -26,35 +23,21 @@ export async function loadThemes(themeData: string[]): Promise<Theme[]> {
     return Array.from(themesCache.values());
   }
 
-  const themes = new Map<string, Theme>();
-  themes.set('dark', dark as Theme);
-  themes.set('light', light as Theme);
+  themesCache.set('dark', dark as Theme);
+  themesCache.set('light', light as Theme);
 
   for (const json of themeData) {
-    const theme = await loadTheme(json, themes);
+    const theme = await loadTheme(json);
     if (theme) {
-      themes.set(theme.name, theme);
+      themesCache.set(theme.name, theme);
     }
   }
-
-  return Array.from(themes.values());
+  return Array.from(themesCache.values());
 }
 
-async function loadTheme(
-  themeJson: string,
-  loadedThemes: Set<string> = new Set<string>(),
-): Promise<Theme | null> {
+export async function loadTheme(themeJson: string): Promise<Theme | null> {
   try {
     let theme = validateTheme(themeJson);
-    // Check for circular inheritance
-    if (loadedThemes.has(theme.name)) {
-      console.warn(
-        `Circular theme inheritance detected: ${Array.from(loadedThemes).join(' -> ')} -> ${theme.name}. Skipping inheritance.`,
-      );
-      return null;
-    }
-
-    loadedThemes.add(theme.name);
 
     if (theme.inherits) {
       const inheritedTheme = themesCache.get(theme.inherits);

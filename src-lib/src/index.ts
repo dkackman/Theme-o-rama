@@ -6,6 +6,7 @@ import {
   getThemeByName,
   invalidateThemesCache,
   loadThemes,
+  loadTheme,
 } from './theme-cache';
 import { Theme } from './theme.type';
 export * from './theme.type';
@@ -18,4 +19,5 @@ export {
   getThemeByName,
   invalidateThemesCache,
   loadThemes,
+  loadTheme,
 };

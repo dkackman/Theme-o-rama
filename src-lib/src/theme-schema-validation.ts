@@ -1,6 +1,7 @@
 import { Theme } from './theme.type';
 
 export function validateTheme(data: unknown): Theme {
+  console.log('validateTheme', data);
   if (typeof data !== 'object' || data === null)
     throw new Error(
       'Invalid theme JSON structure. The theme must be a valid JSON object',

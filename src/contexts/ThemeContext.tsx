@@ -5,6 +5,7 @@ import {
   getThemeByName,
   invalidateThemesCache,
   loadThemes,
+  loadTheme,
   Theme,
 } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
@@ -125,7 +126,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         setError(null);
 
         const themeData = await discoverThemes();
-
+        console.log('themeData', themeData);
         // Load all themes
         const themes = await loadThemes(themeData);
         setAvailableThemes(themes);
