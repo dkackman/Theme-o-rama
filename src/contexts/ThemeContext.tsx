@@ -1,13 +1,6 @@
 import { discoverThemes } from '@/lib/themes';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import {
-  applyTheme,
-  getThemeByName,
-  invalidateThemesCache,
-  loadThemes,
-  loadTheme,
-  Theme,
-} from 'theme-o-rama';
+import { applyTheme, Theme, ThemeCache, ThemeLoader } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 
 interface ThemeContextType {
@@ -37,13 +30,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [lastUsedNonCoreTheme, setLastUsedNonCoreTheme] = useLocalStorage<
     string | null
   >('last-used-non-core-theme', null);
+  const themeCache = new ThemeCache();
+  const themeLoader = new ThemeLoader(themeCache);
 
   const setTheme = async (themeName: string) => {
     if (isSettingTheme) return; // Prevent concurrent calls
 
     setIsSettingTheme(true);
     try {
-      const theme = await getThemeByName(themeName);
+      const theme = themeCache.getTheme(themeName);
       if (theme) {
         setCurrentTheme(theme);
         applyTheme(theme, document.documentElement);
@@ -69,7 +64,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     setIsSettingTheme(true);
     try {
-      const theme = await loadTheme(themeJson);
+      const theme = themeLoader.loadThemeFromJson(themeJson);
       if (theme) {
         setCurrentTheme(theme);
         applyTheme(theme, document.documentElement);
@@ -96,9 +91,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
       const themeData = await discoverThemes();
       // Invalidate cache to force fresh load
-      invalidateThemesCache();
+      themeCache.invalidate();
 
-      const themes = await loadThemes(themeData);
+      const themes = themeLoader.loadThemes(themeData);
+      themeCache.setThemes(themes);
       setAvailableThemes(themes);
       if (themes.length === 0) {
         setCurrentTheme(null);
@@ -126,9 +122,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         setError(null);
 
         const themeData = await discoverThemes();
-        console.log('themeData', themeData);
-        // Load all themes
-        const themes = await loadThemes(themeData);
+        const themes = themeLoader.loadThemes(themeData);
+        themeCache.setThemes(themes);
         setAvailableThemes(themes);
 
         // If no themes loaded, just use CSS defaults

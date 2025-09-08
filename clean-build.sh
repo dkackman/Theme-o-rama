@@ -9,7 +9,7 @@ pnpm run build
 
 cd ..
 
-rm -rf node_modules/theme-o-rama
+find node_modules -type d -name "*theme-o-rama*" -exec rm -rf {} + 2>/dev/null || true
 pnpm run clean
 pnpm install
 pnpm prettier

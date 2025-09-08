@@ -1,5 +1,6 @@
+import { Theme } from 'theme-o-rama';
 // Dynamically discover theme folders by scanning the themes directory
-export async function discoverThemes(): Promise<string[]> {
+export async function discoverThemes(): Promise<Theme[]> {
   try {
     // Use dynamic imports to discover available themes
     const themeModules = import.meta.glob('../themes/*/theme.json', {
@@ -12,12 +13,11 @@ export async function discoverThemes(): Promise<string[]> {
         // Path format: "../themes/themeName/theme.json"
         const match = path.match(/\.\.\/themes\/([^/]+)\/theme\.json$/);
         if (match) {
-          const themeData = (module as any).default;
-          return JSON.stringify(themeData);
+          return module as Theme;
         }
         return null;
       })
-      .filter((theme): theme is any => theme !== null);
+      .filter((theme): theme is Theme => theme !== null);
 
     return themeContents;
   } catch (error) {
