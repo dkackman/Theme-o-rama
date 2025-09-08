@@ -3,7 +3,7 @@
   "displayName": "Colorful",
   "backgroundImage": "background.jpg",
   "inherits": "light",
-  "most_like": "light",
+  "mostLike": "light",
   "schemaVersion": 1,
   "colors": {
     "background": "hsl(280 50% 25%)",

@@ -656,7 +656,7 @@
     "isUserTheme": {
       "type": "boolean"
     },
-    "most_like": {
+    "mostLike": {
       "enum": ["dark", "light"],
       "type": "string"
     },

@@ -120,7 +120,7 @@ export default function Header(
               >
                 <img
                   src={
-                    currentTheme?.most_like === 'light' ? iconDark : iconLight
+                    currentTheme?.mostLike === 'light' ? iconDark : iconLight
                   }
                   className='h-6 w-6'
                   alt={t`Theme icon`}

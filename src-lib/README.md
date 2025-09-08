@@ -30,7 +30,7 @@ const myTheme: Theme = {
 
 ### Tailwind CSS Integration
 
-Theme-o-rama provides Tailwind CSS extensions that work seamlessly with the dynamic theming system. To use them in your app:
+Theme-o-rama provides Tailwind CSS extensions that work with the dynamic theming system. To use them in your app:
 
 ```javascript
 // tailwind.config.js

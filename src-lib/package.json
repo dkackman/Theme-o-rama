@@ -1,7 +1,7 @@
 {
   "name": "theme-o-rama",
   "version": "0.1.0-alpha.1",
-  "description": "A TypeScript library for dynamic theme management in react + tailwind applications",
+  "description": "A TypeScript library for dynamic theme management in react + shadcn + tailwind applications",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -31,7 +31,8 @@
     "typescript",
     "react",
     "ui",
-    "styling"
+    "styling",
+    "shadcn"
   ],
   "author": "dkackman",
   "repository": {

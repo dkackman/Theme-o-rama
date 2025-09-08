@@ -30,7 +30,7 @@ import Themes from './pages/Themes';
 function ThemeAwareToastContainer() {
   const { currentTheme } = useTheme();
 
-  const toastTheme = currentTheme?.most_like ?? 'light';
+  const toastTheme = currentTheme?.mostLike ?? 'light';
 
   return (
     <ToastContainer

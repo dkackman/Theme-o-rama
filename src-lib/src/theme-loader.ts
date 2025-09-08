@@ -3,16 +3,25 @@ import { validateTheme } from './theme-schema-validation';
 import { Theme } from './theme.type';
 import { deepMerge } from './utils';
 
+// Theme discovery function type - can be provided by the consuming application
+export type ImageResolver = (themeName: string, imagePath: string) => string;
+
 export class ThemeLoader {
   constructor(private readonly themesCache: ThemeCache) {}
 
-  public loadThemes(themes: Theme[]): Theme[] {
+  public loadThemes(
+    themes: Theme[],
+    imageResolver: ImageResolver | null = null,
+  ): Theme[] {
     return themes
-      .map((theme) => this.loadTheme(theme))
+      .map((theme) => this.loadTheme(theme, imageResolver))
       .filter((theme) => theme !== null);
   }
 
-  public loadTheme(theme: Theme): Theme | null {
+  public loadTheme(
+    theme: Theme,
+    imageResolver: ImageResolver | null = null,
+  ): Theme | null {
     try {
       if (theme.inherits) {
         const inheritedTheme = this.themesCache.getTheme(theme.inherits);
@@ -21,7 +30,7 @@ export class ThemeLoader {
         }
       }
 
-      if (theme.backgroundImage) {
+      if (theme.backgroundImage && imageResolver) {
         try {
           // we allow remote urls and local files for built in themes
           // local images get imported from the theme's folder
@@ -30,23 +39,13 @@ export class ThemeLoader {
               theme.backgroundImage.startsWith('http://') ||
               theme.backgroundImage.startsWith('https://')
             ) &&
-            !theme.backgroundImage.startsWith('/')
+            !theme.backgroundImage.startsWith('/') &&
+            !theme.backgroundImage.startsWith('data:')
           ) {
-            // Use static glob import to avoid dynamic import warnings for local files
-            // const imageModules = import.meta.glob(
-            //     '../themes/*/*.{jpg,jpeg,png,gif,webp}',
-            //     { eager: true },
-            // );
-            // const imagePath = `../themes/${themeName}/${theme.backgroundImage}`;
-            // const imageModule = imageModules[imagePath];
-            // if (imageModule) {
-            //     theme.backgroundImage = (
-            //         imageModule as { default: string }
-            //     ).default;
-            // } else {
-            //     // Fallback to a relative path if not found
-            //     theme.backgroundImage = `../themes/${themeName}/${theme.backgroundImage}`;
-            // }
+            theme.backgroundImage = imageResolver(
+              theme.name,
+              theme.backgroundImage,
+            );
           }
         } catch (error) {
           console.warn(`Error loading theme ${theme.name}:`, error);

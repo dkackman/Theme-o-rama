@@ -6,7 +6,9 @@ import React, {
   useState,
 } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import { applyTheme, Theme, ThemeCache, ThemeLoader } from './index';
+import { applyTheme, Theme } from './index';
+import { ThemeCache } from './theme-cache';
+import { ThemeLoader } from './theme-loader';
 
 // Theme discovery function type - can be provided by the consuming application
 export type ThemeDiscoveryFunction = () => Promise<Theme[]>;

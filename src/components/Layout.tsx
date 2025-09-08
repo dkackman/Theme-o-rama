@@ -37,7 +37,7 @@ export function FullLayout(props: LayoutProps) {
       className={`flex items-center gap-2 font-semibold font-heading`}
     >
       <img
-        src={currentTheme?.most_like === 'light' ? iconDark : iconLight}
+        src={currentTheme?.mostLike === 'light' ? iconDark : iconLight}
         className='h-6 w-6'
         alt={t`Theme icon`}
       />
@@ -60,7 +60,7 @@ export function FullLayout(props: LayoutProps) {
           className={`flex items-center gap-2 font-semibold font-heading`}
         >
           <img
-            src={currentTheme?.most_like === 'light' ? iconDark : iconLight}
+            src={currentTheme?.mostLike === 'light' ? iconDark : iconLight}
             className='h-6 w-6'
             alt={t`Theme icon`}
           />
