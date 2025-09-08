@@ -657,10 +657,7 @@
       "type": "boolean"
     },
     "most_like": {
-      "enum": [
-        "dark",
-        "light"
-      ],
+      "enum": ["dark", "light"],
       "type": "string"
     },
     "name": {
@@ -870,10 +867,6 @@
       "type": "object"
     }
   },
-  "required": [
-    "displayName",
-    "name",
-    "schemaVersion"
-  ],
+  "required": ["displayName", "name", "schemaVersion"],
   "type": "object"
 }

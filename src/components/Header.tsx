@@ -114,9 +114,9 @@ export default function Header(
           >
             <div className='mt-4'>
               <Link
-                to='/wallet'
+                to='/'
                 className='flex items-center gap-2 font-semibold font-heading'
-                aria-label={t`Go to wallet`}
+                aria-label={t`Go to home`}
               >
                 <img
                   src={

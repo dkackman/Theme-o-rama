@@ -16,7 +16,7 @@ import { useTheme } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 import { TopNav } from './Nav';
 
-const SIDEBAR_COLLAPSED_STORAGE_KEY = 'sage-wallet-sidebar-collapsed';
+const SIDEBAR_COLLAPSED_STORAGE_KEY = 'theme-o-rama-sidebar-collapsed';
 
 type LayoutProps = PropsWithChildren<object> & {
   transparentBackground?: boolean;
@@ -56,7 +56,7 @@ export function FullLayout(props: LayoutProps) {
     <Tooltip>
       <TooltipTrigger asChild>
         <Link
-          to='/wallet'
+          to='/'
           className={`flex items-center gap-2 font-semibold font-heading`}
         >
           <img
