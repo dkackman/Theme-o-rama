@@ -49,7 +49,7 @@ export function ThemeProvider({
   const [dark] = useLocalStorage<boolean>('dark', false);
   const [lastUsedNonCoreTheme, setLastUsedNonCoreTheme] = useLocalStorage<
     string | null
-  >('last-used-non-core-theme', null);
+  >('theme-o-rama-last-used-non-core-theme', null);
 
   const setTheme = async (themeName: string) => {
     if (isSettingTheme) return; // Prevent concurrent calls
