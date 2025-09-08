@@ -1,4 +1,4 @@
-import { discoverThemes } from '@/lib/themes';
+import { discoverThemes, resolveThemeImage } from '@/lib/themes';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { useEffect, useState } from 'react';
@@ -74,7 +74,10 @@ export default function App() {
 
   return (
     <LanguageProvider locale={locale} setLocale={setLocale}>
-      <ThemeProvider discoverThemes={discoverThemes}>
+      <ThemeProvider
+        discoverThemes={discoverThemes}
+        imageResolver={resolveThemeImage}
+      >
         <SafeAreaProvider>
           <ErrorProvider>
             <AppInner />

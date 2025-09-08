@@ -46,6 +46,7 @@ export class ThemeLoader {
               theme.name,
               theme.backgroundImage,
             );
+            console.log('theme.backgroundImage', theme.backgroundImage);
           }
         } catch (error) {
           console.warn(`Error loading theme ${theme.name}:`, error);

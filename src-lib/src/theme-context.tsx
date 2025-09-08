@@ -8,7 +8,7 @@ import React, {
 import { useLocalStorage } from 'usehooks-ts';
 import { applyTheme, Theme } from './index';
 import { ThemeCache } from './theme-cache';
-import { ThemeLoader } from './theme-loader';
+import { ImageResolver, ThemeLoader } from './theme-loader';
 
 // Theme discovery function type - can be provided by the consuming application
 export type ThemeDiscoveryFunction = () => Promise<Theme[]>;
@@ -29,11 +29,13 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 interface ThemeProviderProps {
   children: React.ReactNode;
   discoverThemes?: ThemeDiscoveryFunction;
+  imageResolver?: ImageResolver;
 }
 
 export function ThemeProvider({
   children,
   discoverThemes,
+  imageResolver,
 }: ThemeProviderProps) {
   const [currentTheme, setCurrentTheme] = useState<Theme | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -120,7 +122,7 @@ export function ThemeProvider({
       // Invalidate cache to force fresh load
       themeCache.invalidate();
 
-      const themes = themeLoader.loadThemes(themeData);
+      const themes = themeLoader.loadThemes(themeData, imageResolver);
       themeCache.setThemes(themes);
       if (themes.length === 0) {
         setCurrentTheme(null);
@@ -155,7 +157,7 @@ export function ThemeProvider({
         setError(null);
 
         const themeData = await discoverThemes();
-        const themes = themeLoader.loadThemes(themeData);
+        const themes = themeLoader.loadThemes(themeData, imageResolver);
         themeCache.setThemes(themes);
 
         // If no themes loaded, just use CSS defaults

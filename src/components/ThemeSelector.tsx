@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/react/macro';
 import { Loader2 } from 'lucide-react';
-import { useTheme } from 'theme-o-rama';
+import { Theme, useTheme } from 'theme-o-rama';
 import { ThemeCard } from './ThemeCard';
 
 export function ThemeSelector() {
@@ -38,16 +38,16 @@ export function ThemeSelector() {
 
   // Group themes by isUserTheme and isFeatured, sort alphabetically within each group
   const featuredThemes = availableThemes
-    .filter((theme) => !theme.isUserTheme && theme.isFeatured)
-    .sort((a, b) => a.displayName.localeCompare(b.displayName));
+    .filter((theme: Theme) => !theme.isUserTheme && theme.isFeatured)
+    .sort((a: Theme, b: Theme) => a.displayName.localeCompare(b.displayName));
 
   const defaultThemes = availableThemes
-    .filter((theme) => !theme.isUserTheme && !theme.isFeatured)
-    .sort((a, b) => a.displayName.localeCompare(b.displayName));
+    .filter((theme: Theme) => !theme.isUserTheme && !theme.isFeatured)
+    .sort((a: Theme, b: Theme) => a.displayName.localeCompare(b.displayName));
 
   const userThemes = availableThemes
-    .filter((theme) => theme.isUserTheme)
-    .sort((a, b) => a.displayName.localeCompare(b.displayName));
+    .filter((theme: Theme) => theme.isUserTheme)
+    .sort((a: Theme, b: Theme) => a.displayName.localeCompare(b.displayName));
 
   return (
     <div className='space-y-8'>
@@ -58,7 +58,7 @@ export function ThemeSelector() {
             <Trans>Featured Themes</Trans>
           </h3>
           <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
-            {featuredThemes.map((theme) => (
+            {featuredThemes.map((theme: Theme) => (
               <ThemeCard
                 key={theme.name}
                 theme={theme}
@@ -78,7 +78,7 @@ export function ThemeSelector() {
             <Trans>Default Themes</Trans>
           </h3>
           <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
-            {defaultThemes.map((theme) => (
+            {defaultThemes.map((theme: Theme) => (
               <ThemeCard
                 key={theme.name}
                 theme={theme}
@@ -98,7 +98,7 @@ export function ThemeSelector() {
             <Trans>Your Themes</Trans>
           </h3>
           <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
-            {userThemes.map((theme) => (
+            {userThemes.map((theme: Theme) => (
               <ThemeCard
                 key={theme.name}
                 theme={theme}
@@ -137,20 +137,26 @@ export function ThemeSelectorSimple() {
   }
 
   // Get the core themes: light and dark
-  const lightTheme = availableThemes.find((theme) => theme.name === 'light');
-  const darkTheme = availableThemes.find((theme) => theme.name === 'dark');
+  const lightTheme = availableThemes.find(
+    (theme: Theme) => theme.name === 'light',
+  );
+  const darkTheme = availableThemes.find(
+    (theme: Theme) => theme.name === 'dark',
+  );
 
   // Get the third theme: last used non-core theme or colorful as fallback
   let thirdTheme = null;
   if (lastUsedNonCoreTheme) {
     thirdTheme = availableThemes.find(
-      (theme) => theme.name === lastUsedNonCoreTheme,
+      (theme: Theme) => theme.name === lastUsedNonCoreTheme,
     );
   }
 
   // If no last used non-core theme or it's not available, use colorful as fallback
   if (!thirdTheme) {
-    thirdTheme = availableThemes.find((theme) => theme.name === 'colorful');
+    thirdTheme = availableThemes.find(
+      (theme: Theme) => theme.name === 'colorful',
+    );
   }
 
   const coreThemes = [lightTheme, darkTheme, thirdTheme].filter(

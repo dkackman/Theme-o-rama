@@ -1,4 +1,5 @@
 import { Theme } from 'theme-o-rama';
+
 // Dynamically discover theme folders by scanning the themes directory
 export async function discoverThemes(): Promise<Theme[]> {
   try {
@@ -24,4 +25,23 @@ export async function discoverThemes(): Promise<Theme[]> {
     console.warn('Could not discover theme folders:', error);
     return [];
   }
+}
+
+export function resolveThemeImage(
+  themeName: string,
+  imagePath: string,
+): string {
+  // Use static glob import to avoid dynamic import warnings for local files
+  const imageModules = import.meta.glob(
+    '../themes/*/*.{jpg,jpeg,png,gif,webp}',
+    { eager: true },
+  );
+  const resolvedPath = `../themes/${themeName}/${imagePath}`;
+  const imageModule = imageModules[resolvedPath];
+
+  if (imageModule) {
+    return (imageModule as { default: string }).default;
+  }
+
+  return `../themes/${themeName}/${imagePath}`;
 }

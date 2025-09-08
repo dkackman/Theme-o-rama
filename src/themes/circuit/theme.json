@@ -202,7 +202,9 @@
       }
     }
   },
-  "buttonStyles": ["rounded-buttons"],
+  "buttonStyles": [
+    "rounded-buttons"
+  ],
   "switches": {
     "checked": {
       "background": "#0ea5e9"
