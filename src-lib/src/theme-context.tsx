@@ -1,4 +1,3 @@
-import { discoverThemes } from '@/lib/themes';
 import React, {
   createContext,
   useContext,
@@ -6,8 +5,11 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { applyTheme, Theme, ThemeCache, ThemeLoader } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
+import { applyTheme, Theme, ThemeCache, ThemeLoader } from './index';
+
+// Theme discovery function type - can be provided by the consuming application
+export type ThemeDiscoveryFunction = () => Promise<Theme[]>;
 
 interface ThemeContextType {
   currentTheme: Theme | null;
@@ -22,11 +24,23 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+interface ThemeProviderProps {
+  children: React.ReactNode;
+  discoverThemes?: ThemeDiscoveryFunction;
+}
+
+export function ThemeProvider({
+  children,
+  discoverThemes,
+}: ThemeProviderProps) {
   const [currentTheme, setCurrentTheme] = useState<Theme | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSettingTheme, setIsSettingTheme] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Use refs for stable instances that don't need to trigger re-renders
+  const themeCache = useRef<ThemeCache>(new ThemeCache()).current;
+  const themeLoader = useRef<ThemeLoader>(new ThemeLoader(themeCache)).current;
   const [savedTheme, setSavedTheme] = useLocalStorage<string | null>(
     'theme',
     null,
@@ -36,9 +50,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [lastUsedNonCoreTheme, setLastUsedNonCoreTheme] = useLocalStorage<
     string | null
   >('last-used-non-core-theme', null);
-  // Use refs for stable instances that don't need to trigger re-renders
-  const themeCache = useRef<ThemeCache>(new ThemeCache()).current;
-  const themeLoader = useRef<ThemeLoader>(new ThemeLoader(themeCache)).current;
 
   const setTheme = async (themeName: string) => {
     if (isSettingTheme) return; // Prevent concurrent calls
@@ -92,6 +103,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   const reloadThemes = async () => {
+    if (!discoverThemes) {
+      console.warn('No theme discovery function provided');
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
@@ -121,6 +137,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const initializeThemes = async () => {
+      if (!discoverThemes) {
+        // If no discovery function provided, just use the default themes from cache
+        setIsLoading(false);
+        const theme = themeCache.getThemeSafe(savedTheme);
+        setCurrentTheme(theme);
+        applyTheme(theme, document.documentElement);
+        return;
+      }
+
       try {
         setIsLoading(true);
         setError(null);

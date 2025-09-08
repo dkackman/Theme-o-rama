@@ -1,6 +1,6 @@
-import { useTheme } from '@/contexts/ThemeContext';
 import { Trans } from '@lingui/react/macro';
 import { Loader2 } from 'lucide-react';
+import { useTheme } from 'theme-o-rama';
 import { ThemeCard } from './ThemeCard';
 
 export function ThemeSelector() {

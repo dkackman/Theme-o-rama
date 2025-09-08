@@ -1,3 +1,4 @@
+import { discoverThemes } from '@/lib/themes';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { useEffect, useState } from 'react';
@@ -9,6 +10,7 @@ import {
 } from 'react-router-dom';
 import { Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ThemeProvider, useTheme } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 import { ErrorProvider } from './contexts/ErrorContext';
 import {
@@ -18,7 +20,6 @@ import {
   useLanguage,
 } from './contexts/LanguageContext';
 import { SafeAreaProvider } from './contexts/SafeAreaContext';
-import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { loadCatalog } from './i18n';
 import Components from './pages/Components';
 import Dialogs from './pages/Dialogs';
@@ -73,7 +74,7 @@ export default function App() {
 
   return (
     <LanguageProvider locale={locale} setLocale={setLocale}>
-      <ThemeProvider>
+      <ThemeProvider discoverThemes={discoverThemes}>
         <SafeAreaProvider>
           <ErrorProvider>
             <AppInner />

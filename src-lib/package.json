@@ -40,5 +40,8 @@
   "peerDependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
+  },
+  "dependencies": {
+    "usehooks-ts": "^3.1.0"
   }
 }

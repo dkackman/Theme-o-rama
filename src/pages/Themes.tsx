@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useTheme } from '@/contexts/ThemeContext';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import {
@@ -25,6 +24,7 @@ import {
   X,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTheme } from 'theme-o-rama';
 
 export default function Themes() {
   const { currentTheme, isLoading, error, setTheme, setCustomTheme } =

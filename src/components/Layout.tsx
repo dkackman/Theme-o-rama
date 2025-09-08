@@ -6,11 +6,11 @@ import {
 } from '@/components/ui/tooltip';
 
 import { useInsets } from '@/contexts/SafeAreaContext';
-import { useTheme } from '@/contexts/ThemeContext';
 import { t } from '@lingui/core/macro';
 import { PanelLeft, PanelLeftClose } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
+import { useTheme } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 import { TopNav } from './Nav';
 

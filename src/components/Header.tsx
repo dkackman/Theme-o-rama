@@ -1,11 +1,11 @@
 import { useInsets } from '@/contexts/SafeAreaContext';
-import { useTheme } from '@/contexts/ThemeContext';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, Menu } from 'lucide-react';
 import { PropsWithChildren, ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useTheme } from 'theme-o-rama';
 import { getPlatformSync } from '../lib/platform';
 import { TopNav } from './Nav';
 import { Button } from './ui/button';
