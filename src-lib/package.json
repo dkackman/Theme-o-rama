@@ -10,11 +10,13 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./themes.css": "./dist/themes.css"
+    "./themes.css": "./dist/themes.css",
+    "./tailwind.config.js": "./tailwind.config.js"
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "tailwind.config.js"
   ],
   "scripts": {
     "build": "tsc && cp src/themes.css dist/themes.css",
