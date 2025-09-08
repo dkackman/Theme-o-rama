@@ -11,6 +11,24 @@ export class ThemeCache {
     this.themesCache.set('light', light as Theme);
   }
 
+  public getThemeSafe(themeName: string | null): Theme {
+    let theme = this.themesCache.get(themeName || 'light');
+    if (theme) {
+      return theme;
+    }
+
+    theme = this.themesCache.get('light');
+    if (theme) {
+      return theme;
+    }
+
+    if (this.themesCache.size > 0) {
+      return Array.from(this.themesCache.values())[0];
+    }
+
+    return light as Theme;
+  }
+
   public getTheme(name: string): Theme | undefined {
     return this.themesCache.get(name);
   }

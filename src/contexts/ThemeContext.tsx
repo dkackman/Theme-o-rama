@@ -1,5 +1,11 @@
 import { discoverThemes } from '@/lib/themes';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { applyTheme, Theme, ThemeCache, ThemeLoader } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 
@@ -18,7 +24,6 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [currentTheme, setCurrentTheme] = useState<Theme | null>(null);
-  const [availableThemes, setAvailableThemes] = useState<Theme[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSettingTheme, setIsSettingTheme] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,12 +31,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     'theme',
     null,
   );
-  const [dark] = useLocalStorage<boolean>('dark', false); // pre-themes dark mode setting
+  // this is the pre-themes dark mode setting that we will migrate if needed
+  const [dark] = useLocalStorage<boolean>('dark', false);
   const [lastUsedNonCoreTheme, setLastUsedNonCoreTheme] = useLocalStorage<
     string | null
   >('last-used-non-core-theme', null);
-  const themeCache = new ThemeCache();
-  const themeLoader = new ThemeLoader(themeCache);
+  // Use refs for stable instances that don't need to trigger re-renders
+  const themeCache = useRef<ThemeCache>(new ThemeCache()).current;
+  const themeLoader = useRef<ThemeLoader>(new ThemeLoader(themeCache)).current;
 
   const setTheme = async (themeName: string) => {
     if (isSettingTheme) return; // Prevent concurrent calls
@@ -95,17 +102,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
       const themes = themeLoader.loadThemes(themeData);
       themeCache.setThemes(themes);
-      setAvailableThemes(themes);
       if (themes.length === 0) {
         setCurrentTheme(null);
         return;
       }
-      const themeToLoad = savedTheme || 'light';
-      const theme = getTheme(themeToLoad, themes);
-      if (theme) {
-        setCurrentTheme(theme);
-        applyTheme(theme, document.documentElement);
-      }
+
+      const theme = themeCache.getThemeSafe(savedTheme);
+      setCurrentTheme(theme);
+      applyTheme(theme, document.documentElement);
     } catch (err) {
       console.error('Error reloading themes:', err);
       setError('Failed to reload themes');
@@ -124,7 +128,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         const themeData = await discoverThemes();
         const themes = themeLoader.loadThemes(themeData);
         themeCache.setThemes(themes);
-        setAvailableThemes(themes);
 
         // If no themes loaded, just use CSS defaults
         if (themes.length === 0) {
@@ -138,12 +141,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         }
 
         // Load saved theme from localStorage or use fallback
-        const themeToLoad = savedTheme || 'light';
-        const theme = getTheme(themeToLoad, themes);
-        if (theme) {
-          setCurrentTheme(theme);
-          applyTheme(theme, document.documentElement);
-        }
+        const theme = themeCache.getThemeSafe(savedTheme);
+        setCurrentTheme(theme);
+        applyTheme(theme, document.documentElement);
       } catch (err) {
         console.error('Error loading themes:', err);
         setError('Failed to load themes');
@@ -155,6 +155,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     };
 
     initializeThemes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [savedTheme, dark, setSavedTheme]);
 
   return (
@@ -163,7 +164,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         currentTheme,
         setTheme,
         setCustomTheme,
-        availableThemes,
+        availableThemes: themeCache.getThemes(),
         isLoading,
         error,
         lastUsedNonCoreTheme,
@@ -173,21 +174,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       {children}
     </ThemeContext.Provider>
   );
-}
-
-function getTheme(themeName: string, themes: Theme[]) {
-  let theme = themes.find((t) => t.name === themeName);
-  if (theme) {
-    return theme;
-  }
-  theme = themes.find((t) => t.name === 'light');
-  if (theme) {
-    return theme;
-  }
-  if (themes.length > 0) {
-    return themes[0];
-  }
-  return null;
 }
 
 export function useTheme() {
