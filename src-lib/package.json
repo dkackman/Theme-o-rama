@@ -11,15 +11,15 @@
       "import": "./dist/index.js"
     },
     "./themes.css": "./dist/themes.css",
-    "./tailwind.config.js": "./tailwind.config.js"
+    "./tailwind.config.js": "./dist/tailwind.config.js",
+    "./schema.json": "./dist/schema.json"
   },
   "files": [
     "dist",
-    "README.md",
-    "tailwind.config.js"
+    "README.md"
   ],
   "scripts": {
-    "build": "tsc && cp src/themes.css dist/themes.css",
+    "build": "tsc && cp src/themes.css dist/themes.css && cp tailwind.config.js dist/tailwind.config.js && cp src/schema.json dist/schema.json",
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run clean && npm run build",

@@ -60,6 +60,20 @@ The `themeExtensions` include:
 - **Box shadows** with CSS variables (`--shadow-sm`, `--shadow-md`, etc.)
 - **Color system** with CSS variables (`--background`, `--foreground`, etc.)
 
+### JSON Schema
+
+Theme-o-rama also provides a JSON schema for theme validation:
+
+```javascript
+// Import the schema for validation
+import schema from 'theme-o-rama/schema.json';
+
+// Use with your favorite JSON schema validator
+import Ajv from 'ajv';
+const ajv = new Ajv();
+const validate = ajv.compile(schema);
+```
+
 ### React Integration
 
 ```typescript
@@ -96,6 +110,8 @@ function YourComponent() {
 - Support for colors, fonts, corners, shadows, and component-specific styling
 - Built-in support for sidebar, table, button, and switch configurations
 - Type-safe theme validation and management
+- JSON schema for theme validation and IDE support
+- Tailwind CSS integration with theme-specific extensions
 
 ## Development
 
