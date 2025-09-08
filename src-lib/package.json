@@ -1,7 +1,7 @@
 {
   "name": "theme-o-rama",
   "version": "0.1.0",
-  "description": "A TypeScript library for dynamic theme management",
+  "description": "A TypeScript library for dynamic theme management in react + tailwind applications",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -9,14 +9,15 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    }
+    },
+    "./themes.css": "./dist/themes.css"
   },
   "files": [
     "dist",
     "README.md"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp src/themes.css dist/themes.css",
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run clean && npm run build",
@@ -30,7 +31,15 @@
     "ui",
     "styling"
   ],
-  "author": "",
+  "author": "dkackman",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dkackman/Theme-o-rama.git"
+  },
+  "homepage": "https://dkackman.github.io/Theme-o-rama",
+  "bugs": {
+    "url": "https://github.com/dkackman/Theme-o-rama/issues"
+  },
   "license": "MIT",
   "devDependencies": {
     "prettier": "^3.6.2",

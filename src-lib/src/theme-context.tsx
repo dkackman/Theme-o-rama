@@ -84,6 +84,8 @@ export function ThemeProvider({
     try {
       const theme = themeLoader.loadThemeFromJson(themeJson);
       if (theme) {
+        // Store the custom theme in the cache so it persists
+        themeCache.setTheme(theme);
         setCurrentTheme(theme);
         applyTheme(theme, document.documentElement);
         setSavedTheme('custom'); // Mark as custom theme
