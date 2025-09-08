@@ -1,4 +1,6 @@
 import { useInsets } from '@/contexts/SafeAreaContext';
+import iconDark from '@/icon-dark.png';
+import iconLight from '@/icon-light.png';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -117,7 +119,9 @@ export default function Header(
                 aria-label={t`Go to wallet`}
               >
                 <img
-                  src={currentTheme?.icon_path}
+                  src={
+                    currentTheme?.most_like === 'light' ? iconDark : iconLight
+                  }
                   className='h-6 w-6'
                   alt={t`Theme icon`}
                   aria-hidden='true'
