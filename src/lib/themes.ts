@@ -1,78 +1,47 @@
-import { loadBuiltInTheme } from './theme';
-import { Theme } from './theme.type';
-
-let themesCache: Theme[] | null = null;
-let cachePromise: Promise<Theme[]> | null = null;
+import { Theme } from 'theme-o-rama';
 
 // Dynamically discover theme folders by scanning the themes directory
-async function discoverThemeFolders(): Promise<string[]> {
+export async function discoverThemes(): Promise<Theme[]> {
   try {
     // Use dynamic imports to discover available themes
     const themeModules = import.meta.glob('../themes/*/theme.json', {
-      eager: false,
+      eager: true,
     });
 
-    // Extract theme names from the module paths
-    const themeNames = Object.keys(themeModules)
-      .map((path) => {
+    // Extract theme JSON contents from the module paths
+    const themeContents = Object.entries(themeModules)
+      .map(([path, module]) => {
         // Path format: "../themes/themeName/theme.json"
         const match = path.match(/\.\.\/themes\/([^/]+)\/theme\.json$/);
-        return match ? match[1] : null;
+        if (match) {
+          return module as Theme;
+        }
+        return null;
       })
-      .filter((name): name is string => name !== null);
+      .filter((theme): theme is Theme => theme !== null);
 
-    // Sort theme names alphabetically
-    return themeNames.sort();
+    return themeContents;
   } catch (error) {
     console.warn('Could not discover theme folders:', error);
     return [];
   }
 }
 
-export async function loadThemes(): Promise<Theme[]> {
-  // Return cached themes if available
-  if (themesCache !== null) {
-    return themesCache;
+export function resolveThemeImage(
+  themeName: string,
+  imagePath: string,
+): string {
+  // Use static glob import to avoid dynamic import warnings for local files
+  const imageModules = import.meta.glob(
+    '../themes/*/*.{jpg,jpeg,png,gif,webp}',
+    { eager: true },
+  );
+  const resolvedPath = `../themes/${themeName}/${imagePath}`;
+  const imageModule = imageModules[resolvedPath];
+
+  if (imageModule) {
+    return (imageModule as { default: string }).default;
   }
 
-  // If already loading, return the existing promise
-  if (cachePromise !== null) {
-    return cachePromise;
-  }
-
-  // Start loading themes and cache the promise
-  cachePromise = discoverThemeFolders()
-    .then((themeFolders) =>
-      Promise.all(themeFolders.map((themeName) => loadBuiltInTheme(themeName))),
-    )
-    .then((themes) => {
-      // Filter out null themes (themes that failed to load)
-      const defaultThemes = themes.filter(
-        (theme): theme is Theme => theme !== null,
-      );
-      return defaultThemes;
-    })
-    .then(async (defaultThemes) => {
-      const allThemes = [...(defaultThemes || [])];
-
-      themesCache = allThemes;
-      return allThemes;
-    })
-    .catch((error) => {
-      console.error('Error loading themes:', error);
-      cachePromise = null;
-      return [];
-    });
-
-  return cachePromise;
-}
-
-export async function getThemeByName(name: string): Promise<Theme | undefined> {
-  const themes = await loadThemes();
-  return themes.find((theme) => theme.name === name);
-}
-
-export function invalidateThemeCache(): void {
-  themesCache = null;
-  cachePromise = null;
+  return `../themes/${themeName}/${imagePath}`;
 }

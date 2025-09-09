@@ -33,7 +33,7 @@ Themes are JSON files located in `src/themes/[theme-name]/theme.json`. Each them
   "name": "my-theme",
   "displayName": "My Custom Theme",
   "schemaVersion": 1,
-  "most_like": "light",
+  "mostLike": "light",
   "colors": {
     /* color definitions */
   },
@@ -54,7 +54,7 @@ Themes are JSON files located in `src/themes/[theme-name]/theme.json`. Each them
 - `name`: Unique identifier (lowercase, no spaces)
 - `displayName`: Human-readable name
 - `schemaVersion`: Currently `1`
-- `most_like`: Either `"light"` or `"dark"` (affects icon selection)
+- `mostLike`: Either `"light"` or `"dark"` (affects icon selection)
 
 ### Theme Inheritance
 

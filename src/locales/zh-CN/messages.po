@@ -347,15 +347,15 @@ msgstr ""
 #~ msgid "Analyze Duration"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:160
+#: src/pages/Themes.tsx:177
 msgid "Apply Custom Theme"
 msgstr ""
 
-#: src/pages/Themes.tsx:204
+#: src/pages/Themes.tsx:239
 msgid "Apply Theme"
 msgstr ""
 
-#: src/pages/Themes.tsx:199
+#: src/pages/Themes.tsx:234
 msgid "Applying..."
 msgstr ""
 
@@ -367,7 +367,7 @@ msgstr ""
 #~ msgid "Approving"
 #~ msgstr ""
 
-#: src/components/ThemeCard.tsx:176
+#: src/components/ThemeCard.tsx:142
 msgid "Are you sure you want to delete the theme \"{0}\"?"
 msgstr ""
 
@@ -478,8 +478,8 @@ msgstr ""
 #~ msgid "Automatically start the RPC server when the app launches"
 #~ msgstr ""
 
-#: src/components/Header.tsx:54
-#: src/components/Header.tsx:142
+#: src/components/Header.tsx:56
+#: src/components/Header.tsx:146
 msgid "Back"
 msgstr "返回"
 
@@ -603,7 +603,7 @@ msgstr ""
 #~ msgstr "禁用此功能后, 将创建一个冷钱包, 该钱包无法签署交易. 需要将助记词保存在其他地方."
 
 #: src/pages/Dialogs.tsx:122
-#: src/components/ThemeCard.tsx:187
+#: src/components/ThemeCard.tsx:153
 msgid "Cancel"
 msgstr "取消"
 
@@ -706,7 +706,7 @@ msgstr ""
 #~ msgid "Choose your preferred theme"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:144
+#: src/pages/Themes.tsx:156
 msgid "Choose Your Theme"
 msgstr ""
 
@@ -736,7 +736,7 @@ msgstr ""
 #~ msgid "Clawback Expiration"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:214
+#: src/pages/Themes.tsx:249
 msgid "Clear & Reset"
 msgstr ""
 
@@ -821,8 +821,8 @@ msgstr ""
 #~ msgid "Cold Wallet"
 #~ msgstr "冷钱包"
 
-#: src/components/Layout.tsx:104
-#: src/components/Layout.tsx:119
+#: src/components/Layout.tsx:106
+#: src/components/Layout.tsx:121
 msgid "Collapse sidebar"
 msgstr ""
 
@@ -904,7 +904,7 @@ msgid "Component Examples"
 msgstr ""
 
 #: src/pages/Components.tsx:70
-#: src/components/Nav.tsx:44
+#: src/components/Nav.tsx:38
 msgid "Components"
 msgstr ""
 
@@ -1233,7 +1233,7 @@ msgstr ""
 #~ msgid "Default Offer Expiry"
 #~ msgstr ""
 
-#: src/components/ThemeSelector.tsx:78
+#: src/components/ThemeSelector.tsx:49
 msgid "Default Themes"
 msgstr ""
 
@@ -1289,7 +1289,7 @@ msgstr ""
 #~ msgid "Delete saved offer files"
 #~ msgstr "删除已保存报价"
 
-#: src/components/ThemeCard.tsx:173
+#: src/components/ThemeCard.tsx:139
 msgid "Delete Theme"
 msgstr ""
 
@@ -1297,8 +1297,8 @@ msgstr ""
 #: src/components/ThemeCard.tsx:78
 #: src/components/ThemeCard.tsx:135
 #: src/components/ThemeCard.tsx:136
-msgid "Delete theme {0}"
-msgstr ""
+#~ msgid "Delete theme {0}"
+#~ msgstr ""
 
 #: src/pages/Login.tsx:533
 #~ msgid "Delete unhardened addresses"
@@ -1365,7 +1365,7 @@ msgstr ""
 msgid "Dialog"
 msgstr ""
 
-#: src/components/Nav.tsx:58
+#: src/components/Nav.tsx:52
 msgid "Dialogs"
 msgstr ""
 
@@ -1560,7 +1560,7 @@ msgstr ""
 #~ msgid "Enter your mnemonic, private key, or public key below. If it's a public key, it will be imported as a read-only cold wallet."
 #~ msgstr "请输入助记词、私钥或公钥. 如果是公钥, 它将作为只读冷钱包导入."
 
-#: src/pages/Themes.tsx:105
+#: src/pages/Themes.tsx:114
 msgid "Error loading themes"
 msgstr ""
 
@@ -1583,8 +1583,8 @@ msgstr ""
 #~ msgid "Exercise Option"
 #~ msgstr ""
 
-#: src/components/Layout.tsx:104
-#: src/components/Layout.tsx:119
+#: src/components/Layout.tsx:106
+#: src/components/Layout.tsx:121
 msgid "Expand sidebar"
 msgstr ""
 
@@ -1705,8 +1705,8 @@ msgstr ""
 #~ msgstr ""
 
 #: src/components/ThemeSelector.tsx:58
-msgid "Featured Themes"
-msgstr ""
+#~ msgid "Featured Themes"
+#~ msgstr ""
 
 #: src/components/ConfirmationDialog.tsx:454
 #: src/components/AdvancedTransactionSummary.tsx:86
@@ -1781,6 +1781,10 @@ msgstr ""
 #~ msgid "Global"
 #~ msgstr "全局"
 
+#: src/components/Header.tsx:119
+msgid "Go to home"
+msgstr ""
+
 #: src/components/Pagination.tsx:112
 msgid "Go to next page"
 msgstr ""
@@ -1794,8 +1798,8 @@ msgid "Go to previous page"
 msgstr ""
 
 #: src/components/Header.tsx:117
-msgid "Go to wallet"
-msgstr "前往钱包"
+#~ msgid "Go to wallet"
+#~ msgstr "前往钱包"
 
 #: src/components/NftOptions.tsx:374
 #: src/components/NftOptions.tsx:378
@@ -2131,9 +2135,9 @@ msgstr ""
 #~ msgid "Loading profile"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:87
+#: src/pages/Themes.tsx:96
 #: src/components/ThemeSelector.tsx:15
-#: src/components/ThemeSelector.tsx:132
+#: src/components/ThemeSelector.tsx:83
 msgid "Loading themes..."
 msgstr ""
 
@@ -2174,7 +2178,7 @@ msgstr ""
 #~ msgid "Logout"
 #~ msgstr "退出"
 
-#: src/components/Nav.tsx:30
+#: src/components/Nav.tsx:24
 msgid "Main navigation"
 msgstr ""
 
@@ -2237,8 +2241,8 @@ msgstr ""
 #~ msgstr "元数据网址"
 
 #: src/components/Nav.tsx:65
-msgid "Mint"
-msgstr "铸造"
+#~ msgid "Mint"
+#~ msgstr "铸造"
 
 #: src/pages/NftList.tsx:126
 #~ msgid "Mint an NFT?"
@@ -2336,7 +2340,7 @@ msgstr ""
 msgid "Navigate to: {content}"
 msgstr ""
 
-#: src/components/Header.tsx:77
+#: src/components/Header.tsx:79
 msgid "Navigation menu"
 msgstr ""
 
@@ -2538,7 +2542,7 @@ msgstr ""
 msgid "No results."
 msgstr "无结果."
 
-#: src/pages/Themes.tsx:123
+#: src/pages/Themes.tsx:132
 #: src/components/ThemeSelector.tsx:34
 msgid "No theme available"
 msgstr ""
@@ -2886,11 +2890,11 @@ msgstr ""
 #~ msgid "Paste your offer string or URL here..."
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:163
+#: src/pages/Themes.tsx:180
 msgid "Paste your theme JSON below to apply a custom theme to the entire application."
 msgstr ""
 
-#: src/pages/Themes.tsx:176
+#: src/pages/Themes.tsx:211
 msgid "Paste your theme JSON here..."
 msgstr ""
 
@@ -3388,7 +3392,7 @@ msgstr ""
 #~ msgid "Select coin row"
 #~ msgstr "选择硬币行"
 
-#: src/pages/Themes.tsx:147
+#: src/pages/Themes.tsx:159
 msgid "Select from our collection of beautiful themes"
 msgstr ""
 
@@ -3607,7 +3611,7 @@ msgstr ""
 #~ msgid "Showing {length} rows"
 #~ msgstr ""
 
-#: src/components/Layout.tsx:91
+#: src/components/Layout.tsx:93
 msgid "Sidebar navigation"
 msgstr ""
 
@@ -3834,7 +3838,7 @@ msgstr ""
 #~ msgid "Syncing in progress..."
 #~ msgstr "同步进行中..."
 
-#: src/components/Nav.tsx:51
+#: src/components/Nav.tsx:45
 msgid "Tables"
 msgstr ""
 
@@ -3940,31 +3944,31 @@ msgstr ""
 #~ msgid "Theme"
 #~ msgstr ""
 
-#: src/components/Layout.tsx:40
-#: src/components/Layout.tsx:63
-#: src/components/Header.tsx:122
+#: src/components/Layout.tsx:42
+#: src/components/Layout.tsx:65
+#: src/components/Header.tsx:126
 msgid "Theme icon"
 msgstr ""
 
-#: src/pages/Themes.tsx:172
+#: src/pages/Themes.tsx:207
 msgid "Theme JSON"
 msgstr ""
 
-#: src/components/ThemeCard.tsx:127
+#: src/components/ThemeCard.tsx:107
 msgid "Theme selected"
 msgstr ""
 
-#: src/components/Layout.tsx:48
-#: src/components/Layout.tsx:67
+#: src/components/Layout.tsx:50
+#: src/components/Layout.tsx:69
 msgid "Theme-o-rama"
 msgstr ""
 
-#: src/pages/Themes.tsx:227
+#: src/pages/Themes.tsx:262
 #: src/pages/Tables.tsx:89
 #: src/pages/Mint.tsx:43
 #: src/pages/Dialogs.tsx:138
 #: src/pages/Components.tsx:270
-#: src/components/Nav.tsx:36
+#: src/components/Nav.tsx:30
 msgid "Themes"
 msgstr ""
 
@@ -4231,7 +4235,7 @@ msgstr ""
 #~ msgid "Toggle multi-select"
 #~ msgstr "切换多重选择"
 
-#: src/components/Header.tsx:64
+#: src/components/Header.tsx:66
 msgid "Toggle navigation menu"
 msgstr "切换导航菜单"
 
@@ -4903,5 +4907,5 @@ msgstr ""
 #~ msgstr ""
 
 #: src/components/ThemeSelector.tsx:98
-msgid "Your Themes"
-msgstr ""
+#~ msgid "Your Themes"
+#~ msgstr ""

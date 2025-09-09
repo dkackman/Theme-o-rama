@@ -4,4 +4,3 @@ pnpm prettier
 pnpm run extract    
 pnpm run compile    
 pnpm run build:web
-cp -rf dist-web/* docs/
