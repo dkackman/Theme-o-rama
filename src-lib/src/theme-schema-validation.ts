@@ -26,5 +26,15 @@ export function validateTheme(data: unknown): Theme {
   if (typeof obj.schemaVersion !== 'number')
     throw new Error('Invalid theme JSON structure. schemaVersion is required');
 
-  return parsedData as Theme;
+  const theme = parsedData as Theme;
+  if (theme.schemaVersion !== 1)
+    throw new Error(
+      `Invalid theme JSON structure. Unrecognized schemaVersion: ${theme.schemaVersion}`,
+    );
+
+  if (!theme.tags) {
+    theme.tags = [];
+  }
+
+  return theme;
 }

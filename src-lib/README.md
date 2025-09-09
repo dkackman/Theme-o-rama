@@ -32,6 +32,10 @@ const myTheme: Theme = {
 
 Theme-o-rama provides Tailwind CSS extensions that work with the dynamic theming system. To use them in your app:
 
+```css
+@import 'theme-o-rama/themes.css';
+```
+
 ```javascript
 // tailwind.config.js
 import { themeExtensions } from 'theme-o-rama/tailwind.config.js';
@@ -60,25 +64,10 @@ The `themeExtensions` include:
 - **Box shadows** with CSS variables (`--shadow-sm`, `--shadow-md`, etc.)
 - **Color system** with CSS variables (`--background`, `--foreground`, etc.)
 
-### JSON Schema
-
-Theme-o-rama also provides a JSON schema for theme validation:
-
-```javascript
-// Import the schema for validation
-import schema from 'theme-o-rama/schema.json';
-
-// Use with your favorite JSON schema validator
-import Ajv from 'ajv';
-const ajv = new Ajv();
-const validate = ajv.compile(schema);
-```
-
 ### React Integration
 
 ```typescript
 import { ThemeProvider, useTheme } from 'theme-o-rama';
-import 'theme-o-rama/themes.css';
 
 // Theme discovery function (optional)
 async function discoverThemes() {
@@ -110,14 +99,10 @@ function App() {
 
 function YourComponent() {
   const {
-    currentTheme,
     setTheme,
-    setCustomTheme,
     availableThemes,
     isLoading,
     error,
-    lastUsedNonCoreTheme,
-    reloadThemes
   } = useTheme();
 
   if (isLoading) return <div>Loading themes...</div>;
@@ -126,13 +111,7 @@ function YourComponent() {
   return (
     <div>
       <button onClick={() => setTheme('amiga')}>
-        Switch to Dark Theme
-      </button>
-      <button onClick={() => setCustomTheme(themeJson)}>
-        Apply Custom Theme
-      </button>
-      <button onClick={reloadThemes}>
-        Reload Themes
+        Switch to Amiga Theme
       </button>
 
       {/* Display available themes */}
@@ -156,7 +135,7 @@ function YourComponent() {
 
 Theme-o-rama supports dynamic theme discovery through the `discoverThemes` prop. Standard `light` and `dark` themes are always included.
 
-This allows you to load themes from various sources:
+This allows you to load themes from source of your choice:
 
 ```typescript
 // Example: Loading themes from a file system (Vite)
@@ -228,13 +207,13 @@ const darkTheme: Theme = {
   name: 'my-dark',
   displayName: 'Dark Theme',
   schemaVersion: 1,
-  inherits: 'dark', // Inherits from base theme
+  inherits: 'dark', // Inherits from dark theme
   colors: {
     background: '#1a1a1a',
     foreground: '#ffffff',
-    // primary is inherited from base theme
+    // primary is inherited from dark theme
   },
-  // fonts and corners are inherited from base theme
+  // fonts and corners are inherited from dark theme
 };
 ```
 
@@ -348,30 +327,6 @@ const customTheme: Theme = {
   },
 };
 ```
-
-## Features
-
-- **Comprehensive TypeScript definitions** for theme objects with full type safety
-- **Dynamic theme discovery** with support for file system, API, and static imports
-- **Theme inheritance** allowing themes to extend and override other themes
-- **Custom theme support** with JSON validation and runtime theme application
-- **Background image support** with automatic image resolution and CSS variable injection
-- **Component-specific styling** for:
-  - **Tables**: Headers, rows, cells, footers with hover and selection states
-  - **Buttons**: Multiple variants (default, outline, secondary, destructive, ghost, link) with hover/active states
-  - **Switches**: Custom checked/unchecked states and thumb styling
-  - **Sidebars**: Background, borders, and backdrop filters
-- **Advanced CSS features**:
-  - Backdrop filters with webkit fallbacks
-  - Button style flags (gradient, shimmer, pixel-art, 3D effects, rounded buttons)
-  - Comprehensive color system with transparent variants
-  - Font family management with CSS variables
-  - Border radius and shadow systems
-- **Theme persistence** with localStorage integration and migration support
-- **Error handling** with loading states and validation feedback
-- **JSON schema validation** for theme structure validation and IDE support
-- **Tailwind CSS integration** with theme-specific extensions and CSS variables
-- **React hooks** for theme management with comprehensive state handling
 
 ## Development
 

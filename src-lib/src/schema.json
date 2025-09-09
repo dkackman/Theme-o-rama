@@ -860,6 +860,12 @@
         }
       },
       "type": "object"
+    },
+    "tags": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
     }
   },
   "required": ["displayName", "name", "schemaVersion"],
