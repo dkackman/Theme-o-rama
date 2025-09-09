@@ -15,6 +15,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import {
+  Copy,
   Info,
   Loader2,
   Maximize2,
@@ -27,8 +28,14 @@ import { useEffect, useState } from 'react';
 import { useTheme } from 'theme-o-rama';
 
 export default function Themes() {
-  const { currentTheme, isLoading, error, setTheme, setCustomTheme } =
-    useTheme();
+  const {
+    currentTheme,
+    isLoading,
+    error,
+    setTheme,
+    setCustomTheme,
+    reloadThemes,
+  } = useTheme();
   const [themeJson, setThemeJson] = useState('');
   const [isApplying, setIsApplying] = useState(false);
   const [applyError, setApplyError] = useState<string | null>(null);
@@ -82,6 +89,14 @@ export default function Themes() {
     setApplyError(null);
     localStorage.removeItem('custom-theme-json');
     await setTheme('light');
+  };
+
+  const handleCopyCurrentTheme = () => {
+    if (currentTheme) {
+      const themeJsonString = JSON.stringify(currentTheme, null, 2);
+      updateThemeJson(themeJsonString);
+      setApplyError(null);
+    }
   };
 
   if (isLoading) {
@@ -151,15 +166,30 @@ export default function Themes() {
             {!isMaximized && (
               <Card>
                 <CardHeader>
-                  <CardTitle className='flex items-center gap-2'>
-                    <Palette className='h-5 w-5' />
-                    <Trans>Choose Your Theme</Trans>
-                  </CardTitle>
-                  <CardDescription>
-                    <Trans>
-                      Select from our collection of beautiful themes
-                    </Trans>
-                  </CardDescription>
+                  <div className='flex items-center justify-between'>
+                    <div>
+                      <CardTitle className='flex items-center gap-2'>
+                        <Palette className='h-5 w-5' />
+                        <Trans>Choose Your Theme</Trans>
+                      </CardTitle>
+                      <CardDescription>
+                        <Trans>
+                          Select from our collection of beautiful themes
+                        </Trans>
+                      </CardDescription>
+                    </div>
+                    <Button
+                      variant='outline'
+                      size='sm'
+                      onClick={reloadThemes}
+                      disabled={isLoading}
+                    >
+                      <Loader2
+                        className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`}
+                      />
+                      <Trans>Reload Themes</Trans>
+                    </Button>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <ThemeSelector />
@@ -223,30 +253,41 @@ export default function Themes() {
                 )}
 
                 <div className='flex flex-col sm:flex-row gap-2'>
+                  <div className='flex flex-col sm:flex-row gap-2'>
+                    <Button
+                      onClick={handleApplyTheme}
+                      disabled={isApplying || !themeJson.trim()}
+                      className='w-full sm:w-auto'
+                    >
+                      {isApplying ? (
+                        <>
+                          <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                          <Trans>Applying...</Trans>
+                        </>
+                      ) : (
+                        <>
+                          <Upload className='mr-2 h-4 w-4' />
+                          <Trans>Apply Theme</Trans>
+                        </>
+                      )}
+                    </Button>
+                    <Button
+                      onClick={handleClearTheme}
+                      variant='outline'
+                      className='w-full sm:w-auto'
+                    >
+                      <X className='mr-2 h-4 w-4' />
+                      <Trans>Clear & Reset</Trans>
+                    </Button>
+                  </div>
                   <Button
-                    onClick={handleApplyTheme}
-                    disabled={isApplying || !themeJson.trim()}
-                    className='w-full sm:w-auto'
-                  >
-                    {isApplying ? (
-                      <>
-                        <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                        <Trans>Applying...</Trans>
-                      </>
-                    ) : (
-                      <>
-                        <Upload className='mr-2 h-4 w-4' />
-                        <Trans>Apply Theme</Trans>
-                      </>
-                    )}
-                  </Button>
-                  <Button
-                    onClick={handleClearTheme}
+                    onClick={handleCopyCurrentTheme}
                     variant='outline'
-                    className='w-full sm:w-auto'
+                    disabled={!currentTheme}
+                    className='w-full sm:w-auto sm:ml-auto'
                   >
-                    <X className='mr-2 h-4 w-4' />
-                    <Trans>Clear & Reset</Trans>
+                    <Copy className='mr-2 h-4 w-4' />
+                    <Trans>Insert Current Theme JSON</Trans>
                   </Button>
                 </div>
               </CardContent>

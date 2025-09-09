@@ -1,4 +1,3 @@
-import dark from './dark.json';
 import light from './light.json';
 import { Theme } from './theme.type';
 
@@ -7,8 +6,6 @@ export class ThemeCache {
 
   constructor() {
     this.themesCache = new Map<string, Theme>();
-    this.themesCache.set('dark', dark as Theme);
-    this.themesCache.set('light', light as Theme);
   }
 
   public getThemeSafe(themeName: string | null): Theme {
@@ -33,12 +30,12 @@ export class ThemeCache {
     return this.themesCache.get(name);
   }
 
-  public setTheme(theme: Theme): void {
+  public addTheme(theme: Theme): void {
     this.themesCache.set(theme.name, theme);
   }
 
-  public setThemes(themes: Theme[]): void {
-    themes.forEach((theme) => this.setTheme(theme));
+  public addThemes(themes: Theme[]): void {
+    themes.forEach((theme) => this.addTheme(theme));
   }
 
   public getThemes(): Theme[] {
@@ -51,7 +48,5 @@ export class ThemeCache {
 
   public invalidate(): void {
     this.themesCache.clear();
-    this.themesCache.set('dark', dark as Theme);
-    this.themesCache.set('light', light as Theme);
   }
 }

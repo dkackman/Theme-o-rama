@@ -6,7 +6,9 @@ import React, {
   useState,
 } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
+import darkTheme from './dark.json';
 import { applyTheme, Theme } from './index';
+import lightTheme from './light.json';
 import { ThemeCache } from './theme-cache';
 import { ImageResolver, ThemeLoader } from './theme-loader';
 
@@ -89,7 +91,7 @@ export function ThemeProvider({
       const theme = themeLoader.loadThemeFromJson(themeJson);
       if (theme) {
         // Store the custom theme in the cache so it persists
-        themeCache.setTheme(theme);
+        themeCache.addTheme(theme);
         setCurrentTheme(theme);
         applyTheme(theme, document.documentElement);
         setSavedTheme('custom'); // Mark as custom theme
@@ -118,16 +120,16 @@ export function ThemeProvider({
       setIsLoading(true);
       setError(null);
 
-      const themeData = await discoverThemes();
-      // Invalidate cache to force fresh load
       themeCache.invalidate();
+      const coreThemes = themeLoader.loadThemes([
+        darkTheme as Theme,
+        lightTheme as Theme,
+      ]);
+      themeCache.addThemes(coreThemes);
 
-      const themes = themeLoader.loadThemes(themeData, imageResolver);
-      themeCache.setThemes(themes);
-      if (themes.length === 0) {
-        setCurrentTheme(null);
-        return;
-      }
+      const appThemes = await discoverThemes();
+      const themes = themeLoader.loadThemes(appThemes, imageResolver);
+      themeCache.addThemes(themes);
 
       const theme = themeCache.getThemeSafe(savedTheme);
       setCurrentTheme(theme);
@@ -156,15 +158,13 @@ export function ThemeProvider({
         setIsLoading(true);
         setError(null);
 
-        const themeData = await discoverThemes();
-        const themes = themeLoader.loadThemes(themeData, imageResolver);
-        themeCache.setThemes(themes);
+        const d2 = themeLoader.loadTheme(lightTheme as Theme);
+        const d1 = themeLoader.loadTheme(darkTheme as Theme);
+        themeCache.addThemes([d1, d2]);
 
-        // If no themes loaded, just use CSS defaults
-        if (themes.length === 0) {
-          setCurrentTheme(null);
-          return;
-        }
+        const appThemes = await discoverThemes();
+        const themes = themeLoader.loadThemes(appThemes, imageResolver);
+        themeCache.addThemes(themes);
 
         // Check for legacy dark setting and migrate if needed
         if (dark && !savedTheme) {
