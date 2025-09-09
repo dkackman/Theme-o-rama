@@ -121,15 +121,7 @@ export function ThemeProvider({
       setError(null);
 
       themeCache.invalidate();
-      const coreThemes = themeLoader.loadThemes([
-        darkTheme as Theme,
-        lightTheme as Theme,
-      ]);
-      themeCache.addThemes(coreThemes);
-
-      const appThemes = await discoverThemes();
-      const themes = themeLoader.loadThemes(appThemes, imageResolver);
-      themeCache.addThemes(themes);
+      await loadAndCacheThemes(discoverThemes, imageResolver);
 
       const theme = themeCache.getThemeSafe(savedTheme);
       setCurrentTheme(theme);
@@ -158,20 +150,13 @@ export function ThemeProvider({
         setIsLoading(true);
         setError(null);
 
-        const d2 = themeLoader.loadTheme(lightTheme as Theme);
-        const d1 = themeLoader.loadTheme(darkTheme as Theme);
-        themeCache.addThemes([d1, d2]);
-
-        const appThemes = await discoverThemes();
-        const themes = themeLoader.loadThemes(appThemes, imageResolver);
-        themeCache.addThemes(themes);
+        await loadAndCacheThemes(discoverThemes, imageResolver);
 
         // Check for legacy dark setting and migrate if needed
         if (dark && !savedTheme) {
           setSavedTheme('dark');
         }
 
-        // Load saved theme from localStorage or use fallback
         const theme = themeCache.getThemeSafe(savedTheme);
         setCurrentTheme(theme);
         applyTheme(theme, document.documentElement);
@@ -188,6 +173,17 @@ export function ThemeProvider({
     initializeThemes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [savedTheme, dark, setSavedTheme]);
+
+  async function loadAndCacheThemes(
+    discoverThemes: ThemeDiscoveryFunction,
+    imageResolver: ImageResolver | null = null,
+  ) {
+    themeCache.addTheme(themeLoader.loadTheme(lightTheme as Theme));
+    themeCache.addTheme(themeLoader.loadTheme(darkTheme as Theme));
+    const appThemes = await discoverThemes();
+    const themes = themeLoader.loadThemes(appThemes, imageResolver);
+    themeCache.addThemes(themes);
+  }
 
   return (
     <ThemeContext.Provider
