@@ -347,15 +347,15 @@ msgstr "Accent"
 #~ msgid "Analyze Duration"
 #~ msgstr "Analyze Duration"
 
-#: src/pages/Themes.tsx:177
+#: src/pages/Themes.tsx:207
 msgid "Apply Custom Theme"
 msgstr "Apply Custom Theme"
 
-#: src/pages/Themes.tsx:239
+#: src/pages/Themes.tsx:270
 msgid "Apply Theme"
 msgstr "Apply Theme"
 
-#: src/pages/Themes.tsx:234
+#: src/pages/Themes.tsx:265
 msgid "Applying..."
 msgstr "Applying..."
 
@@ -706,7 +706,7 @@ msgstr "Checkbox"
 #~ msgid "Choose your preferred theme"
 #~ msgstr "Choose your preferred theme"
 
-#: src/pages/Themes.tsx:156
+#: src/pages/Themes.tsx:173
 msgid "Choose Your Theme"
 msgstr "Choose Your Theme"
 
@@ -736,7 +736,7 @@ msgstr "Choose Your Theme"
 #~ msgid "Clawback Expiration"
 #~ msgstr "Clawback Expiration"
 
-#: src/pages/Themes.tsx:249
+#: src/pages/Themes.tsx:280
 msgid "Clear & Reset"
 msgstr "Clear & Reset"
 
@@ -1560,7 +1560,7 @@ msgstr "Dialogs Theme"
 #~ msgid "Enter your mnemonic, private key, or public key below. If it's a public key, it will be imported as a read-only cold wallet."
 #~ msgstr "Enter your mnemonic, private key, or public key below. If it's a public key, it will be imported as a read-only cold wallet."
 
-#: src/pages/Themes.tsx:114
+#: src/pages/Themes.tsx:129
 msgid "Error loading themes"
 msgstr "Error loading themes"
 
@@ -1988,6 +1988,10 @@ msgstr "Input field"
 #~ msgid "Input field example"
 #~ msgstr "Input field example"
 
+#: src/pages/Themes.tsx:290
+msgid "Insert Current Theme JSON"
+msgstr "Insert Current Theme JSON"
+
 #: src/pages/Send.tsx:127
 #~ msgid "Invalid address"
 #~ msgstr "Invalid address"
@@ -2135,7 +2139,7 @@ msgstr "Loading"
 #~ msgid "Loading profile"
 #~ msgstr "Loading profile"
 
-#: src/pages/Themes.tsx:96
+#: src/pages/Themes.tsx:111
 #: src/components/ThemeSelector.tsx:15
 #: src/components/ThemeSelector.tsx:83
 msgid "Loading themes..."
@@ -2542,7 +2546,7 @@ msgstr "No more than 10 spoons"
 msgid "No results."
 msgstr "No results."
 
-#: src/pages/Themes.tsx:132
+#: src/pages/Themes.tsx:147
 #: src/components/ThemeSelector.tsx:34
 msgid "No theme available"
 msgstr "No theme available"
@@ -2890,11 +2894,11 @@ msgstr "Pagination"
 #~ msgid "Paste your offer string or URL here..."
 #~ msgstr "Paste your offer string or URL here..."
 
-#: src/pages/Themes.tsx:180
+#: src/pages/Themes.tsx:210
 msgid "Paste your theme JSON below to apply a custom theme to the entire application."
 msgstr "Paste your theme JSON below to apply a custom theme to the entire application."
 
-#: src/pages/Themes.tsx:211
+#: src/pages/Themes.tsx:241
 msgid "Paste your theme JSON here..."
 msgstr "Paste your theme JSON here..."
 
@@ -3160,6 +3164,10 @@ msgstr "Primary"
 #~ msgid "Refreshing token info..."
 #~ msgstr "Refreshing token info..."
 
+#: src/pages/Themes.tsx:190
+msgid "Reload Themes"
+msgstr "Reload Themes"
+
 #: src/components/WalletCard.tsx:308
 #~ msgid "Remove Emoji"
 #~ msgstr "Remove Emoji"
@@ -3392,7 +3400,7 @@ msgstr "Select a value"
 #~ msgid "Select coin row"
 #~ msgstr "Select coin row"
 
-#: src/pages/Themes.tsx:159
+#: src/pages/Themes.tsx:176
 msgid "Select from our collection of beautiful themes"
 msgstr "Select from our collection of beautiful themes"
 
@@ -3950,7 +3958,7 @@ msgstr "Tables Theme"
 msgid "Theme icon"
 msgstr "Theme icon"
 
-#: src/pages/Themes.tsx:207
+#: src/pages/Themes.tsx:237
 msgid "Theme JSON"
 msgstr "Theme JSON"
 
@@ -3963,7 +3971,7 @@ msgstr "Theme selected"
 msgid "Theme-o-rama"
 msgstr "Theme-o-rama"
 
-#: src/pages/Themes.tsx:262
+#: src/pages/Themes.tsx:303
 #: src/pages/Tables.tsx:89
 #: src/pages/Mint.tsx:43
 #: src/pages/Dialogs.tsx:138

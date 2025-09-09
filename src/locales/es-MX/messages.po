@@ -347,15 +347,15 @@ msgstr ""
 #~ msgid "Analyze Duration"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:177
+#: src/pages/Themes.tsx:207
 msgid "Apply Custom Theme"
 msgstr ""
 
-#: src/pages/Themes.tsx:239
+#: src/pages/Themes.tsx:270
 msgid "Apply Theme"
 msgstr ""
 
-#: src/pages/Themes.tsx:234
+#: src/pages/Themes.tsx:265
 msgid "Applying..."
 msgstr ""
 
@@ -706,7 +706,7 @@ msgstr ""
 #~ msgid "Choose your preferred theme"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:156
+#: src/pages/Themes.tsx:173
 msgid "Choose Your Theme"
 msgstr ""
 
@@ -736,7 +736,7 @@ msgstr ""
 #~ msgid "Clawback Expiration"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:249
+#: src/pages/Themes.tsx:280
 msgid "Clear & Reset"
 msgstr ""
 
@@ -1560,7 +1560,7 @@ msgstr ""
 #~ msgid "Enter your mnemonic, private key, or public key below. If it's a public key, it will be imported as a read-only cold wallet."
 #~ msgstr "Introduce tu mnemotécnico, clave privada o clave pública a continuación. Si es una clave pública, se importará como una billetera fría de solo lectura."
 
-#: src/pages/Themes.tsx:114
+#: src/pages/Themes.tsx:129
 msgid "Error loading themes"
 msgstr ""
 
@@ -1988,6 +1988,10 @@ msgstr ""
 #~ msgid "Input field example"
 #~ msgstr ""
 
+#: src/pages/Themes.tsx:290
+msgid "Insert Current Theme JSON"
+msgstr ""
+
 #: src/pages/Send.tsx:127
 #~ msgid "Invalid address"
 #~ msgstr "Dirección inválida"
@@ -2135,7 +2139,7 @@ msgstr ""
 #~ msgid "Loading profile"
 #~ msgstr "Cargando perfil"
 
-#: src/pages/Themes.tsx:96
+#: src/pages/Themes.tsx:111
 #: src/components/ThemeSelector.tsx:15
 #: src/components/ThemeSelector.tsx:83
 msgid "Loading themes..."
@@ -2542,7 +2546,7 @@ msgstr ""
 msgid "No results."
 msgstr "No hay resultados."
 
-#: src/pages/Themes.tsx:132
+#: src/pages/Themes.tsx:147
 #: src/components/ThemeSelector.tsx:34
 msgid "No theme available"
 msgstr ""
@@ -2890,11 +2894,11 @@ msgstr "Paginación"
 #~ msgid "Paste your offer string or URL here..."
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:180
+#: src/pages/Themes.tsx:210
 msgid "Paste your theme JSON below to apply a custom theme to the entire application."
 msgstr ""
 
-#: src/pages/Themes.tsx:211
+#: src/pages/Themes.tsx:241
 msgid "Paste your theme JSON here..."
 msgstr ""
 
@@ -3160,6 +3164,10 @@ msgstr ""
 #~ msgid "Refreshing token info..."
 #~ msgstr "Actualizando información del token..."
 
+#: src/pages/Themes.tsx:190
+msgid "Reload Themes"
+msgstr ""
+
 #: src/components/WalletCard.tsx:308
 #~ msgid "Remove Emoji"
 #~ msgstr ""
@@ -3392,7 +3400,7 @@ msgstr ""
 #~ msgid "Select coin row"
 #~ msgstr "Seleccionar fila de moneda"
 
-#: src/pages/Themes.tsx:159
+#: src/pages/Themes.tsx:176
 msgid "Select from our collection of beautiful themes"
 msgstr ""
 
@@ -3950,7 +3958,7 @@ msgstr ""
 msgid "Theme icon"
 msgstr ""
 
-#: src/pages/Themes.tsx:207
+#: src/pages/Themes.tsx:237
 msgid "Theme JSON"
 msgstr ""
 
@@ -3963,7 +3971,7 @@ msgstr ""
 msgid "Theme-o-rama"
 msgstr ""
 
-#: src/pages/Themes.tsx:262
+#: src/pages/Themes.tsx:303
 #: src/pages/Tables.tsx:89
 #: src/pages/Mint.tsx:43
 #: src/pages/Dialogs.tsx:138
