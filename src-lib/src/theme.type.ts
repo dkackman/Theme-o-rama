@@ -4,14 +4,12 @@ export interface Theme {
   name: string;
   displayName: string;
   schemaVersion: number; // 1 is the current version
-  isFeatured?: boolean;
   inherits?: string;
   mostLike?: 'light' | 'dark';
   backgroundImage?: string;
   backgroundSize?: string;
   backgroundPosition?: string;
   backgroundRepeat?: string;
-  isUserTheme?: boolean; // this is set at runtime by the loader
   colors?: {
     background?: string;
     backgroundTransparent?: string;

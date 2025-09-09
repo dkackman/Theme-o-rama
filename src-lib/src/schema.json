@@ -651,12 +651,6 @@
     "inherits": {
       "type": "string"
     },
-    "isFeatured": {
-      "type": "boolean"
-    },
-    "isUserTheme": {
-      "type": "boolean"
-    },
     "mostLike": {
       "enum": ["dark", "light"],
       "type": "string"
