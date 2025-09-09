@@ -1,0 +1,60 @@
+{
+  "name": "theme-o-rama",
+  "version": "0.1.0-alpha.3",
+  "description": "A TypeScript library for dynamic theme management in react + shadcn + tailwind applications",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./themes.css": "./dist/themes.css",
+    "./tailwind.config.js": "./dist/tailwind.config.js",
+    "./schema.json": "./dist/schema.json"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "bash build.sh",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build",
+    "prettier": "prettier --write ."
+  },
+  "keywords": [
+    "theme",
+    "dynamic",
+    "typescript",
+    "react",
+    "ui",
+    "styling",
+    "shadcn"
+  ],
+  "author": "dkackman",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dkackman/Theme-o-rama.git"
+  },
+  "homepage": "https://dkackman.github.io/Theme-o-rama",
+  "bugs": {
+    "url": "https://github.com/dkackman/Theme-o-rama/issues"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "@types/node": "^22.1.0",
+    "typescript": "^5.5.4",
+    "typescript-json-schema": "^0.65.1"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "dependencies": {
+    "usehooks-ts": "^3.1.0"
+  }
+}

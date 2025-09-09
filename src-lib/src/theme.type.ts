@@ -1,18 +1,16 @@
 // to generate json schema
-// typescript-json-schema src/lib/theme.type.ts Theme --required > ./src/themes/schema.json
+// typescript-json-schema src/theme.type.ts Theme --required > ./src/schema.json
 export interface Theme {
   name: string;
   displayName: string;
   schemaVersion: number; // 1 is the current version
-  isFeatured?: boolean;
   inherits?: string;
-  most_like?: 'light' | 'dark';
-  icon_path?: string;
+  mostLike?: 'light' | 'dark';
+  tags?: string[];
   backgroundImage?: string;
   backgroundSize?: string;
   backgroundPosition?: string;
   backgroundRepeat?: string;
-  isUserTheme?: boolean; // this is set at runtime by the loader
   colors?: {
     background?: string;
     backgroundTransparent?: string;

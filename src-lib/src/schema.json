@@ -1,7 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Sage Theme Schema",
-  "description": "This is the schema for a Sage theme",
   "properties": {
     "backgroundImage": {
       "type": "string"
@@ -650,16 +648,10 @@
       },
       "type": "object"
     },
-    "icon_path": {
-      "type": "string"
-    },
     "inherits": {
       "type": "string"
     },
-    "isUserTheme": {
-      "type": "boolean"
-    },
-    "most_like": {
+    "mostLike": {
       "enum": ["dark", "light"],
       "type": "string"
     },
@@ -868,6 +860,12 @@
         }
       },
       "type": "object"
+    },
+    "tags": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
     }
   },
   "required": ["displayName", "name", "schemaVersion"],

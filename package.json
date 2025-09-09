@@ -1,9 +1,9 @@
 {
-  "name": "sage",
+  "name": "theme-o-rama-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@10.15.1",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -15,7 +15,8 @@
     "prettier:check": "prettier --check .",
     "extract": "lingui extract",
     "compile": "lingui compile",
-    "extract:watch": "lingui extract --watch"
+    "extract:watch": "lingui extract --watch",
+    "clean": "rm -rf dist-web dist"
   },
   "dependencies": {
     "@buildyourwebapp/tauri-plugin-sharesheet": "^0.0.1",
@@ -75,6 +76,7 @@
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "tauri-plugin-safe-area-insets": "^0.1.0",
+    "theme-o-rama": "file:src-lib",
     "usehooks-ts": "^3.1.0",
     "zod": "^3.23.8",
     "zustand": "^4.5.5"

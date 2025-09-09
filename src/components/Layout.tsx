@@ -6,15 +6,17 @@ import {
 } from '@/components/ui/tooltip';
 
 import { useInsets } from '@/contexts/SafeAreaContext';
-import { useTheme } from '@/contexts/ThemeContext';
+import iconDark from '@/icon-dark.png';
+import iconLight from '@/icon-light.png';
 import { t } from '@lingui/core/macro';
 import { PanelLeft, PanelLeftClose } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
+import { useTheme } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 import { TopNav } from './Nav';
 
-const SIDEBAR_COLLAPSED_STORAGE_KEY = 'sage-wallet-sidebar-collapsed';
+const SIDEBAR_COLLAPSED_STORAGE_KEY = 'theme-o-rama-sidebar-collapsed';
 
 type LayoutProps = PropsWithChildren<object> & {
   transparentBackground?: boolean;
@@ -35,7 +37,7 @@ export function FullLayout(props: LayoutProps) {
       className={`flex items-center gap-2 font-semibold font-heading`}
     >
       <img
-        src={currentTheme?.icon_path}
+        src={currentTheme?.mostLike === 'light' ? iconDark : iconLight}
         className='h-6 w-6'
         alt={t`Theme icon`}
       />
@@ -54,11 +56,11 @@ export function FullLayout(props: LayoutProps) {
     <Tooltip>
       <TooltipTrigger asChild>
         <Link
-          to='/wallet'
+          to='/'
           className={`flex items-center gap-2 font-semibold font-heading`}
         >
           <img
-            src={currentTheme?.icon_path}
+            src={currentTheme?.mostLike === 'light' ? iconDark : iconLight}
             className='h-6 w-6'
             alt={t`Theme icon`}
           />

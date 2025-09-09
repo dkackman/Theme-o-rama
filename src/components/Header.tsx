@@ -1,11 +1,13 @@
 import { useInsets } from '@/contexts/SafeAreaContext';
-import { useTheme } from '@/contexts/ThemeContext';
+import iconDark from '@/icon-dark.png';
+import iconLight from '@/icon-light.png';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, Menu } from 'lucide-react';
 import { PropsWithChildren, ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useTheme } from 'theme-o-rama';
 import { getPlatformSync } from '../lib/platform';
 import { TopNav } from './Nav';
 import { Button } from './ui/button';
@@ -112,12 +114,14 @@ export default function Header(
           >
             <div className='mt-4'>
               <Link
-                to='/wallet'
+                to='/'
                 className='flex items-center gap-2 font-semibold font-heading'
-                aria-label={t`Go to wallet`}
+                aria-label={t`Go to home`}
               >
                 <img
-                  src={currentTheme?.icon_path}
+                  src={
+                    currentTheme?.mostLike === 'light' ? iconDark : iconLight
+                  }
                   className='h-6 w-6'
                   alt={t`Theme icon`}
                   aria-hidden='true'
