@@ -23,12 +23,10 @@ pnpm run build
 
 cd ..
 
-find node_modules -type d -name "*theme-o-rama*" -exec rm -rf {} + 2>/dev/null || true
-rm -rf node_modules
-
 # If --aggressive flag is set, remove all node_modules directories
 if [ "$AGGRESSIVE" = true ]; then
     echo "Aggressive mode: Removing all node_modules directories..."
+    rm -rf node_modules
 else
     find . -name "node_modules" -type d -exec rm -rf {} + 2>/dev/null || true
 fi
