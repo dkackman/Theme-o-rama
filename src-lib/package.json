@@ -1,6 +1,6 @@
 {
   "name": "theme-o-rama",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "description": "A TypeScript library for dynamic theme management in react + shadcn + tailwind applications",
   "type": "module",
   "main": "./dist/index.js",
@@ -43,7 +43,7 @@
   "bugs": {
     "url": "https://github.com/dkackman/Theme-o-rama/issues"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "devDependencies": {
     "prettier": "^3.6.2",
     "@types/node": "^22.1.0",

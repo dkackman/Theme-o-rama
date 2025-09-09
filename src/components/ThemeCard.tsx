@@ -1,6 +1,6 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { Check, Trash2 } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { applyThemeIsolated, Theme } from 'theme-o-rama';
 import { Button } from './ui/button';
@@ -33,11 +33,6 @@ export function ThemeCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  const handleDeleteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setShowDeleteConfirm(true);
-  };
-
   useEffect(() => {
     if (cardRef.current) {
       // Apply the theme with complete isolation from ambient theme
@@ -68,20 +63,6 @@ export function ThemeCard({
           </h3>
           <div className='flex items-center gap-2'>
             {isSelected && <Check className='h-4 w-4' style={checkStyles} />}
-            {theme.isUserTheme && (
-              <Button
-                onClick={handleDeleteClick}
-                variant='ghost'
-                size='icon'
-                aria-label={t`Delete theme ${theme.displayName}`}
-                title={t`Delete theme ${theme.displayName}`}
-              >
-                <Trash2
-                  className='h-4 w-4 text-destructive'
-                  aria-hidden='true'
-                />
-              </Button>
-            )}
           </div>
         </div>
 
@@ -125,20 +106,6 @@ export function ThemeCard({
                 style={checkStyles}
                 aria-label={t`Theme selected`}
               />
-            )}
-            {theme.isUserTheme && (
-              <Button
-                onClick={handleDeleteClick}
-                variant='ghost'
-                size='icon'
-                aria-label={t`Delete theme ${theme.displayName}`}
-                title={t`Delete theme ${theme.displayName}`}
-              >
-                <Trash2
-                  className='h-4 w-4 text-destructive'
-                  aria-hidden='true'
-                />
-              </Button>
             )}
           </div>
         </div>

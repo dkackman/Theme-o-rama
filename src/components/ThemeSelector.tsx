@@ -36,41 +36,12 @@ export function ThemeSelector() {
     );
   }
 
-  // Group themes by isUserTheme and isFeatured, sort alphabetically within each group
-  const featuredThemes = availableThemes
-    .filter((theme: Theme) => !theme.isUserTheme && theme.isFeatured)
-    .sort((a: Theme, b: Theme) => a.displayName.localeCompare(b.displayName));
-
-  const defaultThemes = availableThemes
-    .filter((theme: Theme) => !theme.isUserTheme && !theme.isFeatured)
-    .sort((a: Theme, b: Theme) => a.displayName.localeCompare(b.displayName));
-
-  const userThemes = availableThemes
-    .filter((theme: Theme) => theme.isUserTheme)
-    .sort((a: Theme, b: Theme) => a.displayName.localeCompare(b.displayName));
+  const defaultThemes = availableThemes.sort((a: Theme, b: Theme) =>
+    a.displayName.localeCompare(b.displayName),
+  );
 
   return (
     <div className='space-y-8'>
-      {/* Featured Themes */}
-      {featuredThemes.length > 0 && (
-        <div>
-          <h3 className='text-lg font-semibold mb-4'>
-            <Trans>Featured Themes</Trans>
-          </h3>
-          <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
-            {featuredThemes.map((theme: Theme) => (
-              <ThemeCard
-                key={theme.name}
-                theme={theme}
-                currentTheme={currentTheme}
-                isSelected={currentTheme.name === theme.name}
-                onSelect={setTheme}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Default Themes */}
       {defaultThemes.length > 0 && (
         <div>
@@ -79,26 +50,6 @@ export function ThemeSelector() {
           </h3>
           <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
             {defaultThemes.map((theme: Theme) => (
-              <ThemeCard
-                key={theme.name}
-                theme={theme}
-                currentTheme={currentTheme}
-                isSelected={currentTheme.name === theme.name}
-                onSelect={setTheme}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* User Themes */}
-      {userThemes.length > 0 && (
-        <div>
-          <h3 className='text-lg font-semibold mb-4'>
-            <Trans>Your Themes</Trans>
-          </h3>
-          <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
-            {userThemes.map((theme: Theme) => (
               <ThemeCard
                 key={theme.name}
                 theme={theme}
