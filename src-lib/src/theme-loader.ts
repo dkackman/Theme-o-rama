@@ -21,43 +21,53 @@ export class ThemeLoader {
   public loadTheme(
     theme: Theme,
     imageResolver: ImageResolver | null = null,
-  ): Theme | null {
+  ): Theme {
     try {
-      if (theme.inherits) {
-        const inheritedTheme = this.themesCache.getTheme(theme.inherits);
+      // Create a deep copy of the theme to avoid readonly issues
+      let workingTheme = JSON.parse(JSON.stringify(theme)) as Theme;
+
+      if (workingTheme.inherits) {
+        const inheritedTheme = this.themesCache.getTheme(workingTheme.inherits);
         if (inheritedTheme) {
-          theme = deepMerge(inheritedTheme, theme);
+          workingTheme = deepMerge(inheritedTheme, workingTheme);
+        } else {
+          console.warn(
+            `Inherited theme for ${workingTheme.name}:${workingTheme.inherits} not found`,
+          );
         }
       }
 
-      if (theme.backgroundImage && imageResolver) {
+      if (workingTheme.backgroundImage && imageResolver) {
         try {
           // we allow remote urls and local files for built in themes
           // local images get imported from the theme's folder
           if (
             !(
-              theme.backgroundImage.startsWith('http://') ||
-              theme.backgroundImage.startsWith('https://')
+              workingTheme.backgroundImage.startsWith('http://') ||
+              workingTheme.backgroundImage.startsWith('https://')
             ) &&
-            !theme.backgroundImage.startsWith('/') &&
-            !theme.backgroundImage.startsWith('data:')
+            !workingTheme.backgroundImage.startsWith('/') &&
+            !workingTheme.backgroundImage.startsWith('data:')
           ) {
-            theme.backgroundImage = imageResolver(
-              theme.name,
-              theme.backgroundImage,
+            const resolvedImage = imageResolver(
+              workingTheme.name,
+              workingTheme.backgroundImage,
             );
-            console.log('theme.backgroundImage', theme.backgroundImage);
+            workingTheme.backgroundImage = resolvedImage;
           }
         } catch (error) {
-          console.warn(`Error loading theme ${theme.name}:`, error);
-          theme.backgroundImage = undefined;
+          console.warn(
+            `Error loading background image for theme ${workingTheme.name}:`,
+            error,
+          );
+          workingTheme.backgroundImage = undefined;
         }
       }
 
-      return theme;
+      return workingTheme;
     } catch (error) {
       console.error(`Error loading theme`, error);
-      return null;
+      return theme;
     }
   }
 
