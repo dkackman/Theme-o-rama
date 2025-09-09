@@ -367,7 +367,7 @@ msgstr ""
 #~ msgid "Approving"
 #~ msgstr ""
 
-#: src/components/ThemeCard.tsx:176
+#: src/components/ThemeCard.tsx:142
 msgid "Are you sure you want to delete the theme \"{0}\"?"
 msgstr ""
 
@@ -478,8 +478,8 @@ msgstr ""
 #~ msgid "Automatically start the RPC server when the app launches"
 #~ msgstr "Iniciar automáticamente el servidor RPC cuando se inicia la aplicación"
 
-#: src/components/Header.tsx:54
-#: src/components/Header.tsx:142
+#: src/components/Header.tsx:56
+#: src/components/Header.tsx:146
 msgid "Back"
 msgstr "Atrás"
 
@@ -603,7 +603,7 @@ msgstr ""
 #~ msgstr "Al deshabilitar esto, estás creando una billetera fría, sin capacidad para firmar transacciones. La mnemónica deberá guardarse en otro lugar."
 
 #: src/pages/Dialogs.tsx:122
-#: src/components/ThemeCard.tsx:187
+#: src/components/ThemeCard.tsx:153
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -821,8 +821,8 @@ msgstr ""
 #~ msgid "Cold Wallet"
 #~ msgstr "Billetera Fría"
 
-#: src/components/Layout.tsx:104
-#: src/components/Layout.tsx:119
+#: src/components/Layout.tsx:106
+#: src/components/Layout.tsx:121
 msgid "Collapse sidebar"
 msgstr "Contraer barra lateral"
 
@@ -1233,7 +1233,7 @@ msgstr "Tabla de datos"
 #~ msgid "Default Offer Expiry"
 #~ msgstr "Caducidad de la oferta predeterminada"
 
-#: src/components/ThemeSelector.tsx:78
+#: src/components/ThemeSelector.tsx:49
 msgid "Default Themes"
 msgstr ""
 
@@ -1289,7 +1289,7 @@ msgstr ""
 #~ msgid "Delete saved offer files"
 #~ msgstr "Eliminar archivos de ofertas guardadas"
 
-#: src/components/ThemeCard.tsx:173
+#: src/components/ThemeCard.tsx:139
 msgid "Delete Theme"
 msgstr ""
 
@@ -1297,8 +1297,8 @@ msgstr ""
 #: src/components/ThemeCard.tsx:78
 #: src/components/ThemeCard.tsx:135
 #: src/components/ThemeCard.tsx:136
-msgid "Delete theme {0}"
-msgstr ""
+#~ msgid "Delete theme {0}"
+#~ msgstr ""
 
 #: src/pages/Login.tsx:533
 #~ msgid "Delete unhardened addresses"
@@ -1583,8 +1583,8 @@ msgstr ""
 #~ msgid "Exercise Option"
 #~ msgstr ""
 
-#: src/components/Layout.tsx:104
-#: src/components/Layout.tsx:119
+#: src/components/Layout.tsx:106
+#: src/components/Layout.tsx:121
 msgid "Expand sidebar"
 msgstr "Ampliar barra lateral"
 
@@ -1705,8 +1705,8 @@ msgstr "Ampliar barra lateral"
 #~ msgstr "Error al subir a Dexie"
 
 #: src/components/ThemeSelector.tsx:58
-msgid "Featured Themes"
-msgstr ""
+#~ msgid "Featured Themes"
+#~ msgstr ""
 
 #: src/components/ConfirmationDialog.tsx:454
 #: src/components/AdvancedTransactionSummary.tsx:86
@@ -1781,6 +1781,10 @@ msgstr ""
 #~ msgid "Global"
 #~ msgstr "Global"
 
+#: src/components/Header.tsx:119
+msgid "Go to home"
+msgstr ""
+
 #: src/components/Pagination.tsx:112
 msgid "Go to next page"
 msgstr "Ir a la página siguiente"
@@ -1794,8 +1798,8 @@ msgid "Go to previous page"
 msgstr "Ir a la página anterior"
 
 #: src/components/Header.tsx:117
-msgid "Go to wallet"
-msgstr "Ir a la billetera"
+#~ msgid "Go to wallet"
+#~ msgstr "Ir a la billetera"
 
 #: src/components/NftOptions.tsx:374
 #: src/components/NftOptions.tsx:378
@@ -2133,7 +2137,7 @@ msgstr ""
 
 #: src/pages/Themes.tsx:96
 #: src/components/ThemeSelector.tsx:15
-#: src/components/ThemeSelector.tsx:132
+#: src/components/ThemeSelector.tsx:83
 msgid "Loading themes..."
 msgstr ""
 
@@ -2336,7 +2340,7 @@ msgstr ""
 msgid "Navigate to: {content}"
 msgstr ""
 
-#: src/components/Header.tsx:77
+#: src/components/Header.tsx:79
 msgid "Navigation menu"
 msgstr "Menú de navegación"
 
@@ -3607,7 +3611,7 @@ msgstr "Mostrando {length} de {0} {rowLabelPlural}"
 #~ msgid "Showing {length} rows"
 #~ msgstr "Mostrando {length} filas"
 
-#: src/components/Layout.tsx:91
+#: src/components/Layout.tsx:93
 msgid "Sidebar navigation"
 msgstr "Navegación de barra lateral"
 
@@ -3940,9 +3944,9 @@ msgstr ""
 #~ msgid "Theme"
 #~ msgstr ""
 
-#: src/components/Layout.tsx:40
-#: src/components/Layout.tsx:63
-#: src/components/Header.tsx:122
+#: src/components/Layout.tsx:42
+#: src/components/Layout.tsx:65
+#: src/components/Header.tsx:126
 msgid "Theme icon"
 msgstr ""
 
@@ -3950,12 +3954,12 @@ msgstr ""
 msgid "Theme JSON"
 msgstr ""
 
-#: src/components/ThemeCard.tsx:127
+#: src/components/ThemeCard.tsx:107
 msgid "Theme selected"
 msgstr ""
 
-#: src/components/Layout.tsx:48
-#: src/components/Layout.tsx:67
+#: src/components/Layout.tsx:50
+#: src/components/Layout.tsx:69
 msgid "Theme-o-rama"
 msgstr ""
 
@@ -4232,7 +4236,7 @@ msgstr ""
 #~ msgid "Toggle multi-select"
 #~ msgstr "Alternar selección múltiple"
 
-#: src/components/Header.tsx:64
+#: src/components/Header.tsx:66
 msgid "Toggle navigation menu"
 msgstr "Alternar menú de navegación"
 
@@ -4905,5 +4909,5 @@ msgstr ""
 #~ msgstr ""
 
 #: src/components/ThemeSelector.tsx:98
-msgid "Your Themes"
-msgstr ""
+#~ msgid "Your Themes"
+#~ msgstr ""

@@ -367,7 +367,7 @@ msgstr "Applying..."
 #~ msgid "Approving"
 #~ msgstr "Approving"
 
-#: src/components/ThemeCard.tsx:176
+#: src/components/ThemeCard.tsx:142
 msgid "Are you sure you want to delete the theme \"{0}\"?"
 msgstr "Are you sure you want to delete the theme \"{0}\"?"
 
@@ -478,8 +478,8 @@ msgstr "At least one spoon is required"
 #~ msgid "Automatically start the RPC server when the app launches"
 #~ msgstr "Automatically start the RPC server when the app launches"
 
-#: src/components/Header.tsx:54
-#: src/components/Header.tsx:142
+#: src/components/Header.tsx:56
+#: src/components/Header.tsx:146
 msgid "Back"
 msgstr "Back"
 
@@ -603,7 +603,7 @@ msgstr "Buttons"
 #~ msgstr "By disabling this you are creating a cold wallet, with no ability to sign transactions. The mnemonic will need to be saved elsewhere."
 
 #: src/pages/Dialogs.tsx:122
-#: src/components/ThemeCard.tsx:187
+#: src/components/ThemeCard.tsx:153
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -821,8 +821,8 @@ msgstr "Clear & Reset"
 #~ msgid "Cold Wallet"
 #~ msgstr "Cold Wallet"
 
-#: src/components/Layout.tsx:104
-#: src/components/Layout.tsx:119
+#: src/components/Layout.tsx:106
+#: src/components/Layout.tsx:121
 msgid "Collapse sidebar"
 msgstr "Collapse sidebar"
 
@@ -1233,7 +1233,7 @@ msgstr "Data table"
 #~ msgid "Default Offer Expiry"
 #~ msgstr "Default Offer Expiry"
 
-#: src/components/ThemeSelector.tsx:78
+#: src/components/ThemeSelector.tsx:49
 msgid "Default Themes"
 msgstr "Default Themes"
 
@@ -1289,7 +1289,7 @@ msgstr "Default Themes"
 #~ msgid "Delete saved offer files"
 #~ msgstr "Delete saved offer files"
 
-#: src/components/ThemeCard.tsx:173
+#: src/components/ThemeCard.tsx:139
 msgid "Delete Theme"
 msgstr "Delete Theme"
 
@@ -1297,8 +1297,8 @@ msgstr "Delete Theme"
 #: src/components/ThemeCard.tsx:78
 #: src/components/ThemeCard.tsx:135
 #: src/components/ThemeCard.tsx:136
-msgid "Delete theme {0}"
-msgstr "Delete theme {0}"
+#~ msgid "Delete theme {0}"
+#~ msgstr "Delete theme {0}"
 
 #: src/pages/Login.tsx:533
 #~ msgid "Delete unhardened addresses"
@@ -1583,8 +1583,8 @@ msgstr "Error loading themes: {error}"
 #~ msgid "Exercise Option"
 #~ msgstr "Exercise Option"
 
-#: src/components/Layout.tsx:104
-#: src/components/Layout.tsx:119
+#: src/components/Layout.tsx:106
+#: src/components/Layout.tsx:121
 msgid "Expand sidebar"
 msgstr "Expand sidebar"
 
@@ -1705,8 +1705,8 @@ msgstr "Expand sidebar"
 #~ msgstr "Failed to upload to Dexie"
 
 #: src/components/ThemeSelector.tsx:58
-msgid "Featured Themes"
-msgstr "Featured Themes"
+#~ msgid "Featured Themes"
+#~ msgstr "Featured Themes"
 
 #: src/components/ConfirmationDialog.tsx:454
 #: src/components/AdvancedTransactionSummary.tsx:86
@@ -1781,6 +1781,10 @@ msgstr "Ghost"
 #~ msgid "Global"
 #~ msgstr "Global"
 
+#: src/components/Header.tsx:119
+msgid "Go to home"
+msgstr "Go to home"
+
 #: src/components/Pagination.tsx:112
 msgid "Go to next page"
 msgstr "Go to next page"
@@ -1794,8 +1798,8 @@ msgid "Go to previous page"
 msgstr "Go to previous page"
 
 #: src/components/Header.tsx:117
-msgid "Go to wallet"
-msgstr "Go to wallet"
+#~ msgid "Go to wallet"
+#~ msgstr "Go to wallet"
 
 #: src/components/NftOptions.tsx:374
 #: src/components/NftOptions.tsx:378
@@ -2133,7 +2137,7 @@ msgstr "Loading"
 
 #: src/pages/Themes.tsx:96
 #: src/components/ThemeSelector.tsx:15
-#: src/components/ThemeSelector.tsx:132
+#: src/components/ThemeSelector.tsx:83
 msgid "Loading themes..."
 msgstr "Loading themes..."
 
@@ -2336,7 +2340,7 @@ msgstr "Mint Sage Compatible Theme NFT"
 msgid "Navigate to: {content}"
 msgstr "Navigate to: {content}"
 
-#: src/components/Header.tsx:77
+#: src/components/Header.tsx:79
 msgid "Navigation menu"
 msgstr "Navigation menu"
 
@@ -3607,7 +3611,7 @@ msgstr "Showing {length} of {0} {rowLabelPlural}"
 #~ msgid "Showing {length} rows"
 #~ msgstr "Showing {length} rows"
 
-#: src/components/Layout.tsx:91
+#: src/components/Layout.tsx:93
 msgid "Sidebar navigation"
 msgstr "Sidebar navigation"
 
@@ -3940,9 +3944,9 @@ msgstr "Tables Theme"
 #~ msgid "Theme"
 #~ msgstr "Theme"
 
-#: src/components/Layout.tsx:40
-#: src/components/Layout.tsx:63
-#: src/components/Header.tsx:122
+#: src/components/Layout.tsx:42
+#: src/components/Layout.tsx:65
+#: src/components/Header.tsx:126
 msgid "Theme icon"
 msgstr "Theme icon"
 
@@ -3950,12 +3954,12 @@ msgstr "Theme icon"
 msgid "Theme JSON"
 msgstr "Theme JSON"
 
-#: src/components/ThemeCard.tsx:127
+#: src/components/ThemeCard.tsx:107
 msgid "Theme selected"
 msgstr "Theme selected"
 
-#: src/components/Layout.tsx:48
-#: src/components/Layout.tsx:67
+#: src/components/Layout.tsx:50
+#: src/components/Layout.tsx:69
 msgid "Theme-o-rama"
 msgstr "Theme-o-rama"
 
@@ -4232,7 +4236,7 @@ msgstr "This is a dialog."
 #~ msgid "Toggle multi-select"
 #~ msgstr "Toggle multi-select"
 
-#: src/components/Header.tsx:64
+#: src/components/Header.tsx:66
 msgid "Toggle navigation menu"
 msgstr "Toggle navigation menu"
 
@@ -4905,5 +4909,5 @@ msgstr "Two"
 #~ msgstr "Your offer has been created and imported successfully{0}. You will now be redirected to the offers page where you can view its details."
 
 #: src/components/ThemeSelector.tsx:98
-msgid "Your Themes"
-msgstr "Your Themes"
+#~ msgid "Your Themes"
+#~ msgstr "Your Themes"
