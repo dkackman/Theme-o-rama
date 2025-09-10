@@ -7,10 +7,20 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['target/**/*', 'src/bindings.ts'],
+    ignores: [
+      'target/**/*',
+      'src/bindings.ts',
+      'src_lib/dist/**/*',
+      'src_lib/dist-web/**/*',
+    ],
   },
   {
-    files: ['src/**/*.ts', 'src/**/*.tsx'],
+    files: [
+      'src/**/*.ts',
+      'src/**/*.tsx',
+      'src_lib/**/*.ts',
+      'src_lib/**/*.tsx',
+    ],
     extends: [
       eslint.configs.recommended,
       tseslint.configs.recommended,
