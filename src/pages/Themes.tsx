@@ -10,11 +10,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { useErrors } from '@/hooks/useErrors';
+import { validateThemeJson } from '@/lib/themes';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
+import CodeEditor from '@uiw/react-textarea-code-editor';
 import {
+  Check,
   Copy,
   Image,
   Loader2,
@@ -36,6 +38,9 @@ export default function Themes() {
   const [isApplying, setIsApplying] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
+  const [validationState, setValidationState] = useState<
+    'none' | 'valid' | 'invalid'
+  >('none');
 
   // Load theme JSON and background image from localStorage on component mount
   useEffect(() => {
@@ -53,6 +58,7 @@ export default function Themes() {
   // Save theme JSON to localStorage whenever it changes
   const updateThemeJson = (value: string) => {
     setThemeJson(value);
+    setValidationState('none'); // Reset validation state when JSON changes
     if (value.trim()) {
       localStorage.setItem('custom-theme-json', value);
     } else {
@@ -64,7 +70,7 @@ export default function Themes() {
     if (!themeJson.trim()) {
       addError({
         kind: 'invalid',
-        reason: 'Please enter theme JSON',
+        reason: t`Please enter theme JSON`,
       });
       return;
     }
@@ -76,13 +82,13 @@ export default function Themes() {
       if (!success) {
         addError({
           kind: 'invalid',
-          reason: 'Failed to apply theme. Please check your JSON format.',
+          reason: t`Failed to apply theme. Please check your JSON format.`,
         });
       }
     } catch (err) {
       addError({
         kind: 'invalid',
-        reason: 'An error occurred while applying the theme',
+        reason: t`An error occurred while applying the theme`,
       });
       console.error('Error applying theme:', err);
     } finally {
@@ -100,6 +106,28 @@ export default function Themes() {
     if (currentTheme) {
       const themeJsonString = JSON.stringify(currentTheme, null, 2);
       updateThemeJson(themeJsonString);
+    }
+  };
+
+  const handleValidateTheme = () => {
+    if (!themeJson.trim()) {
+      setValidationState('invalid');
+      addError({
+        kind: 'invalid',
+        reason: t`Please enter theme JSON to validate`,
+      });
+      return;
+    }
+
+    try {
+      validateThemeJson(themeJson);
+      setValidationState('valid');
+    } catch (err) {
+      setValidationState('invalid');
+      addError({
+        kind: 'invalid',
+        reason: t`Invalid JSON format. Please check your syntax. ${err}`,
+      });
     }
   };
 
@@ -212,7 +240,7 @@ export default function Themes() {
             )}
 
             {/* Custom Theme Input */}
-            <Card className={isMaximized ? 'flex-1 flex flex-col' : ''}>
+            <Card className={isMaximized ? 'flex-1 flex flex-col min-h-0' : ''}>
               <CardHeader>
                 <div className='flex items-center justify-between'>
                   <div>
@@ -242,22 +270,30 @@ export default function Themes() {
                 </div>
               </CardHeader>
               <CardContent
-                className={`space-y-4 ${isMaximized ? 'flex-1 flex flex-col' : ''}`}
+                className={`space-y-4 ${isMaximized ? 'flex-1 flex flex-col min-h-0' : ''}`}
               >
-                <div
-                  className={`space-y-2 ${isMaximized ? 'flex-1 flex flex-col' : ''}`}
-                >
-                  <Label htmlFor='theme-json'>
-                    <Trans>Theme JSON</Trans>
-                  </Label>
-                  <Textarea
-                    id='theme-json'
-                    placeholder={t`Paste your theme JSON here...`}
-                    value={themeJson}
-                    onChange={(e) => updateThemeJson(e.target.value)}
-                    className={`font-mono text-sm ${isMaximized ? 'flex-1 min-h-0' : 'min-h-[200px]'}`}
-                  />
-                </div>
+                <Label htmlFor='theme-json'>
+                  <Trans>Theme JSON</Trans>
+                </Label>
+                <CodeEditor
+                  id='theme-json'
+                  data-color-mode={currentTheme?.mostLike || 'light'}
+                  language='json'
+                  placeholder={t`Paste your theme JSON here...`}
+                  value={themeJson}
+                  onChange={(e) => updateThemeJson(e.target.value)}
+                  padding={15}
+                  className={`${isMaximized ? 'flex-1 min-h-0' : 'min-h-[200px]'}`}
+                  style={{
+                    border: '1px solid #e0e0e0',
+                    fontFamily:
+                      'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
+                    minHeight: isMaximized ? '400px' : '200px',
+                    maxHeight: isMaximized ? '100%' : '400px',
+                    overflow: 'auto',
+                    fontSize: 14,
+                  }}
+                />
 
                 <div className='flex flex-col sm:flex-row gap-2'>
                   <div className='flex flex-col sm:flex-row gap-2'>
@@ -285,6 +321,29 @@ export default function Themes() {
                     >
                       <X className='mr-2 h-4 w-4' />
                       <Trans>Clear & Reset</Trans>
+                    </Button>
+                    <Button
+                      onClick={handleValidateTheme}
+                      variant='outline'
+                      disabled={!themeJson.trim()}
+                      className={`w-full sm:w-auto ${
+                        validationState === 'valid'
+                          ? 'border-green-500 text-green-600 hover:bg-green-50'
+                          : validationState === 'invalid'
+                            ? 'border-red-500 text-red-600 hover:bg-red-50'
+                            : ''
+                      }`}
+                    >
+                      <Check
+                        className={`mr-2 h-4 w-4 ${
+                          validationState === 'valid'
+                            ? 'text-green-600'
+                            : validationState === 'invalid'
+                              ? 'text-red-600'
+                              : ''
+                        }`}
+                      />
+                      <Trans>Validate</Trans>
                     </Button>
                   </div>
                   <Button

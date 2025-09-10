@@ -1,6 +1,7 @@
 import darkJson from './dark.json';
 import lightJson from './light.json';
 import { applyTheme, applyThemeIsolated } from './theme';
+import { validateTheme } from './theme-schema-validation';
 import { Theme } from './theme.type';
 export { ThemeProvider, useTheme } from './theme-context';
 export type { ThemeDiscoveryFunction } from './theme-context';
@@ -9,3 +10,4 @@ export * from './theme.type';
 export { applyTheme, applyThemeIsolated };
 export const dark = darkJson as Theme;
 export const light = lightJson as Theme;
+export { validateTheme };
