@@ -29,14 +29,8 @@ import { useEffect, useState } from 'react';
 import { useTheme } from 'theme-o-rama';
 
 export default function Themes() {
-  const {
-    currentTheme,
-    isLoading,
-    error,
-    setTheme,
-    setCustomTheme,
-    reloadThemes,
-  } = useTheme();
+  const { currentTheme, isLoading, setTheme, setCustomTheme, reloadThemes } =
+    useTheme();
   const { addError } = useErrors();
   const [themeJson, setThemeJson] = useState('');
   const [isApplying, setIsApplying] = useState(false);
