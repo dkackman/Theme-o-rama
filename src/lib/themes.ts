@@ -31,6 +31,11 @@ export function resolveThemeImage(
   themeName: string,
   imagePath: string,
 ): string {
+  // Check for sentinel value to return uploaded background image
+  if (imagePath === '{NEED_DATA_URL_BACKGROUND_IMAGE}') {
+    return localStorage.getItem('background-image') ?? '';
+  }
+
   // Use static glob import to avoid dynamic import warnings for local files
   const imageModules = import.meta.glob(
     '../themes/*/*.{jpg,jpeg,png,gif,webp}',

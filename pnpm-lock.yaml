@@ -141,8 +141,8 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0
       theme-o-rama:
-        specifier: ^0.1.0-beta.1
-        version: 0.1.0-beta.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 0.1.0-beta.3
+        version: 0.1.0-beta.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       usehooks-ts:
         specifier: ^3.1.0
         version: 3.1.0(react@18.3.1)
@@ -3315,8 +3315,8 @@ packages:
   text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
 
-  theme-o-rama@0.1.0-beta.1:
-    resolution: {integrity: sha512-EAT4DmN3vwwLLmo4XEIeG9V2RXEdKdAy0i7GAh6tA4GC3eBcFyqFF3NwMSM6aiSi0Y7Os53AEHFlTKUtjz+1IA==}
+  theme-o-rama@0.1.0-beta.3:
+    resolution: {integrity: sha512-4mihlDHLs4s/1MFXRmb7hqVlv3Izp4Syefm/Qf5DqA0YWoo9UHmUkjaEWIgAmFkO0t+GNaGiYyGZjzh3QfuX3w==}
     peerDependencies:
       react: ^18.3.1
       react-dom: ^18.3.1
@@ -6878,7 +6878,7 @@ snapshots:
 
   text-table@0.2.0: {}
 
-  theme-o-rama@0.1.0-beta.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  theme-o-rama@0.1.0-beta.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)

@@ -37,8 +37,10 @@ export class ThemeLoader {
   ): void {
     try {
       // Create a deep copy of the theme to avoid readonly issues
-      let workingTheme = JSON.parse(JSON.stringify(theme)) as Theme;
-      this.initializeTheme(workingTheme, imageResolver);
+      const workingTheme = this.initializeTheme(
+        JSON.parse(JSON.stringify(theme)) as Theme,
+        imageResolver,
+      );
       this.themesCache.addTheme(workingTheme);
     } catch (error) {
       console.error(`Error loading theme`, error);
@@ -50,14 +52,19 @@ export class ThemeLoader {
     imageResolver: ImageResolver | null = null,
   ): Theme {
     const theme = validateTheme(themeJson);
-    this.initializeTheme(theme, imageResolver);
-    return theme;
+    if (urlRequiresResolution(theme.backgroundImage)) {
+      // this is passed as a sentinel value to the image resolver that it needs to
+      // resolve the background image from the local storage or otherwise as a data url
+      theme.backgroundImage = '{NEED_DATA_URL_BACKGROUND_IMAGE}';
+    }
+
+    return this.initializeTheme(theme, imageResolver);
   }
 
   private initializeTheme(
     theme: Theme,
     imageResolver: ImageResolver | null = null,
-  ): void {
+  ): Theme {
     try {
       if (theme.inherits) {
         const inheritedTheme = this.themesCache.getTheme(theme.inherits);
@@ -74,19 +81,11 @@ export class ThemeLoader {
         try {
           // we allow remote urls and local files for built in themes
           // local images get imported from the theme's folder
-          if (
-            !(
-              theme.backgroundImage.startsWith('http://') ||
-              theme.backgroundImage.startsWith('https://')
-            ) &&
-            !theme.backgroundImage.startsWith('/') &&
-            !theme.backgroundImage.startsWith('data:')
-          ) {
-            const resolvedImage = imageResolver(
+          if (urlRequiresResolution(theme.backgroundImage)) {
+            theme.backgroundImage = imageResolver(
               theme.name,
               theme.backgroundImage,
             );
-            theme.backgroundImage = resolvedImage;
           }
         } catch (error) {
           console.warn(
@@ -99,5 +98,15 @@ export class ThemeLoader {
     } catch (error) {
       console.error(`Error loading theme`, error);
     }
+    return theme;
   }
+}
+
+function urlRequiresResolution(url: string | undefined | null): boolean {
+  return !!(
+    url &&
+    !url.startsWith('http://') &&
+    !url.startsWith('https://') &&
+    !url.startsWith('data:')
+  );
 }

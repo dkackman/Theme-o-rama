@@ -1,7 +1,6 @@
 import Header from '@/components/Header';
 import Layout from '@/components/Layout';
 import { ThemeSelector } from '@/components/ThemeSelector';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -12,12 +11,12 @@ import {
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { useErrors } from '@/hooks/useErrors';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import {
   Copy,
   Image,
-  Info,
   Loader2,
   Maximize2,
   Minimize2,
@@ -38,9 +37,9 @@ export default function Themes() {
     setCustomTheme,
     reloadThemes,
   } = useTheme();
+  const { addError } = useErrors();
   const [themeJson, setThemeJson] = useState('');
   const [isApplying, setIsApplying] = useState(false);
-  const [applyError, setApplyError] = useState<string | null>(null);
   const [isMaximized, setIsMaximized] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
 
@@ -67,43 +66,46 @@ export default function Themes() {
     }
   };
 
-  const handleApplyTheme = async () => {
+  const handleApplyTheme = () => {
     if (!themeJson.trim()) {
-      setApplyError('Please enter theme JSON');
+      addError({
+        kind: 'invalid',
+        reason: 'Please enter theme JSON',
+      });
       return;
     }
 
     setIsApplying(true);
-    setApplyError(null);
 
     try {
-      const success = await setCustomTheme(themeJson);
-      if (success) {
-        // Keep the JSON in the textarea for easy reapplication
-        setApplyError(null);
-      } else {
-        setApplyError('Failed to apply theme. Please check your JSON format.');
+      const success = setCustomTheme(themeJson);
+      if (!success) {
+        addError({
+          kind: 'invalid',
+          reason: 'Failed to apply theme. Please check your JSON format.',
+        });
       }
     } catch (err) {
-      setApplyError('An error occurred while applying the theme');
+      addError({
+        kind: 'invalid',
+        reason: 'An error occurred while applying the theme',
+      });
       console.error('Error applying theme:', err);
     } finally {
       setIsApplying(false);
     }
   };
 
-  const handleClearTheme = async () => {
+  const handleClearTheme = () => {
     setThemeJson('');
-    setApplyError(null);
     localStorage.removeItem('custom-theme-json');
-    await setTheme('light');
+    setTheme('light');
   };
 
   const handleCopyCurrentTheme = () => {
     if (currentTheme) {
       const themeJsonString = JSON.stringify(currentTheme, null, 2);
       updateThemeJson(themeJsonString);
-      setApplyError(null);
     }
   };
 
@@ -154,36 +156,17 @@ export default function Themes() {
     );
   }
 
-  if (error) {
-    return (
-      <Layout>
-        <Header title='Theme' />
-        <div className='flex-1 overflow-auto'>
-          <div className='container mx-auto p-6'>
-            <Alert variant='destructive'>
-              <Info className='h-4 w-4' />
-              <AlertDescription>
-                <Trans>Error loading themes</Trans>: {error}
-              </AlertDescription>
-            </Alert>
-          </div>
-        </div>
-      </Layout>
-    );
-  }
-
   if (!currentTheme) {
     return (
       <Layout>
         <Header title='Theme' />
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
-            <Alert>
-              <Info className='h-4 w-4' />
-              <AlertDescription>
+            <div className='flex items-center justify-center p-8'>
+              <span>
                 <Trans>No theme available</Trans>
-              </AlertDescription>
-            </Alert>
+              </span>
+            </div>
           </div>
         </div>
       </Layout>
@@ -281,13 +264,6 @@ export default function Themes() {
                     className={`font-mono text-sm ${isMaximized ? 'flex-1 min-h-0' : 'min-h-[200px]'}`}
                   />
                 </div>
-
-                {applyError && (
-                  <Alert variant='destructive'>
-                    <Info className='h-4 w-4' />
-                    <AlertDescription>{applyError}</AlertDescription>
-                  </Alert>
-                )}
 
                 <div className='flex flex-col sm:flex-row gap-2'>
                   <div className='flex flex-col sm:flex-row gap-2'>
@@ -397,13 +373,11 @@ export default function Themes() {
         <Header title={t`Themes`} />
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
-            <Alert variant='destructive'>
-              <Info className='h-4 w-4' />
-              <AlertDescription>
-                Error rendering theme page:{' '}
-                {error instanceof Error ? error.message : 'Unknown error'}
-              </AlertDescription>
-            </Alert>
+            <div className='flex items-center justify-center p-8'>
+              <span>
+                <Trans>Error rendering theme page</Trans>
+              </span>
+            </div>
           </div>
         </div>
       </Layout>
