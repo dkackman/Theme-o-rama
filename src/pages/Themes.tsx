@@ -16,11 +16,13 @@ import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import {
   Copy,
+  Image,
   Info,
   Loader2,
   Maximize2,
   Minimize2,
   Palette,
+  Trash2,
   Upload,
   X,
 } from 'lucide-react';
@@ -40,12 +42,18 @@ export default function Themes() {
   const [isApplying, setIsApplying] = useState(false);
   const [applyError, setApplyError] = useState<string | null>(null);
   const [isMaximized, setIsMaximized] = useState(false);
+  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
 
-  // Load theme JSON from localStorage on component mount
+  // Load theme JSON and background image from localStorage on component mount
   useEffect(() => {
     const savedThemeJson = localStorage.getItem('custom-theme-json');
     if (savedThemeJson) {
       setThemeJson(savedThemeJson);
+    }
+
+    const savedBackgroundImage = localStorage.getItem('background-image');
+    if (savedBackgroundImage) {
+      setBackgroundImage(savedBackgroundImage);
     }
   }, []);
 
@@ -96,6 +104,35 @@ export default function Themes() {
       const themeJsonString = JSON.stringify(currentTheme, null, 2);
       updateThemeJson(themeJsonString);
       setApplyError(null);
+    }
+  };
+
+  const handleBackgroundImageUpload = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setBackgroundImage(result);
+        localStorage.setItem('background-image', result);
+      };
+      reader.readAsDataURL(file);
+    }
+    // Clear the input value so the same file can be selected again
+    event.target.value = '';
+  };
+
+  const handleDeleteBackgroundImage = () => {
+    setBackgroundImage(null);
+    localStorage.removeItem('background-image');
+    // Clear the file input value
+    const fileInput = document.getElementById(
+      'background-image-upload',
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
     }
   };
 
@@ -289,6 +326,63 @@ export default function Themes() {
                     <Copy className='mr-2 h-4 w-4' />
                     <Trans>Insert Current Theme JSON</Trans>
                   </Button>
+                </div>
+
+                {/* Background Image Upload Section */}
+                <div className='border-t pt-4'>
+                  <Label className='text-sm font-medium'>
+                    <Trans>Background Image</Trans>
+                  </Label>
+                  <div className='flex items-center gap-3 mt-2'>
+                    <div className='flex items-center gap-2'>
+                      <input
+                        type='file'
+                        accept='image/*'
+                        onChange={handleBackgroundImageUpload}
+                        className='hidden'
+                        id='background-image-upload'
+                      />
+                      <Button
+                        variant='outline'
+                        size='sm'
+                        onClick={() =>
+                          document
+                            .getElementById('background-image-upload')
+                            ?.click()
+                        }
+                      >
+                        <Image className='mr-2 h-4 w-4' />
+                        <Trans>Upload Image</Trans>
+                      </Button>
+                    </div>
+
+                    {/* Image Preview */}
+                    {backgroundImage && (
+                      <div className='flex items-center gap-2'>
+                        <div className='w-8 h-8 rounded border overflow-hidden bg-gray-100'>
+                          <img
+                            src={backgroundImage}
+                            alt='Background preview'
+                            className='w-full h-full object-cover'
+                          />
+                        </div>
+                        <Button
+                          variant='ghost'
+                          size='sm'
+                          onClick={handleDeleteBackgroundImage}
+                          className='text-red-600 hover:text-red-700 hover:bg-red-50'
+                        >
+                          <Trash2 className='h-4 w-4' />
+                        </Button>
+                      </div>
+                    )}
+
+                    {!backgroundImage && (
+                      <span className='text-sm text-gray-500'>
+                        <Trans>No background image set</Trans>
+                      </span>
+                    )}
+                  </div>
                 </div>
               </CardContent>
             </Card>
