@@ -343,19 +343,23 @@ msgstr ""
 #~ msgid "Amount includes"
 #~ msgstr "金额包括"
 
+#: src/pages/Themes.tsx:91
+msgid "An error occurred while applying the theme"
+msgstr ""
+
 #: src/pages/Settings.tsx:1531
 #~ msgid "Analyze Duration"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:227
+#: src/pages/Themes.tsx:249
 msgid "Apply Custom Theme"
 msgstr ""
 
-#: src/pages/Themes.tsx:283
+#: src/pages/Themes.tsx:313
 msgid "Apply Theme"
 msgstr ""
 
-#: src/pages/Themes.tsx:278
+#: src/pages/Themes.tsx:308
 msgid "Applying..."
 msgstr ""
 
@@ -488,7 +492,7 @@ msgstr "返回"
 #~ msgid "Back to groups"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:310
+#: src/pages/Themes.tsx:363
 msgid "Background Image"
 msgstr ""
 
@@ -710,7 +714,7 @@ msgstr ""
 #~ msgid "Choose your preferred theme"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:193
+#: src/pages/Themes.tsx:215
 msgid "Choose Your Theme"
 msgstr ""
 
@@ -740,7 +744,7 @@ msgstr ""
 #~ msgid "Clawback Expiration"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:293
+#: src/pages/Themes.tsx:323
 msgid "Clear & Reset"
 msgstr ""
 
@@ -1572,7 +1576,7 @@ msgstr ""
 msgid "Error loading themes: {error}"
 msgstr ""
 
-#: src/pages/Themes.tsx:378
+#: src/pages/Themes.tsx:431
 msgid "Error rendering theme page"
 msgstr ""
 
@@ -1673,6 +1677,10 @@ msgstr ""
 #: src/components/NftGroupCard.tsx:480
 #~ msgid "Failed to add NFTs to offer"
 #~ msgstr ""
+
+#: src/pages/Themes.tsx:85
+msgid "Failed to apply theme. Please check your JSON format."
+msgstr ""
 
 #: src/components/dialogs/OfferCreationProgressDialog.tsx:117
 #~ msgid "Failed to auto-upload offer {0} to {1}. Stopping.: {error}"
@@ -1996,7 +2004,7 @@ msgstr ""
 #~ msgid "Input field example"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:303
+#: src/pages/Themes.tsx:356
 msgid "Insert Current Theme JSON"
 msgstr ""
 
@@ -2007,6 +2015,10 @@ msgstr ""
 #: src/pages/Send.tsx:127
 #~ msgid "Invalid addresses"
 #~ msgstr ""
+
+#: src/pages/Themes.tsx:129
+msgid "Invalid JSON format. Please check your syntax. {err}"
+msgstr ""
 
 #: src/components/ui/masked-input.tsx:24
 msgid "Invalid number {pastedText}"
@@ -2147,7 +2159,7 @@ msgstr ""
 #~ msgid "Loading profile"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:150
+#: src/pages/Themes.tsx:172
 #: src/components/ThemeSelector.tsx:15
 #: src/components/ThemeSelector.tsx:83
 msgid "Loading themes..."
@@ -2489,7 +2501,7 @@ msgstr "下一页"
 #~ msgid "No assets being sent to external recipients."
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:358
+#: src/pages/Themes.tsx:411
 msgid "No background image set"
 msgstr ""
 
@@ -2558,7 +2570,7 @@ msgstr ""
 msgid "No results."
 msgstr "无结果."
 
-#: src/pages/Themes.tsx:167
+#: src/pages/Themes.tsx:189
 #: src/components/ThemeSelector.tsx:34
 msgid "No theme available"
 msgstr ""
@@ -2906,11 +2918,11 @@ msgstr ""
 #~ msgid "Paste your offer string or URL here..."
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:230
+#: src/pages/Themes.tsx:252
 msgid "Paste your theme JSON below to apply a custom theme to the entire application."
 msgstr ""
 
-#: src/pages/Themes.tsx:261
+#: src/pages/Themes.tsx:282
 msgid "Paste your theme JSON here..."
 msgstr ""
 
@@ -2966,6 +2978,14 @@ msgstr ""
 #: src/components/dialogs/NfcScanDialog.tsx:22
 #~ msgid "Place the NFC tag near your device to scan it."
 #~ msgstr ""
+
+#: src/pages/Themes.tsx:73
+msgid "Please enter theme JSON"
+msgstr ""
+
+#: src/pages/Themes.tsx:117
+msgid "Please enter theme JSON to validate"
+msgstr ""
 
 #: src/components/dialogs/MakeOfferConfirmationDialog.tsx:403
 #~ msgid "Please review the details of your offer(s) before proceeding."
@@ -3176,7 +3196,7 @@ msgstr ""
 #~ msgid "Refreshing token info..."
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:210
+#: src/pages/Themes.tsx:232
 msgid "Reload Themes"
 msgstr ""
 
@@ -3412,7 +3432,7 @@ msgstr ""
 #~ msgid "Select coin row"
 #~ msgstr "选择硬币行"
 
-#: src/pages/Themes.tsx:196
+#: src/pages/Themes.tsx:218
 msgid "Select from our collection of beautiful themes"
 msgstr ""
 
@@ -3970,7 +3990,7 @@ msgstr ""
 msgid "Theme icon"
 msgstr ""
 
-#: src/pages/Themes.tsx:257
+#: src/pages/Themes.tsx:276
 msgid "Theme JSON"
 msgstr ""
 
@@ -3983,7 +4003,7 @@ msgstr ""
 msgid "Theme-o-rama"
 msgstr ""
 
-#: src/pages/Themes.tsx:373
+#: src/pages/Themes.tsx:426
 #: src/pages/Tables.tsx:89
 #: src/pages/Mint.tsx:43
 #: src/pages/Dialogs.tsx:138
@@ -4593,7 +4613,7 @@ msgstr ""
 #~ msgid "Untitled Profile"
 #~ msgstr "未命名个人资料"
 
-#: src/pages/Themes.tsx:331
+#: src/pages/Themes.tsx:384
 msgid "Upload Image"
 msgstr ""
 
@@ -4680,6 +4700,10 @@ msgstr ""
 #: src/pages/Settings.tsx:1555
 #~ msgid "Vacuum Duration"
 #~ msgstr ""
+
+#: src/pages/Themes.tsx:346
+msgid "Validate"
+msgstr ""
 
 #: src/components/TokenColumns.tsx:118
 #~ msgid "Value"
