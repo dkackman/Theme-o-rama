@@ -7,72 +7,97 @@ import { deepMerge } from './utils';
 export type ImageResolver = (themeName: string, imagePath: string) => string;
 
 export class ThemeLoader {
-  constructor(private readonly themesCache: ThemeCache) {}
+  private readonly themesCache: ThemeCache;
+  constructor() {
+    this.themesCache = new ThemeCache();
+  }
+
+  public clearCache() {
+    this.themesCache.invalidate();
+  }
+
+  public getTheme(themeName: string | null): Theme {
+    return this.themesCache.getThemeSafe(themeName);
+  }
+
+  public getThemes(): Theme[] {
+    return this.themesCache.getThemes();
+  }
 
   public loadThemes(
     themes: Theme[],
     imageResolver: ImageResolver | null = null,
-  ): Theme[] {
-    return themes
-      .map((theme) => this.loadTheme(theme, imageResolver))
-      .filter((theme) => theme !== null);
+  ): void {
+    themes.forEach((theme) => this.loadTheme(theme, imageResolver));
   }
 
   public loadTheme(
     theme: Theme,
     imageResolver: ImageResolver | null = null,
-  ): Theme {
+  ): void {
     try {
       // Create a deep copy of the theme to avoid readonly issues
       let workingTheme = JSON.parse(JSON.stringify(theme)) as Theme;
+      this.initializeTheme(workingTheme, imageResolver);
+      this.themesCache.addTheme(workingTheme);
+    } catch (error) {
+      console.error(`Error loading theme`, error);
+    }
+  }
 
-      if (workingTheme.inherits) {
-        const inheritedTheme = this.themesCache.getTheme(workingTheme.inherits);
+  public loadThemeFromJson(
+    themeJson: string,
+    imageResolver: ImageResolver | null = null,
+  ): Theme {
+    const theme = validateTheme(themeJson);
+    this.initializeTheme(theme, imageResolver);
+    return theme;
+  }
+
+  private initializeTheme(
+    theme: Theme,
+    imageResolver: ImageResolver | null = null,
+  ): void {
+    try {
+      if (theme.inherits) {
+        const inheritedTheme = this.themesCache.getTheme(theme.inherits);
         if (inheritedTheme) {
-          workingTheme = deepMerge(inheritedTheme, workingTheme);
+          theme = deepMerge(inheritedTheme, theme);
         } else {
           console.warn(
-            `Inherited theme for ${workingTheme.name}:${workingTheme.inherits} not found`,
+            `Inherited theme for ${theme.name}:${theme.inherits} not found`,
           );
         }
       }
 
-      if (workingTheme.backgroundImage && imageResolver) {
+      if (theme.backgroundImage && imageResolver) {
         try {
           // we allow remote urls and local files for built in themes
           // local images get imported from the theme's folder
           if (
             !(
-              workingTheme.backgroundImage.startsWith('http://') ||
-              workingTheme.backgroundImage.startsWith('https://')
+              theme.backgroundImage.startsWith('http://') ||
+              theme.backgroundImage.startsWith('https://')
             ) &&
-            !workingTheme.backgroundImage.startsWith('/') &&
-            !workingTheme.backgroundImage.startsWith('data:')
+            !theme.backgroundImage.startsWith('/') &&
+            !theme.backgroundImage.startsWith('data:')
           ) {
             const resolvedImage = imageResolver(
-              workingTheme.name,
-              workingTheme.backgroundImage,
+              theme.name,
+              theme.backgroundImage,
             );
-            workingTheme.backgroundImage = resolvedImage;
+            theme.backgroundImage = resolvedImage;
           }
         } catch (error) {
           console.warn(
-            `Error loading background image for theme ${workingTheme.name}:`,
+            `Error loading background image for theme ${theme.name}:`,
             error,
           );
-          workingTheme.backgroundImage = undefined;
+          theme.backgroundImage = undefined;
         }
       }
-
-      return workingTheme;
     } catch (error) {
       console.error(`Error loading theme`, error);
-      return theme;
     }
-  }
-
-  public loadThemeFromJson(themeJson: string): Theme | null {
-    let theme = validateTheme(themeJson);
-    return this.loadTheme(theme);
   }
 }
