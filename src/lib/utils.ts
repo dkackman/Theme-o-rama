@@ -1,5 +1,3 @@
-import { bech32m } from 'bech32';
-import BigNumber from 'bignumber.js';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -10,30 +8,6 @@ export function cn(...inputs: ClassValue[]) {
 export function dbg<T>(value: T): T {
   console.log(value);
   return value;
-}
-
-/**
- * Deep merge two theme objects, with values from the second theme overriding values from the first
- */
-export function deepMerge<T>(target: T, source: Partial<T>): T {
-  const result = { ...target };
-
-  for (const key in source) {
-    if (
-      source[key] &&
-      typeof source[key] === 'object' &&
-      !Array.isArray(source[key])
-    ) {
-      result[key] = deepMerge(
-        (result[key] as Record<string, unknown>) || {},
-        source[key] as Record<string, unknown>,
-      ) as T[Extract<keyof T, string>];
-    } else {
-      result[key] = source[key] as T[Extract<keyof T, string>];
-    }
-  }
-
-  return result;
 }
 
 export function formatTimestamp(
@@ -72,58 +46,6 @@ export function formatUsdPrice(price: number): string {
     return `$${price.toFixed(2)}`;
   }
 }
-
-export function toMojos(amount: string, precision: number): string {
-  return BigNumber(amount)
-    .multipliedBy(BigNumber(10).pow(precision))
-    .toString();
-}
-
-export function toDecimal(amount: string | number, precision: number): string {
-  return fromMojos(amount, precision).toString();
-}
-
-export function fromMojos(
-  amount: string | number | BigNumber,
-  precision: number,
-): BigNumber {
-  return BigNumber(amount).dividedBy(BigNumber(10).pow(precision));
-}
-
-export interface AddressInfo {
-  puzzleHash: string;
-  prefix: string;
-}
-
-export function toAddress(puzzleHash: string, prefix: string): string {
-  return bech32m.encode(
-    prefix,
-    bech32m.toWords(fromHex(sanitizeHex(puzzleHash))),
-  );
-}
-
-export function addressInfo(address: string): AddressInfo {
-  const { words, prefix } = bech32m.decode(address);
-  return {
-    puzzleHash: toHex(Uint8Array.from(bech32m.fromWords(words))),
-    prefix,
-  };
-}
-
-export function puzzleHash(address: string): string {
-  const info = addressInfo(address);
-  return info.puzzleHash;
-}
-
-export function isValidAddress(address: string, prefix: string): boolean {
-  try {
-    const info = addressInfo(address);
-    return info.puzzleHash.length === 64 && info.prefix === prefix;
-  } catch {
-    return false;
-  }
-}
-
 export function isValidUrl(str: string) {
   try {
     // only allow http(s) schemes, not file, ftp, wss etc

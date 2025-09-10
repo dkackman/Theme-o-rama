@@ -347,15 +347,15 @@ msgstr ""
 #~ msgid "Analyze Duration"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:177
+#: src/pages/Themes.tsx:227
 msgid "Apply Custom Theme"
 msgstr ""
 
-#: src/pages/Themes.tsx:239
+#: src/pages/Themes.tsx:283
 msgid "Apply Theme"
 msgstr ""
 
-#: src/pages/Themes.tsx:234
+#: src/pages/Themes.tsx:278
 msgid "Applying..."
 msgstr ""
 
@@ -487,6 +487,10 @@ msgstr "返回"
 #: src/components/NftOptions.tsx:187
 #~ msgid "Back to groups"
 #~ msgstr ""
+
+#: src/pages/Themes.tsx:310
+msgid "Background Image"
+msgstr ""
 
 #: src/components/TokenColumns.tsx:104
 #~ msgid "Balance"
@@ -706,7 +710,7 @@ msgstr ""
 #~ msgid "Choose your preferred theme"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:156
+#: src/pages/Themes.tsx:193
 msgid "Choose Your Theme"
 msgstr ""
 
@@ -736,7 +740,7 @@ msgstr ""
 #~ msgid "Clawback Expiration"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:249
+#: src/pages/Themes.tsx:293
 msgid "Clear & Reset"
 msgstr ""
 
@@ -1560,12 +1564,16 @@ msgstr ""
 #~ msgid "Enter your mnemonic, private key, or public key below. If it's a public key, it will be imported as a read-only cold wallet."
 #~ msgstr "请输入助记词、私钥或公钥. 如果是公钥, 它将作为只读冷钱包导入."
 
-#: src/pages/Themes.tsx:114
-msgid "Error loading themes"
-msgstr ""
+#: src/pages/Themes.tsx:129
+#~ msgid "Error loading themes"
+#~ msgstr ""
 
 #: src/components/ThemeSelector.tsx:25
 msgid "Error loading themes: {error}"
+msgstr ""
+
+#: src/pages/Themes.tsx:378
+msgid "Error rendering theme page"
 msgstr ""
 
 #: src/hooks/useOptionActions.tsx:133
@@ -1988,6 +1996,10 @@ msgstr ""
 #~ msgid "Input field example"
 #~ msgstr ""
 
+#: src/pages/Themes.tsx:303
+msgid "Insert Current Theme JSON"
+msgstr ""
+
 #: src/pages/Send.tsx:127
 #~ msgid "Invalid address"
 #~ msgstr "无效地址"
@@ -2135,7 +2147,7 @@ msgstr ""
 #~ msgid "Loading profile"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:96
+#: src/pages/Themes.tsx:150
 #: src/components/ThemeSelector.tsx:15
 #: src/components/ThemeSelector.tsx:83
 msgid "Loading themes..."
@@ -2477,6 +2489,10 @@ msgstr "下一页"
 #~ msgid "No assets being sent to external recipients."
 #~ msgstr ""
 
+#: src/pages/Themes.tsx:358
+msgid "No background image set"
+msgstr ""
+
 #: src/components/ConfirmationDialog.tsx:404
 #~ msgid "No coins being spent."
 #~ msgstr ""
@@ -2542,7 +2558,7 @@ msgstr ""
 msgid "No results."
 msgstr "无结果."
 
-#: src/pages/Themes.tsx:132
+#: src/pages/Themes.tsx:167
 #: src/components/ThemeSelector.tsx:34
 msgid "No theme available"
 msgstr ""
@@ -2890,11 +2906,11 @@ msgstr ""
 #~ msgid "Paste your offer string or URL here..."
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:180
+#: src/pages/Themes.tsx:230
 msgid "Paste your theme JSON below to apply a custom theme to the entire application."
 msgstr ""
 
-#: src/pages/Themes.tsx:211
+#: src/pages/Themes.tsx:261
 msgid "Paste your theme JSON here..."
 msgstr ""
 
@@ -3160,6 +3176,10 @@ msgstr ""
 #~ msgid "Refreshing token info..."
 #~ msgstr ""
 
+#: src/pages/Themes.tsx:210
+msgid "Reload Themes"
+msgstr ""
+
 #: src/components/WalletCard.tsx:308
 #~ msgid "Remove Emoji"
 #~ msgstr ""
@@ -3392,7 +3412,7 @@ msgstr ""
 #~ msgid "Select coin row"
 #~ msgstr "选择硬币行"
 
-#: src/pages/Themes.tsx:159
+#: src/pages/Themes.tsx:196
 msgid "Select from our collection of beautiful themes"
 msgstr ""
 
@@ -3950,7 +3970,7 @@ msgstr ""
 msgid "Theme icon"
 msgstr ""
 
-#: src/pages/Themes.tsx:207
+#: src/pages/Themes.tsx:257
 msgid "Theme JSON"
 msgstr ""
 
@@ -3963,7 +3983,7 @@ msgstr ""
 msgid "Theme-o-rama"
 msgstr ""
 
-#: src/pages/Themes.tsx:262
+#: src/pages/Themes.tsx:373
 #: src/pages/Tables.tsx:89
 #: src/pages/Mint.tsx:43
 #: src/pages/Dialogs.tsx:138
@@ -4572,6 +4592,10 @@ msgstr ""
 #: src/components/NftGroupCard.tsx:123
 #~ msgid "Untitled Profile"
 #~ msgstr "未命名个人资料"
+
+#: src/pages/Themes.tsx:331
+msgid "Upload Image"
+msgstr ""
 
 #: src/components/MarketplaceCard.tsx:155
 #: src/components/dialogs/MakeOfferConfirmationDialog.tsx:568
