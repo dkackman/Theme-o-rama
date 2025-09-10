@@ -171,7 +171,6 @@ export function ThemeProvider({
     };
 
     initializeThemes();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [savedTheme, dark, setSavedTheme]);
 
   async function loadAndCacheThemes(
