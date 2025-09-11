@@ -4,6 +4,8 @@
 
 A theme development and testing environment for the Sage Chia Wallet. This repository allows you to create, test, and preview custom UI themes for the Sage wallet application.
 
+The associated npm library is reusable.
+
 ## Quick Start
 
 ### Prerequisites
