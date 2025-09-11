@@ -1,3 +1,5 @@
+<a href="https://www.npmjs.com/package/theme-o-rama"><img src="https://img.shields.io/npm/v/theme-o-rama.svg?sanitize=true" alt="Version"></a>
+  
 # Theme-o-rama
 
 A theme development and testing environment for the Sage Chia Wallet. This repository allows you to create, test, and preview custom UI themes for the Sage wallet application.
