@@ -156,6 +156,10 @@ msgstr "{pageSize} items per page"
 #~ msgid "A more lightweight sync that only checks unseen blocks"
 #~ msgstr "A more lightweight sync that only checks unseen blocks"
 
+#: src/components/Nav.tsx:59
+msgid "About"
+msgstr "About"
+
 #: src/pages/Components.tsx:102
 msgid "Accent"
 msgstr "Accent"
@@ -483,7 +487,7 @@ msgstr "At least one spoon is required"
 #~ msgstr "Automatically start the RPC server when the app launches"
 
 #: src/components/Header.tsx:56
-#: src/components/Header.tsx:146
+#: src/components/Header.tsx:144
 msgid "Back"
 msgstr "Back"
 
@@ -829,8 +833,8 @@ msgstr "Clear & Reset"
 #~ msgid "Cold Wallet"
 #~ msgstr "Cold Wallet"
 
-#: src/components/Layout.tsx:106
-#: src/components/Layout.tsx:121
+#: src/components/Layout.tsx:105
+#: src/components/Layout.tsx:120
 msgid "Collapse sidebar"
 msgstr "Collapse sidebar"
 
@@ -1085,6 +1089,10 @@ msgstr "Copy {value}"
 #: src/components/OfferCard.tsx:114
 #~ msgid "Copy offer"
 #~ msgstr "Copy offer"
+
+#: src/pages/About.tsx:90
+msgid "Copy Schema"
+msgstr "Copy Schema"
 
 #: src/pages/Login.tsx:124
 #~ msgid "Create"
@@ -1595,8 +1603,8 @@ msgstr "Error rendering theme page"
 #~ msgid "Exercise Option"
 #~ msgstr "Exercise Option"
 
-#: src/components/Layout.tsx:106
-#: src/components/Layout.tsx:121
+#: src/components/Layout.tsx:105
+#: src/components/Layout.tsx:120
 msgid "Expand sidebar"
 msgstr "Expand sidebar"
 
@@ -1789,6 +1797,10 @@ msgstr "Failed to apply theme. Please check your JSON format."
 msgid "Ghost"
 msgstr "Ghost"
 
+#: src/pages/About.tsx:54
+msgid "github repo"
+msgstr "github repo"
+
 #: src/pages/Settings.tsx:1197
 #~ msgid "Give your wallet a memorable name"
 #~ msgstr "Give your wallet a memorable name"
@@ -1797,7 +1809,7 @@ msgstr "Ghost"
 #~ msgid "Global"
 #~ msgstr "Global"
 
-#: src/components/Header.tsx:119
+#: src/components/Header.tsx:117
 msgid "Go to home"
 msgstr "Go to home"
 
@@ -2334,6 +2346,14 @@ msgstr "Mint Sage Compatible Theme NFT"
 #~ msgid "Mnemonic"
 #~ msgstr "Mnemonic"
 
+#: src/pages/About.tsx:39
+msgid "More Information"
+msgstr "More Information"
+
+#: src/pages/About.tsx:42
+msgid "More information about theme-o-rama."
+msgstr "More information about theme-o-rama."
+
 #: src/pages/Settings.tsx:300
 #~ msgid "More Themes..."
 #~ msgstr "More Themes..."
@@ -2619,6 +2639,10 @@ msgstr "Not enough funds to cover the fee"
 #: src/components/dialogs/MakeOfferConfirmationDialog.tsx:341
 #~ msgid "Nothing requested."
 #~ msgstr "Nothing requested."
+
+#: src/pages/About.tsx:66
+msgid "npmjs package"
+msgstr "npmjs package"
 
 #: src/pages/Settings.tsx:649
 #~ msgid "Number of addresses to generate at once"
@@ -3344,6 +3368,10 @@ msgstr "Reload Themes"
 #~ msgid "Scan this QR code to view the offer"
 #~ msgstr "Scan this QR code to view the offer"
 
+#: src/pages/About.tsx:25
+msgid "Schema copied to clipboard"
+msgstr "Schema copied to clipboard"
+
 #: src/components/selectors/NftSelector.tsx:158
 #~ msgid "Search by name or enter NFT ID"
 #~ msgstr "Search by name or enter NFT ID"
@@ -3651,7 +3679,7 @@ msgstr "Showing {length} of {0} {rowLabelPlural}"
 #~ msgid "Showing {length} rows"
 #~ msgstr "Showing {length} rows"
 
-#: src/components/Layout.tsx:93
+#: src/components/Layout.tsx:92
 msgid "Sidebar navigation"
 msgstr "Sidebar navigation"
 
@@ -3986,13 +4014,17 @@ msgstr "Tables Theme"
 
 #: src/components/Layout.tsx:42
 #: src/components/Layout.tsx:65
-#: src/components/Header.tsx:126
+#: src/components/Header.tsx:124
 msgid "Theme icon"
 msgstr "Theme icon"
 
 #: src/pages/Themes.tsx:276
 msgid "Theme JSON"
 msgstr "Theme JSON"
+
+#: src/pages/About.tsx:77
+msgid "Theme JSON Schema"
+msgstr "Theme JSON Schema"
 
 #: src/components/ThemeCard.tsx:107
 msgid "Theme selected"
@@ -4008,6 +4040,7 @@ msgstr "Theme-o-rama"
 #: src/pages/Mint.tsx:43
 #: src/pages/Dialogs.tsx:138
 #: src/pages/Components.tsx:270
+#: src/pages/About.tsx:124
 #: src/components/Nav.tsx:30
 msgid "Themes"
 msgstr "Themes"
@@ -4781,6 +4814,10 @@ msgstr "Validate"
 #: src/components/NftOptions.tsx:124
 #~ msgid "View options"
 #~ msgstr "View options"
+
+#: src/pages/About.tsx:80
+msgid "View the JSON schema that defines the structure of theme files."
+msgstr "View the JSON schema that defines the structure of theme files."
 
 #: src/components/TokenColumns.tsx:72
 #~ msgid "View Unknown CAT token details"

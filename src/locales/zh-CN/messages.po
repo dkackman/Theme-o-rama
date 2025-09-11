@@ -156,6 +156,10 @@ msgstr ""
 #~ msgid "A more lightweight sync that only checks unseen blocks"
 #~ msgstr ""
 
+#: src/components/Nav.tsx:59
+msgid "About"
+msgstr ""
+
 #: src/pages/Components.tsx:102
 msgid "Accent"
 msgstr ""
@@ -483,7 +487,7 @@ msgstr ""
 #~ msgstr ""
 
 #: src/components/Header.tsx:56
-#: src/components/Header.tsx:146
+#: src/components/Header.tsx:144
 msgid "Back"
 msgstr "返回"
 
@@ -829,8 +833,8 @@ msgstr ""
 #~ msgid "Cold Wallet"
 #~ msgstr "冷钱包"
 
-#: src/components/Layout.tsx:106
-#: src/components/Layout.tsx:121
+#: src/components/Layout.tsx:105
+#: src/components/Layout.tsx:120
 msgid "Collapse sidebar"
 msgstr ""
 
@@ -1085,6 +1089,10 @@ msgstr ""
 #: src/components/OfferCard.tsx:114
 #~ msgid "Copy offer"
 #~ msgstr ""
+
+#: src/pages/About.tsx:90
+msgid "Copy Schema"
+msgstr ""
 
 #: src/pages/Login.tsx:124
 #~ msgid "Create"
@@ -1595,8 +1603,8 @@ msgstr ""
 #~ msgid "Exercise Option"
 #~ msgstr ""
 
-#: src/components/Layout.tsx:106
-#: src/components/Layout.tsx:121
+#: src/components/Layout.tsx:105
+#: src/components/Layout.tsx:120
 msgid "Expand sidebar"
 msgstr ""
 
@@ -1789,6 +1797,10 @@ msgstr ""
 msgid "Ghost"
 msgstr ""
 
+#: src/pages/About.tsx:54
+msgid "github repo"
+msgstr ""
+
 #: src/pages/Settings.tsx:1197
 #~ msgid "Give your wallet a memorable name"
 #~ msgstr ""
@@ -1797,7 +1809,7 @@ msgstr ""
 #~ msgid "Global"
 #~ msgstr "全局"
 
-#: src/components/Header.tsx:119
+#: src/components/Header.tsx:117
 msgid "Go to home"
 msgstr ""
 
@@ -2334,6 +2346,14 @@ msgstr ""
 #~ msgid "Mnemonic"
 #~ msgstr "助记词"
 
+#: src/pages/About.tsx:39
+msgid "More Information"
+msgstr ""
+
+#: src/pages/About.tsx:42
+msgid "More information about theme-o-rama."
+msgstr ""
+
 #: src/pages/Settings.tsx:300
 #~ msgid "More Themes..."
 #~ msgstr ""
@@ -2619,6 +2639,10 @@ msgstr "余额不足以支付手续费"
 #: src/components/dialogs/MakeOfferConfirmationDialog.tsx:341
 #~ msgid "Nothing requested."
 #~ msgstr ""
+
+#: src/pages/About.tsx:66
+msgid "npmjs package"
+msgstr ""
 
 #: src/pages/Settings.tsx:649
 #~ msgid "Number of addresses to generate at once"
@@ -3344,6 +3368,10 @@ msgstr ""
 #~ msgid "Scan this QR code to view the offer"
 #~ msgstr ""
 
+#: src/pages/About.tsx:25
+msgid "Schema copied to clipboard"
+msgstr ""
+
 #: src/components/selectors/NftSelector.tsx:158
 #~ msgid "Search by name or enter NFT ID"
 #~ msgstr ""
@@ -3651,7 +3679,7 @@ msgstr ""
 #~ msgid "Showing {length} rows"
 #~ msgstr ""
 
-#: src/components/Layout.tsx:93
+#: src/components/Layout.tsx:92
 msgid "Sidebar navigation"
 msgstr ""
 
@@ -3986,12 +4014,16 @@ msgstr ""
 
 #: src/components/Layout.tsx:42
 #: src/components/Layout.tsx:65
-#: src/components/Header.tsx:126
+#: src/components/Header.tsx:124
 msgid "Theme icon"
 msgstr ""
 
 #: src/pages/Themes.tsx:276
 msgid "Theme JSON"
+msgstr ""
+
+#: src/pages/About.tsx:77
+msgid "Theme JSON Schema"
 msgstr ""
 
 #: src/components/ThemeCard.tsx:107
@@ -4008,6 +4040,7 @@ msgstr ""
 #: src/pages/Mint.tsx:43
 #: src/pages/Dialogs.tsx:138
 #: src/pages/Components.tsx:270
+#: src/pages/About.tsx:124
 #: src/components/Nav.tsx:30
 msgid "Themes"
 msgstr ""
@@ -4779,6 +4812,10 @@ msgstr ""
 #: src/components/NftOptions.tsx:124
 #~ msgid "View options"
 #~ msgstr ""
+
+#: src/pages/About.tsx:80
+msgid "View the JSON schema that defines the structure of theme files."
+msgstr ""
 
 #: src/components/TokenColumns.tsx:72
 #~ msgid "View Unknown CAT token details"
