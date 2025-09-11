@@ -1,4 +1,21 @@
-import { Theme } from 'theme-o-rama';
+import { Theme, validateTheme } from 'theme-o-rama';
+
+export function validateThemeJson(json: string): void {
+  const theme = validateTheme(json);
+  if (theme?.buttonStyles) {
+    theme.buttonStyles.forEach((buttonStyle: string) => {
+      if (
+        buttonStyle !== 'gradient' &&
+        buttonStyle !== 'shimmer' &&
+        buttonStyle !== 'pixel-art' &&
+        buttonStyle !== '3d-effects' &&
+        buttonStyle !== 'rounded-buttons'
+      ) {
+        throw new Error(`Invalid button style: ${buttonStyle}`);
+      }
+    });
+  }
+}
 
 // Dynamically discover theme folders by scanning the themes directory
 export async function discoverThemes(): Promise<Theme[]> {

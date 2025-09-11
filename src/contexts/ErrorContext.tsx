@@ -10,7 +10,7 @@ import {
 import { createContext, ReactNode, useCallback, useState } from 'react';
 
 export interface CustomError {
-  kind: 'walletconnect' | 'upload' | 'invalid' | 'dexie';
+  kind: 'walletconnect' | 'upload' | 'invalid' | 'dexie' | 'success';
   reason: string;
 }
 
