@@ -152,6 +152,10 @@ msgstr "{pageSize} items per page"
 #~ msgid "1 combined coin"
 #~ msgstr "1 combined coin"
 
+#: src/pages/ThemePreview.tsx:151
+msgid "A larger preview of your currently active theme"
+msgstr "A larger preview of your currently active theme"
+
 #: src/pages/Settings.tsx:426
 #~ msgid "A more lightweight sync that only checks unseen blocks"
 #~ msgstr "A more lightweight sync that only checks unseen blocks"
@@ -347,7 +351,7 @@ msgstr "Accent"
 #~ msgid "Amount includes"
 #~ msgstr "Amount includes"
 
-#: src/pages/Themes.tsx:91
+#: src/pages/Themes.tsx:94
 msgid "An error occurred while applying the theme"
 msgstr "An error occurred while applying the theme"
 
@@ -355,15 +359,15 @@ msgstr "An error occurred while applying the theme"
 #~ msgid "Analyze Duration"
 #~ msgstr "Analyze Duration"
 
-#: src/pages/Themes.tsx:249
+#: src/pages/Themes.tsx:252
 msgid "Apply Custom Theme"
 msgstr "Apply Custom Theme"
 
-#: src/pages/Themes.tsx:313
+#: src/pages/Themes.tsx:316
 msgid "Apply Theme"
 msgstr "Apply Theme"
 
-#: src/pages/Themes.tsx:308
+#: src/pages/Themes.tsx:311
 msgid "Applying..."
 msgstr "Applying..."
 
@@ -496,7 +500,7 @@ msgstr "Back"
 #~ msgid "Back to groups"
 #~ msgstr "Back to groups"
 
-#: src/pages/Themes.tsx:363
+#: src/pages/Themes.tsx:366
 msgid "Background Image"
 msgstr "Background Image"
 
@@ -718,7 +722,7 @@ msgstr "Checkbox"
 #~ msgid "Choose your preferred theme"
 #~ msgstr "Choose your preferred theme"
 
-#: src/pages/Themes.tsx:215
+#: src/pages/Themes.tsx:218
 msgid "Choose Your Theme"
 msgstr "Choose Your Theme"
 
@@ -748,7 +752,7 @@ msgstr "Choose Your Theme"
 #~ msgid "Clawback Expiration"
 #~ msgstr "Clawback Expiration"
 
-#: src/pages/Themes.tsx:323
+#: src/pages/Themes.tsx:326
 msgid "Clear & Reset"
 msgstr "Clear & Reset"
 
@@ -874,6 +878,10 @@ msgstr "Collapse sidebar"
 #: src/components/NftPageTitle.tsx:38
 #~ msgid "Collections"
 #~ msgstr "Collections"
+
+#: src/pages/ThemePreview.tsx:191
+msgid "Color Palette"
+msgstr "Color Palette"
 
 #: src/pages/Components.tsx:85
 msgid "Colors"
@@ -1169,6 +1177,10 @@ msgstr "Current page {page} of {totalPages}"
 #~ msgid "Current Theme"
 #~ msgstr "Current Theme"
 
+#: src/pages/ThemePreview.tsx:148
+msgid "Current Theme Preview"
+msgstr "Current Theme Preview"
+
 #: src/pages/Themes.tsx:104
 #~ msgid "Current Theme: {0}"
 #~ msgstr "Current Theme: {0}"
@@ -1424,6 +1436,14 @@ msgstr "Dialogs Theme"
 #~ msgid "Done"
 #~ msgstr "Done"
 
+#: src/pages/ThemePreview.tsx:116
+msgid "Download failed. Please try again. {error}"
+msgstr "Download failed. Please try again. {error}"
+
+#: src/pages/ThemePreview.tsx:266
+msgid "Download Preview"
+msgstr "Download Preview"
+
 #: src/components/Nav.tsx:157
 #~ msgid "Downloading {checkedFiles} / {totalFiles}"
 #~ msgstr "Downloading {checkedFiles} / {totalFiles}"
@@ -1584,7 +1604,7 @@ msgstr "Dialogs Theme"
 msgid "Error loading themes: {error}"
 msgstr "Error loading themes: {error}"
 
-#: src/pages/Themes.tsx:431
+#: src/pages/Themes.tsx:446
 msgid "Error rendering theme page"
 msgstr "Error rendering theme page"
 
@@ -1686,7 +1706,7 @@ msgstr "Expand sidebar"
 #~ msgid "Failed to add NFTs to offer"
 #~ msgstr "Failed to add NFTs to offer"
 
-#: src/pages/Themes.tsx:85
+#: src/pages/Themes.tsx:88
 msgid "Failed to apply theme. Please check your JSON format."
 msgstr "Failed to apply theme. Please check your JSON format."
 
@@ -1792,6 +1812,10 @@ msgstr "Failed to apply theme. Please check your JSON format."
 #: src/pages/Settings.tsx:1481
 #~ msgid "Generating"
 #~ msgstr "Generating"
+
+#: src/pages/ThemePreview.tsx:261
+msgid "Generating Image..."
+msgstr "Generating Image..."
 
 #: src/pages/Components.tsx:251
 msgid "Ghost"
@@ -2017,8 +2041,8 @@ msgstr "Input field"
 #~ msgstr "Input field example"
 
 #: src/pages/Themes.tsx:356
-msgid "Insert Current Theme JSON"
-msgstr "Insert Current Theme JSON"
+#~ msgid "Insert Current Theme JSON"
+#~ msgstr "Insert Current Theme JSON"
 
 #: src/pages/Send.tsx:127
 #~ msgid "Invalid address"
@@ -2028,7 +2052,7 @@ msgstr "Insert Current Theme JSON"
 #~ msgid "Invalid addresses"
 #~ msgstr "Invalid addresses"
 
-#: src/pages/Themes.tsx:129
+#: src/pages/Themes.tsx:132
 msgid "Invalid JSON format. Please check your syntax. {err}"
 msgstr "Invalid JSON format. Please check your syntax. {err}"
 
@@ -2171,7 +2195,7 @@ msgstr "Loading"
 #~ msgid "Loading profile"
 #~ msgstr "Loading profile"
 
-#: src/pages/Themes.tsx:172
+#: src/pages/Themes.tsx:175
 #: src/components/ThemeSelector.tsx:15
 #: src/components/ThemeSelector.tsx:83
 msgid "Loading themes..."
@@ -2217,6 +2241,10 @@ msgstr "Loading themes..."
 #: src/components/Nav.tsx:24
 msgid "Main navigation"
 msgstr "Main navigation"
+
+#: src/pages/Themes.tsx:427
+msgid "Make Preview Image"
+msgstr "Make Preview Image"
 
 #: src/pages/CreateWallet.tsx:278
 #~ msgid "Make sure you have saved your mnemonic. You will not be able to access it later, since it will not be saved in the wallet. You will also not be able to make transactions with this wallet."
@@ -2521,7 +2549,7 @@ msgstr "Next page"
 #~ msgid "No assets being sent to external recipients."
 #~ msgstr "No assets being sent to external recipients."
 
-#: src/pages/Themes.tsx:411
+#: src/pages/Themes.tsx:415
 msgid "No background image set"
 msgstr "No background image set"
 
@@ -2590,7 +2618,8 @@ msgstr "No more than 10 spoons"
 msgid "No results."
 msgstr "No results."
 
-#: src/pages/Themes.tsx:189
+#: src/pages/Themes.tsx:192
+#: src/pages/ThemePreview.tsx:131
 #: src/components/ThemeSelector.tsx:34
 msgid "No theme available"
 msgstr "No theme available"
@@ -2942,11 +2971,11 @@ msgstr "Pagination"
 #~ msgid "Paste your offer string or URL here..."
 #~ msgstr "Paste your offer string or URL here..."
 
-#: src/pages/Themes.tsx:252
+#: src/pages/Themes.tsx:255
 msgid "Paste your theme JSON below to apply a custom theme to the entire application."
 msgstr "Paste your theme JSON below to apply a custom theme to the entire application."
 
-#: src/pages/Themes.tsx:282
+#: src/pages/Themes.tsx:285
 msgid "Paste your theme JSON here..."
 msgstr "Paste your theme JSON here..."
 
@@ -3003,11 +3032,11 @@ msgstr "Paste your theme JSON here..."
 #~ msgid "Place the NFC tag near your device to scan it."
 #~ msgstr "Place the NFC tag near your device to scan it."
 
-#: src/pages/Themes.tsx:73
+#: src/pages/Themes.tsx:76
 msgid "Please enter theme JSON"
 msgstr "Please enter theme JSON"
 
-#: src/pages/Themes.tsx:117
+#: src/pages/Themes.tsx:120
 msgid "Please enter theme JSON to validate"
 msgstr "Please enter theme JSON to validate"
 
@@ -3220,7 +3249,7 @@ msgstr "Primary"
 #~ msgid "Refreshing token info..."
 #~ msgstr "Refreshing token info..."
 
-#: src/pages/Themes.tsx:232
+#: src/pages/Themes.tsx:235
 msgid "Reload Themes"
 msgstr "Reload Themes"
 
@@ -3264,6 +3293,10 @@ msgstr "Reload Themes"
 #: src/pages/Settings.tsx:308
 #~ msgid "Require biometrics for sensitive actions"
 #~ msgstr "Require biometrics for sensitive actions"
+
+#: src/pages/Themes.tsx:359
+msgid "Reset with Current Theme's JSON"
+msgstr "Reset with Current Theme's JSON"
 
 #: src/components/confirmations/TokenConfirmation.tsx:204
 #~ msgid "Result"
@@ -3460,7 +3493,7 @@ msgstr "Select a value"
 #~ msgid "Select coin row"
 #~ msgstr "Select coin row"
 
-#: src/pages/Themes.tsx:218
+#: src/pages/Themes.tsx:221
 msgid "Select from our collection of beautiful themes"
 msgstr "Select from our collection of beautiful themes"
 
@@ -4018,13 +4051,19 @@ msgstr "Tables Theme"
 msgid "Theme icon"
 msgstr "Theme icon"
 
-#: src/pages/Themes.tsx:276
+#: src/pages/Themes.tsx:279
 msgid "Theme JSON"
 msgstr "Theme JSON"
 
 #: src/pages/About.tsx:77
 msgid "Theme JSON Schema"
 msgstr "Theme JSON Schema"
+
+#: src/pages/ThemePreview.tsx:126
+#: src/pages/ThemePreview.tsx:142
+#: src/pages/ThemePreview.tsx:277
+msgid "Theme Preview"
+msgstr "Theme Preview"
 
 #: src/components/ThemeCard.tsx:107
 msgid "Theme selected"
@@ -4035,7 +4074,7 @@ msgstr "Theme selected"
 msgid "Theme-o-rama"
 msgstr "Theme-o-rama"
 
-#: src/pages/Themes.tsx:426
+#: src/pages/Themes.tsx:441
 #: src/pages/Tables.tsx:89
 #: src/pages/Mint.tsx:43
 #: src/pages/Dialogs.tsx:138
@@ -4108,6 +4147,10 @@ msgstr "Themes"
 #: src/pages/ViewOffer.tsx:90
 #~ msgid "This does not include a fee of {makerFee} which was already added by the maker."
 #~ msgstr "This does not include a fee of {makerFee} which was already added by the maker."
+
+#: src/pages/ThemePreview.tsx:280
+msgid "This downloadable theme preview shows how your theme will look so you can share it with others."
+msgstr "This downloadable theme preview shows how your theme will look so you can share it with others."
 
 #: src/pages/Components.tsx:57
 msgid "This is a card"
@@ -4648,7 +4691,7 @@ msgstr "Two"
 #~ msgid "Untitled Profile"
 #~ msgstr "Untitled Profile"
 
-#: src/pages/Themes.tsx:384
+#: src/pages/Themes.tsx:388
 msgid "Upload Image"
 msgstr "Upload Image"
 
@@ -4736,7 +4779,7 @@ msgstr "Upload Image"
 #~ msgid "Vacuum Duration"
 #~ msgstr "Vacuum Duration"
 
-#: src/pages/Themes.tsx:346
+#: src/pages/Themes.tsx:349
 msgid "Validate"
 msgstr "Validate"
 
