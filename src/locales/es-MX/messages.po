@@ -152,7 +152,7 @@ msgstr "{pageSize} elementos por página"
 #~ msgid "1 combined coin"
 #~ msgstr "1 moneda combinada"
 
-#: src/pages/ThemePreview.tsx:151
+#: src/pages/ThemePreview.tsx:53
 msgid "A larger preview of your currently active theme"
 msgstr ""
 
@@ -879,7 +879,7 @@ msgstr "Contraer barra lateral"
 #~ msgid "Collections"
 #~ msgstr "Colecciones"
 
-#: src/pages/ThemePreview.tsx:191
+#: src/pages/ThemePreview.tsx:93
 msgid "Color Palette"
 msgstr ""
 
@@ -1177,7 +1177,7 @@ msgstr "Página actual {page} de {totalPages}"
 #~ msgid "Current Theme"
 #~ msgstr ""
 
-#: src/pages/ThemePreview.tsx:148
+#: src/pages/ThemePreview.tsx:50
 msgid "Current Theme Preview"
 msgstr ""
 
@@ -1437,12 +1437,12 @@ msgstr ""
 #~ msgstr "Listo"
 
 #: src/pages/ThemePreview.tsx:116
-msgid "Download failed. Please try again. {error}"
-msgstr ""
+#~ msgid "Download failed. Please try again. {error}"
+#~ msgstr ""
 
 #: src/pages/ThemePreview.tsx:266
-msgid "Download Preview"
-msgstr ""
+#~ msgid "Download Preview"
+#~ msgstr ""
 
 #: src/components/Nav.tsx:157
 #~ msgid "Downloading {checkedFiles} / {totalFiles}"
@@ -1814,8 +1814,8 @@ msgstr ""
 #~ msgstr "Generando"
 
 #: src/pages/ThemePreview.tsx:261
-msgid "Generating Image..."
-msgstr ""
+#~ msgid "Generating Image..."
+#~ msgstr ""
 
 #: src/pages/Components.tsx:251
 msgid "Ghost"
@@ -2619,7 +2619,7 @@ msgid "No results."
 msgstr "No hay resultados."
 
 #: src/pages/Themes.tsx:192
-#: src/pages/ThemePreview.tsx:131
+#: src/pages/ThemePreview.tsx:33
 #: src/components/ThemeSelector.tsx:34
 msgid "No theme available"
 msgstr ""
@@ -4059,9 +4059,9 @@ msgstr ""
 msgid "Theme JSON Schema"
 msgstr ""
 
-#: src/pages/ThemePreview.tsx:126
-#: src/pages/ThemePreview.tsx:142
-#: src/pages/ThemePreview.tsx:277
+#: src/pages/ThemePreview.tsx:28
+#: src/pages/ThemePreview.tsx:44
+#: src/pages/ThemePreview.tsx:160
 msgid "Theme Preview"
 msgstr ""
 
@@ -4149,8 +4149,8 @@ msgstr ""
 #~ msgstr "Esto no incluye una tarifa de {makerFee} que ya fue añadida por el creador."
 
 #: src/pages/ThemePreview.tsx:280
-msgid "This downloadable theme preview shows how your theme will look so you can share it with others."
-msgstr ""
+#~ msgid "This downloadable theme preview shows how your theme will look so you can share it with others."
+#~ msgstr ""
 
 #: src/pages/Components.tsx:57
 msgid "This is a card"
@@ -4215,6 +4215,10 @@ msgstr ""
 #: src/components/confirmations/DidConfirmation.tsx:45
 #~ msgid "This profile will be transferred to the address below."
 #~ msgstr "Este perfil será transferido a la dirección a continuación."
+
+#: src/pages/ThemePreview.tsx:163
+msgid "This theme preview shows how your theme will look so you can share it with others."
+msgstr ""
 
 #: src/pages/Login.tsx:655
 #~ msgid "This wallet requires a database migration to continue. Would you like to delete the wallet's data or cancel the login? The keys will not be affected."

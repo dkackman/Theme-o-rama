@@ -1,22 +1,15 @@
 import Header from '@/components/Header';
 import Layout from '@/components/Layout';
-import { Button } from '@/components/ui/button';
-import { useErrors } from '@/hooks/useErrors';
-import { getPlatform } from '@/lib/platform';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import html2canvas from 'html2canvas';
-import { Download, Loader2 } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { applyThemeIsolated, useTheme } from 'theme-o-rama';
 
 export default function ThemePreview() {
   const { currentTheme } = useTheme();
   const navigate = useNavigate();
-  const { addError } = useErrors();
   const previewRef = useRef<HTMLDivElement>(null);
-  const [isDownloading, setIsDownloading] = useState(false);
 
   useEffect(() => {
     if (previewRef.current && currentTheme) {
@@ -27,97 +20,6 @@ export default function ThemePreview() {
 
   const handleBack = () => {
     navigate(-1);
-  };
-
-  const handleDownload = async () => {
-    if (!previewRef.current || !currentTheme) return;
-
-    setIsDownloading(true);
-    try {
-      // Capture the preview element as canvas
-      const canvas = await html2canvas(previewRef.current, {
-        backgroundColor: null,
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        logging: false,
-      });
-
-      const filename = `${currentTheme.displayName || 'theme'}-preview.png`;
-      const platform = await getPlatform();
-
-      if (platform === 'web') {
-        // Web version: use standard download approach
-        const dataURL = canvas.toDataURL('image/png', 1.0);
-        const link = document.createElement('a');
-        link.href = dataURL;
-        link.download = filename;
-        link.style.display = 'none';
-
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } else {
-        // Tauri version: use Tauri APIs
-        try {
-          const { save } = await import('@tauri-apps/plugin-dialog');
-          const { writeFile } = await import('@tauri-apps/plugin-fs');
-
-          // Convert canvas to blob
-          const blob = await new Promise<Blob>((resolve, reject) => {
-            canvas.toBlob(
-              (blob) => {
-                if (blob) {
-                  resolve(blob);
-                } else {
-                  reject(new Error('Failed to generate blob from canvas'));
-                }
-              },
-              'image/png',
-              1.0,
-            );
-          });
-
-          // Convert blob to Uint8Array
-          const arrayBuffer = await blob.arrayBuffer();
-          const uint8Array = new Uint8Array(arrayBuffer);
-
-          // Show save dialog
-          const filePath = await save({
-            defaultPath: filename,
-            filters: [
-              {
-                name: 'PNG Images',
-                extensions: ['png'],
-              },
-            ],
-          });
-
-          if (filePath) {
-            // Write file using Tauri API
-            await writeFile(filePath, uint8Array);
-          }
-        } catch {
-          // Fallback to web approach
-          const dataURL = canvas.toDataURL('image/png', 1.0);
-          const link = document.createElement('a');
-          link.href = dataURL;
-          link.download = filename;
-          link.style.display = 'none';
-
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }
-      }
-    } catch (error) {
-      addError({
-        kind: 'invalid',
-        reason: t`Download failed. Please try again. ${error}`,
-      });
-    } finally {
-      setIsDownloading(false);
-    }
   };
 
   if (!currentTheme) {
@@ -155,7 +57,7 @@ export default function ThemePreview() {
             {/* Large Square Theme Preview */}
             <div
               ref={previewRef}
-              className='w-80 h-80 max-w-full aspect-square border border-border rounded-lg shadow-lg theme-card-isolated'
+              className='w-80 h-80 max-w-full aspect-square border border-border rounded-none shadow-lg theme-card-isolated'
             >
               <div className='p-6 h-full flex flex-col'>
                 {/* Header */}
@@ -249,25 +151,6 @@ export default function ThemePreview() {
               </div>
             </div>
 
-            {/* Download Button */}
-            <Button
-              onClick={handleDownload}
-              disabled={isDownloading}
-              className='w-full max-w-xs'
-            >
-              {isDownloading ? (
-                <>
-                  <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                  <Trans>Generating Image...</Trans>
-                </>
-              ) : (
-                <>
-                  <Download className='mr-2 h-4 w-4' />
-                  <Trans>Download Preview</Trans>
-                </>
-              )}
-            </Button>
-
             {/* Theme Info */}
             <div className='text-center max-w-md'>
               <div className='text-sm text-muted-foreground'>
@@ -278,8 +161,8 @@ export default function ThemePreview() {
                   </div>
                 </div>
                 <Trans>
-                  This downloadable theme preview shows how your theme will look
-                  so you can share it with others.
+                  This theme preview shows how your theme will look so you can
+                  share it with others.
                 </Trans>
               </div>
             </div>
