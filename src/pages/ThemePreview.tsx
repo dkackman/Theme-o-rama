@@ -36,7 +36,7 @@ export default function ThemePreview() {
     try {
       // Capture the preview element as canvas
       const canvas = await html2canvas(previewRef.current, {
-        backgroundColor: '#ffffff',
+        backgroundColor: null,
         scale: 2,
         useCORS: true,
         allowTaint: true,
