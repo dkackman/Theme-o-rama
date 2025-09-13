@@ -3080,7 +3080,7 @@ msgstr ""
 msgid "Preview of the current theme's color palette and styling for controls and components."
 msgstr ""
 
-#: src/pages/Tables.tsx:64
+#: src/pages/Tables.tsx:63
 msgid "Preview of the current theme's color palette and styling for tables."
 msgstr ""
 
@@ -3943,7 +3943,7 @@ msgstr "Cambiar a vista de lista"
 msgid "Tables"
 msgstr ""
 
-#: src/pages/Tables.tsx:61
+#: src/pages/Tables.tsx:60
 msgid "Tables Theme"
 msgstr ""
 
@@ -4075,7 +4075,7 @@ msgid "Theme-o-rama"
 msgstr ""
 
 #: src/pages/Themes.tsx:441
-#: src/pages/Tables.tsx:89
+#: src/pages/Tables.tsx:84
 #: src/pages/Mint.tsx:43
 #: src/pages/Dialogs.tsx:138
 #: src/pages/Components.tsx:270

@@ -3080,7 +3080,7 @@ msgstr "Please enter theme JSON to validate"
 msgid "Preview of the current theme's color palette and styling for controls and components."
 msgstr "Preview of the current theme's color palette and styling for controls and components."
 
-#: src/pages/Tables.tsx:64
+#: src/pages/Tables.tsx:63
 msgid "Preview of the current theme's color palette and styling for tables."
 msgstr "Preview of the current theme's color palette and styling for tables."
 
@@ -3943,7 +3943,7 @@ msgstr "Switch to list view"
 msgid "Tables"
 msgstr "Tables"
 
-#: src/pages/Tables.tsx:61
+#: src/pages/Tables.tsx:60
 msgid "Tables Theme"
 msgstr "Tables Theme"
 
@@ -4075,7 +4075,7 @@ msgid "Theme-o-rama"
 msgstr "Theme-o-rama"
 
 #: src/pages/Themes.tsx:441
-#: src/pages/Tables.tsx:89
+#: src/pages/Tables.tsx:84
 #: src/pages/Mint.tsx:43
 #: src/pages/Dialogs.tsx:138
 #: src/pages/Components.tsx:270

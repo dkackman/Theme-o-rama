@@ -91,7 +91,8 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
   ].forEach((cssVar) => {
     root.style.removeProperty(cssVar);
   });
-
+  // Set default table border radius if not specified by theme
+  root.style.setProperty('--table-border-radius', 'var(--radius)', 'important');
   applyThemeVariables(theme, root);
 
   // Apply backdrop-filter variables if defined in colors object
@@ -268,6 +269,12 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
           if (value && typeof value === 'string') {
             const cssVar = `--${prefix}-${property.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
             root.style.setProperty(cssVar, value, 'important');
+
+            // For backdropFilter properties, also set the webkit version
+            if (property === 'backdropFilter') {
+              const webkitCssVar = `${cssVar}-webkit`;
+              root.style.setProperty(webkitCssVar, value, 'important');
+            }
           }
         });
       }
@@ -450,6 +457,8 @@ const tableVariableNames = [
   '--table-header-font-weight',
   '--table-header-font-size',
   '--table-header-padding',
+  '--table-header-backdrop-filter',
+  '--table-header-backdrop-filter-webkit',
   '--table-row-background',
   '--table-row-color',
   '--table-row-border',
@@ -457,12 +466,16 @@ const tableVariableNames = [
   '--table-row-hover-color',
   '--table-row-selected-background',
   '--table-row-selected-color',
+  '--table-row-backdrop-filter',
+  '--table-row-backdrop-filter-webkit',
   '--table-cell-padding',
   '--table-cell-border',
   '--table-cell-font-size',
   '--table-footer-background',
   '--table-footer-color',
   '--table-footer-border',
+  '--table-footer-backdrop-filter',
+  '--table-footer-backdrop-filter-webkit',
 ];
 
 const switchVariableNames = [
