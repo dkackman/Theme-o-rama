@@ -491,7 +491,7 @@ msgstr ""
 #~ msgstr ""
 
 #: src/components/Header.tsx:56
-#: src/components/Header.tsx:144
+#: src/components/Header.tsx:146
 msgid "Back"
 msgstr "返回"
 
@@ -837,8 +837,8 @@ msgstr ""
 #~ msgid "Cold Wallet"
 #~ msgstr "冷钱包"
 
-#: src/components/Layout.tsx:105
-#: src/components/Layout.tsx:120
+#: src/components/Layout.tsx:106
+#: src/components/Layout.tsx:121
 msgid "Collapse sidebar"
 msgstr ""
 
@@ -1623,8 +1623,8 @@ msgstr ""
 #~ msgid "Exercise Option"
 #~ msgstr ""
 
-#: src/components/Layout.tsx:105
-#: src/components/Layout.tsx:120
+#: src/components/Layout.tsx:106
+#: src/components/Layout.tsx:121
 msgid "Expand sidebar"
 msgstr ""
 
@@ -1833,7 +1833,7 @@ msgstr ""
 #~ msgid "Global"
 #~ msgstr "全局"
 
-#: src/components/Header.tsx:117
+#: src/components/Header.tsx:119
 msgid "Go to home"
 msgstr ""
 
@@ -2614,7 +2614,7 @@ msgstr ""
 #~ msgid "No options to export"
 #~ msgstr ""
 
-#: src/components/ui/data-table.tsx:138
+#: src/components/ui/data-table.tsx:135
 msgid "No results."
 msgstr "无结果."
 
@@ -3712,7 +3712,7 @@ msgstr ""
 #~ msgid "Showing {length} rows"
 #~ msgstr ""
 
-#: src/components/Layout.tsx:92
+#: src/components/Layout.tsx:93
 msgid "Sidebar navigation"
 msgstr ""
 
@@ -4047,7 +4047,7 @@ msgstr ""
 
 #: src/components/Layout.tsx:42
 #: src/components/Layout.tsx:65
-#: src/components/Header.tsx:124
+#: src/components/Header.tsx:126
 msgid "Theme icon"
 msgstr ""
 

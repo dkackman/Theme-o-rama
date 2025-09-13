@@ -491,7 +491,7 @@ msgstr "At least one spoon is required"
 #~ msgstr "Automatically start the RPC server when the app launches"
 
 #: src/components/Header.tsx:56
-#: src/components/Header.tsx:144
+#: src/components/Header.tsx:146
 msgid "Back"
 msgstr "Back"
 
@@ -837,8 +837,8 @@ msgstr "Clear & Reset"
 #~ msgid "Cold Wallet"
 #~ msgstr "Cold Wallet"
 
-#: src/components/Layout.tsx:105
-#: src/components/Layout.tsx:120
+#: src/components/Layout.tsx:106
+#: src/components/Layout.tsx:121
 msgid "Collapse sidebar"
 msgstr "Collapse sidebar"
 
@@ -1623,8 +1623,8 @@ msgstr "Error rendering theme page"
 #~ msgid "Exercise Option"
 #~ msgstr "Exercise Option"
 
-#: src/components/Layout.tsx:105
-#: src/components/Layout.tsx:120
+#: src/components/Layout.tsx:106
+#: src/components/Layout.tsx:121
 msgid "Expand sidebar"
 msgstr "Expand sidebar"
 
@@ -1833,7 +1833,7 @@ msgstr "github repo"
 #~ msgid "Global"
 #~ msgstr "Global"
 
-#: src/components/Header.tsx:117
+#: src/components/Header.tsx:119
 msgid "Go to home"
 msgstr "Go to home"
 
@@ -2614,7 +2614,7 @@ msgstr "No more than 10 spoons"
 #~ msgid "No options to export"
 #~ msgstr "No options to export"
 
-#: src/components/ui/data-table.tsx:138
+#: src/components/ui/data-table.tsx:135
 msgid "No results."
 msgstr "No results."
 
@@ -3712,7 +3712,7 @@ msgstr "Showing {length} of {0} {rowLabelPlural}"
 #~ msgid "Showing {length} rows"
 #~ msgstr "Showing {length} rows"
 
-#: src/components/Layout.tsx:92
+#: src/components/Layout.tsx:93
 msgid "Sidebar navigation"
 msgstr "Sidebar navigation"
 
@@ -4047,7 +4047,7 @@ msgstr "Tables Theme"
 
 #: src/components/Layout.tsx:42
 #: src/components/Layout.tsx:65
-#: src/components/Header.tsx:124
+#: src/components/Header.tsx:126
 msgid "Theme icon"
 msgstr "Theme icon"
 
