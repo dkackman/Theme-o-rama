@@ -3,7 +3,7 @@
   "displayName": "Circuit Board",
   "inherits": "dark",
   "mostLike": "dark",
-  "backgroundImage": "background.jpg",
+  "backgroundImage": "background.png",
   "schemaVersion": 1,
   "colors": {
     "background": "#0a0e1a",
@@ -58,12 +58,12 @@
   "sidebar": {
     "background": "rgba(25, 15, 20, 0.35)",
     "backdropFilter": "blur(20px) saturate(180%) brightness(0.9)",
+    "backdropFilterWebkit": "blur(20px) saturate(180%) brightness(0.9)",
     "border": "rgba(10,132,255,0.20)"
   },
   "tables": {
     "background": "rgba(15, 23, 42, 0.85)",
     "border": "1px solid rgba(59, 130, 246, 0.3)",
-    "borderRadius": "8px",
     "boxShadow": "0 4px 6px -1px rgba(14, 165, 233, 0.15)",
     "header": {
       "background": "rgba(14, 165, 233, 0.1)",

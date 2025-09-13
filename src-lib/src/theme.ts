@@ -91,7 +91,6 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
   ].forEach((cssVar) => {
     root.style.removeProperty(cssVar);
   });
-
   applyThemeVariables(theme, root);
 
   // Apply backdrop-filter variables if defined in colors object
@@ -224,15 +223,7 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
       {
         obj: theme.tables.header,
         prefix: 'table-header',
-        properties: [
-          'background',
-          'color',
-          'border',
-          'fontWeight',
-          'fontSize',
-          'padding',
-          'backdropFilter',
-        ],
+        properties: ['background', 'color', 'border', 'backdropFilter'],
       },
       {
         obj: theme.tables.row,
@@ -252,7 +243,7 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
       {
         obj: theme.tables.cell,
         prefix: 'table-cell',
-        properties: ['padding', 'border', 'fontSize'],
+        properties: ['border'],
       },
       {
         obj: theme.tables.footer,
@@ -268,6 +259,11 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
           if (value && typeof value === 'string') {
             const cssVar = `--${prefix}-${property.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
             root.style.setProperty(cssVar, value, 'important');
+
+            if (property === 'backdropFilter') {
+              const webkitCssVar = `${cssVar}-webkit`;
+              root.style.setProperty(webkitCssVar, value, 'important');
+            }
           }
         });
       }
@@ -282,6 +278,10 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
       if (value && typeof value === 'string') {
         const cssVar = `--sidebar-${property.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
         root.style.setProperty(cssVar, value, 'important');
+        if (property === 'backdropFilter') {
+          const webkitCssVar = `${cssVar}-webkit`;
+          root.style.setProperty(webkitCssVar, value, 'important');
+        }
       }
     });
   }
@@ -442,14 +442,12 @@ const backgroundImageVariableNames = [
 const tableVariableNames = [
   '--table-background',
   '--table-border',
-  '--table-border-radius',
   '--table-box-shadow',
   '--table-header-background',
   '--table-header-color',
   '--table-header-border',
-  '--table-header-font-weight',
-  '--table-header-font-size',
-  '--table-header-padding',
+  '--table-header-backdrop-filter',
+  '--table-header-backdrop-filter-webkit',
   '--table-row-background',
   '--table-row-color',
   '--table-row-border',
@@ -457,12 +455,14 @@ const tableVariableNames = [
   '--table-row-hover-color',
   '--table-row-selected-background',
   '--table-row-selected-color',
-  '--table-cell-padding',
+  '--table-row-backdrop-filter',
+  '--table-row-backdrop-filter-webkit',
   '--table-cell-border',
-  '--table-cell-font-size',
   '--table-footer-background',
   '--table-footer-color',
   '--table-footer-border',
+  '--table-footer-backdrop-filter',
+  '--table-footer-backdrop-filter-webkit',
 ];
 
 const switchVariableNames = [

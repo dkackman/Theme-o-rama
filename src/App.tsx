@@ -21,9 +21,11 @@ import {
 } from './contexts/LanguageContext';
 import { SafeAreaProvider } from './contexts/SafeAreaContext';
 import { loadCatalog } from './i18n';
+import About from './pages/About';
 import Components from './pages/Components';
 import Dialogs from './pages/Dialogs';
 import Tables from './pages/Tables';
+import ThemePreview from './pages/ThemePreview';
 import Themes from './pages/Themes';
 
 // Theme-aware toast container component
@@ -62,6 +64,8 @@ const router = createHashRouter(
       <Route path='/tables' element={<Tables />} />
       <Route path='/components' element={<Components />} />
       <Route path='/dialogs' element={<Dialogs />} />
+      <Route path='/about' element={<About />} />
+      <Route path='/theme-preview' element={<ThemePreview />} />
     </>,
   ),
 );

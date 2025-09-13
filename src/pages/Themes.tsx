@@ -18,6 +18,7 @@ import CodeEditor from '@uiw/react-textarea-code-editor';
 import {
   Check,
   Copy,
+  Eye,
   Image,
   Loader2,
   Maximize2,
@@ -28,12 +29,14 @@ import {
   X,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from 'theme-o-rama';
 
 export default function Themes() {
   const { currentTheme, isLoading, setTheme, setCustomTheme, reloadThemes } =
     useTheme();
   const { addError } = useErrors();
+  const navigate = useNavigate();
   const [themeJson, setThemeJson] = useState('');
   const [isApplying, setIsApplying] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
@@ -353,7 +356,7 @@ export default function Themes() {
                     className='w-full sm:w-auto sm:ml-auto'
                   >
                     <Copy className='mr-2 h-4 w-4' />
-                    <Trans>Insert Current Theme JSON</Trans>
+                    <Trans>Reset with Current Theme&apos;s JSON</Trans>
                   </Button>
                 </div>
 
@@ -362,55 +365,67 @@ export default function Themes() {
                   <Label className='text-sm font-medium'>
                     <Trans>Background Image</Trans>
                   </Label>
-                  <div className='flex items-center gap-3 mt-2'>
-                    <div className='flex items-center gap-2'>
-                      <input
-                        type='file'
-                        accept='image/*'
-                        onChange={handleBackgroundImageUpload}
-                        className='hidden'
-                        id='background-image-upload'
-                      />
-                      <Button
-                        variant='outline'
-                        size='sm'
-                        onClick={() =>
-                          document
-                            .getElementById('background-image-upload')
-                            ?.click()
-                        }
-                      >
-                        <Image className='mr-2 h-4 w-4' />
-                        <Trans>Upload Image</Trans>
-                      </Button>
-                    </div>
-
-                    {/* Image Preview */}
-                    {backgroundImage && (
+                  <div className='flex items-center justify-between gap-3 mt-2'>
+                    <div className='flex items-center gap-3'>
                       <div className='flex items-center gap-2'>
-                        <div className='w-8 h-8 rounded border overflow-hidden bg-gray-100'>
-                          <img
-                            src={backgroundImage}
-                            alt='Background preview'
-                            className='w-full h-full object-cover'
-                          />
-                        </div>
+                        <input
+                          type='file'
+                          accept='image/*'
+                          onChange={handleBackgroundImageUpload}
+                          className='hidden'
+                          id='background-image-upload'
+                        />
                         <Button
-                          variant='ghost'
+                          variant='outline'
                           size='sm'
-                          onClick={handleDeleteBackgroundImage}
-                          className='text-red-600 hover:text-red-700 hover:bg-red-50'
+                          onClick={() =>
+                            document
+                              .getElementById('background-image-upload')
+                              ?.click()
+                          }
                         >
-                          <Trash2 className='h-4 w-4' />
+                          <Image className='mr-2 h-4 w-4' />
+                          <Trans>Upload Image</Trans>
                         </Button>
                       </div>
-                    )}
 
-                    {!backgroundImage && (
-                      <span className='text-sm text-gray-500'>
-                        <Trans>No background image set</Trans>
-                      </span>
-                    )}
+                      {/* Image Preview */}
+                      {backgroundImage && (
+                        <div className='flex items-center gap-2'>
+                          <div className='w-8 h-8 rounded border overflow-hidden bg-gray-100'>
+                            <img
+                              src={backgroundImage}
+                              alt='Background preview'
+                              className='w-full h-full object-cover'
+                            />
+                          </div>
+                          <Button
+                            variant='ghost'
+                            size='sm'
+                            onClick={handleDeleteBackgroundImage}
+                            className='text-red-600 hover:text-red-700 hover:bg-red-50'
+                          >
+                            <Trash2 className='h-4 w-4' />
+                          </Button>
+                        </div>
+                      )}
+
+                      {!backgroundImage && (
+                        <span className='text-sm text-gray-500'>
+                          <Trans>No background image set</Trans>
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Theme Preview Button */}
+                    <Button
+                      variant='outline'
+                      size='sm'
+                      onClick={() => navigate('/theme-preview')}
+                    >
+                      <Eye className='mr-2 h-4 w-4' />
+                      <Trans>Make Preview Image</Trans>
+                    </Button>
                   </div>
                 </div>
               </CardContent>

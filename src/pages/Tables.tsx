@@ -3,7 +3,6 @@ import Layout from '@/components/Layout';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -67,17 +66,13 @@ export default function Tables() {
                   </Trans>
                 </CardDescription>
               </CardHeader>
-              <CardContent className='space-y-6'>
-                <div className='rounded-md border'>
-                  <DataTable
-                    columns={demoColumns}
-                    data={demoTableData}
-                    rowLabel='item'
-                    rowLabelPlural='items'
-                  />
-                </div>
-              </CardContent>
             </Card>
+            <DataTable
+              columns={demoColumns}
+              data={demoTableData}
+              rowLabel='item'
+              rowLabelPlural='items'
+            />
           </div>
         </div>
       </Layout>
