@@ -1,7 +1,4 @@
 import { discoverThemes, resolveThemeImage } from '@/lib/themes';
-import { i18n } from '@lingui/core';
-import { I18nProvider } from '@lingui/react';
-import { useEffect, useState } from 'react';
 import {
   createHashRouter,
   createRoutesFromElements,
@@ -11,16 +8,7 @@ import {
 import { Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ThemeProvider, useTheme } from 'theme-o-rama';
-import { useLocalStorage } from 'usehooks-ts';
 import { ErrorProvider } from './contexts/ErrorContext';
-import {
-  getBrowserLanguage,
-  LanguageProvider,
-  SupportedLanguage,
-  useLanguage,
-} from './contexts/LanguageContext';
-import { SafeAreaProvider } from './contexts/SafeAreaContext';
-import { loadCatalog } from './i18n';
 import About from './pages/About';
 import Components from './pages/Components';
 import Dialogs from './pages/Dialogs';
@@ -71,45 +59,15 @@ const router = createHashRouter(
 );
 
 export default function App() {
-  const [locale, setLocale] = useLocalStorage<SupportedLanguage>(
-    'locale',
-    getBrowserLanguage,
-  );
-
   return (
-    <LanguageProvider locale={locale} setLocale={setLocale}>
-      <ThemeProvider
-        discoverThemes={discoverThemes}
-        imageResolver={resolveThemeImage}
-      >
-        <SafeAreaProvider>
-          <ErrorProvider>
-            <AppInner />
-            <ThemeAwareToastContainer />
-          </ErrorProvider>
-        </SafeAreaProvider>
-      </ThemeProvider>
-    </LanguageProvider>
-  );
-}
-
-function AppInner() {
-  const { locale } = useLanguage();
-  const [isLocaleInitialized, setIsLocaleInitialized] = useState(false);
-
-  useEffect(() => {
-    const initLocale = async () => {
-      await loadCatalog(locale);
-      setIsLocaleInitialized(true);
-    };
-    initLocale();
-  }, [locale]);
-
-  return (
-    isLocaleInitialized && (
-      <I18nProvider i18n={i18n}>
+    <ThemeProvider
+      discoverThemes={discoverThemes}
+      imageResolver={resolveThemeImage}
+    >
+      <ErrorProvider>
         <RouterProvider router={router} />
-      </I18nProvider>
-    )
+        <ThemeAwareToastContainer />
+      </ErrorProvider>
+    </ThemeProvider>
   );
 }

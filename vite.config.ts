@@ -1,4 +1,3 @@
-import { lingui } from '@lingui/vite-plugin';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 import { defineConfig } from 'vite';
@@ -7,12 +6,7 @@ const host = process.env.TAURI_DEV_HOST;
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    react({
-      plugins: [['@lingui/swc-plugin', {}]],
-    }),
-    lingui(),
-  ],
+  plugins: [react()],
   clearScreen: false,
   server: {
     port: 1425,

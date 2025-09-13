@@ -3,8 +3,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
 import { AppWindow, Component, Info, SwatchBook, Table } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -21,13 +19,13 @@ export function TopNav({ isCollapsed }: NavProps) {
     <nav
       className={`grid font-medium font-body ${isCollapsed ? 'gap-2' : ''}`}
       role='navigation'
-      aria-label={t`Main navigation`}
+      aria-label='Main navigation'
     >
       <Separator className='mb-3' role='presentation' />
       <NavLink
         url={'/'}
         isCollapsed={isCollapsed}
-        message={<Trans>Themes</Trans>}
+        message='Themes'
         ariaCurrent='page'
       >
         <SwatchBook className={className} aria-hidden='true' />
@@ -35,29 +33,17 @@ export function TopNav({ isCollapsed }: NavProps) {
       <NavLink
         url={'/components'}
         isCollapsed={isCollapsed}
-        message={<Trans>Components</Trans>}
+        message='Components'
       >
         <Component className={className} />
       </NavLink>
-      <NavLink
-        url={'/tables'}
-        isCollapsed={isCollapsed}
-        message={<Trans>Tables</Trans>}
-      >
+      <NavLink url={'/tables'} isCollapsed={isCollapsed} message='Tables'>
         <Table className={className} />
       </NavLink>
-      <NavLink
-        url={'/dialogs'}
-        isCollapsed={isCollapsed}
-        message={<Trans>Dialogs</Trans>}
-      >
+      <NavLink url={'/dialogs'} isCollapsed={isCollapsed} message='Dialogs'>
         <AppWindow className={className} />
       </NavLink>
-      <NavLink
-        url={'/about'}
-        isCollapsed={isCollapsed}
-        message={<Trans>About</Trans>}
-      >
+      <NavLink url={'/about'} isCollapsed={isCollapsed} message='About'>
         <Info className={className} />
       </NavLink>
     </nav>

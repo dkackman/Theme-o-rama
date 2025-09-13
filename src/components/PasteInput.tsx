@@ -1,7 +1,6 @@
 import { cn } from '@/lib/utils';
-import { ClipboardPasteIcon, ScanIcon } from 'lucide-react';
+import { ClipboardPasteIcon } from 'lucide-react';
 import { forwardRef } from 'react';
-import { getPlatformSync } from '../lib/platform';
 import { Input, InputProps } from './ui/input';
 
 export interface PasteInputProps extends InputProps {
@@ -24,9 +23,6 @@ export const PasteInput = forwardRef<HTMLInputElement, PasteInputProps>(
     },
     ref,
   ) => {
-    const isMobile =
-      getPlatformSync() === 'ios' || getPlatformSync() === 'android';
-
     return (
       <div
         className={cn(
@@ -50,11 +46,7 @@ export const PasteInput = forwardRef<HTMLInputElement, PasteInputProps>(
           className='absolute right-0 flex items-center pr-3 pointer-events-auto'
           onClick={onEndIconClick}
         >
-          {isMobile ? (
-            <ScanIcon className='h-4 w-4 text-muted-foreground hover:text-foreground cursor-pointer shrink-0' />
-          ) : (
-            <ClipboardPasteIcon className='h-4 w-4 text-muted-foreground hover:text-foreground cursor-pointer shrink-0' />
-          )}
+          <ClipboardPasteIcon className='h-4 w-4 text-muted-foreground hover:text-foreground cursor-pointer shrink-0' />
         </div>
       </div>
     );

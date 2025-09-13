@@ -6,8 +6,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
 import {
   ColumnDef,
   flexRender,
@@ -75,8 +73,8 @@ export function DataTable<TData, TValue>({
 
   const length = data.length;
   const showingLabel = state?.maxRows
-    ? t`Showing ${length} of ${state.maxRows} ${rowLabelPlural}`
-    : t`Showing ${length} ${length !== 1 ? rowLabelPlural : rowLabel}`;
+    ? `Showing ${length} of ${state.maxRows} ${rowLabelPlural}`
+    : `Showing ${length} ${length !== 1 ? rowLabelPlural : rowLabel}`;
 
   return (
     <div>
@@ -132,7 +130,7 @@ export function DataTable<TData, TValue>({
                   className='h-24 text-center'
                   role='cell'
                 >
-                  <Trans>No results.</Trans>
+                  No results.
                 </TableCell>
               </TableRow>
             )}

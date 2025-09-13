@@ -12,8 +12,6 @@ import {
 import { Label } from '@/components/ui/label';
 import { useErrors } from '@/hooks/useErrors';
 import { validateThemeJson } from '@/lib/themes';
-import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import {
   Check,
@@ -73,7 +71,7 @@ export default function Themes() {
     if (!themeJson.trim()) {
       addError({
         kind: 'invalid',
-        reason: t`Please enter theme JSON`,
+        reason: 'Please enter theme JSON',
       });
       return;
     }
@@ -85,13 +83,13 @@ export default function Themes() {
       if (!success) {
         addError({
           kind: 'invalid',
-          reason: t`Failed to apply theme. Please check your JSON format.`,
+          reason: 'Failed to apply theme. Please check your JSON format.',
         });
       }
     } catch (err) {
       addError({
         kind: 'invalid',
-        reason: t`An error occurred while applying the theme`,
+        reason: 'An error occurred while applying the theme',
       });
       console.error('Error applying theme:', err);
     } finally {
@@ -117,7 +115,7 @@ export default function Themes() {
       setValidationState('invalid');
       addError({
         kind: 'invalid',
-        reason: t`Please enter theme JSON to validate`,
+        reason: 'Please enter theme JSON to validate',
       });
       return;
     }
@@ -129,7 +127,7 @@ export default function Themes() {
       setValidationState('invalid');
       addError({
         kind: 'invalid',
-        reason: t`Invalid JSON format. Please check your syntax. ${err}`,
+        reason: `Invalid JSON format. Please check your syntax. ${err}`,
       });
     }
   };
@@ -171,9 +169,7 @@ export default function Themes() {
           <div className='container mx-auto p-6'>
             <div className='flex items-center justify-center p-8'>
               <Loader2 className='h-6 w-6 animate-spin' />
-              <span className='ml-2'>
-                <Trans>Loading themes...</Trans>
-              </span>
+              <span className='ml-2'>Loading themes...</span>
             </div>
           </div>
         </div>
@@ -188,9 +184,7 @@ export default function Themes() {
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
             <div className='flex items-center justify-center p-8'>
-              <span>
-                <Trans>No theme available</Trans>
-              </span>
+              <span>No theme available</span>
             </div>
           </div>
         </div>
@@ -215,12 +209,10 @@ export default function Themes() {
                     <div>
                       <CardTitle className='flex items-center gap-2'>
                         <Palette className='h-5 w-5' />
-                        <Trans>Choose Your Theme</Trans>
+                        Choose Your Theme
                       </CardTitle>
                       <CardDescription>
-                        <Trans>
-                          Select from our collection of beautiful themes
-                        </Trans>
+                        Select from our collection of beautiful themes
                       </CardDescription>
                     </div>
                     <Button
@@ -232,7 +224,7 @@ export default function Themes() {
                       <Loader2
                         className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`}
                       />
-                      <Trans>Reload Themes</Trans>
+                      Reload Themes
                     </Button>
                   </div>
                 </CardHeader>
@@ -249,13 +241,11 @@ export default function Themes() {
                   <div>
                     <CardTitle className='flex items-center gap-2'>
                       <Upload className='h-5 w-5' />
-                      <Trans>Apply Custom Theme</Trans>
+                      Apply Custom Theme
                     </CardTitle>
                     <CardDescription>
-                      <Trans>
-                        Paste your theme JSON below to apply a custom theme to
-                        the entire application.
-                      </Trans>
+                      Paste your theme JSON below to apply a custom theme to the
+                      entire application.
                     </CardDescription>
                   </div>
                   <Button
@@ -275,14 +265,12 @@ export default function Themes() {
               <CardContent
                 className={`space-y-4 ${isMaximized ? 'flex-1 flex flex-col min-h-0' : ''}`}
               >
-                <Label htmlFor='theme-json'>
-                  <Trans>Theme JSON</Trans>
-                </Label>
+                <Label htmlFor='theme-json'>Theme JSON</Label>
                 <CodeEditor
                   id='theme-json'
                   data-color-mode={currentTheme?.mostLike || 'light'}
                   language='json'
-                  placeholder={t`Paste your theme JSON here...`}
+                  placeholder='Paste your theme JSON here...'
                   value={themeJson}
                   onChange={(e) => updateThemeJson(e.target.value)}
                   padding={15}
@@ -308,12 +296,12 @@ export default function Themes() {
                       {isApplying ? (
                         <>
                           <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                          <Trans>Applying...</Trans>
+                          Applying...
                         </>
                       ) : (
                         <>
                           <Upload className='mr-2 h-4 w-4' />
-                          <Trans>Apply Theme</Trans>
+                          Apply Theme
                         </>
                       )}
                     </Button>
@@ -323,7 +311,7 @@ export default function Themes() {
                       className='w-full sm:w-auto'
                     >
                       <X className='mr-2 h-4 w-4' />
-                      <Trans>Clear & Reset</Trans>
+                      Clear & Reset
                     </Button>
                     <Button
                       onClick={handleValidateTheme}
@@ -346,7 +334,7 @@ export default function Themes() {
                               : ''
                         }`}
                       />
-                      <Trans>Validate</Trans>
+                      Validate
                     </Button>
                   </div>
                   <Button
@@ -356,14 +344,14 @@ export default function Themes() {
                     className='w-full sm:w-auto sm:ml-auto'
                   >
                     <Copy className='mr-2 h-4 w-4' />
-                    <Trans>Reset with Current Theme&apos;s JSON</Trans>
+                    Reset with Current Theme&apos;s JSON
                   </Button>
                 </div>
 
                 {/* Background Image Upload Section */}
                 <div className='border-t pt-4'>
                   <Label className='text-sm font-medium'>
-                    <Trans>Background Image</Trans>
+                    Background Image
                   </Label>
                   <div className='flex items-center justify-between gap-3 mt-2'>
                     <div className='flex items-center gap-3'>
@@ -385,7 +373,7 @@ export default function Themes() {
                           }
                         >
                           <Image className='mr-2 h-4 w-4' />
-                          <Trans>Upload Image</Trans>
+                          Upload Image
                         </Button>
                       </div>
 
@@ -412,7 +400,7 @@ export default function Themes() {
 
                       {!backgroundImage && (
                         <span className='text-sm text-gray-500'>
-                          <Trans>No background image set</Trans>
+                          No background image set
                         </span>
                       )}
                     </div>
@@ -424,7 +412,7 @@ export default function Themes() {
                       onClick={() => navigate('/theme-preview')}
                     >
                       <Eye className='mr-2 h-4 w-4' />
-                      <Trans>Make Preview Image</Trans>
+                      Make Preview Image
                     </Button>
                   </div>
                 </div>
@@ -438,13 +426,11 @@ export default function Themes() {
     console.error('Error rendering theme page:', error);
     return (
       <Layout>
-        <Header title={t`Themes`} />
+        <Header title='Themes' />
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
             <div className='flex items-center justify-center p-8'>
-              <span>
-                <Trans>Error rendering theme page</Trans>
-              </span>
+              <span>Error rendering theme page</span>
             </div>
           </div>
         </div>
