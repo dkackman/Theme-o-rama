@@ -2,5 +2,7 @@ pnpm-lock.yaml
 src-tauri/target
 src-tauri/gen
 src/bindings.ts
+src/locales
 docs
 dist-web
+dist

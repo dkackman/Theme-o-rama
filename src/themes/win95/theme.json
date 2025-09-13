@@ -58,8 +58,5 @@
       "borderWidth": "2px",
       "borderColor": "hsl(var(--border))"
     }
-  },
-  "tables": {
-    "borderRadius": "0px"
   }
 }
