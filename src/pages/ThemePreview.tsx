@@ -1,7 +1,10 @@
 import Header from '@/components/Header';
 import Layout from '@/components/Layout';
+import { Button } from '@/components/ui/button';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
+import html2canvas from 'html2canvas-pro';
+import { Download } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { applyThemeIsolated, useTheme } from 'theme-o-rama';
@@ -20,6 +23,81 @@ export default function ThemePreview() {
 
   const handleBack = () => {
     navigate(-1);
+  };
+
+  const downloadForWeb = (canvas: HTMLCanvasElement, filename: string) => {
+    const link = document.createElement('a');
+    link.download = filename;
+    link.href = canvas.toDataURL('image/png');
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const downloadForTauri = async (
+    canvas: HTMLCanvasElement,
+    filename: string,
+  ) => {
+    // Only import Tauri modules when we're actually in Tauri environment
+    if (typeof window === 'undefined' || !('__TAURI__' in window)) {
+      throw new Error('Tauri environment not detected');
+    }
+
+    const { save } = await import('@tauri-apps/plugin-dialog');
+    const { writeFile } = await import('@tauri-apps/plugin-fs');
+
+    // Show save dialog
+    const filePath = await save({
+      defaultPath: filename,
+      filters: [
+        {
+          name: 'PNG Images',
+          extensions: ['png'],
+        },
+      ],
+    });
+
+    if (filePath) {
+      // Convert canvas to blob and then to array buffer
+      const blob = await new Promise<Blob>((resolve) => {
+        canvas.toBlob((blob) => {
+          if (blob) resolve(blob);
+        }, 'image/png');
+      });
+
+      const arrayBuffer = await blob.arrayBuffer();
+      const uint8Array = new Uint8Array(arrayBuffer);
+
+      // Write file using Tauri's fs plugin
+      await writeFile(filePath, uint8Array);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (!previewRef.current || !currentTheme) return;
+
+    try {
+      const canvas = await html2canvas(previewRef.current, {
+        backgroundColor: null,
+        scale: 2, // Higher resolution
+        useCORS: true,
+        allowTaint: false,
+        logging: false,
+      });
+
+      const filename = `${currentTheme.displayName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_theme_preview.png`;
+      const isTauriEnvironment =
+        typeof window !== 'undefined' && '__TAURI__' in window;
+
+      if (isTauriEnvironment) {
+        await downloadForTauri(canvas, filename);
+      } else {
+        downloadForWeb(canvas, filename);
+      }
+    } catch (error) {
+      console.error('Error generating theme preview:', error);
+    }
   };
 
   if (!currentTheme) {
@@ -48,10 +126,18 @@ export default function ThemePreview() {
             <div className='text-center'>
               <h2 className='text-2xl font-bold mb-2'>
                 <Trans>Current Theme Preview</Trans>
+                recently{' '}
               </h2>
-              <p className='text-muted-foreground'>
-                <Trans>A larger preview of your currently active theme</Trans>
+              <p className='text-muted-foreground mb-4'>
+                <Trans>
+                  A larger preview of your currently active theme. Check the
+                  output carefully as it may not be perfect.
+                </Trans>
               </p>
+              <Button onClick={handleDownload} className='mb-4'>
+                <Download className='w-4 h-4 mr-2' />
+                <Trans>Download PNG</Trans>
+              </Button>
             </div>
 
             {/* Large Square Theme Preview */}

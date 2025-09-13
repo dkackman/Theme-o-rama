@@ -152,9 +152,13 @@ msgstr "{pageSize} items per page"
 #~ msgid "1 combined coin"
 #~ msgstr "1 combined coin"
 
-#: src/pages/ThemePreview.tsx:53
-msgid "A larger preview of your currently active theme"
-msgstr "A larger preview of your currently active theme"
+#: src/pages/ThemePreview.tsx:117
+#~ msgid "A larger preview of your currently active theme"
+#~ msgstr "A larger preview of your currently active theme"
+
+#: src/pages/ThemePreview.tsx:131
+msgid "A larger preview of your currently active theme. Check the output carefully as it may not be perfect."
+msgstr "A larger preview of your currently active theme. Check the output carefully as it may not be perfect."
 
 #: src/pages/Settings.tsx:426
 #~ msgid "A more lightweight sync that only checks unseen blocks"
@@ -879,7 +883,7 @@ msgstr "Collapse sidebar"
 #~ msgid "Collections"
 #~ msgstr "Collections"
 
-#: src/pages/ThemePreview.tsx:93
+#: src/pages/ThemePreview.tsx:178
 msgid "Color Palette"
 msgstr "Color Palette"
 
@@ -1177,7 +1181,7 @@ msgstr "Current page {page} of {totalPages}"
 #~ msgid "Current Theme"
 #~ msgstr "Current Theme"
 
-#: src/pages/ThemePreview.tsx:50
+#: src/pages/ThemePreview.tsx:128
 msgid "Current Theme Preview"
 msgstr "Current Theme Preview"
 
@@ -1439,6 +1443,10 @@ msgstr "Dialogs Theme"
 #: src/pages/ThemePreview.tsx:116
 #~ msgid "Download failed. Please try again. {error}"
 #~ msgstr "Download failed. Please try again. {error}"
+
+#: src/pages/ThemePreview.tsx:138
+msgid "Download PNG"
+msgstr "Download PNG"
 
 #: src/pages/ThemePreview.tsx:266
 #~ msgid "Download Preview"
@@ -2619,7 +2627,7 @@ msgid "No results."
 msgstr "No results."
 
 #: src/pages/Themes.tsx:192
-#: src/pages/ThemePreview.tsx:33
+#: src/pages/ThemePreview.tsx:111
 #: src/components/ThemeSelector.tsx:34
 msgid "No theme available"
 msgstr "No theme available"
@@ -4059,9 +4067,9 @@ msgstr "Theme JSON"
 msgid "Theme JSON Schema"
 msgstr "Theme JSON Schema"
 
-#: src/pages/ThemePreview.tsx:28
-#: src/pages/ThemePreview.tsx:44
-#: src/pages/ThemePreview.tsx:160
+#: src/pages/ThemePreview.tsx:106
+#: src/pages/ThemePreview.tsx:122
+#: src/pages/ThemePreview.tsx:245
 msgid "Theme Preview"
 msgstr "Theme Preview"
 
@@ -4216,7 +4224,7 @@ msgstr "This is a dialog."
 #~ msgid "This profile will be transferred to the address below."
 #~ msgstr "This profile will be transferred to the address below."
 
-#: src/pages/ThemePreview.tsx:163
+#: src/pages/ThemePreview.tsx:248
 msgid "This theme preview shows how your theme will look so you can share it with others."
 msgstr "This theme preview shows how your theme will look so you can share it with others."
 

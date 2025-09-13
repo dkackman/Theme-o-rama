@@ -152,8 +152,12 @@ msgstr "{pageSize} elementos por página"
 #~ msgid "1 combined coin"
 #~ msgstr "1 moneda combinada"
 
-#: src/pages/ThemePreview.tsx:53
-msgid "A larger preview of your currently active theme"
+#: src/pages/ThemePreview.tsx:117
+#~ msgid "A larger preview of your currently active theme"
+#~ msgstr ""
+
+#: src/pages/ThemePreview.tsx:131
+msgid "A larger preview of your currently active theme. Check the output carefully as it may not be perfect."
 msgstr ""
 
 #: src/pages/Settings.tsx:426
@@ -879,7 +883,7 @@ msgstr "Contraer barra lateral"
 #~ msgid "Collections"
 #~ msgstr "Colecciones"
 
-#: src/pages/ThemePreview.tsx:93
+#: src/pages/ThemePreview.tsx:178
 msgid "Color Palette"
 msgstr ""
 
@@ -1177,7 +1181,7 @@ msgstr "Página actual {page} de {totalPages}"
 #~ msgid "Current Theme"
 #~ msgstr ""
 
-#: src/pages/ThemePreview.tsx:50
+#: src/pages/ThemePreview.tsx:128
 msgid "Current Theme Preview"
 msgstr ""
 
@@ -1439,6 +1443,10 @@ msgstr ""
 #: src/pages/ThemePreview.tsx:116
 #~ msgid "Download failed. Please try again. {error}"
 #~ msgstr ""
+
+#: src/pages/ThemePreview.tsx:138
+msgid "Download PNG"
+msgstr ""
 
 #: src/pages/ThemePreview.tsx:266
 #~ msgid "Download Preview"
@@ -2619,7 +2627,7 @@ msgid "No results."
 msgstr "No hay resultados."
 
 #: src/pages/Themes.tsx:192
-#: src/pages/ThemePreview.tsx:33
+#: src/pages/ThemePreview.tsx:111
 #: src/components/ThemeSelector.tsx:34
 msgid "No theme available"
 msgstr ""
@@ -4059,9 +4067,9 @@ msgstr ""
 msgid "Theme JSON Schema"
 msgstr ""
 
-#: src/pages/ThemePreview.tsx:28
-#: src/pages/ThemePreview.tsx:44
-#: src/pages/ThemePreview.tsx:160
+#: src/pages/ThemePreview.tsx:106
+#: src/pages/ThemePreview.tsx:122
+#: src/pages/ThemePreview.tsx:245
 msgid "Theme Preview"
 msgstr ""
 
@@ -4216,7 +4224,7 @@ msgstr ""
 #~ msgid "This profile will be transferred to the address below."
 #~ msgstr "Este perfil será transferido a la dirección a continuación."
 
-#: src/pages/ThemePreview.tsx:163
+#: src/pages/ThemePreview.tsx:248
 msgid "This theme preview shows how your theme will look so you can share it with others."
 msgstr ""
 
