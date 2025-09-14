@@ -356,11 +356,11 @@ export function applyThemeIsolated(theme: Theme, root: HTMLElement): void {
   }
 
   // Set explicit background and text colors for complete isolation
-  if (theme.colors?.card) {
-    root.style.backgroundColor = theme.colors.card;
+  if (theme.colors?.background) {
+    root.style.backgroundColor = theme.colors.background;
   }
-  if (theme.colors?.cardForeground) {
-    root.style.color = theme.colors.cardForeground;
+  if (theme.colors?.foreground) {
+    root.style.color = theme.colors.foreground;
   }
 }
 

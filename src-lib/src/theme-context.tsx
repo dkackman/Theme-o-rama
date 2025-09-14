@@ -9,6 +9,7 @@ import { useLocalStorage } from 'usehooks-ts';
 import darkTheme from './dark.json';
 import { applyTheme, Theme } from './index';
 import lightTheme from './light.json';
+import colorTheme from './color.json';
 import { ImageResolver, ThemeLoader } from './theme-loader';
 
 // Theme discovery function type - can be provided by the consuming application
@@ -173,6 +174,7 @@ export function ThemeProvider({
   ) {
     themeLoader.loadTheme(lightTheme as Theme);
     themeLoader.loadTheme(darkTheme as Theme);
+    themeLoader.loadTheme(colorTheme as Theme);
     const appThemes = await discoverThemes();
     themeLoader.loadThemes(appThemes, imageResolver);
   }
