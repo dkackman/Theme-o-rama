@@ -17,31 +17,29 @@ export function validateThemeJson(json: string): void {
   }
 }
 
-// Dynamically discover theme folders by scanning the themes directory
-export async function discoverThemes(): Promise<Theme[]> {
-  try {
-    // Use dynamic imports to discover available themes
-    const themeModules = import.meta.glob('../themes/*/theme.json', {
-      eager: true,
-    });
+// HMR-friendly theme discovery - imports are handled at the app level
+// to ensure Vite can track dependencies properly
+export function createDiscoverThemes(themeModules: Record<string, unknown>) {
+  return async function discoverThemes(): Promise<Theme[]> {
+    try {
+      // Extract theme JSON contents from the module paths
+      const themeContents = Object.entries(themeModules)
+        .map(([path, module]) => {
+          // Path format: "./themes/themeName/theme.json" (note the single dot)
+          const match = path.match(/\.\/themes\/([^/]+)\/theme\.json$/);
+          if (match) {
+            return module as Theme;
+          }
+          return null;
+        })
+        .filter((theme): theme is Theme => theme !== null);
 
-    // Extract theme JSON contents from the module paths
-    const themeContents = Object.entries(themeModules)
-      .map(([path, module]) => {
-        // Path format: "../themes/themeName/theme.json"
-        const match = path.match(/\.\.\/themes\/([^/]+)\/theme\.json$/);
-        if (match) {
-          return module as Theme;
-        }
-        return null;
-      })
-      .filter((theme): theme is Theme => theme !== null);
-
-    return themeContents;
-  } catch (error) {
-    console.warn('Could not discover theme folders:', error);
-    return [];
-  }
+      return themeContents;
+    } catch (error) {
+      console.warn('Could not discover theme folders:', error);
+      return [];
+    }
+  };
 }
 
 export function resolveThemeImage(

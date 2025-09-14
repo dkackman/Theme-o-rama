@@ -31,12 +31,14 @@ interface ThemeProviderProps {
   children: React.ReactNode;
   discoverThemes?: ThemeDiscoveryFunction;
   imageResolver?: ImageResolver;
+  themeModules?: Record<string, unknown>; // For HMR reactivity
 }
 
 export function ThemeProvider({
   children,
   discoverThemes,
   imageResolver,
+  themeModules,
 }: ThemeProviderProps) {
   const [currentTheme, setCurrentTheme] = useState<Theme | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -166,6 +168,48 @@ export function ThemeProvider({
 
     initializeThemes();
   }, [savedTheme, dark, setSavedTheme]);
+
+  // React to changes in theme modules for HMR
+  const themeModulesRef = useRef(themeModules);
+  useEffect(() => {
+    // Only run if themeModules actually changed and it's not the initial load
+    if (
+      !discoverThemes ||
+      !themeModules ||
+      themeModulesRef.current === themeModules
+    ) {
+      themeModulesRef.current = themeModules;
+      return;
+    }
+
+    themeModulesRef.current = themeModules;
+
+    const reloadThemesForHMR = async () => {
+      try {
+        // Get current theme name at time of execution
+        const currentThemeName = currentTheme?.name || savedTheme;
+
+        // Clear cache and reload themes
+        themeLoader.clearCache();
+        await loadAndCacheThemes(discoverThemes, imageResolver);
+
+        // Reapply current theme with updated data
+        if (currentThemeName && currentThemeName !== 'custom') {
+          const updatedTheme = themeLoader.getTheme(currentThemeName);
+          if (updatedTheme) {
+            // Create a fresh object to ensure React detects the change
+            const freshTheme = JSON.parse(JSON.stringify(updatedTheme));
+            setCurrentTheme(freshTheme);
+            applyTheme(freshTheme, document.documentElement);
+          }
+        }
+      } catch (err) {
+        console.error('Error reloading themes for HMR:', err);
+      }
+    };
+
+    reloadThemesForHMR();
+  }, [themeModules]); // Only depend on themeModules
 
   async function loadAndCacheThemes(
     discoverThemes: ThemeDiscoveryFunction,

@@ -1,4 +1,4 @@
-import { discoverThemes, resolveThemeImage } from '@/lib/themes';
+import { createDiscoverThemes, resolveThemeImage } from '@/lib/themes';
 import {
   createHashRouter,
   createRoutesFromElements,
@@ -15,6 +15,11 @@ import Dialogs from './pages/Dialogs';
 import Tables from './pages/Tables';
 import ThemePreview from './pages/ThemePreview';
 import Themes from './pages/Themes';
+
+// Import theme modules at app level for HMR support
+const themeModules = import.meta.glob('./themes/*/theme.json', {
+  eager: true,
+});
 
 // Theme-aware toast container component
 function ThemeAwareToastContainer() {
@@ -59,10 +64,14 @@ const router = createHashRouter(
 );
 
 export default function App() {
+  // Create the discovery function with HMR-friendly imports
+  const discoverThemes = createDiscoverThemes(themeModules);
+
   return (
     <ThemeProvider
       discoverThemes={discoverThemes}
       imageResolver={resolveThemeImage}
+      themeModules={themeModules}
     >
       <ErrorProvider>
         <RouterProvider router={router} />
