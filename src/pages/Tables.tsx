@@ -8,8 +8,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { DataTable } from '@/components/ui/data-table';
-import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
 import { ColumnDef } from '@tanstack/react-table';
 import { Info } from 'lucide-react';
 
@@ -56,14 +54,10 @@ export default function Tables() {
             {/* Current Theme Info */}
             <Card>
               <CardHeader>
-                <CardTitle>
-                  <Trans>Tables Theme</Trans>
-                </CardTitle>
+                <CardTitle>Tables Theme</CardTitle>
                 <CardDescription>
-                  <Trans>
-                    Preview of the current theme&apos;s color palette and
-                    styling for tables.
-                  </Trans>
+                  Preview of the current theme&apos;s color palette and styling
+                  for tables.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -81,7 +75,7 @@ export default function Tables() {
     console.error('Error rendering theme page:', error);
     return (
       <Layout>
-        <Header title={t`Themes`} />
+        <Header title='Themes' />
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
             <Alert variant='destructive'>

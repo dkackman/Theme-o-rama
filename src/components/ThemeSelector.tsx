@@ -1,4 +1,3 @@
-import { Trans } from '@lingui/react/macro';
 import { Loader2 } from 'lucide-react';
 import { Theme, useTheme } from 'theme-o-rama';
 import { ThemeCard } from './ThemeCard';
@@ -11,9 +10,7 @@ export function ThemeSelector() {
     return (
       <div className='flex items-center justify-center p-8'>
         <Loader2 className='h-6 w-6 animate-spin' aria-hidden='true' />
-        <span className='ml-2'>
-          <Trans>Loading themes...</Trans>
-        </span>
+        <span className='ml-2'>Loading themes...</span>
       </div>
     );
   }
@@ -21,19 +18,13 @@ export function ThemeSelector() {
   if (error) {
     return (
       <div className='text-center p-8 text-destructive'>
-        <p>
-          <Trans>Error loading themes: {error}</Trans>
-        </p>
+        <p>Error loading themes: {error}</p>
       </div>
     );
   }
 
   if (!currentTheme) {
-    return (
-      <div className='text-center p-8'>
-        <Trans>No theme available</Trans>
-      </div>
-    );
+    return <div className='text-center p-8'>No theme available</div>;
   }
 
   const defaultThemes = availableThemes.sort((a: Theme, b: Theme) =>
@@ -45,9 +36,7 @@ export function ThemeSelector() {
       {/* Default Themes */}
       {defaultThemes.length > 0 && (
         <div>
-          <h3 className='text-lg font-semibold mb-4'>
-            <Trans>Default Themes</Trans>
-          </h3>
+          <h3 className='text-lg font-semibold mb-4'>Default Themes</h3>
           <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
             {defaultThemes.map((theme: Theme) => (
               <ThemeCard
@@ -79,9 +68,7 @@ export function ThemeSelectorSimple() {
       <div className='space-y-3 p-4'>
         <div className='flex items-center justify-center'>
           <Loader2 className='h-4 w-4 animate-spin' aria-hidden='true' />
-          <span className='ml-2 text-sm'>
-            <Trans>Loading themes...</Trans>
-          </span>
+          <span className='ml-2 text-sm'>Loading themes...</span>
         </div>
       </div>
     );

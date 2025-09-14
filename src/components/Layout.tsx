@@ -5,10 +5,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { useInsets } from '@/contexts/SafeAreaContext';
 import iconDark from '@/icon-dark.png';
 import iconLight from '@/icon-light.png';
-import { t } from '@lingui/core/macro';
 import { PanelLeft, PanelLeftClose } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
@@ -24,7 +22,6 @@ type LayoutProps = PropsWithChildren<object> & {
 
 export function FullLayout(props: LayoutProps) {
   const { currentTheme } = useTheme();
-  const insets = useInsets();
 
   const [isCollapsed, setIsCollapsed] = useLocalStorage<boolean>(
     SIDEBAR_COLLAPSED_STORAGE_KEY,
@@ -39,7 +36,7 @@ export function FullLayout(props: LayoutProps) {
       <img
         src={currentTheme?.mostLike === 'light' ? iconDark : iconLight}
         className='h-6 w-6'
-        alt={t`Theme icon`}
+        alt='Theme icon'
       />
 
       <span
@@ -47,7 +44,7 @@ export function FullLayout(props: LayoutProps) {
           isCollapsed ? 'opacity-0 hidden' : 'opacity-100'
         }`}
       >
-        {t`Theme-o-rama`}
+        Theme-o-rama
       </span>
     </Link>
   );
@@ -62,11 +59,11 @@ export function FullLayout(props: LayoutProps) {
           <img
             src={currentTheme?.mostLike === 'light' ? iconDark : iconLight}
             className='h-6 w-6'
-            alt={t`Theme icon`}
+            alt='Theme icon'
           />
         </Link>
       </TooltipTrigger>
-      <TooltipContent side='right'>{t`Theme-o-rama`}</TooltipContent>
+      <TooltipContent side='right'>Theme-o-rama</TooltipContent>
     </Tooltip>
   ) : (
     walletIcon
@@ -90,7 +87,7 @@ export function FullLayout(props: LayoutProps) {
               : {}
           }
           role='complementary'
-          aria-label={t`Sidebar navigation`}
+          aria-label='Sidebar navigation'
         >
           <div className='bg-background flex h-full max-h-screen flex-col gap-2'>
             <div className='flex h-14 items-center pt-2 px-5 justify-between'>
@@ -103,7 +100,7 @@ export function FullLayout(props: LayoutProps) {
                       onClick={() => setIsCollapsed(!isCollapsed)}
                       className='text-muted-foreground hover:text-primary transition-colors'
                       aria-label={
-                        isCollapsed ? t`Expand sidebar` : t`Collapse sidebar`
+                        isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
                       }
                       aria-expanded={!isCollapsed}
                     >
@@ -118,7 +115,7 @@ export function FullLayout(props: LayoutProps) {
                     </button>
                   </TooltipTrigger>
                   <TooltipContent side='right' role='tooltip'>
-                    {isCollapsed ? t`Expand sidebar` : t`Collapse sidebar`}
+                    {isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
                   </TooltipContent>
                 </Tooltip>
               </>
@@ -140,18 +137,14 @@ export function FullLayout(props: LayoutProps) {
             props.transparentBackground ? 'bg-transparent' : 'bg-background'
           }`}
           style={{
-            paddingBottom: insets.bottom
-              ? `${insets.bottom}px`
-              : 'env(safe-area-inset-bottom)',
+            paddingBottom: 'env(safe-area-inset-bottom)',
+            paddingTop: 'env(safe-area-inset-top)',
           }}
         >
           <div
             className='bg-background'
             style={{
-              height:
-                insets.top !== 0
-                  ? `${insets.top + 8}px`
-                  : 'env(safe-area-inset-top)',
+              height: 'env(safe-area-inset-top)',
             }}
           />
           {props.children}

@@ -21,8 +21,6 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
-import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
 import {
   Copy,
   Info,
@@ -50,12 +48,8 @@ export default function Components() {
           <div className='container mx-auto p-6 space-y-8'>
             <Card>
               <CardHeader>
-                <CardTitle>
-                  <Trans>Cards</Trans>
-                </CardTitle>
-                <CardDescription>
-                  <Trans>This is a card</Trans>
-                </CardDescription>
+                <CardTitle>Cards</CardTitle>
+                <CardDescription>This is a card</CardDescription>
               </CardHeader>
               <CardContent className='space-y-6'>
                 {/* Color Palette */}
@@ -66,14 +60,10 @@ export default function Components() {
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle>
-                  <Trans>Components</Trans>
-                </CardTitle>
+                <CardTitle>Components</CardTitle>
                 <CardDescription>
-                  <Trans>
-                    Preview of the current theme&apos;s color palette and
-                    styling for controls and components.
-                  </Trans>
+                  Preview of the current theme&apos;s color palette and styling
+                  for controls and components.
                 </CardDescription>
               </CardHeader>
               <CardContent className='space-y-6'>
@@ -82,31 +72,23 @@ export default function Components() {
                   <Separator className='my-1' />
 
                   <Label className='text-base font-semibold mb-3 block'>
-                    <Trans>Colors</Trans>
+                    Colors
                   </Label>
                   <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
                     <div className='space-y-2'>
-                      <Label>
-                        <Trans>Primary</Trans>
-                      </Label>
+                      <Label>Primary</Label>
                       <div className='h-12 rounded-md border bg-primary' />
                     </div>
                     <div className='space-y-2'>
-                      <Label>
-                        <Trans>Secondary</Trans>
-                      </Label>
+                      <Label>Secondary</Label>
                       <div className='h-12 rounded-md border bg-secondary' />
                     </div>
                     <div className='space-y-2'>
-                      <Label>
-                        <Trans>Accent</Trans>
-                      </Label>
+                      <Label>Accent</Label>
                       <div className='h-12 rounded-md border bg-accent' />
                     </div>
                     <div className='space-y-2'>
-                      <Label>
-                        <Trans>Destructive</Trans>
-                      </Label>
+                      <Label>Destructive</Label>
                       <div className='h-12 rounded-md border bg-destructive' />
                     </div>
                   </div>
@@ -115,11 +97,11 @@ export default function Components() {
                 {/* Border Radius */}
                 <div>
                   <Label className='text-base font-semibold mb-3 block'>
-                    <Trans>Border Radius</Trans>
+                    Border Radius
                   </Label>
                   <div className='space-y-4'>
                     <div>
-                      <Trans>Border Radius</Trans>:{' '}
+                      Border Radius:{' '}
                       <div className='mt-2 flex gap-2'>
                         <div className='w-8 h-8 bg-primary rounded-none' />
                         <div className='w-8 h-8 bg-primary rounded-sm' />
@@ -133,7 +115,7 @@ export default function Components() {
 
                 <div>
                   <Label className='text-base font-semibold mb-3 block'>
-                    <Trans>Component Examples</Trans>
+                    Component Examples
                   </Label>
                   <div>
                     <DropdownMenu>
@@ -156,9 +138,7 @@ export default function Components() {
                               className='mr-2 h-4 w-4'
                               aria-hidden='true'
                             />
-                            <span>
-                              <Trans>Transfer</Trans>
-                            </span>
+                            <span>Transfer</span>
                           </DropdownMenuItem>
 
                           <DropdownMenuItem
@@ -177,18 +157,14 @@ export default function Components() {
                               className='mr-2 h-4 w-4'
                               aria-hidden='true'
                             />
-                            <span>
-                              <Trans>Item </Trans>
-                            </span>
+                            <span>Item</span>
                           </DropdownMenuItem>
 
                           <DropdownMenuSeparator />
 
                           <DropdownMenuItem className='cursor-pointer'>
                             <Copy className='mr-2 h-4 w-4' aria-hidden='true' />
-                            <span>
-                              <Trans>Copy </Trans>
-                            </span>
+                            <span>Copy</span>
                           </DropdownMenuItem>
                         </DropdownMenuGroup>
                       </DropdownMenuContent>
@@ -196,38 +172,36 @@ export default function Components() {
                   </div>
                   <div className='space-y-4'>
                     <div className='mt-4'>
-                      <Input placeholder={t`Input field`} />
+                      <Input placeholder='Input field' />
                     </div>
 
                     <div className='flex items-center gap-2 my-2'>
-                      <label htmlFor='toggleExample'>
-                        <Trans>Toggle Switch</Trans>
-                      </label>
+                      <label htmlFor='toggleExample'>Toggle Switch</label>
                       <Switch id='toggleExample' />
                     </div>
                     <div>
                       <label htmlFor='checkboxExample' className='mr-2'>
-                        <Trans>Checkbox</Trans>
+                        Checkbox
                       </label>
                       <Checkbox id='checkboxExample' />
                     </div>
                     <div>
                       <label htmlFor='selectExample' className='mr-2'>
-                        <Trans>Select</Trans>
+                        Select
                       </label>
                       <Select>
                         <SelectTrigger id='selectExample'>
-                          <SelectValue placeholder={t`Select a value`} />
+                          <SelectValue placeholder='Select a value' />
                         </SelectTrigger>
                         <SelectContent className='max-w-[var(--radix-select-trigger-width)]'>
                           <SelectItem key='none' value='none'>
-                            <Trans>None</Trans>
+                            None
                           </SelectItem>
                           <SelectItem key='one' value='one'>
-                            <Trans>One</Trans>
+                            One
                           </SelectItem>
                           <SelectItem key='two' value='two'>
-                            <Trans>Two</Trans>
+                            Two
                           </SelectItem>
                         </SelectContent>
                       </Select>
@@ -235,24 +209,14 @@ export default function Components() {
 
                     <div className='space-y-4'>
                       <Label className='text-base font-semibold block'>
-                        <Trans>Buttons</Trans>
+                        Buttons
                       </Label>
                       <div className='flex flex-col sm:flex-row gap-2 flex-wrap'>
-                        <Button>
-                          <Trans>Primary</Trans>
-                        </Button>
-                        <Button variant='outline'>
-                          <Trans>Outline</Trans>
-                        </Button>
-                        <Button variant='destructive'>
-                          <Trans>Destructive</Trans>
-                        </Button>
-                        <Button variant='ghost'>
-                          <Trans>Ghost</Trans>
-                        </Button>
-                        <Button variant='link'>
-                          <Trans>Link</Trans>
-                        </Button>
+                        <Button>Primary</Button>
+                        <Button variant='outline'>Outline</Button>
+                        <Button variant='destructive'>Destructive</Button>
+                        <Button variant='ghost'>Ghost</Button>
+                        <Button variant='link'>Link</Button>
                       </div>
                     </div>
                   </div>
@@ -267,7 +231,7 @@ export default function Components() {
     console.error('Error rendering theme page:', error);
     return (
       <Layout>
-        <Header title={t`Themes`} />
+        <Header title='Themes' />
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
             <Alert variant='destructive'>

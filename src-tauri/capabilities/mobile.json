@@ -3,11 +3,5 @@
   "identifier": "mobile-capability",
   "windows": ["main"],
   "platforms": ["android", "iOS"],
-  "permissions": [
-    "safe-area-insets:default",
-    "barcode-scanner:default",
-    "biometric:default",
-    "sage:default",
-    "sharesheet:allow-share-text"
-  ]
+  "permissions": []
 }

@@ -1,14 +1,10 @@
-import { useInsets } from '@/contexts/SafeAreaContext';
 import iconDark from '@/icon-dark.png';
 import iconLight from '@/icon-light.png';
-import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, Menu } from 'lucide-react';
 import { PropsWithChildren, ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from 'theme-o-rama';
-import { getPlatformSync } from '../lib/platform';
 import { TopNav } from './Nav';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
@@ -31,18 +27,13 @@ export default function Header(
 ) {
   const navigate = useNavigate();
   const location = useLocation();
-  const insets = useInsets();
   const hasBackButton = props.back || location.pathname.split('/').length > 2;
-  const isMobile =
-    getPlatformSync() === 'ios' || getPlatformSync() === 'android';
 
   const { currentTheme } = useTheme();
 
   return (
     <header
-      className={`flex items-center gap-4 px-4 md:px-6 sticky top-0 z-10 ${
-        !isMobile ? 'pt-2' : 'pb-2 pt-2'
-      }`}
+      className='flex items-center gap-4 px-4 md:px-6 sticky top-0 z-10 pt-2'
       role='banner'
       style={props.style}
     >
@@ -53,7 +44,7 @@ export default function Header(
             size='icon'
             onClick={() => (props.back ? props.back() : navigate(-1))}
             className='md:hidden text-muted-foreground flex-shrink-0'
-            aria-label={t`Back`}
+            aria-label='Back'
           >
             <ChevronLeft className='h-5 w-5 pb' aria-hidden='true' />
           </Button>
@@ -63,7 +54,7 @@ export default function Header(
               variant='outline'
               size='icon'
               className='shrink-0 md:hidden'
-              aria-label={t`Toggle navigation menu`}
+              aria-label='Toggle navigation menu'
               aria-expanded='false'
               aria-haspopup='dialog'
             >
@@ -73,19 +64,14 @@ export default function Header(
         )}
         <SheetContent
           side='left'
-          isMobile={isMobile}
+          isMobile={false}
           className={`flex flex-col p-0 border-0 ${currentTheme?.backgroundImage ? 'bg-transparent' : ''}`}
           role='dialog'
-          aria-label={t`Navigation menu`}
+          aria-label='Navigation menu'
           style={{
             marginLeft: '-8px',
-            paddingTop:
-              insets.top !== 0
-                ? `${insets.top + 8}px`
-                : 'env(safe-area-inset-top)',
-            paddingBottom: insets.bottom
-              ? `${insets.bottom + 16}px`
-              : 'env(safe-area-inset-bottom)',
+            paddingTop: 'env(safe-area-inset-top)',
+            paddingBottom: 'env(safe-area-inset-bottom)',
             ...(currentTheme?.backgroundImage && {
               backgroundImage: `url(${currentTheme.backgroundImage})`,
               backgroundSize: 'cover',
@@ -116,14 +102,14 @@ export default function Header(
               <Link
                 to='/'
                 className='flex items-center gap-2 font-semibold font-heading'
-                aria-label={t`Go to home`}
+                aria-label='Go to home'
               >
                 <img
                   src={
                     currentTheme?.mostLike === 'light' ? iconDark : iconLight
                   }
                   className='h-6 w-6'
-                  alt={t`Theme icon`}
+                  alt='Theme icon'
                   aria-hidden='true'
                 />
 
@@ -143,7 +129,7 @@ export default function Header(
             className='hidden md:flex px-0 text-muted-foreground'
           >
             <ChevronLeft className='h-4 w-4 mr-1' aria-hidden='true' />
-            <Trans>Back</Trans>
+            Back
           </Button>
         </div>
         <div className='flex-1 flex justify-between items-center gap-4 md:h-8 md:my-1'>
@@ -168,7 +154,6 @@ export default function Header(
             <div className={props.alwaysShowChildren ? '' : 'hidden md:block'}>
               {props.children}
             </div>
-            {props.mobileActionItems && isMobile && props.mobileActionItems}
           </div>
         </div>
       </div>

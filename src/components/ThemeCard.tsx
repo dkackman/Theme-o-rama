@@ -1,5 +1,3 @@
-import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
 import { Check } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { applyThemeIsolated, Theme } from 'theme-o-rama';
@@ -104,7 +102,7 @@ export function ThemeCard({
               <Check
                 className='h-3 w-3'
                 style={checkStyles}
-                aria-label={t`Theme selected`}
+                aria-label='Theme selected'
               />
             )}
           </div>
@@ -135,14 +133,10 @@ export function ThemeCard({
       <Dialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>
-              <Trans>Delete Theme</Trans>
-            </DialogTitle>
+            <DialogTitle>Delete Theme</DialogTitle>
             <DialogDescription>
-              <Trans>
-                Are you sure you want to delete the theme &quot;
-                {theme.displayName}&quot;?
-              </Trans>
+              Are you sure you want to delete the theme &quot;
+              {theme.displayName}&quot;?
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -150,7 +144,7 @@ export function ThemeCard({
               variant='outline'
               onClick={() => setShowDeleteConfirm(false)}
             >
-              <Trans>Cancel</Trans>
+              Cancel
             </Button>
           </DialogFooter>
         </DialogContent>
