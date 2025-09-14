@@ -156,7 +156,7 @@ msgstr ""
 #~ msgid "A larger preview of your currently active theme"
 #~ msgstr ""
 
-#: src/pages/ThemePreview.tsx:131
+#: src/pages/ThemePreview.tsx:132
 msgid "A larger preview of your currently active theme. Check the output carefully as it may not be perfect."
 msgstr ""
 
@@ -363,15 +363,15 @@ msgstr ""
 #~ msgid "Analyze Duration"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:252
+#: src/pages/Themes.tsx:275
 msgid "Apply Custom Theme"
 msgstr ""
 
-#: src/pages/Themes.tsx:316
+#: src/pages/Themes.tsx:339
 msgid "Apply Theme"
 msgstr ""
 
-#: src/pages/Themes.tsx:311
+#: src/pages/Themes.tsx:334
 msgid "Applying..."
 msgstr ""
 
@@ -504,7 +504,7 @@ msgstr "返回"
 #~ msgid "Back to groups"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:366
+#: src/pages/Themes.tsx:389
 msgid "Background Image"
 msgstr ""
 
@@ -726,7 +726,7 @@ msgstr ""
 #~ msgid "Choose your preferred theme"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:218
+#: src/pages/Themes.tsx:241
 msgid "Choose Your Theme"
 msgstr ""
 
@@ -756,7 +756,7 @@ msgstr ""
 #~ msgid "Clawback Expiration"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:326
+#: src/pages/Themes.tsx:349
 msgid "Clear & Reset"
 msgstr ""
 
@@ -883,7 +883,7 @@ msgstr ""
 #~ msgid "Collections"
 #~ msgstr ""
 
-#: src/pages/ThemePreview.tsx:178
+#: src/pages/ThemePreview.tsx:179
 msgid "Color Palette"
 msgstr ""
 
@@ -1444,7 +1444,7 @@ msgstr ""
 #~ msgid "Download failed. Please try again. {error}"
 #~ msgstr ""
 
-#: src/pages/ThemePreview.tsx:138
+#: src/pages/ThemePreview.tsx:139
 msgid "Download PNG"
 msgstr ""
 
@@ -1612,7 +1612,7 @@ msgstr ""
 msgid "Error loading themes: {error}"
 msgstr ""
 
-#: src/pages/Themes.tsx:446
+#: src/pages/Themes.tsx:469
 msgid "Error rendering theme page"
 msgstr ""
 
@@ -2060,7 +2060,7 @@ msgstr ""
 #~ msgid "Invalid addresses"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:132
+#: src/pages/Themes.tsx:155
 msgid "Invalid JSON format. Please check your syntax. {err}"
 msgstr ""
 
@@ -2203,7 +2203,7 @@ msgstr ""
 #~ msgid "Loading profile"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:175
+#: src/pages/Themes.tsx:198
 #: src/components/ThemeSelector.tsx:15
 #: src/components/ThemeSelector.tsx:83
 msgid "Loading themes..."
@@ -2250,7 +2250,7 @@ msgstr ""
 msgid "Main navigation"
 msgstr ""
 
-#: src/pages/Themes.tsx:427
+#: src/pages/Themes.tsx:450
 msgid "Make Preview Image"
 msgstr ""
 
@@ -2557,7 +2557,7 @@ msgstr "下一页"
 #~ msgid "No assets being sent to external recipients."
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:415
+#: src/pages/Themes.tsx:438
 msgid "No background image set"
 msgstr ""
 
@@ -2626,7 +2626,7 @@ msgstr ""
 msgid "No results."
 msgstr "无结果."
 
-#: src/pages/Themes.tsx:192
+#: src/pages/Themes.tsx:215
 #: src/pages/ThemePreview.tsx:111
 #: src/components/ThemeSelector.tsx:34
 msgid "No theme available"
@@ -2979,11 +2979,11 @@ msgstr ""
 #~ msgid "Paste your offer string or URL here..."
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:255
+#: src/pages/Themes.tsx:278
 msgid "Paste your theme JSON below to apply a custom theme to the entire application."
 msgstr ""
 
-#: src/pages/Themes.tsx:285
+#: src/pages/Themes.tsx:308
 msgid "Paste your theme JSON here..."
 msgstr ""
 
@@ -3040,11 +3040,11 @@ msgstr ""
 #~ msgid "Place the NFC tag near your device to scan it."
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:76
+#: src/pages/Themes.tsx:71
 msgid "Please enter theme JSON"
 msgstr ""
 
-#: src/pages/Themes.tsx:120
+#: src/pages/Themes.tsx:143
 msgid "Please enter theme JSON to validate"
 msgstr ""
 
@@ -3257,7 +3257,7 @@ msgstr ""
 #~ msgid "Refreshing token info..."
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:235
+#: src/pages/Themes.tsx:258
 msgid "Reload Themes"
 msgstr ""
 
@@ -3302,7 +3302,7 @@ msgstr ""
 #~ msgid "Require biometrics for sensitive actions"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:359
+#: src/pages/Themes.tsx:382
 msgid "Reset with Current Theme's JSON"
 msgstr ""
 
@@ -3501,7 +3501,7 @@ msgstr ""
 #~ msgid "Select coin row"
 #~ msgstr "选择硬币行"
 
-#: src/pages/Themes.tsx:221
+#: src/pages/Themes.tsx:244
 msgid "Select from our collection of beautiful themes"
 msgstr ""
 
@@ -4059,7 +4059,7 @@ msgstr ""
 msgid "Theme icon"
 msgstr ""
 
-#: src/pages/Themes.tsx:279
+#: src/pages/Themes.tsx:302
 msgid "Theme JSON"
 msgstr ""
 
@@ -4069,7 +4069,7 @@ msgstr ""
 
 #: src/pages/ThemePreview.tsx:106
 #: src/pages/ThemePreview.tsx:122
-#: src/pages/ThemePreview.tsx:245
+#: src/pages/ThemePreview.tsx:246
 msgid "Theme Preview"
 msgstr ""
 
@@ -4082,7 +4082,7 @@ msgstr ""
 msgid "Theme-o-rama"
 msgstr ""
 
-#: src/pages/Themes.tsx:441
+#: src/pages/Themes.tsx:464
 #: src/pages/Tables.tsx:84
 #: src/pages/Mint.tsx:43
 #: src/pages/Dialogs.tsx:138
@@ -4223,7 +4223,7 @@ msgstr ""
 #~ msgid "This profile will be transferred to the address below."
 #~ msgstr ""
 
-#: src/pages/ThemePreview.tsx:248
+#: src/pages/ThemePreview.tsx:249
 msgid "This theme preview shows how your theme will look so you can share it with others."
 msgstr ""
 
@@ -4701,7 +4701,7 @@ msgstr ""
 #~ msgid "Untitled Profile"
 #~ msgstr "未命名个人资料"
 
-#: src/pages/Themes.tsx:388
+#: src/pages/Themes.tsx:411
 msgid "Upload Image"
 msgstr ""
 
@@ -4789,7 +4789,7 @@ msgstr ""
 #~ msgid "Vacuum Duration"
 #~ msgstr ""
 
-#: src/pages/Themes.tsx:349
+#: src/pages/Themes.tsx:372
 msgid "Validate"
 msgstr ""
 
