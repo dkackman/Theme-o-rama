@@ -60,11 +60,6 @@ export default function Themes() {
   const updateThemeJson = (value: string) => {
     setThemeJson(value);
     setValidationState('none'); // Reset validation state when JSON changes
-    if (value.trim()) {
-      localStorage.setItem('custom-theme-json', value);
-    } else {
-      localStorage.removeItem('custom-theme-json');
-    }
   };
 
   const handleApplyTheme = () => {
@@ -77,6 +72,11 @@ export default function Themes() {
     }
 
     setIsApplying(true);
+    if (themeJson.trim()) {
+      localStorage.setItem('custom-theme-json', themeJson);
+    } else {
+      localStorage.removeItem('custom-theme-json');
+    }
 
     try {
       const success = setCustomTheme(themeJson);
@@ -105,7 +105,30 @@ export default function Themes() {
 
   const handleCopyCurrentTheme = () => {
     if (currentTheme) {
-      const themeJsonString = JSON.stringify(currentTheme, null, 2);
+      // Create a clean copy without internal/processed properties
+      const cleanTheme = {
+        name: currentTheme.name,
+        displayName: currentTheme.displayName,
+        schemaVersion: currentTheme.schemaVersion,
+        ...(currentTheme.inherits && { inherits: currentTheme.inherits }),
+        ...(currentTheme.mostLike && { mostLike: currentTheme.mostLike }),
+        ...(currentTheme.backgroundImage && {
+          backgroundImage: currentTheme.backgroundImage,
+        }),
+        ...(currentTheme.colors && { colors: currentTheme.colors }),
+        ...(currentTheme.fonts && { fonts: currentTheme.fonts }),
+        ...(currentTheme.corners && { corners: currentTheme.corners }),
+        ...(currentTheme.shadows && { shadows: currentTheme.shadows }),
+        ...(currentTheme.buttons && { buttons: currentTheme.buttons }),
+        ...(currentTheme.switches && { switches: currentTheme.switches }),
+        ...(currentTheme.tables && { tables: currentTheme.tables }),
+        ...(currentTheme.sidebar && { sidebar: currentTheme.sidebar }),
+        ...(currentTheme.buttonStyles && {
+          buttonStyles: currentTheme.buttonStyles,
+        }),
+      };
+
+      const themeJsonString = JSON.stringify(cleanTheme, null, 2);
       updateThemeJson(themeJsonString);
     }
   };
