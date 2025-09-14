@@ -42,7 +42,7 @@ export default function Themes() {
     'none' | 'valid' | 'invalid'
   >('none');
 
-  // Load theme JSON and background image from localStorage on component mount
+  // Load theme JSON, background image, and maximized state from localStorage on component mount
   useEffect(() => {
     const savedThemeJson = localStorage.getItem('custom-theme-json');
     if (savedThemeJson) {
@@ -52,6 +52,11 @@ export default function Themes() {
     const savedBackgroundImage = localStorage.getItem('background-image');
     if (savedBackgroundImage) {
       setBackgroundImage(savedBackgroundImage);
+    }
+
+    const savedMaximized = localStorage.getItem('themes-editor-maximized');
+    if (savedMaximized !== null) {
+      setIsMaximized(savedMaximized === 'true');
     }
   }, []);
 
@@ -273,7 +278,14 @@ export default function Themes() {
                   <Button
                     variant='ghost'
                     size='sm'
-                    onClick={() => setIsMaximized(!isMaximized)}
+                    onClick={() => {
+                      const newMaximized = !isMaximized;
+                      setIsMaximized(newMaximized);
+                      localStorage.setItem(
+                        'themes-editor-maximized',
+                        newMaximized.toString(),
+                      );
+                    }}
                     className='shrink-0'
                   >
                     {isMaximized ? (
