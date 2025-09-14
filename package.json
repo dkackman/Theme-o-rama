@@ -35,7 +35,6 @@
     "@tauri-apps/api": "^2.3.0",
     "@tauri-apps/plugin-dialog": "^2.4.0",
     "@tauri-apps/plugin-fs": "^2.4.2",
-    "@uiw/react-textarea-code-editor": "^3.1.1",
     "bignumber.js": "^9.1.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

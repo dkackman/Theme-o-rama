@@ -12,7 +12,6 @@ import {
 import { Label } from '@/components/ui/label';
 import { useErrors } from '@/hooks/useErrors';
 import { validateThemeJson } from '@/lib/themes';
-import CodeEditor from '@uiw/react-textarea-code-editor';
 import {
   Check,
   Copy,
@@ -289,24 +288,25 @@ export default function Themes() {
                 className={`space-y-4 ${isMaximized ? 'flex-1 flex flex-col min-h-0' : ''}`}
               >
                 <Label htmlFor='theme-json'>Theme JSON</Label>
-                <CodeEditor
-                  id='theme-json'
-                  data-color-mode={currentTheme?.mostLike || 'light'}
-                  language='json'
-                  placeholder='Paste your theme JSON here...'
+                <textarea
                   value={themeJson}
-                  onChange={(e) => updateThemeJson(e.target.value)}
-                  padding={15}
-                  className={`${isMaximized ? 'flex-1 min-h-0' : 'min-h-[200px]'}`}
+                  onChange={(e) => setThemeJson(e.target.value)}
+                  //onKeyDown={handleKeyDown}
+                  className='w-full h-80 p-3 border border-gray-300 rounded font-mono text-sm bg-gray-50 resize-y'
                   style={{
-                    border: '1px solid #e0e0e0',
                     fontFamily:
-                      'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
-                    minHeight: isMaximized ? '400px' : '200px',
-                    maxHeight: isMaximized ? '100%' : '400px',
-                    overflow: 'auto',
+                      'Monaco, Menlo, Ubuntu Mono, Consolas, source-code-pro, monospace',
+                    tabSize: 4,
+                    MozTabSize: 4,
                     fontSize: 14,
+                    backgroundColor: '#ffffff',
+                    color: '#000000',
+                    whiteSpace: 'pre',
                   }}
+                  spellCheck={false}
+                  autoComplete='off'
+                  autoCorrect='off'
+                  autoCapitalize='off'
                 />
 
                 <div className='flex flex-col sm:flex-row gap-2'>

@@ -9,15 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import CodeEditor from '@uiw/react-textarea-code-editor';
 import { Copy, Github, Info, Package } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { useTheme } from 'theme-o-rama';
 import schemaJson from 'theme-o-rama/schema.json';
 
 export default function About() {
-  const { currentTheme } = useTheme();
-
   const handleCopySchema = () => {
     navigator.clipboard.writeText(JSON.stringify(schemaJson, null, 2));
     toast.success('Schema copied to clipboard');
@@ -82,13 +78,10 @@ export default function About() {
                 </div>
 
                 <div className='border rounded-md overflow-hidden'>
-                  <CodeEditor
-                    data-color-mode={currentTheme?.mostLike || 'light'}
-                    language='json'
+                  <textarea
                     value={JSON.stringify(schemaJson, null, 2)}
                     readOnly
-                    padding={15}
-                    className='min-h-[300px] max-h-[500px] overflow-auto resize-none'
+                    className='w-full min-h-[300px] overflow-auto resize-none'
                     style={{
                       border: 'none',
                       fontFamily:
@@ -96,8 +89,8 @@ export default function About() {
                       fontSize: 14,
                       backgroundColor: 'rgba(0, 0, 0, 0.1)',
                       overflow: 'auto',
-                      resize: 'none',
                       whiteSpace: 'pre',
+                      width: '100%',
                     }}
                   />
                 </div>
