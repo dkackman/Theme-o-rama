@@ -304,7 +304,9 @@ export default function Themes() {
                   value={themeJson}
                   onChange={(e) => setThemeJson(e.target.value)}
                   //onKeyDown={handleKeyDown}
-                  className='w-full h-80 p-3 border border-gray-300 rounded font-mono text-sm bg-gray-50 resize-y'
+                  className={`w-full p-3 border border-gray-300 rounded font-mono text-sm bg-gray-50 resize-y ${
+                    isMaximized ? 'flex-1 min-h-0' : 'h-80'
+                  }`}
                   style={{
                     fontFamily:
                       'Monaco, Menlo, Ubuntu Mono, Consolas, source-code-pro, monospace',
@@ -314,6 +316,10 @@ export default function Themes() {
                     backgroundColor: '#ffffff',
                     color: '#000000',
                     whiteSpace: 'pre',
+                    ...(isMaximized && {
+                      minHeight: '400px',
+                      height: '100%',
+                    }),
                   }}
                   spellCheck={false}
                   autoComplete='off'
