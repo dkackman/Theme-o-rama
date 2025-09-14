@@ -10,10 +10,6 @@
     "core:webview:default",
     "core:app:default",
     "core:resources:default",
-    "core:image:default",
-    "clipboard-manager:default",
-    "clipboard-manager:allow-write-text",
-    "clipboard-manager:allow-read-text",
-    "opener:default"
+    "core:image:default"
   ]
 }

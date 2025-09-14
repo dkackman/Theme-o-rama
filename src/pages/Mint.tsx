@@ -8,8 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
 import { Info } from 'lucide-react';
 
 export default function Mint() {
@@ -23,12 +21,8 @@ export default function Mint() {
             {/* Current Theme Info */}
             <Card>
               <CardHeader>
-                <CardTitle>
-                  <Trans>Mint Sage Compatible Theme NFT</Trans>
-                </CardTitle>
-                <CardDescription>
-                  <Trans>Soon</Trans>
-                </CardDescription>
+                <CardTitle>Mint Sage Compatible Theme NFT</CardTitle>
+                <CardDescription>Soon</CardDescription>
               </CardHeader>
               <CardContent className='space-y-6'></CardContent>
             </Card>
@@ -40,7 +34,7 @@ export default function Mint() {
     console.error('Error rendering theme page:', error);
     return (
       <Layout>
-        <Header title={t`Themes`} />
+        <Header title='Themes' />
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
             <Alert variant='destructive'>

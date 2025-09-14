@@ -6,10 +6,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
+import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import { Button } from './ui/button';
-import { ChevronRightIcon, ChevronLeftIcon } from '@radix-ui/react-icons';
 
 interface PaginationProps {
   page: number;
@@ -45,7 +43,7 @@ export const Pagination = ({
   return (
     <nav
       role='navigation'
-      aria-label={t`Pagination`}
+      aria-label='Pagination'
       className='flex justify-between gap-2'
     >
       <div className={`flex items-center justify-start gap-2`}>
@@ -57,7 +55,7 @@ export const Pagination = ({
             onPageChange(Math.max(1, page - 1));
           }}
           disabled={isFirstPage}
-          aria-label={t`Go to previous page`}
+          aria-label='Go to previous page'
           aria-disabled={isFirstPage}
         >
           <ChevronLeftIcon className='h-4 w-4' aria-hidden='true' />
@@ -69,11 +67,11 @@ export const Pagination = ({
             defaultValue={page.toString()}
             value={page.toString()}
             disabled={totalPages === 1}
-            aria-label={t`Select page number`}
+            aria-label='Select page number'
           >
             <SelectTrigger
               className='w-min text-sm'
-              aria-label={t`Current page ${page} of ${totalPages}`}
+              aria-label={`Current page ${page} of ${totalPages}`}
             >
               <SelectValue>
                 {page} / {totalPages}
@@ -84,7 +82,7 @@ export const Pagination = ({
                 <SelectItem
                   key={i}
                   value={(i + 1).toString()}
-                  aria-label={t`Go to page ${i + 1}`}
+                  aria-label={`Go to page ${i + 1}`}
                 >
                   {i + 1}
                 </SelectItem>
@@ -97,7 +95,7 @@ export const Pagination = ({
             aria-live='polite'
             aria-atomic='true'
           >
-            <Trans>Page {page}</Trans>
+            Page {page}
           </div>
         )}
 
@@ -109,7 +107,7 @@ export const Pagination = ({
             onPageChange(Math.min(totalPages ?? Infinity, page + 1));
           }}
           disabled={isLastPage}
-          aria-label={t`Go to next page`}
+          aria-label='Go to next page'
           aria-disabled={isLastPage}
         >
           <ChevronRightIcon className='h-4 w-4' aria-hidden='true' />
@@ -119,7 +117,7 @@ export const Pagination = ({
       {!compact && (
         <div className='flex items-center gap-2'>
           <label id='items-per-page-label' className='sr-only'>
-            <Trans>Items per page</Trans>
+            Items per page
           </label>
           <Select
             onValueChange={(value) => {
@@ -131,7 +129,7 @@ export const Pagination = ({
           >
             <SelectTrigger
               className='w-min'
-              aria-label={t`${pageSize} items per page`}
+              aria-label={`${pageSize} items per page`}
             >
               {pageSize}
             </SelectTrigger>
@@ -141,7 +139,7 @@ export const Pagination = ({
                   <SelectItem
                     key={size}
                     value={size.toString()}
-                    aria-label={t`Show ${size} items per page`}
+                    aria-label={`Show ${size} items per page`}
                   >
                     {size}
                   </SelectItem>
@@ -153,9 +151,9 @@ export const Pagination = ({
           {total && total > 0 ? (
             <span
               className='hidden sm:inline-block text-sm text-muted-foreground'
-              aria-label={t`Total items: ${total}`}
+              aria-label={`Total items: ${total}`}
             >
-              <Trans>Total: {total}</Trans>
+              Total: {total}
             </span>
           ) : null}
         </div>

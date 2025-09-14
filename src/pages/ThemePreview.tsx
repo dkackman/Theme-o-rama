@@ -1,8 +1,6 @@
 import Header from '@/components/Header';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
-import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
 import html2canvas from 'html2canvas-pro';
 import { Download } from 'lucide-react';
 import { useEffect, useRef } from 'react';
@@ -103,13 +101,11 @@ export default function ThemePreview() {
   if (!currentTheme) {
     return (
       <Layout>
-        <Header title={t`Theme Preview`} back={handleBack} />
+        <Header title='Theme Preview' back={handleBack} />
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6'>
             <div className='flex items-center justify-center p-8'>
-              <span>
-                <Trans>No theme available</Trans>
-              </span>
+              <span>No theme available</span>
             </div>
           </div>
         </div>
@@ -119,24 +115,21 @@ export default function ThemePreview() {
 
   return (
     <Layout>
-      <Header title={t`Theme Preview`} back={handleBack} />
+      <Header title='Theme Preview' back={handleBack} />
       <div className='flex-1 overflow-auto backdrop-blur-sm bg-background/80'>
         <div className='container mx-auto p-6'>
           <div className='flex flex-col items-center space-y-6'>
             <div className='text-center'>
               <h2 className='text-2xl font-bold mb-2'>
-                <Trans>Current Theme Preview</Trans>
-                recently{' '}
+                Current Theme Preview recently{' '}
               </h2>
               <p className='text-muted-foreground mb-4'>
-                <Trans>
-                  A larger preview of your currently active theme. Check the
-                  output carefully as it may not be perfect.
-                </Trans>
+                A larger preview of your currently active theme. Check the
+                output carefully as it may not be perfect.
               </p>
               <Button onClick={handleDownload} className='mb-4'>
                 <Download className='w-4 h-4 mr-2' />
-                <Trans>Download PNG</Trans>
+                Download PNG
               </Button>
             </div>
 
@@ -176,7 +169,7 @@ export default function ThemePreview() {
                   {/* Color Palette */}
                   <div className='space-y-2'>
                     <h4 className='text-sm font-medium text-foreground font-heading'>
-                      <Trans>Color Palette</Trans>
+                      Color Palette
                     </h4>
                     <div className='grid grid-cols-4 gap-2'>
                       <div className='h-8 bg-primary rounded-md relative'>
@@ -243,13 +236,11 @@ export default function ThemePreview() {
                 {/* Footer */}
                 <div className='mt-4 pt-4 border-t border-border'>
                   <div className='text-xs text-muted-foreground font-body text-center'>
-                    <Trans>Theme Preview</Trans>
+                    Theme Preview
                   </div>
                 </div>
-                <Trans>
-                  This theme preview shows how your theme will look so you can
-                  share it with others.
-                </Trans>
+                This theme preview shows how your theme will look so you can
+                share it with others.
               </div>
             </div>
           </div>

@@ -1,4 +1,3 @@
-import { lingui } from '@lingui/vite-plugin';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 import { defineConfig } from 'vite';
@@ -6,12 +5,7 @@ import { defineConfig } from 'vite';
 // Web-specific Vite configuration
 export default defineConfig({
   base: './', // Use relative paths for GitHub Pages
-  plugins: [
-    react({
-      plugins: [['@lingui/swc-plugin', {}]],
-    }),
-    lingui(),
-  ],
+  plugins: [react()],
   clearScreen: false,
   server: {
     port: 3000,

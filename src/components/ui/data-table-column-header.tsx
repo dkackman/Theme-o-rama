@@ -1,8 +1,8 @@
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { Column } from '@tanstack/react-table';
 import { ArrowDown, ArrowUp, ChevronsUpDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { t } from '@lingui/core/macro';
+
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;
@@ -29,7 +29,7 @@ export function DataTableColumnHeader<TData, TValue>({
         className='-ml-3 h-8 data-[state=open]:bg-accent'
         onClick={() => column.toggleSorting(column.getIsSorted() !== 'desc')}
         aria-label={
-          t`Sort by ` + title + (isSorted ? ` (${sortDirection})` : '')
+          'Sort by ' + title + (isSorted ? ` (${sortDirection})` : '')
         }
         aria-sort={isSorted ? sortDirection : 'none'}
       >

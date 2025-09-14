@@ -1,4 +1,3 @@
-import { t } from '@lingui/core/macro';
 import * as React from 'react';
 import { NumericFormat, NumericFormatProps } from 'react-number-format';
 import { toast } from 'react-toastify';
@@ -21,7 +20,7 @@ const MaskedInput = React.forwardRef<HTMLInputElement, MaskedInputProps>(
         const pastedText = e.clipboardData.getData('text');
         if (!isLocaleNumber(pastedText)) {
           e.preventDefault();
-          toast.error(t`Invalid number ${pastedText}`);
+          toast.error(`Invalid number ${pastedText}`);
           return;
         }
       }}

@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils';
-import { t } from '@lingui/core/macro';
 import * as React from 'react';
 
 const Table = React.forwardRef<
@@ -19,7 +18,7 @@ const Table = React.forwardRef<
         className,
       )}
       role='table'
-      aria-label={t`Data table`}
+      aria-label='Data table'
       {...props}
     />
   </div>
