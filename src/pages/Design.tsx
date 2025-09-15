@@ -10,9 +10,10 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Info, MessageSquare, Palette, Save } from 'lucide-react';
-import { useState } from 'react';
-import { RgbaColorPicker } from 'react-colorful';
+import { useEffect, useState } from 'react';
+import { RgbColorPicker } from 'react-colorful';
 import { toast } from 'react-toastify';
+import { useTheme } from 'theme-o-rama';
 
 // Utility function to convert RGB to HSL
 const rgbToHsl = (r: number, g: number, b: number) => {
@@ -52,13 +53,42 @@ const rgbToHsl = (r: number, g: number, b: number) => {
 };
 
 export default function Design() {
+  const { setCustomTheme } = useTheme();
   const [selectedColor, setSelectedColor] = useState({
     r: 59,
     g: 130,
     b: 246,
-    a: 1,
   });
   const [currentStep, setCurrentStep] = useState(1);
+
+  // Generate theme JSON from selected color
+  const generateThemeFromColor = (color: {
+    r: number;
+    g: number;
+    b: number;
+  }) => {
+    const hsl = rgbToHsl(color.r, color.g, color.b);
+    return {
+      name: 'design',
+      displayName: 'Design',
+      mostLike: 'dark',
+      inherits: 'color',
+      schemaVersion: 1,
+      colors: {
+        background: `hsl(${hsl.h} ${hsl.s}% ${hsl.l}%)`,
+      },
+    };
+  };
+
+  // Apply theme when color changes
+  useEffect(() => {
+    const themeJson = JSON.stringify(
+      generateThemeFromColor(selectedColor),
+      null,
+      2,
+    );
+    setCustomTheme(themeJson);
+  }, [selectedColor, setCustomTheme]);
 
   const handleNextStep = () => {
     if (currentStep < 3) {
@@ -87,13 +117,14 @@ export default function Design() {
                 Choose Your Base Color
               </h3>
               <p className='text-muted-foreground mb-6'>
-                Select a color that will serve as the foundation for your theme
+                Select a color that will serve as the foundation for your theme.
+                The theme will update in real-time as you change the color.
               </p>
             </div>
 
             <div className='flex justify-center'>
               <div className='space-y-4'>
-                <RgbaColorPicker
+                <RgbColorPicker
                   color={selectedColor}
                   onChange={setSelectedColor}
                   style={{ width: '200px', height: '200px' }}
@@ -102,13 +133,13 @@ export default function Design() {
                   <div
                     className='w-16 h-16 mx-auto rounded-lg border-2 border-border shadow-sm'
                     style={{
-                      backgroundColor: `rgba(${selectedColor.r}, ${selectedColor.g}, ${selectedColor.b}, ${selectedColor.a})`,
+                      backgroundColor: `rgba(${selectedColor.r}, ${selectedColor.g}, ${selectedColor.b})`,
                     }}
                   />
                   <div className='mt-2 space-y-1'>
                     <p className='text-sm text-muted-foreground'>
                       RGBA({selectedColor.r}, {selectedColor.g},{' '}
-                      {selectedColor.b}, {selectedColor.a.toFixed(2)})
+                      {selectedColor.b})
                     </p>
                     <p className='text-sm text-muted-foreground'>
                       HSL(
