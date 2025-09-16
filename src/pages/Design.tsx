@@ -9,6 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { generateImage } from '@/lib/opeanai';
 import { Info, MessageSquare, Palette, Save } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { RgbColorPicker } from 'react-colorful';
@@ -60,35 +63,46 @@ export default function Design() {
     b: 246,
   });
   const [currentStep, setCurrentStep] = useState(1);
+  const [prompt, setPrompt] = useState('');
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(
+    null,
+  );
 
-  // Generate theme JSON from selected color
-  const generateThemeFromColor = (color: {
-    r: number;
-    g: number;
-    b: number;
-  }) => {
+  // Generate theme JSON from selected color and optional background image
+  const generateThemeFromColor = (
+    color: {
+      r: number;
+      g: number;
+      b: number;
+    },
+    backgroundImageUrl?: string | null,
+  ) => {
     const hsl = rgbToHsl(color.r, color.g, color.b);
-    return {
+    const theme = {
       name: 'design',
       displayName: 'Design',
       mostLike: 'dark',
       inherits: 'color',
       schemaVersion: 1,
+      backgroundImage: backgroundImageUrl,
       colors: {
         background: `hsl(${hsl.h} ${hsl.s}% ${hsl.l}%)`,
       },
     };
+
+    return theme;
   };
 
-  // Apply theme when color changes
+  // Apply theme when color or background image changes
   useEffect(() => {
     const themeJson = JSON.stringify(
-      generateThemeFromColor(selectedColor),
+      generateThemeFromColor(selectedColor, generatedImageUrl),
       null,
       2,
     );
     setCustomTheme(themeJson);
-  }, [selectedColor, setCustomTheme]);
+  }, [selectedColor, generatedImageUrl, setCustomTheme]);
 
   const handleNextStep = () => {
     if (currentStep < 3) {
@@ -99,6 +113,32 @@ export default function Design() {
   const handlePrevStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handleGenerateImage = async () => {
+    if (!prompt.trim()) {
+      toast.error('Please enter a prompt');
+      return;
+    }
+
+    setIsGeneratingImage(true);
+    try {
+      const colorString = `RGB(${selectedColor.r}, ${selectedColor.g}, ${selectedColor.b})`;
+      const imageUrl = await generateImage(prompt, colorString);
+
+      if (imageUrl) {
+        setGeneratedImageUrl(imageUrl);
+        toast.success('Image generated successfully!');
+        console.log('Generated image URL:', imageUrl);
+      } else {
+        toast.error('Failed to generate image');
+      }
+    } catch (error) {
+      console.error('Error generating image:', error);
+      toast.error('Error generating image');
+    } finally {
+      setIsGeneratingImage(false);
     }
   };
 
@@ -181,15 +221,56 @@ export default function Design() {
             <div className='text-center'>
               <h3 className='text-lg font-semibold mb-2'>Add Your Prompt</h3>
               <p className='text-muted-foreground mb-6'>
-                Describe the style and mood you want for your theme
+                Describe the style and mood you want for your theme. An image
+                will be generated using your selected color and prompt.
               </p>
             </div>
 
-            <div className='text-center py-12'>
-              <MessageSquare className='h-16 w-16 mx-auto text-muted-foreground mb-4' />
-              <p className='text-muted-foreground'>
-                Prompt input will be implemented here
-              </p>
+            <div className='space-y-4'>
+              <div className='space-y-2'>
+                <Label htmlFor='prompt'>Theme Description</Label>
+                <Textarea
+                  id='prompt'
+                  placeholder='e.g., "A modern minimalist design with clean lines and subtle shadows"'
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  className='min-h-[100px]'
+                />
+              </div>
+
+              <div className='text-center'>
+                <Button
+                  onClick={handleGenerateImage}
+                  disabled={isGeneratingImage || !prompt.trim()}
+                  className='w-full'
+                >
+                  {isGeneratingImage ? (
+                    <>
+                      <div className='animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2' />
+                      Generating Image...
+                    </>
+                  ) : (
+                    <>
+                      <MessageSquare className='h-4 w-4 mr-2' />
+                      Generate Image
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              {/* Image Preview */}
+              {generatedImageUrl && (
+                <div className='space-y-2'>
+                  <Label>Generated Image Preview</Label>
+                  <div className='flex justify-center'>
+                    <img
+                      src={generatedImageUrl}
+                      alt='Generated theme image'
+                      className='max-w-full h-auto max-h-64 rounded-lg border border-border shadow-sm'
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         );
