@@ -44,6 +44,16 @@ function applyCommonThemeProperties(theme: Theme, root: HTMLElement): void {
 }
 
 function applyThemeVariables(theme: Theme, root: HTMLElement): void {
+  // Apply color-scheme based on mostLike property
+  if (theme.mostLike) {
+    root.style.setProperty(
+      'color-scheme',
+      theme.mostLike === 'light' ? 'dark' : 'light',
+      'important',
+    );
+  } else {
+    root.style.removeProperty('color-scheme');
+  }
   // Create mappings from theme properties to CSS variables
   const variableMappings = [
     {

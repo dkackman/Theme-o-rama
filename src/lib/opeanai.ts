@@ -1,6 +1,5 @@
 import OpenAI from 'openai';
 
-
 let openai: OpenAI | null = null;
 
 if (import.meta.env.MODE === 'development') {

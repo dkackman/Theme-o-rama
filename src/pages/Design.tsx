@@ -82,7 +82,7 @@ export default function Design() {
     const theme = {
       name: 'design',
       displayName: 'Design',
-      mostLike: 'dark',
+      mostLike: hsl.l > 50 ? 'light' : 'dark',
       inherits: 'color',
       schemaVersion: 1,
       backgroundImage: backgroundImageUrl,
