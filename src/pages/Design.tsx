@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { generateImage } from '@/lib/opeanai';
@@ -17,6 +18,27 @@ import { useEffect, useState } from 'react';
 import { RgbColorPicker } from 'react-colorful';
 import { toast } from 'react-toastify';
 import { useTheme } from 'theme-o-rama';
+
+// Utility function to validate filename
+const isValidFilename = (filename: string): boolean => {
+  // Check for invalid characters and ensure it's not empty
+  const invalidChars = /[<>:"/\\|?*]/;
+  // Check for control characters (ASCII 0-31)
+  const hasControlChars = (str: string) => {
+    for (let i = 0; i < str.length; i++) {
+      const charCode = str.charCodeAt(i);
+      if (charCode >= 0 && charCode <= 31) {
+        return true;
+      }
+    }
+    return false;
+  };
+  return (
+    filename.trim().length > 0 &&
+    !invalidChars.test(filename) &&
+    !hasControlChars(filename)
+  );
+};
 
 // Utility function to convert RGB to HSL
 const rgbToHsl = (r: number, g: number, b: number) => {
@@ -58,9 +80,9 @@ const rgbToHsl = (r: number, g: number, b: number) => {
 export default function Design() {
   const { setCustomTheme } = useTheme();
   const [selectedColor, setSelectedColor] = useState({
-    r: 59,
-    g: 130,
-    b: 246,
+    r: 27,
+    g: 30,
+    b: 51,
   });
   const [currentStep, setCurrentStep] = useState(1);
   const [prompt, setPrompt] = useState('');
@@ -68,6 +90,8 @@ export default function Design() {
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(
     null,
   );
+  const [themeName, setThemeName] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   // Generate theme JSON from selected color and optional background image
   const generateThemeFromColor = (
@@ -77,11 +101,13 @@ export default function Design() {
       b: number;
     },
     backgroundImageUrl?: string | null,
+    name?: string,
   ) => {
     const hsl = rgbToHsl(color.r, color.g, color.b);
+    const themeName = name || 'design';
     const theme = {
-      name: 'design',
-      displayName: 'Design',
+      name: themeName,
+      displayName: themeName,
       mostLike: hsl.l > 50 ? 'light' : 'dark',
       inherits: 'color',
       schemaVersion: 1,
@@ -94,15 +120,15 @@ export default function Design() {
     return theme;
   };
 
-  // Apply theme when color or background image changes
+  // Apply theme when color, background image, or theme name changes
   useEffect(() => {
     const themeJson = JSON.stringify(
-      generateThemeFromColor(selectedColor, generatedImageUrl),
+      generateThemeFromColor(selectedColor, generatedImageUrl, themeName),
       null,
       2,
     );
     setCustomTheme(themeJson);
-  }, [selectedColor, generatedImageUrl, setCustomTheme]);
+  }, [selectedColor, generatedImageUrl, themeName, setCustomTheme]);
 
   const handleNextStep = () => {
     if (currentStep < 3) {
@@ -129,8 +155,6 @@ export default function Design() {
 
       if (imageUrl) {
         setGeneratedImageUrl(imageUrl);
-        toast.success('Image generated successfully!');
-        console.log('Generated image URL:', imageUrl);
       } else {
         toast.error('Failed to generate image');
       }
@@ -142,9 +166,47 @@ export default function Design() {
     }
   };
 
-  const handleSave = () => {
-    // TODO: Implement save functionality
-    toast.success('Theme saved successfully!');
+  const handleSave = async () => {
+    if (!themeName.trim()) {
+      toast.error('Please enter a theme name');
+      return;
+    }
+
+    if (!isValidFilename(themeName)) {
+      toast.error('Theme name contains invalid characters for filename');
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      // Generate the final theme with the user-provided name
+      const finalTheme = generateThemeFromColor(
+        selectedColor,
+        generatedImageUrl, // This already contains the base64 data
+        themeName.trim(),
+      );
+
+      // Create the theme JSON string
+      const themeJson = JSON.stringify(finalTheme, null, 2);
+
+      // Create and download the file
+      const blob = new Blob([themeJson], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${themeName.trim()}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      toast.success('Theme saved successfully!');
+    } catch (error) {
+      console.error('Error saving theme:', error);
+      toast.error('Error saving theme');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const renderStepContent = () => {
@@ -281,15 +343,51 @@ export default function Design() {
             <div className='text-center'>
               <h3 className='text-lg font-semibold mb-2'>Save Your Theme</h3>
               <p className='text-muted-foreground mb-6'>
-                Review your theme and save it to your collection
+                Give your theme a name and save it to your collection
               </p>
             </div>
 
-            <div className='text-center py-12'>
-              <Save className='h-16 w-16 mx-auto text-muted-foreground mb-4' />
-              <p className='text-muted-foreground'>
-                Save functionality will be implemented here
-              </p>
+            <div className='space-y-4'>
+              <div className='space-y-2'>
+                <Label htmlFor='themeName'>Theme Name</Label>
+                <Input
+                  id='themeName'
+                  placeholder='Enter a name for your theme'
+                  value={themeName}
+                  onChange={(e) => setThemeName(e.target.value)}
+                  className='w-full'
+                />
+                {themeName && !isValidFilename(themeName) && (
+                  <p className='text-sm text-destructive'>
+                    Theme name contains invalid characters for filename
+                  </p>
+                )}
+              </div>
+
+              {/* Theme Preview */}
+              <div className='space-y-2'>
+                <Label>Theme Preview</Label>
+                <div className='p-4 border rounded-lg bg-background'>
+                  <div className='space-y-2'>
+                    <div className='flex items-center gap-2'>
+                      <div
+                        className='w-6 h-6 rounded border'
+                        style={{
+                          backgroundColor: `rgba(${selectedColor.r}, ${selectedColor.g}, ${selectedColor.b})`,
+                        }}
+                      />
+                      <span className='text-sm font-medium'>
+                        {themeName || 'Untitled Theme'}
+                      </span>
+                    </div>
+                    {generatedImageUrl && (
+                      <div className='text-xs text-muted-foreground'>
+                        Includes background image
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         );
@@ -360,9 +458,25 @@ export default function Design() {
                   {currentStep < 3 ? (
                     <Button onClick={handleNextStep}>Next</Button>
                   ) : (
-                    <Button onClick={handleSave}>
-                      <Save className='h-4 w-4 mr-2' />
-                      Save Theme
+                    <Button
+                      onClick={handleSave}
+                      disabled={
+                        isSaving ||
+                        !themeName.trim() ||
+                        !isValidFilename(themeName)
+                      }
+                    >
+                      {isSaving ? (
+                        <>
+                          <div className='animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2' />
+                          Saving...
+                        </>
+                      ) : (
+                        <>
+                          <Save className='h-4 w-4 mr-2' />
+                          Save Theme
+                        </>
+                      )}
                     </Button>
                   )}
                 </div>
