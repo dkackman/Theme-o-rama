@@ -22,6 +22,14 @@ interface NavProps {
 export function TopNav({ isCollapsed }: NavProps) {
   const className = isCollapsed ? 'h-5 w-5' : 'h-4 w-4';
 
+  // Enhanced Tauri detection - same as Design page
+  const isTauriEnvironment =
+    typeof window !== 'undefined' &&
+    (!!(window as any).__TAURI__ ||
+      !!(window as any).__TAURI_INTERNALS__ ||
+      typeof (window as any).__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
+      typeof (window as any).__TAURI_METADATA__ !== 'undefined');
+
   return (
     <nav
       className={`grid font-medium font-body ${isCollapsed ? 'gap-2' : ''}`}
@@ -50,9 +58,12 @@ export function TopNav({ isCollapsed }: NavProps) {
       <NavLink url={'/dialogs'} isCollapsed={isCollapsed} message='Dialogs'>
         <AppWindow className={className} />
       </NavLink>
-      <NavLink url={'/design'} isCollapsed={isCollapsed} message='Design'>
-        <Pencil className={className} />
-      </NavLink>
+      {/* Only show Design link in Tauri environment */}
+      {isTauriEnvironment && (
+        <NavLink url={'/design'} isCollapsed={isCollapsed} message='Design'>
+          <Pencil className={className} />
+        </NavLink>
+      )}
       <NavLink url={'/about'} isCollapsed={isCollapsed} message='About'>
         <Info className={className} />
       </NavLink>

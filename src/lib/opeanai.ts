@@ -33,10 +33,6 @@ export async function generateImage(prompt: string, color: string) {
   }
 
   const imageData = result.data[0].b64_json;
-
-  // ✅ Convert to usable format
-  //const imageBuffer = Buffer.from(imageData, 'base64');
-  // Save to file or create data URL for display
   return `data:image/png;base64,${imageData}`;
 }
 // const result = await openai.images.generate({

@@ -42,10 +42,13 @@ export default function ThemePreview() {
     // Enhanced Tauri detection - same as Design page
     const isTauri =
       typeof window !== 'undefined' &&
-      (!!(window as any).__TAURI__ ||
-        !!(window as any).__TAURI_INTERNALS__ ||
-        typeof (window as any).__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
-        typeof (window as any).__TAURI_METADATA__ !== 'undefined');
+      (!!(window as unknown as { __TAURI__: boolean }).__TAURI__ ||
+        !!(window as unknown as { __TAURI_INTERNALS__: boolean })
+          .__TAURI_INTERNALS__ ||
+        typeof (window as unknown as { __TAURI_PLUGIN_INTERNALS__: boolean })
+          .__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
+        typeof (window as unknown as { __TAURI_METADATA__: boolean })
+          .__TAURI_METADATA__ !== 'undefined');
 
     if (!isTauri) {
       throw new Error('Tauri environment not detected');
@@ -108,10 +111,13 @@ export default function ThemePreview() {
       // Enhanced Tauri detection - same as Design page
       const isTauriEnvironment =
         typeof window !== 'undefined' &&
-        (!!(window as any).__TAURI__ ||
-          !!(window as any).__TAURI_INTERNALS__ ||
-          typeof (window as any).__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
-          typeof (window as any).__TAURI_METADATA__ !== 'undefined');
+        (!!(window as unknown as { __TAURI__: boolean }).__TAURI__ ||
+          !!(window as unknown as { __TAURI_INTERNALS__: boolean })
+            .__TAURI_INTERNALS__ ||
+          typeof (window as unknown as { __TAURI_PLUGIN_INTERNALS__: boolean })
+            .__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
+          typeof (window as unknown as { __TAURI_METADATA__: boolean })
+            .__TAURI_METADATA__ !== 'undefined');
 
       if (isTauriEnvironment) {
         await downloadForTauri(canvas, filename);
