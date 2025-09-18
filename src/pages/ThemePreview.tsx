@@ -1,6 +1,7 @@
 import Header from '@/components/Header';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
+import { isTauriEnvironment } from '@/lib/utils';
 import html2canvas from 'html2canvas-pro';
 import { Download } from 'lucide-react';
 import { useEffect, useRef } from 'react';
@@ -39,18 +40,7 @@ export default function ThemePreview() {
     canvas: HTMLCanvasElement,
     filename: string,
   ) => {
-    // Enhanced Tauri detection - same as Design page
-    const isTauri =
-      typeof window !== 'undefined' &&
-      (!!(window as unknown as { __TAURI__: boolean }).__TAURI__ ||
-        !!(window as unknown as { __TAURI_INTERNALS__: boolean })
-          .__TAURI_INTERNALS__ ||
-        typeof (window as unknown as { __TAURI_PLUGIN_INTERNALS__: boolean })
-          .__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
-        typeof (window as unknown as { __TAURI_METADATA__: boolean })
-          .__TAURI_METADATA__ !== 'undefined');
-
-    if (!isTauri) {
+    if (!isTauriEnvironment()) {
       throw new Error('Tauri environment not detected');
     }
 
@@ -58,7 +48,6 @@ export default function ThemePreview() {
       const { save } = await import('@tauri-apps/plugin-dialog');
       const { writeFile } = await import('@tauri-apps/plugin-fs');
 
-      // Show save dialog
       const filePath = await save({
         defaultPath: filename,
         filters: [
@@ -70,7 +59,6 @@ export default function ThemePreview() {
       });
 
       if (filePath) {
-        // Convert canvas to blob and then to array buffer
         const blob = await new Promise<Blob>((resolve) => {
           canvas.toBlob((blob) => {
             if (blob) resolve(blob);
@@ -80,9 +68,8 @@ export default function ThemePreview() {
         const arrayBuffer = await blob.arrayBuffer();
         const uint8Array = new Uint8Array(arrayBuffer);
 
-        // Write file using Tauri's fs plugin
         await writeFile(filePath, uint8Array);
-        toast.success(`Theme preview saved to Downloads folder.`);
+        toast.success(`Theme preview saved.`);
       } else {
         // User cancelled the save dialog
         toast.info('Download cancelled');
@@ -108,18 +95,7 @@ export default function ThemePreview() {
 
       const filename = `${currentTheme.displayName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_theme_preview.png`;
 
-      // Enhanced Tauri detection - same as Design page
-      const isTauriEnvironment =
-        typeof window !== 'undefined' &&
-        (!!(window as unknown as { __TAURI__: boolean }).__TAURI__ ||
-          !!(window as unknown as { __TAURI_INTERNALS__: boolean })
-            .__TAURI_INTERNALS__ ||
-          typeof (window as unknown as { __TAURI_PLUGIN_INTERNALS__: boolean })
-            .__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
-          typeof (window as unknown as { __TAURI_METADATA__: boolean })
-            .__TAURI_METADATA__ !== 'undefined');
-
-      if (isTauriEnvironment) {
+      if (isTauriEnvironment()) {
         await downloadForTauri(canvas, filename);
       } else {
         downloadForWeb(canvas, filename);

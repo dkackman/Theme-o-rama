@@ -23,29 +23,6 @@ export function formatTimestamp(
   }).format(date);
 }
 
-export function formatAddress(
-  address: string,
-  chars = 8,
-  trailingChars: number = chars,
-): string {
-  const cleanAddress = address.startsWith('0x') ? address.slice(2) : address;
-
-  if (chars + trailingChars >= cleanAddress.length) {
-    return address;
-  }
-
-  return `${cleanAddress.slice(0, chars)}...${cleanAddress.slice(-trailingChars)}`;
-}
-
-export function formatUsdPrice(price: number): string {
-  if (price < 0.01) {
-    return '< 0.01¢';
-  } else if (price < 1) {
-    return `${(price * 100).toFixed(2)}¢`;
-  } else {
-    return `$${price.toFixed(2)}`;
-  }
-}
 export function isValidUrl(str: string) {
   try {
     // only allow http(s) schemes, not file, ftp, wss etc
@@ -124,4 +101,17 @@ export function decodeHexMessage(hexMessage: string): string {
 
 export function isHex(str: string): boolean {
   return /^(0x)?[0-9a-fA-F]+$/.test(str);
+}
+
+export function isTauriEnvironment() {
+  return (
+    typeof window !== 'undefined' &&
+    (!!(window as unknown as { __TAURI__: boolean }).__TAURI__ ||
+      !!(window as unknown as { __TAURI_INTERNALS__: boolean })
+        .__TAURI_INTERNALS__ ||
+      typeof (window as unknown as { __TAURI_PLUGIN_INTERNALS__: boolean })
+        .__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
+      typeof (window as unknown as { __TAURI_METADATA__: boolean })
+        .__TAURI_METADATA__ !== 'undefined')
+  );
 }

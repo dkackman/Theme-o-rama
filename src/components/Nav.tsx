@@ -3,32 +3,17 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import {
-  AppWindow,
-  Component,
-  Info,
-  Pencil,
-  SwatchBook,
-  Table,
-} from 'lucide-react';
+import { isTauriEnvironment } from '@/lib/utils';
+import { AppWindow, Component, Info, Pencil, SwatchBook } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Separator } from './ui/separator';
-
 interface NavProps {
   isCollapsed?: boolean;
 }
 
 export function TopNav({ isCollapsed }: NavProps) {
   const className = isCollapsed ? 'h-5 w-5' : 'h-4 w-4';
-
-  // Enhanced Tauri detection - same as Design page
-  const isTauriEnvironment =
-    typeof window !== 'undefined' &&
-    (!!(window as any).__TAURI__ ||
-      !!(window as any).__TAURI_INTERNALS__ ||
-      typeof (window as any).__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
-      typeof (window as any).__TAURI_METADATA__ !== 'undefined');
 
   return (
     <nav
@@ -52,14 +37,16 @@ export function TopNav({ isCollapsed }: NavProps) {
       >
         <Component className={className} />
       </NavLink>
-      <NavLink url={'/tables'} isCollapsed={isCollapsed} message='Tables'>
-        <Table className={className} />
-      </NavLink>
+      <NavLink
+        url={'/tables'}
+        isCollapsed={isCollapsed}
+        message='Tables'
+      ></NavLink>
       <NavLink url={'/dialogs'} isCollapsed={isCollapsed} message='Dialogs'>
         <AppWindow className={className} />
       </NavLink>
       {/* Only show Design link in Tauri environment */}
-      {isTauriEnvironment && (
+      {isTauriEnvironment() && (
         <NavLink url={'/design'} isCollapsed={isCollapsed} message='Design'>
           <Pencil className={className} />
         </NavLink>

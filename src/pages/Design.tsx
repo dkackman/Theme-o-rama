@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { generateImage } from '@/lib/opeanai';
+import { isTauriEnvironment } from '@/lib/utils';
 import { save } from '@tauri-apps/plugin-dialog';
 import { writeTextFile } from '@tauri-apps/plugin-fs';
 import { Info, MessageSquare, Palette, Save } from 'lucide-react';
@@ -191,17 +192,7 @@ export default function Design() {
       // Create the theme JSON string
       const themeJson = JSON.stringify(finalTheme, null, 2);
 
-      // Check if we're in Tauri mode - try multiple detection methods
-      const isTauri =
-        !!(window as unknown as { __TAURI__: boolean }).__TAURI__ ||
-        !!(window as unknown as { __TAURI_INTERNALS__: boolean })
-          .__TAURI_INTERNALS__ ||
-        typeof (window as unknown as { __TAURI_PLUGIN_INTERNALS__: boolean })
-          .__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
-        typeof (window as unknown as { __TAURI_METADATA__: boolean })
-          .__TAURI_METADATA__ !== 'undefined';
-
-      if (isTauri && save && writeTextFile) {
+      if (isTauriEnvironment() && save && writeTextFile) {
         try {
           // Use Tauri's native save dialog
           const filePath = await save({
