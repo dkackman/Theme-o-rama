@@ -13,6 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { generateImage } from '@/lib/opeanai';
+import { save } from '@tauri-apps/plugin-dialog';
+import { writeTextFile } from '@tauri-apps/plugin-fs';
 import { Info, MessageSquare, Palette, Save } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { RgbColorPicker } from 'react-colorful';
@@ -189,18 +191,57 @@ export default function Design() {
       // Create the theme JSON string
       const themeJson = JSON.stringify(finalTheme, null, 2);
 
-      // Create and download the file
-      const blob = new Blob([themeJson], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${themeName.trim()}.json`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      // Check if we're in Tauri mode - try multiple detection methods
+      const isTauri =
+        !!(window as unknown as { __TAURI__: boolean }).__TAURI__ ||
+        !!(window as unknown as { __TAURI_INTERNALS__: boolean })
+          .__TAURI_INTERNALS__ ||
+        typeof (window as unknown as { __TAURI_PLUGIN_INTERNALS__: boolean })
+          .__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
+        typeof (window as unknown as { __TAURI_METADATA__: boolean })
+          .__TAURI_METADATA__ !== 'undefined';
 
-      toast.success('Theme saved successfully!');
+      if (isTauri && save && writeTextFile) {
+        try {
+          // Use Tauri's native save dialog
+          const filePath = await save({
+            defaultPath: `${themeName.trim()}.json`,
+            filters: [
+              {
+                name: 'Theme Files',
+                extensions: ['json'],
+              },
+              {
+                name: 'All Files',
+                extensions: ['*'],
+              },
+            ],
+          });
+
+          if (filePath) {
+            await writeTextFile(filePath, themeJson);
+            toast.success('Theme saved successfully!');
+          } else {
+            // User cancelled the dialog
+            toast.info('Save cancelled');
+          }
+        } catch (error) {
+          console.error('Tauri save error:', error);
+          toast.error('Error saving with Tauri dialog');
+        }
+      } else {
+        // Fallback for web mode - use browser download
+        const blob = new Blob([themeJson], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${themeName.trim()}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        toast.success('Theme saved successfully!');
+      }
     } catch (error) {
       console.error('Error saving theme:', error);
       toast.error('Error saving theme');

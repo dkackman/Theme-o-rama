@@ -25,7 +25,9 @@
     }
   },
   "plugins": {
-    "window-state": null
+    "window-state": null,
+    "dialog": null,
+    "fs": null
   },
   "bundle": {
     "active": true,

@@ -39,8 +39,15 @@ export default function ThemePreview() {
     canvas: HTMLCanvasElement,
     filename: string,
   ) => {
-    // Only import Tauri modules when we're actually in Tauri environment
-    if (typeof window === 'undefined' || !('__TAURI__' in window)) {
+    // Enhanced Tauri detection - same as Design page
+    const isTauri =
+      typeof window !== 'undefined' &&
+      (!!(window as any).__TAURI__ ||
+        !!(window as any).__TAURI_INTERNALS__ ||
+        typeof (window as any).__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
+        typeof (window as any).__TAURI_METADATA__ !== 'undefined');
+
+    if (!isTauri) {
       throw new Error('Tauri environment not detected');
     }
 
@@ -97,8 +104,14 @@ export default function ThemePreview() {
       });
 
       const filename = `${currentTheme.displayName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_theme_preview.png`;
+
+      // Enhanced Tauri detection - same as Design page
       const isTauriEnvironment =
-        typeof window !== 'undefined' && '__TAURI__' in window;
+        typeof window !== 'undefined' &&
+        (!!(window as any).__TAURI__ ||
+          !!(window as any).__TAURI_INTERNALS__ ||
+          typeof (window as any).__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
+          typeof (window as any).__TAURI_METADATA__ !== 'undefined');
 
       if (isTauriEnvironment) {
         await downloadForTauri(canvas, filename);
