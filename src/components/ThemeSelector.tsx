@@ -1,3 +1,4 @@
+import { hasTag } from '@/lib/themes';
 import { Loader2 } from 'lucide-react';
 import { Theme, useTheme } from 'theme-o-rama';
 import { ThemeCard } from './ThemeCard';
@@ -27,9 +28,9 @@ export function ThemeSelector() {
     return <div className='text-center p-8'>No theme available</div>;
   }
 
-  const defaultThemes = availableThemes.sort((a: Theme, b: Theme) =>
-    a.displayName.localeCompare(b.displayName),
-  );
+  const defaultThemes = availableThemes
+    .filter((theme: Theme) => !hasTag(theme, 'hidden'))
+    .sort((a: Theme, b: Theme) => a.displayName.localeCompare(b.displayName));
 
   return (
     <div className='space-y-8'>

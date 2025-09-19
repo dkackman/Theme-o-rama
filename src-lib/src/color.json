@@ -3,6 +3,7 @@
   "displayName": "Color",
   "mostLike": "dark",
   "schemaVersion": 1,
+  "tags": ["hidden"],
   "colors": {
     "background": "hsl(220 30% 15%)",
     "foreground": "light-dark(color-mix(in hsl, var(--background) 8%, white 92%), color-mix(in hsl, var(--background) 10%, black 90%))",

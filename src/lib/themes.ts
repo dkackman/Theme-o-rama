@@ -1,5 +1,9 @@
 import { Theme, validateTheme } from 'theme-o-rama';
 
+export function hasTag(theme: Theme, tag: string): boolean {
+  return theme.tags?.includes(tag) === true;
+}
+
 export function validateThemeJson(json: string): void {
   const theme = validateTheme(json);
   if (theme?.buttonStyles) {
