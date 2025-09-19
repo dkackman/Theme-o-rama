@@ -12,10 +12,14 @@ import {
 import { Label } from '@/components/ui/label';
 import { useErrors } from '@/hooks/useErrors';
 import { validateThemeJson } from '@/lib/themes';
+import { isTauriEnvironment } from '@/lib/utils';
+import { open } from '@tauri-apps/plugin-dialog';
+import { readTextFile } from '@tauri-apps/plugin-fs';
 import {
   Check,
   Copy,
   Eye,
+  FolderOpen,
   Image,
   Loader2,
   Maximize2,
@@ -185,6 +189,66 @@ export default function Themes() {
     ) as HTMLInputElement;
     if (fileInput) {
       fileInput.value = '';
+    }
+  };
+
+  const handleOpenTheme = async () => {
+    if (!isTauriEnvironment()) {
+      addError({
+        kind: 'invalid',
+        reason: 'Open Theme is only available in the desktop app',
+      });
+      return;
+    }
+
+    try {
+      // Show file open dialog
+      const filePath = await open({
+        filters: [
+          {
+            name: 'Theme Files',
+            extensions: ['json'],
+          },
+          {
+            name: 'All Files',
+            extensions: ['*'],
+          },
+        ],
+      });
+
+      if (filePath) {
+        // Read the file content
+        const fileContent = await readTextFile(filePath as string);
+
+        // Validate the JSON
+        try {
+          validateThemeJson(fileContent);
+          setValidationState('valid');
+
+          // Update the textarea with the file content
+          updateThemeJson(fileContent);
+
+          // Save to localStorage
+          localStorage.setItem('custom-theme-json', fileContent);
+
+          addError({
+            kind: 'success',
+            reason: 'Theme file loaded and validated successfully',
+          });
+        } catch (validationError) {
+          setValidationState('invalid');
+          addError({
+            kind: 'invalid',
+            reason: `Invalid theme file: ${validationError}`,
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error opening theme file:', error);
+      addError({
+        kind: 'invalid',
+        reason: 'Failed to open theme file',
+      });
     }
   };
 
@@ -377,6 +441,17 @@ export default function Themes() {
                       />
                       Validate
                     </Button>
+                    {/* Only show Open Theme button in Tauri environment */}
+                    {isTauriEnvironment() && (
+                      <Button
+                        onClick={handleOpenTheme}
+                        variant='outline'
+                        className='w-full sm:w-auto'
+                      >
+                        <FolderOpen className='mr-2 h-4 w-4' />
+                        Open Theme
+                      </Button>
+                    )}
                   </div>
                   <Button
                     onClick={handleCopyCurrentTheme}
