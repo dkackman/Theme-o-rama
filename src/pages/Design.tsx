@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -49,6 +50,10 @@ export default function Design() {
     'theme-o-rama-image-model',
     'dall-e-3',
   );
+  const [backdropFilters, setBackdropFilters] = useLocalStorage<boolean>(
+    'theme-o-rama-backdrop-filters',
+    true,
+  );
 
   // Generate theme JSON from selected color and optional background image
   const generateThemeFromColor = useCallback(
@@ -73,11 +78,52 @@ export default function Design() {
         colors: {
           themeColor: `hsl(${hsl.h} ${hsl.s}% ${hsl.l}%)`,
           background: backgroundImageUrl ? 'transparent' : `var(--theme-color)`,
+          ...(backdropFilters === false && {
+            cardBackdropFilter: null,
+            popoverBackdropFilter: null,
+            inputBackdropFilter: null,
+          }),
         },
+        ...(backdropFilters === false && {
+          sidebar: {
+            backdropFilter: null,
+          },
+          tables: {
+            header: {
+              backdropFilter: null,
+            },
+          },
+          row: {
+            backdropFilter: null,
+          },
+          footer: {
+            backdropFilter: null,
+          },
+          buttons: {
+            default: {
+              backdropFilter: null,
+            },
+            outline: {
+              backdropFilter: null,
+            },
+            secondary: {
+              backdropFilter: null,
+            },
+            destructive: {
+              backdropFilter: null,
+            },
+            ghost: {
+              backdropFilter: null,
+            },
+            link: {
+              backdropFilter: null,
+            },
+          },
+        }),
       };
       return theme;
     },
-    [],
+    [backdropFilters],
   );
 
   // Memoize the current theme to prevent unnecessary re-renders
@@ -308,6 +354,21 @@ export default function Design() {
                       <SelectItem value='gpt-image-1'>GPT Image 1</SelectItem>
                     </SelectContent>
                   </Select>
+                </div>
+                <div className='flex items-center space-x-2'>
+                  <Checkbox
+                    id='backdropFilters'
+                    checked={backdropFilters}
+                    onCheckedChange={(checked) =>
+                      setBackdropFilters(checked === true)
+                    }
+                  />
+                  <Label
+                    htmlFor='backdropFilters'
+                    className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                  >
+                    Backdrop filters
+                  </Label>
                 </div>
                 <div className='flex-1'>
                   <Button
