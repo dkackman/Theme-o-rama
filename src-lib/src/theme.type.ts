@@ -1,5 +1,5 @@
 // to generate json schema
-// typescript-json-schema src/theme.type.ts Theme --required > ./src/schema.json
+// typescript-json-schema src/lib/theme.type.ts Theme --required > ./src/themes/schema.json
 export interface Theme {
   name: string;
   displayName: string;
@@ -12,14 +12,12 @@ export interface Theme {
   backgroundPosition?: string;
   backgroundRepeat?: string;
   colors?: {
+    themeColor?: string;
     background?: string;
-    backgroundTransparent?: string;
     foreground?: string;
     card?: string;
-    cardTransparent?: string;
     cardForeground?: string;
     popover?: string;
-    popoverTransparent?: string;
     popoverForeground?: string;
     primary?: string;
     primaryForeground?: string;
@@ -272,7 +270,7 @@ export interface Theme {
     };
   };
   // Button style flags for dynamic CSS application
-  buttonStyles?: string[];
+  buttonStyle?: string;
   // Optional theme-specific switch configurations
   switches?: {
     checked?: {

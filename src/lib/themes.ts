@@ -1,19 +1,19 @@
 import { Theme, validateTheme } from 'theme-o-rama';
 
+export function hasTag(theme: Theme, tag: string): boolean {
+  return theme.tags?.includes(tag) === true;
+}
+
 export function validateThemeJson(json: string): void {
   const theme = validateTheme(json);
-  if (theme?.buttonStyles) {
-    theme.buttonStyles.forEach((buttonStyle: string) => {
-      if (
-        buttonStyle !== 'gradient' &&
-        buttonStyle !== 'shimmer' &&
-        buttonStyle !== 'pixel-art' &&
-        buttonStyle !== '3d-effects' &&
-        buttonStyle !== 'rounded-buttons'
-      ) {
-        throw new Error(`Invalid button style: ${buttonStyle}`);
-      }
-    });
+  if (
+    theme?.buttonStyle !== 'gradient' &&
+    theme?.buttonStyle !== 'shimmer' &&
+    theme?.buttonStyle !== 'pixel-art' &&
+    theme?.buttonStyle !== '3d-effects' &&
+    theme?.buttonStyle !== 'rounded-buttons'
+  ) {
+    throw new Error(`Invalid button style: ${theme?.buttonStyle}`);
   }
 }
 

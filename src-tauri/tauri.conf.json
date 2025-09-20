@@ -11,19 +11,24 @@
   "app": {
     "windows": [
       {
+        "label": "main",
         "title": "Theme-o-rama",
         "width": 1150,
         "height": 750,
         "resizable": true,
         "maximized": false,
-        "visible": true
+        "visible": false
       }
     ],
     "security": {
       "csp": null
     }
   },
-  "plugins": {},
+  "plugins": {
+    "window-state": null,
+    "dialog": null,
+    "fs": null
+  },
   "bundle": {
     "active": true,
     "targets": "all",

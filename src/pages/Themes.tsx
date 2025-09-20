@@ -12,10 +12,13 @@ import {
 import { Label } from '@/components/ui/label';
 import { useErrors } from '@/hooks/useErrors';
 import { validateThemeJson } from '@/lib/themes';
+import { isTauriEnvironment } from '@/lib/utils';
+import { open } from '@tauri-apps/plugin-dialog';
+import { readTextFile } from '@tauri-apps/plugin-fs';
 import {
   Check,
-  Copy,
   Eye,
+  FolderOpen,
   Image,
   Loader2,
   Maximize2,
@@ -107,36 +110,6 @@ export default function Themes() {
     setTheme('light');
   };
 
-  const handleCopyCurrentTheme = () => {
-    if (currentTheme) {
-      // Create a clean copy without internal/processed properties
-      const cleanTheme = {
-        name: currentTheme.name,
-        displayName: currentTheme.displayName,
-        schemaVersion: currentTheme.schemaVersion,
-        ...(currentTheme.inherits && { inherits: currentTheme.inherits }),
-        ...(currentTheme.mostLike && { mostLike: currentTheme.mostLike }),
-        ...(currentTheme.backgroundImage && {
-          backgroundImage: currentTheme.backgroundImage,
-        }),
-        ...(currentTheme.colors && { colors: currentTheme.colors }),
-        ...(currentTheme.fonts && { fonts: currentTheme.fonts }),
-        ...(currentTheme.corners && { corners: currentTheme.corners }),
-        ...(currentTheme.shadows && { shadows: currentTheme.shadows }),
-        ...(currentTheme.buttons && { buttons: currentTheme.buttons }),
-        ...(currentTheme.switches && { switches: currentTheme.switches }),
-        ...(currentTheme.tables && { tables: currentTheme.tables }),
-        ...(currentTheme.sidebar && { sidebar: currentTheme.sidebar }),
-        ...(currentTheme.buttonStyles && {
-          buttonStyles: currentTheme.buttonStyles,
-        }),
-      };
-
-      const themeJsonString = JSON.stringify(cleanTheme, null, 2);
-      updateThemeJson(themeJsonString);
-    }
-  };
-
   const handleValidateTheme = () => {
     if (!themeJson.trim()) {
       setValidationState('invalid');
@@ -185,6 +158,66 @@ export default function Themes() {
     ) as HTMLInputElement;
     if (fileInput) {
       fileInput.value = '';
+    }
+  };
+
+  const handleOpenTheme = async () => {
+    if (!isTauriEnvironment()) {
+      addError({
+        kind: 'invalid',
+        reason: 'Open Theme is only available in the desktop app',
+      });
+      return;
+    }
+
+    try {
+      // Show file open dialog
+      const filePath = await open({
+        filters: [
+          {
+            name: 'Theme Files',
+            extensions: ['json'],
+          },
+          {
+            name: 'All Files',
+            extensions: ['*'],
+          },
+        ],
+      });
+
+      if (filePath) {
+        // Read the file content
+        const fileContent = await readTextFile(filePath as string);
+
+        // Validate the JSON
+        try {
+          validateThemeJson(fileContent);
+          setValidationState('valid');
+
+          // Update the textarea with the file content
+          updateThemeJson(fileContent);
+
+          // Save to localStorage
+          localStorage.setItem('custom-theme-json', fileContent);
+
+          addError({
+            kind: 'success',
+            reason: 'Theme file loaded and validated successfully',
+          });
+        } catch (validationError) {
+          setValidationState('invalid');
+          addError({
+            kind: 'invalid',
+            reason: `Invalid theme file: ${validationError}`,
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error opening theme file:', error);
+      addError({
+        kind: 'invalid',
+        reason: 'Failed to open theme file',
+      });
     }
   };
 
@@ -378,15 +411,17 @@ export default function Themes() {
                       Validate
                     </Button>
                   </div>
-                  <Button
-                    onClick={handleCopyCurrentTheme}
-                    variant='outline'
-                    disabled={!currentTheme}
-                    className='w-full sm:w-auto sm:ml-auto'
-                  >
-                    <Copy className='mr-2 h-4 w-4' />
-                    Reset with Current Theme&apos;s JSON
-                  </Button>
+                  {/* Only show Open Theme button in Tauri environment */}
+                  {isTauriEnvironment() && (
+                    <Button
+                      onClick={handleOpenTheme}
+                      variant='outline'
+                      className='w-full sm:w-auto sm:ml-auto'
+                    >
+                      <FolderOpen className='mr-2 h-4 w-4' />
+                      Open Theme
+                    </Button>
+                  )}
                 </div>
 
                 {/* Background Image Upload Section */}

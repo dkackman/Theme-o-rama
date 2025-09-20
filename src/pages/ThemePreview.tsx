@@ -1,10 +1,12 @@
 import Header from '@/components/Header';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
+import { isTauriEnvironment } from '@/lib/utils';
 import html2canvas from 'html2canvas-pro';
 import { Download } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { applyThemeIsolated, useTheme } from 'theme-o-rama';
 
 export default function ThemePreview() {
@@ -31,44 +33,51 @@ export default function ThemePreview() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    toast.success(`Theme preview saved to Downloads folder.`);
   };
 
   const downloadForTauri = async (
     canvas: HTMLCanvasElement,
     filename: string,
   ) => {
-    // Only import Tauri modules when we're actually in Tauri environment
-    if (typeof window === 'undefined' || !('__TAURI__' in window)) {
+    if (!isTauriEnvironment()) {
       throw new Error('Tauri environment not detected');
     }
 
-    const { save } = await import('@tauri-apps/plugin-dialog');
-    const { writeFile } = await import('@tauri-apps/plugin-fs');
+    try {
+      const { save } = await import('@tauri-apps/plugin-dialog');
+      const { writeFile } = await import('@tauri-apps/plugin-fs');
 
-    // Show save dialog
-    const filePath = await save({
-      defaultPath: filename,
-      filters: [
-        {
-          name: 'PNG Images',
-          extensions: ['png'],
-        },
-      ],
-    });
-
-    if (filePath) {
-      // Convert canvas to blob and then to array buffer
-      const blob = await new Promise<Blob>((resolve) => {
-        canvas.toBlob((blob) => {
-          if (blob) resolve(blob);
-        }, 'image/png');
+      const filePath = await save({
+        defaultPath: filename,
+        filters: [
+          {
+            name: 'PNG Images',
+            extensions: ['png'],
+          },
+        ],
       });
 
-      const arrayBuffer = await blob.arrayBuffer();
-      const uint8Array = new Uint8Array(arrayBuffer);
+      if (filePath) {
+        const blob = await new Promise<Blob>((resolve) => {
+          canvas.toBlob((blob) => {
+            if (blob) resolve(blob);
+          }, 'image/png');
+        });
 
-      // Write file using Tauri's fs plugin
-      await writeFile(filePath, uint8Array);
+        const arrayBuffer = await blob.arrayBuffer();
+        const uint8Array = new Uint8Array(arrayBuffer);
+
+        await writeFile(filePath, uint8Array);
+        toast.success(`Theme preview saved.`);
+      } else {
+        // User cancelled the save dialog
+        toast.info('Download cancelled');
+      }
+    } catch (error) {
+      console.error('Error saving theme preview:', error);
+      toast.error('Failed to save theme preview. Please try again.');
+      throw error; // Re-throw to be caught by the main handler
     }
   };
 
@@ -85,16 +94,15 @@ export default function ThemePreview() {
       });
 
       const filename = `${currentTheme.displayName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_theme_preview.png`;
-      const isTauriEnvironment =
-        typeof window !== 'undefined' && '__TAURI__' in window;
 
-      if (isTauriEnvironment) {
+      if (isTauriEnvironment()) {
         await downloadForTauri(canvas, filename);
       } else {
         downloadForWeb(canvas, filename);
       }
     } catch (error) {
       console.error('Error generating theme preview:', error);
+      toast.error('Failed to generate theme preview. Please try again.');
     }
   };
 

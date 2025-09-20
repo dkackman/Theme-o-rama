@@ -1,31 +1,31 @@
 {
-  "name": "xch-light",
-  "displayName": "🌱 XCH Light",
+  "name": "xch-dark",
+  "displayName": "🌱 XCH Dark",
   "schemaVersion": 1,
   "backgroundImage": "background.png",
-  "inherits": "light",
-  "mostLike": "light",
+  "inherits": "dark",
+  "mostLike": "dark",
   "colors": {
-    "background": "rgba(255, 255, 255, 0.2)",
-    "foreground": "#2C323C",
-    "card": "rgba(255, 255, 255, 0.1)",
-    "cardForeground": "#2C323C",
+    "background": "transparent",
+    "foreground": "#edffb3",
+    "card": "transparent",
+    "cardForeground": "#e8f3fc",
     "cardBackdropFilter": "blur(7px) saturate(150%) brightness(0.9)",
-    "popover": "rgba(255, 255, 255, 0.1)",
-    "popoverForeground": "#2C323C",
+    "popover": "transparent",
+    "popoverForeground": "#e8f3fc",
     "popoverBackdropFilter": "blur(7px) saturate(150%) brightness(0.9)",
-    "primary": "#324053",
-    "primaryForeground": "#dfff75",
-    "secondary": "#b4bfdf",
-    "secondaryForeground": "#2C323C",
-    "muted": "#dbecfb",
-    "mutedForeground": "#2C323C",
-    "accent": "#dfff75",
-    "accentForeground": "#2C323C",
-    "destructive": "#ef4343",
+    "primary": "#dfff75",
+    "primaryForeground": "#1d2530",
+    "secondary": "#222c39",
+    "secondaryForeground": "#c9d2e8",
+    "muted": "#1d2530",
+    "mutedForeground": "#94a4d1",
+    "accent": "#d2e3fe",
+    "accentForeground": "#11161d",
+    "destructive": "#cf3030",
     "destructiveForeground": "#fafafa",
-    "border": "#c9d2e8",
-    "input": "#edf6fd",
+    "border": "#263140",
+    "input": "#1d2530",
     "ring": "#dfff75"
   },
   "tables": {
@@ -59,55 +59,55 @@
   "buttons": {
     "outline": {
       "background": "transparent",
-      "color": "#324053",
+      "color": "#dfff75",
       "border": "2px solid #dfff75",
       "borderRadius": "0.5rem",
-      "boxShadow": "0 1px 3px rgba(223, 255, 117, 0.2)",
+      "boxShadow": "0 0 10px rgba(223, 255, 117, 0.2)",
       "hover": {
         "background": "rgba(223, 255, 117, 0.1)",
-        "color": "#212a36",
+        "color": "#e7ff99",
         "transform": "translateY(-1px)",
-        "boxShadow": "0 2px 6px rgba(223, 255, 117, 0.3)"
+        "boxShadow": "0 0 20px rgba(223, 255, 117, 0.4)"
       }
     },
     "secondary": {
-      "background": "#b4bfdf",
-      "color": "#212a36",
-      "border": "1px solid #b4bfdf",
+      "background": "#222c39",
+      "color": "#c9d2e8",
+      "border": "1px solid #303d50",
       "borderRadius": "0.5rem",
-      "boxShadow": "0 1px 3px rgba(180, 191, 223, 0.4)",
-      "hover": {
-        "background": "#a6b3d9",
-        "transform": "translateY(-1px)",
-        "boxShadow": "0 2px 6px rgba(180, 191, 223, 0.5)"
-      }
-    },
-    "primary": {
-      "background": "#324053",
-      "color": "#dfff75",
-      "border": "1px solid #324053",
-      "borderRadius": "0.5rem",
-      "boxShadow": "0 2px 4px rgba(50, 64, 83, 0.3)",
+      "boxShadow": "0 2px 4px rgba(10, 12, 16, 0.3)",
       "hover": {
         "background": "#2a3646",
         "transform": "translateY(-1px)",
-        "boxShadow": "0 4px 8px rgba(50, 64, 83, 0.4)"
+        "boxShadow": "0 4px 8px rgba(10, 12, 16, 0.4)"
+      }
+    },
+    "primary": {
+      "background": "#dfff75",
+      "color": "#1d2530",
+      "border": "1px solid #dfff75",
+      "borderRadius": "0.5rem",
+      "boxShadow": "0 0 15px rgba(223, 255, 117, 0.3)",
+      "hover": {
+        "background": "#e5ff8f",
+        "transform": "translateY(-1px)",
+        "boxShadow": "0 0 25px rgba(223, 255, 117, 0.5)"
       }
     }
   },
   "switches": {
     "checked": {
       "background": "#dfff75",
-      "thumbColor": "#324053"
+      "thumbColor": "#11161d"
     },
     "unchecked": {
-      "background": "#c9d2e8",
-      "thumbColor": "#ffffff"
+      "background": "#263140",
+      "thumbColor": "#94a4d1"
     }
   },
   "shadows": {
-    "card": "0 4px 6px -1px rgba(187, 220, 247, 0.1), 0 2px 4px -1px rgba(187, 220, 247, 0.06)",
-    "button": "0 1px 3px rgba(223, 255, 117, 0.2)",
-    "input": "0 1px 2px rgba(201, 210, 232, 0.1)"
+    "card": "0 4px 6px -1px rgba(10, 12, 16, 0.3), 0 2px 4px -1px rgba(10, 12, 16, 0.2)",
+    "button": "0 0 10px rgba(223, 255, 117, 0.2)",
+    "input": "0 2px 4px rgba(10, 12, 16, 0.2)"
   }
 }

@@ -23,29 +23,26 @@ export function formatTimestamp(
   }).format(date);
 }
 
-export function formatAddress(
-  address: string,
-  chars = 8,
-  trailingChars: number = chars,
-): string {
-  const cleanAddress = address.startsWith('0x') ? address.slice(2) : address;
+export const isValidFilename = (filename: string): boolean => {
+  // Check for invalid characters and ensure it's not empty
+  const invalidChars = /[<>:"/\\|?*]/;
+  // Check for control characters (ASCII 0-31)
+  const hasControlChars = (str: string) => {
+    for (let i = 0; i < str.length; i++) {
+      const charCode = str.charCodeAt(i);
+      if (charCode >= 0 && charCode <= 31) {
+        return true;
+      }
+    }
+    return false;
+  };
+  return (
+    filename.trim().length > 0 &&
+    !invalidChars.test(filename) &&
+    !hasControlChars(filename)
+  );
+};
 
-  if (chars + trailingChars >= cleanAddress.length) {
-    return address;
-  }
-
-  return `${cleanAddress.slice(0, chars)}...${cleanAddress.slice(-trailingChars)}`;
-}
-
-export function formatUsdPrice(price: number): string {
-  if (price < 0.01) {
-    return '< 0.01¢';
-  } else if (price < 1) {
-    return `${(price * 100).toFixed(2)}¢`;
-  } else {
-    return `$${price.toFixed(2)}`;
-  }
-}
 export function isValidUrl(str: string) {
   try {
     // only allow http(s) schemes, not file, ftp, wss etc
@@ -64,64 +61,51 @@ export function isValidUrl(str: string) {
   }
 }
 
-export function isValidAssetId(assetId: string): boolean {
-  return /^[a-fA-F0-9]{64}$/.test(assetId);
-}
+export const rgbToHsl = (r: number, g: number, b: number) => {
+  r /= 255;
+  g /= 255;
+  b /= 255;
 
-function sanitizeHex(hex: string): string {
-  return hex.replace(/0x/i, '');
-}
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0;
+  let s = 0;
+  const l = (max + min) / 2;
 
-const HEX_STRINGS = '0123456789abcdef';
-const MAP_HEX: Record<string, number> = {
-  '0': 0,
-  '1': 1,
-  '2': 2,
-  '3': 3,
-  '4': 4,
-  '5': 5,
-  '6': 6,
-  '7': 7,
-  '8': 8,
-  '9': 9,
-  a: 10,
-  b: 11,
-  c: 12,
-  d: 13,
-  e: 14,
-  f: 15,
-  A: 10,
-  B: 11,
-  C: 12,
-  D: 13,
-  E: 14,
-  F: 15,
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
+    }
+    h /= 6;
+  }
+
+  return {
+    h: Math.round(h * 360),
+    s: Math.round(s * 100),
+    l: Math.round(l * 100),
+  };
 };
 
-export function toHex(bytes: Uint8Array): string {
-  return Array.from(bytes)
-    .map((b) => HEX_STRINGS[b >> 4] + HEX_STRINGS[b & 15])
-    .join('');
-}
-
-function fromHex(hex: string): Uint8Array {
-  const bytes = new Uint8Array(Math.floor(hex.length / 2));
-  let i;
-  for (i = 0; i < bytes.length; i++) {
-    const a = MAP_HEX[hex[i * 2]];
-    const b = MAP_HEX[hex[i * 2 + 1]];
-    if (a === undefined || b === undefined) {
-      break;
-    }
-    bytes[i] = (a << 4) | b;
-  }
-  return i === bytes.length ? bytes : bytes.slice(0, i);
-}
-
-export function decodeHexMessage(hexMessage: string): string {
-  return new TextDecoder().decode(fromHex(sanitizeHex(hexMessage)));
-}
-
-export function isHex(str: string): boolean {
-  return /^(0x)?[0-9a-fA-F]+$/.test(str);
+export function isTauriEnvironment() {
+  return (
+    typeof window !== 'undefined' &&
+    (!!(window as unknown as { __TAURI__: boolean }).__TAURI__ ||
+      !!(window as unknown as { __TAURI_INTERNALS__: boolean })
+        .__TAURI_INTERNALS__ ||
+      typeof (window as unknown as { __TAURI_PLUGIN_INTERNALS__: boolean })
+        .__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
+      typeof (window as unknown as { __TAURI_METADATA__: boolean })
+        .__TAURI_METADATA__ !== 'undefined')
+  );
 }
