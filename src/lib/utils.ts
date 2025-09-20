@@ -61,67 +61,42 @@ export function isValidUrl(str: string) {
   }
 }
 
-export function isValidAssetId(assetId: string): boolean {
-  return /^[a-fA-F0-9]{64}$/.test(assetId);
-}
+export const rgbToHsl = (r: number, g: number, b: number) => {
+  r /= 255;
+  g /= 255;
+  b /= 255;
 
-function sanitizeHex(hex: string): string {
-  return hex.replace(/0x/i, '');
-}
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0;
+  let s = 0;
+  const l = (max + min) / 2;
 
-const HEX_STRINGS = '0123456789abcdef';
-const MAP_HEX: Record<string, number> = {
-  '0': 0,
-  '1': 1,
-  '2': 2,
-  '3': 3,
-  '4': 4,
-  '5': 5,
-  '6': 6,
-  '7': 7,
-  '8': 8,
-  '9': 9,
-  a: 10,
-  b: 11,
-  c: 12,
-  d: 13,
-  e: 14,
-  f: 15,
-  A: 10,
-  B: 11,
-  C: 12,
-  D: 13,
-  E: 14,
-  F: 15,
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
+    }
+    h /= 6;
+  }
+
+  return {
+    h: Math.round(h * 360),
+    s: Math.round(s * 100),
+    l: Math.round(l * 100),
+  };
 };
 
-export function toHex(bytes: Uint8Array): string {
-  return Array.from(bytes)
-    .map((b) => HEX_STRINGS[b >> 4] + HEX_STRINGS[b & 15])
-    .join('');
-}
-
-function fromHex(hex: string): Uint8Array {
-  const bytes = new Uint8Array(Math.floor(hex.length / 2));
-  let i;
-  for (i = 0; i < bytes.length; i++) {
-    const a = MAP_HEX[hex[i * 2]];
-    const b = MAP_HEX[hex[i * 2 + 1]];
-    if (a === undefined || b === undefined) {
-      break;
-    }
-    bytes[i] = (a << 4) | b;
-  }
-  return i === bytes.length ? bytes : bytes.slice(0, i);
-}
-
-export function decodeHexMessage(hexMessage: string): string {
-  return new TextDecoder().decode(fromHex(sanitizeHex(hexMessage)));
-}
-
-export function isHex(str: string): boolean {
-  return /^(0x)?[0-9a-fA-F]+$/.test(str);
-}
 
 export function isTauriEnvironment() {
   return (

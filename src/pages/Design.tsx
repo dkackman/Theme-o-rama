@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { generateImage } from '@/lib/opeanai';
-import { isTauriEnvironment, isValidFilename } from '@/lib/utils';
+import { isTauriEnvironment, isValidFilename, rgbToHsl } from '@/lib/utils';
 import { save } from '@tauri-apps/plugin-dialog';
 import { writeTextFile } from '@tauri-apps/plugin-fs';
 import { Info, MessageSquare, Palette, Save } from 'lucide-react';
@@ -21,43 +21,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { RgbColorPicker } from 'react-colorful';
 import { toast } from 'react-toastify';
 import { useTheme } from 'theme-o-rama';
-
-// Utility function to convert RGB to HSL
-const rgbToHsl = (r: number, g: number, b: number) => {
-  r /= 255;
-  g /= 255;
-  b /= 255;
-
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  let h = 0;
-  let s = 0;
-  const l = (max + min) / 2;
-
-  if (max !== min) {
-    const d = max - min;
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-    switch (max) {
-      case r:
-        h = (g - b) / d + (g < b ? 6 : 0);
-        break;
-      case g:
-        h = (b - r) / d + 2;
-        break;
-      case b:
-        h = (r - g) / d + 4;
-        break;
-    }
-    h /= 6;
-  }
-
-  return {
-    h: Math.round(h * 360),
-    s: Math.round(s * 100),
-    l: Math.round(l * 100),
-  };
-};
 
 export default function Design() {
   const { setCustomTheme } = useTheme();
@@ -136,7 +99,7 @@ export default function Design() {
     setIsGeneratingImage(true);
     try {
       const colorString = `RGB(${selectedColor.r}, ${selectedColor.g}, ${selectedColor.b})`;
-      const imageUrl = await generateImage(prompt, colorString);
+      const imageUrl = await generateImage(prompt, colorString, false);
 
       if (imageUrl) {
         setGeneratedImageUrl(imageUrl);

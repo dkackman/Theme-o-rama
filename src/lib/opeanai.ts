@@ -13,7 +13,7 @@ if (import.meta.env.MODE === 'development') {
   openai = null;
 }
 
-export async function generateImage(prompt: string, color: string) {
+export async function generateImage(prompt: string, color: string, gpt1: boolean) {
   if (openai === null) {
     throw new Error('OpenAI is not initialized');
   }
@@ -23,19 +23,27 @@ export async function generateImage(prompt: string, color: string) {
     so it should not have any text or logo. The prompt describing the subject of the image is:
      ${prompt} `;
 
+  if (gpt1) {
+    const result = await openai.images.generate({
+      model: 'gpt-image-1',
+      prompt: actualPrompt,
+    });
+    if (!result.data) {
+      throw new Error('No image data returned');
+    }
+    console.log(result);
+    const imageData = result.data[0].b64_json;
+    return `data:image/png;base64,${imageData}`;
+  }
+
   const result = await openai.images.generate({
-    model: 'gpt-image-1',
+    model: 'dall-e-3',
     prompt: actualPrompt,
-    //size: '1024x1024',
+    size: '1024x1024',
   });
   if (!result.data) {
     throw new Error('No image data returned');
   }
-
-  const imageData = result.data[0].b64_json;
-  return `data:image/png;base64,${imageData}`;
+  console.log(result);
+  return result.data[0].url;
 }
-// const result = await openai.images.generate({
-//     model: "gpt-image-1",
-//     prompt: actualPrompt,
-// });
