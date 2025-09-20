@@ -97,7 +97,6 @@ export const rgbToHsl = (r: number, g: number, b: number) => {
   };
 };
 
-
 export function isTauriEnvironment() {
   return (
     typeof window !== 'undefined' &&

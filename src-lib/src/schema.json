@@ -559,6 +559,9 @@
         },
         "secondaryForeground": {
           "type": "string"
+        },
+        "themeColor": {
+          "type": "string"
         }
       },
       "type": "object"

@@ -12,6 +12,7 @@ export interface Theme {
   backgroundPosition?: string;
   backgroundRepeat?: string;
   colors?: {
+    themeColor?: string;
     background?: string;
     foreground?: string;
     card?: string;

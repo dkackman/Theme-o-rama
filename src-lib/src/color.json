@@ -5,28 +5,29 @@
   "schemaVersion": 1,
   "tags": ["hidden"],
   "colors": {
-    "background": "hsl(220 30% 15%)",
-    "foreground": "light-dark(color-mix(in hsl, var(--background) 8%, white 92%), color-mix(in hsl, var(--background) 10%, black 90%))",
-    "card": "color-mix(in hsl, var(--background) 0%, white 20%)",
-    "cardForeground": "light-dark(color-mix(in hsl, var(--background) 6%, white 94%), color-mix(in hsl, var(--background) 8%, black 92%))",
-    "cardTransparent": "color-mix(in hsl, var(--background) 0%, white 20%)",
-    "popover": "color-mix(in hsl, var(--background) 0%, white 25%)",
-    "popoverForeground": "light-dark(color-mix(in hsl, var(--background) 6%, white 94%), color-mix(in hsl, var(--background) 8%, black 92%))",
-    "popoverTransparent": "color-mix(in hsl, var(--background) 0%, white 25%)",
-    "primary": "color-mix(in hsl, var(--background) 30%, hsl(220 100% 60%))",
-    "primaryForeground": "light-dark(color-mix(in hsl, var(--background) 3%, white 97%), color-mix(in hsl, var(--background) 5%, black 95%))",
-    "secondary": "color-mix(in hsl, var(--background) 40%, hsl(280 100% 50%))",
-    "secondaryForeground": "light-dark(color-mix(in hsl, var(--background) 3%, white 97%), color-mix(in hsl, var(--background) 5%, black 95%))",
-    "muted": "color-mix(in hsl, var(--background) 85%, white 15%)",
-    "mutedForeground": "light-dark(color-mix(in hsl, var(--background) 20%, white 80%), color-mix(in hsl, var(--background) 25%, black 75%))",
-    "accent": "color-mix(in hsl, var(--background) 35%, hsl(320 100% 65%))",
-    "accentForeground": "light-dark(color-mix(in hsl, var(--background) 3%, white 97%), color-mix(in hsl, var(--background) 5%, black 95%))",
-    "destructive": "color-mix(in hsl, var(--background) 25%, hsl(0 100% 60%))",
-    "destructiveForeground": "light-dark(color-mix(in hsl, var(--background) 3%, white 97%), color-mix(in hsl, var(--background) 5%, black 95%))",
-    "border": "color-mix(in hsl, var(--background) 0%, white 30%)",
-    "input": "light-dark(color-mix(in hsl, var(--background) 0%, white 80%), color-mix(in hsl, var(--background) 0%, black 80%))",
-    "inputBackground": "light-dark(color-mix(in hsl, var(--background) 0%, black 60%), color-mix(in hsl, var(--background) 0%, white 70%))",
-    "ring": "color-mix(in hsl, var(--background) 70%, hsl(220 100% 70%) 30%)",
+    "themeColor": "hsl(220 30% 15%)",
+    "background": "var(--theme-color)",
+    "foreground": "light-dark(color-mix(in hsl, var(--theme-color) 8%, white 92%), color-mix(in hsl, var(--theme-color) 10%, black 90%))",
+    "card": "color-mix(in hsl, var(--theme-color) 0%, white 20%)",
+    "cardForeground": "light-dark(color-mix(in hsl, var(--theme-color) 6%, white 94%), color-mix(in hsl, var(--theme-color) 8%, black 92%))",
+    "cardTransparent": "color-mix(in hsl, var(--theme-color) 0%, white 20%)",
+    "popover": "color-mix(in hsl, var(--theme-color) 0%, white 25%)",
+    "popoverForeground": "light-dark(color-mix(in hsl, var(--theme-color) 6%, white 94%), color-mix(in hsl, var(--theme-color) 8%, black 92%))",
+    "popoverTransparent": "color-mix(in hsl, var(--theme-color) 0%, white 25%)",
+    "primary": "color-mix(in hsl, var(--theme-color) 30%, hsl(220 100% 60%))",
+    "primaryForeground": "light-dark(color-mix(in hsl, var(--theme-color) 3%, white 97%), color-mix(in hsl, var(--theme-color) 5%, black 95%))",
+    "secondary": "color-mix(in hsl, var(--theme-color) 40%, hsl(280 100% 50%))",
+    "secondaryForeground": "light-dark(color-mix(in hsl, var(--theme-color) 3%, white 97%), color-mix(in hsl, var(--theme-color) 5%, black 95%))",
+    "muted": "color-mix(in hsl, var(--theme-color) 85%, white 15%)",
+    "mutedForeground": "light-dark(color-mix(in hsl, var(--theme-color) 20%, white 80%), color-mix(in hsl, var(--theme-color) 25%, black 75%))",
+    "accent": "color-mix(in hsl, var(--theme-color) 35%, hsl(320 100% 65%))",
+    "accentForeground": "light-dark(color-mix(in hsl, var(--theme-color) 3%, white 97%), color-mix(in hsl, var(--theme-color) 5%, black 95%))",
+    "destructive": "color-mix(in hsl, var(--theme-color) 25%, hsl(0 100% 60%))",
+    "destructiveForeground": "light-dark(color-mix(in hsl, var(--theme-color) 3%, white 97%), color-mix(in hsl, var(--theme-color) 5%, black 95%))",
+    "border": "color-mix(in hsl, var(--theme-color) 0%, white 30%)",
+    "input": "light-dark(color-mix(in hsl, var(--theme-color) 0%, white 80%), color-mix(in hsl, var(--theme-color) 0%, black 80%))",
+    "inputBackground": "light-dark(color-mix(in hsl, var(--theme-color) 0%, black 60%), color-mix(in hsl, var(--theme-color) 0%, white 70%))",
+    "ring": "color-mix(in hsl, var(--theme-color) 70%, hsl(220 100% 70%) 30%)",
     "cardBackdropFilter": "blur(16px) saturate(180%) brightness(1.1)",
     "popoverBackdropFilter": "blur(20px) saturate(180%) brightness(1.1)",
     "inputBackdropFilter": "blur(8px) saturate(150%) brightness(1.05)"
@@ -48,181 +49,181 @@
   },
   "shadows": {
     "none": "none",
-    "sm": "0 1px 2px 0 color-mix(in hsl, var(--background) 0%, black 20%)",
-    "md": "0 4px 6px -1px color-mix(in hsl, var(--background) 0%, black 25%)",
-    "lg": "0 10px 15px -3px color-mix(in hsl, var(--background) 0%, black 30%)",
-    "xl": "0 20px 25px -5px color-mix(in hsl, var(--background) 0%, black 35%)",
-    "inner": "inset 0 2px 4px 0 color-mix(in hsl, var(--background) 0%, black 30%)",
-    "card": "0 4px 6px -1px color-mix(in hsl, var(--background) 0%, black 25%), 0 2px 4px -1px color-mix(in hsl, var(--background) 0%, black 20%)",
-    "button": "0 2px 4px 0 color-mix(in hsl, var(--background) 0%, black 30%)",
-    "dropdown": "0 10px 15px -3px color-mix(in hsl, var(--background) 0%, black 30%), 0 4px 6px -2px color-mix(in hsl, var(--background) 0%, black 20%)"
+    "sm": "0 1px 2px 0 color-mix(in hsl, var(--theme-color) 0%, black 20%)",
+    "md": "0 4px 6px -1px color-mix(in hsl, var(--theme-color) 0%, black 25%)",
+    "lg": "0 10px 15px -3px color-mix(in hsl, var(--theme-color) 0%, black 30%)",
+    "xl": "0 20px 25px -5px color-mix(in hsl, var(--theme-color) 0%, black 35%)",
+    "inner": "inset 0 2px 4px 0 color-mix(in hsl, var(--theme-color) 0%, black 30%)",
+    "card": "0 4px 6px -1px color-mix(in hsl, var(--theme-color) 0%, black 25%), 0 2px 4px -1px color-mix(in hsl, var(--theme-color) 0%, black 20%)",
+    "button": "0 2px 4px 0 color-mix(in hsl, var(--theme-color) 0%, black 30%)",
+    "dropdown": "0 10px 15px -3px color-mix(in hsl, var(--theme-color) 0%, black 30%), 0 4px 6px -2px color-mix(in hsl, var(--theme-color) 0%, black 20%)"
   },
   "sidebar": {
-    "background": "color-mix(in hsl, var(--background) 0%, white 5%)",
+    "background": "color-mix(in hsl, var(--theme-color) 0%, white 5%)",
     "backdropFilter": "blur(20px) saturate(180%) brightness(1.1)",
-    "border": "color-mix(in hsl, var(--background) 0%, white 20%)"
+    "border": "color-mix(in hsl, var(--theme-color) 0%, white 20%)"
   },
   "tables": {
-    "background": "color-mix(in hsl, var(--background) 0%, white 8%)",
-    "border": "1px solid color-mix(in hsl, var(--background) 0%, white 20%)",
-    "boxShadow": "0 4px 6px -1px color-mix(in hsl, var(--background) 0%, black 25%)",
+    "background": "color-mix(in hsl, var(--theme-color) 0%, white 8%)",
+    "border": "1px solid color-mix(in hsl, var(--theme-color) 0%, white 20%)",
+    "boxShadow": "0 4px 6px -1px color-mix(in hsl, var(--theme-color) 0%, black 25%)",
     "header": {
-      "background": "color-mix(in hsl, var(--background) 85%, white 15%)",
-      "color": "light-dark(color-mix(in hsl, var(--background) 6%, white 94%), color-mix(in hsl, var(--background) 8%, black 92%))",
-      "border": "1px solid color-mix(in hsl, var(--background) 0%, white 25%)",
+      "background": "color-mix(in hsl, var(--theme-color) 85%, white 15%)",
+      "color": "light-dark(color-mix(in hsl, var(--theme-color) 6%, white 94%), color-mix(in hsl, var(--theme-color) 8%, black 92%))",
+      "border": "1px solid color-mix(in hsl, var(--theme-color) 0%, white 25%)",
       "backdropFilter": "blur(8px) saturate(150%) brightness(1.05)"
     },
     "row": {
-      "background": "color-mix(in hsl, var(--background) 0%, white 5%)",
-      "color": "light-dark(color-mix(in hsl, var(--background) 5%, white 95%), color-mix(in hsl, var(--background) 7%, black 93%))",
-      "border": "1px solid color-mix(in hsl, var(--background) 0%, white 10%)",
+      "background": "color-mix(in hsl, var(--theme-color) 0%, white 5%)",
+      "color": "light-dark(color-mix(in hsl, var(--theme-color) 5%, white 95%), color-mix(in hsl, var(--theme-color) 7%, black 93%))",
+      "border": "1px solid color-mix(in hsl, var(--theme-color) 0%, white 10%)",
       "backdropFilter": "blur(4px) saturate(120%) brightness(1.02)",
       "hover": {
-        "background": "color-mix(in hsl, var(--background) 92%, white 8%)",
-        "color": "light-dark(color-mix(in hsl, var(--background) 2%, white 98%), color-mix(in hsl, var(--background) 4%, black 96%))"
+        "background": "color-mix(in hsl, var(--theme-color) 92%, white 8%)",
+        "color": "light-dark(color-mix(in hsl, var(--theme-color) 2%, white 98%), color-mix(in hsl, var(--theme-color) 4%, black 96%))"
       },
       "selected": {
-        "background": "color-mix(in hsl, var(--background) 88%, white 12%)",
-        "color": "light-dark(color-mix(in hsl, var(--background) 2%, white 98%), color-mix(in hsl, var(--background) 4%, black 96%))"
+        "background": "color-mix(in hsl, var(--theme-color) 88%, white 12%)",
+        "color": "light-dark(color-mix(in hsl, var(--theme-color) 2%, white 98%), color-mix(in hsl, var(--theme-color) 4%, black 96%))"
       }
     },
     "cell": {
-      "border": "1px solid color-mix(in hsl, var(--background) 0%, white 15%)"
+      "border": "1px solid color-mix(in hsl, var(--theme-color) 0%, white 15%)"
     },
     "footer": {
-      "background": "color-mix(in hsl, var(--background) 95%, white 5%)",
-      "color": "light-dark(color-mix(in hsl, var(--background) 6%, white 94%), color-mix(in hsl, var(--background) 8%, black 92%))",
-      "border": "1px solid color-mix(in hsl, var(--background) 0%, white 20%)",
+      "background": "color-mix(in hsl, var(--theme-color) 95%, white 5%)",
+      "color": "light-dark(color-mix(in hsl, var(--theme-color) 6%, white 94%), color-mix(in hsl, var(--theme-color) 8%, black 92%))",
+      "border": "1px solid color-mix(in hsl, var(--theme-color) 0%, white 20%)",
       "backdropFilter": "blur(8px) saturate(150%) brightness(1.05)"
     }
   },
   "buttons": {
     "default": {
-      "background": "color-mix(in hsl, var(--background) 70%, white 30%)",
-      "color": "light-dark(color-mix(in hsl, var(--background) 8%, white 92%), color-mix(in hsl, var(--background) 10%, black 90%))",
-      "border": "1px solid color-mix(in hsl, var(--background) 70%, white 30%)",
+      "background": "color-mix(in hsl, var(--theme-color) 70%, white 30%)",
+      "color": "light-dark(color-mix(in hsl, var(--theme-color) 8%, white 92%), color-mix(in hsl, var(--theme-color) 10%, black 90%))",
+      "border": "1px solid color-mix(in hsl, var(--theme-color) 70%, white 30%)",
       "borderRadius": "8px",
-      "boxShadow": "0 2px 4px 0 color-mix(in hsl, var(--background) 0%, black 30%)",
+      "boxShadow": "0 2px 4px 0 color-mix(in hsl, var(--theme-color) 0%, black 30%)",
       "backdropFilter": "blur(8px) saturate(150%) brightness(1.1)",
       "hover": {
-        "background": "color-mix(in hsl, var(--background) 65%, white 35%)",
-        "color": "light-dark(color-mix(in hsl, var(--background) 2%, white 98%), color-mix(in hsl, var(--background) 3%, black 97%))",
+        "background": "color-mix(in hsl, var(--theme-color) 65%, white 35%)",
+        "color": "light-dark(color-mix(in hsl, var(--theme-color) 2%, white 98%), color-mix(in hsl, var(--theme-color) 3%, black 97%))",
         "transform": "translateY(-1px)",
-        "boxShadow": "0 4px 8px 0 color-mix(in hsl, var(--background) 0%, black 40%)"
+        "boxShadow": "0 4px 8px 0 color-mix(in hsl, var(--theme-color) 0%, black 40%)"
       },
       "active": {
-        "background": "color-mix(in hsl, var(--background) 75%, white 25%)",
-        "color": "light-dark(color-mix(in hsl, var(--background) 3%, white 97%), color-mix(in hsl, var(--background) 5%, black 95%))",
+        "background": "color-mix(in hsl, var(--theme-color) 75%, white 25%)",
+        "color": "light-dark(color-mix(in hsl, var(--theme-color) 3%, white 97%), color-mix(in hsl, var(--theme-color) 5%, black 95%))",
         "transform": "translateY(0px)",
-        "boxShadow": "0 1px 2px 0 color-mix(in hsl, var(--background) 0%, black 30%)"
+        "boxShadow": "0 1px 2px 0 color-mix(in hsl, var(--theme-color) 0%, black 30%)"
       }
     },
     "outline": {
       "background": "transparent",
-      "color": "color-mix(in hsl, var(--background) 30%, hsl(220 100% 60%))",
-      "border": "1px solid color-mix(in hsl, var(--background) 30%, hsl(220 100% 60%))",
+      "color": "color-mix(in hsl, var(--theme-color) 30%, hsl(220 100% 60%))",
+      "border": "1px solid color-mix(in hsl, var(--theme-color) 30%, hsl(220 100% 60%))",
       "borderRadius": "8px",
       "boxShadow": "none",
       "backdropFilter": "blur(4px) saturate(120%) brightness(1.02)",
       "hover": {
-        "background": "color-mix(in hsl, var(--background) 30%, hsl(220 100% 60%) / 0.1)",
-        "color": "color-mix(in hsl, var(--background) 20%, hsl(220 100% 70%))",
+        "background": "color-mix(in hsl, var(--theme-color) 30%, hsl(220 100% 60%) / 0.1)",
+        "color": "color-mix(in hsl, var(--theme-color) 20%, hsl(220 100% 70%))",
         "transform": "translateY(-1px)",
-        "boxShadow": "0 2px 4px 0 color-mix(in hsl, var(--background) 0%, black 20%)"
+        "boxShadow": "0 2px 4px 0 color-mix(in hsl, var(--theme-color) 0%, black 20%)"
       },
       "active": {
-        "background": "color-mix(in hsl, var(--background) 30%, hsl(220 100% 60%) / 0.2)",
-        "color": "color-mix(in hsl, var(--background) 40%, hsl(220 100% 50%))",
+        "background": "color-mix(in hsl, var(--theme-color) 30%, hsl(220 100% 60%) / 0.2)",
+        "color": "color-mix(in hsl, var(--theme-color) 40%, hsl(220 100% 50%))",
         "transform": "translateY(0px)",
-        "boxShadow": "0 1px 2px 0 color-mix(in hsl, var(--background) 0%, black 15%)"
+        "boxShadow": "0 1px 2px 0 color-mix(in hsl, var(--theme-color) 0%, black 15%)"
       }
     },
     "secondary": {
-      "background": "color-mix(in hsl, var(--background) 40%, hsl(280 100% 50%))",
-      "color": "light-dark(color-mix(in hsl, var(--background) 2%, white 98%), color-mix(in hsl, var(--background) 3%, black 97%))",
-      "border": "1px solid color-mix(in hsl, var(--background) 40%, hsl(280 100% 50%))",
+      "background": "color-mix(in hsl, var(--theme-color) 40%, hsl(280 100% 50%))",
+      "color": "light-dark(color-mix(in hsl, var(--theme-color) 2%, white 98%), color-mix(in hsl, var(--theme-color) 3%, black 97%))",
+      "border": "1px solid color-mix(in hsl, var(--theme-color) 40%, hsl(280 100% 50%))",
       "borderRadius": "8px",
-      "boxShadow": "0 2px 4px 0 color-mix(in hsl, var(--background) 0%, black 25%)",
+      "boxShadow": "0 2px 4px 0 color-mix(in hsl, var(--theme-color) 0%, black 25%)",
       "backdropFilter": "blur(8px) saturate(150%) brightness(1.1)",
       "hover": {
-        "background": "color-mix(in hsl, var(--background) 30%, hsl(280 100% 60%))",
-        "color": "light-dark(color-mix(in hsl, var(--background) 2%, white 98%), color-mix(in hsl, var(--background) 3%, black 97%))",
+        "background": "color-mix(in hsl, var(--theme-color) 30%, hsl(280 100% 60%))",
+        "color": "light-dark(color-mix(in hsl, var(--theme-color) 2%, white 98%), color-mix(in hsl, var(--theme-color) 3%, black 97%))",
         "transform": "translateY(-1px)",
-        "boxShadow": "0 4px 8px 0 color-mix(in hsl, var(--background) 0%, black 35%)"
+        "boxShadow": "0 4px 8px 0 color-mix(in hsl, var(--theme-color) 0%, black 35%)"
       },
       "active": {
-        "background": "color-mix(in hsl, var(--background) 50%, hsl(280 100% 40%))",
-        "color": "light-dark(color-mix(in hsl, var(--background) 2%, white 98%), color-mix(in hsl, var(--background) 3%, black 97%))",
+        "background": "color-mix(in hsl, var(--theme-color) 50%, hsl(280 100% 40%))",
+        "color": "light-dark(color-mix(in hsl, var(--theme-color) 2%, white 98%), color-mix(in hsl, var(--theme-color) 3%, black 97%))",
         "transform": "translateY(0px)",
-        "boxShadow": "0 1px 2px 0 color-mix(in hsl, var(--background) 0%, black 25%)"
+        "boxShadow": "0 1px 2px 0 color-mix(in hsl, var(--theme-color) 0%, black 25%)"
       }
     },
     "destructive": {
-      "background": "color-mix(in hsl, var(--background) 25%, hsl(0 100% 60%))",
-      "color": "light-dark(color-mix(in hsl, var(--background) 2%, white 98%), color-mix(in hsl, var(--background) 3%, black 97%))",
-      "border": "1px solid color-mix(in hsl, var(--background) 25%, hsl(0 100% 60%))",
+      "background": "color-mix(in hsl, var(--theme-color) 25%, hsl(0 100% 60%))",
+      "color": "light-dark(color-mix(in hsl, var(--theme-color) 2%, white 98%), color-mix(in hsl, var(--theme-color) 3%, black 97%))",
+      "border": "1px solid color-mix(in hsl, var(--theme-color) 25%, hsl(0 100% 60%))",
       "borderRadius": "8px",
-      "boxShadow": "0 2px 4px 0 color-mix(in hsl, var(--background) 0%, black 30%)",
+      "boxShadow": "0 2px 4px 0 color-mix(in hsl, var(--theme-color) 0%, black 30%)",
       "backdropFilter": "blur(8px) saturate(150%) brightness(1.1)",
       "hover": {
-        "background": "color-mix(in hsl, var(--background) 15%, hsl(0 100% 70%))",
-        "color": "light-dark(color-mix(in hsl, var(--background) 2%, white 98%), color-mix(in hsl, var(--background) 3%, black 97%))",
+        "background": "color-mix(in hsl, var(--theme-color) 15%, hsl(0 100% 70%))",
+        "color": "light-dark(color-mix(in hsl, var(--theme-color) 2%, white 98%), color-mix(in hsl, var(--theme-color) 3%, black 97%))",
         "transform": "translateY(-1px)",
-        "boxShadow": "0 4px 8px 0 color-mix(in hsl, var(--background) 0%, black 40%)"
+        "boxShadow": "0 4px 8px 0 color-mix(in hsl, var(--theme-color) 0%, black 40%)"
       },
       "active": {
-        "background": "color-mix(in hsl, var(--background) 35%, hsl(0 100% 50%))",
-        "color": "light-dark(color-mix(in hsl, var(--background) 2%, white 98%), color-mix(in hsl, var(--background) 3%, black 97%))",
+        "background": "color-mix(in hsl, var(--theme-color) 35%, hsl(0 100% 50%))",
+        "color": "light-dark(color-mix(in hsl, var(--theme-color) 2%, white 98%), color-mix(in hsl, var(--theme-color) 3%, black 97%))",
         "transform": "translateY(0px)",
-        "boxShadow": "0 1px 2px 0 color-mix(in hsl, var(--background) 0%, black 30%)"
+        "boxShadow": "0 1px 2px 0 color-mix(in hsl, var(--theme-color) 0%, black 30%)"
       }
     },
     "ghost": {
       "background": "transparent",
-      "color": "light-dark(color-mix(in hsl, var(--background) 2%, white 98%), color-mix(in hsl, var(--background) 3%, black 97%))",
+      "color": "light-dark(color-mix(in hsl, var(--theme-color) 2%, white 98%), color-mix(in hsl, var(--theme-color) 3%, black 97%))",
       "border": "1px solid transparent",
       "borderRadius": "8px",
       "backdropFilter": "blur(4px) saturate(120%) brightness(1.02)",
       "hover": {
-        "background": "color-mix(in hsl, var(--background) 92%, white 8%)",
-        "color": "light-dark(color-mix(in hsl, var(--background) 2%, white 98%), color-mix(in hsl, var(--background) 3%, black 97%))",
+        "background": "color-mix(in hsl, var(--theme-color) 92%, white 8%)",
+        "color": "light-dark(color-mix(in hsl, var(--theme-color) 2%, white 98%), color-mix(in hsl, var(--theme-color) 3%, black 97%))",
         "transform": "translateY(-1px)",
-        "boxShadow": "0 2px 4px 0 color-mix(in hsl, var(--background) 0%, black 20%)"
+        "boxShadow": "0 2px 4px 0 color-mix(in hsl, var(--theme-color) 0%, black 20%)"
       },
       "active": {
-        "background": "color-mix(in hsl, var(--background) 95%, white 5%)",
-        "color": "light-dark(color-mix(in hsl, var(--background) 5%, white 95%), color-mix(in hsl, var(--background) 7%, black 93%))",
+        "background": "color-mix(in hsl, var(--theme-color) 95%, white 5%)",
+        "color": "light-dark(color-mix(in hsl, var(--theme-color) 5%, white 95%), color-mix(in hsl, var(--theme-color) 7%, black 93%))",
         "transform": "translateY(0px)",
-        "boxShadow": "0 1px 2px 0 color-mix(in hsl, var(--background) 0%, black 15%)"
+        "boxShadow": "0 1px 2px 0 color-mix(in hsl, var(--theme-color) 0%, black 15%)"
       }
     },
     "link": {
       "background": "transparent",
-      "color": "color-mix(in hsl, var(--background) 30%, hsl(220 100% 60%))",
+      "color": "color-mix(in hsl, var(--theme-color) 30%, hsl(220 100% 60%))",
       "border": "1px solid transparent",
       "borderRadius": "8px",
       "backdropFilter": "blur(4px) saturate(120%) brightness(1.02)",
       "hover": {
-        "color": "color-mix(in hsl, var(--background) 20%, hsl(220 100% 70%))",
+        "color": "color-mix(in hsl, var(--theme-color) 20%, hsl(220 100% 70%))",
         "transform": "translateY(-1px)",
-        "boxShadow": "0 2px 4px 0 color-mix(in hsl, var(--background) 0%, black 20%)"
+        "boxShadow": "0 2px 4px 0 color-mix(in hsl, var(--theme-color) 0%, black 20%)"
       },
       "active": {
-        "color": "color-mix(in hsl, var(--background) 40%, hsl(220 100% 50%))",
+        "color": "color-mix(in hsl, var(--theme-color) 40%, hsl(220 100% 50%))",
         "transform": "translateY(0px)",
-        "boxShadow": "0 1px 2px 0 color-mix(in hsl, var(--background) 0%, black 15%)"
+        "boxShadow": "0 1px 2px 0 color-mix(in hsl, var(--theme-color) 0%, black 15%)"
       }
     }
   },
   "switches": {
     "checked": {
-      "background": "color-mix(in hsl, var(--background) 30%, hsl(220 100% 60%))"
+      "background": "color-mix(in hsl, var(--theme-color) 30%, hsl(220 100% 60%))"
     },
     "unchecked": {
-      "background": "color-mix(in hsl, var(--background) 85%, white 15%)"
+      "background": "color-mix(in hsl, var(--theme-color) 85%, white 15%)"
     },
     "thumb": {
-      "background": "light-dark(color-mix(in hsl, var(--background) 2%, white 98%), color-mix(in hsl, var(--background) 3%, black 97%))"
+      "background": "light-dark(color-mix(in hsl, var(--theme-color) 2%, white 98%), color-mix(in hsl, var(--theme-color) 3%, black 97%))"
     }
   }
 }

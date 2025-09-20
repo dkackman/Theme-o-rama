@@ -349,6 +349,7 @@ export function applyThemeIsolated(theme: Theme, root: HTMLElement): void {
 }
 
 const colorVariableNames = [
+  '--theme-color',
   '--background',
   '--foreground',
   '--card',

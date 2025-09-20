@@ -11,6 +11,13 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { generateImage } from '@/lib/opeanai';
 import { isTauriEnvironment, isValidFilename, rgbToHsl } from '@/lib/utils';
@@ -21,6 +28,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { RgbColorPicker } from 'react-colorful';
 import { toast } from 'react-toastify';
 import { useTheme } from 'theme-o-rama';
+import { useLocalStorage } from 'usehooks-ts';
 
 export default function Design() {
   const { setCustomTheme } = useTheme();
@@ -37,6 +45,10 @@ export default function Design() {
   );
   const [themeName, setThemeName] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [selectedImageModel, setSelectedImageModel] = useLocalStorage<string>(
+    'theme-o-rama-image-model',
+    'dall-e-3',
+  );
 
   // Generate theme JSON from selected color and optional background image
   const generateThemeFromColor = useCallback(
@@ -59,7 +71,8 @@ export default function Design() {
         schemaVersion: 1,
         backgroundImage: backgroundImageUrl,
         colors: {
-          background: `hsl(${hsl.h} ${hsl.s}% ${hsl.l}%)`,
+          themeColor: `hsl(${hsl.h} ${hsl.s}% ${hsl.l}%)`,
+          background: backgroundImageUrl ? 'transparent' : `var(--theme-color)`,
         },
       };
       return theme;
@@ -99,7 +112,11 @@ export default function Design() {
     setIsGeneratingImage(true);
     try {
       const colorString = `RGB(${selectedColor.r}, ${selectedColor.g}, ${selectedColor.b})`;
-      const imageUrl = await generateImage(prompt, colorString, false);
+      const imageUrl = await generateImage(
+        prompt,
+        colorString,
+        selectedImageModel,
+      );
 
       if (imageUrl) {
         setGeneratedImageUrl(imageUrl);
@@ -277,37 +294,50 @@ export default function Design() {
                 />
               </div>
 
-              <div className='text-center'>
-                <Button
-                  onClick={handleGenerateImage}
-                  disabled={isGeneratingImage || !prompt.trim()}
-                  className='w-full'
-                >
-                  {isGeneratingImage ? (
-                    <>
-                      <div className='animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2' />
-                      Generating Image...
-                    </>
-                  ) : (
-                    <>
-                      <MessageSquare className='h-4 w-4 mr-2' />
-                      Generate Image
-                    </>
-                  )}
-                </Button>
+              <div className='flex items-center gap-3'>
+                <div className='flex-1'>
+                  <Select
+                    value={selectedImageModel}
+                    onValueChange={setSelectedImageModel}
+                  >
+                    <SelectTrigger id='imageModel'>
+                      <SelectValue placeholder='Select model' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value='dall-e-3'>DALL-E 3</SelectItem>
+                      <SelectItem value='gpt-image-1'>GPT Image 1</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className='flex-1'>
+                  <Button
+                    onClick={handleGenerateImage}
+                    disabled={isGeneratingImage || !prompt.trim()}
+                    className='w-full'
+                  >
+                    {isGeneratingImage ? (
+                      <>
+                        <div className='animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2' />
+                        Generating Image...
+                      </>
+                    ) : (
+                      <>
+                        <MessageSquare className='h-4 w-4 mr-2' />
+                        Generate Image
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
 
               {/* Image Preview */}
               {generatedImageUrl && (
-                <div className='space-y-2'>
-                  <Label>Generated Image Preview</Label>
-                  <div className='flex justify-center'>
-                    <img
-                      src={generatedImageUrl}
-                      alt='Generated theme image'
-                      className='max-w-full h-auto max-h-64 rounded-lg border border-border shadow-sm'
-                    />
-                  </div>
+                <div className='flex justify-center'>
+                  <img
+                    src={generatedImageUrl}
+                    alt='Generated theme image'
+                    className='max-w-full h-auto max-h-64 rounded-lg border border-border shadow-sm justify-center'
+                  />
                 </div>
               )}
             </div>
@@ -423,7 +453,7 @@ export default function Design() {
                 {renderStepContent()}
 
                 {/* Navigation Buttons */}
-                <div className='flex justify-between pt-6'>
+                <div className='flex justify-between pt-1'>
                   <Button
                     variant='outline'
                     onClick={handlePrevStep}
