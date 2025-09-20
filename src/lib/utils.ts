@@ -23,6 +23,26 @@ export function formatTimestamp(
   }).format(date);
 }
 
+export const isValidFilename = (filename: string): boolean => {
+  // Check for invalid characters and ensure it's not empty
+  const invalidChars = /[<>:"/\\|?*]/;
+  // Check for control characters (ASCII 0-31)
+  const hasControlChars = (str: string) => {
+    for (let i = 0; i < str.length; i++) {
+      const charCode = str.charCodeAt(i);
+      if (charCode >= 0 && charCode <= 31) {
+        return true;
+      }
+    }
+    return false;
+  };
+  return (
+    filename.trim().length > 0 &&
+    !invalidChars.test(filename) &&
+    !hasControlChars(filename)
+  );
+};
+
 export function isValidUrl(str: string) {
   try {
     // only allow http(s) schemes, not file, ftp, wss etc

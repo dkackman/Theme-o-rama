@@ -13,35 +13,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { generateImage } from '@/lib/opeanai';
-import { isTauriEnvironment } from '@/lib/utils';
+import { isTauriEnvironment, isValidFilename } from '@/lib/utils';
 import { save } from '@tauri-apps/plugin-dialog';
 import { writeTextFile } from '@tauri-apps/plugin-fs';
 import { Info, MessageSquare, Palette, Save } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { RgbColorPicker } from 'react-colorful';
 import { toast } from 'react-toastify';
 import { useTheme } from 'theme-o-rama';
-
-// Utility function to validate filename
-const isValidFilename = (filename: string): boolean => {
-  // Check for invalid characters and ensure it's not empty
-  const invalidChars = /[<>:"/\\|?*]/;
-  // Check for control characters (ASCII 0-31)
-  const hasControlChars = (str: string) => {
-    for (let i = 0; i < str.length; i++) {
-      const charCode = str.charCodeAt(i);
-      if (charCode >= 0 && charCode <= 31) {
-        return true;
-      }
-    }
-    return false;
-  };
-  return (
-    filename.trim().length > 0 &&
-    !invalidChars.test(filename) &&
-    !hasControlChars(filename)
-  );
-};
 
 // Utility function to convert RGB to HSL
 const rgbToHsl = (r: number, g: number, b: number) => {
@@ -97,41 +76,44 @@ export default function Design() {
   const [isSaving, setIsSaving] = useState(false);
 
   // Generate theme JSON from selected color and optional background image
-  const generateThemeFromColor = (
-    color: {
-      r: number;
-      g: number;
-      b: number;
-    },
-    backgroundImageUrl?: string | null,
-    name?: string,
-  ) => {
-    const hsl = rgbToHsl(color.r, color.g, color.b);
-    const themeName = name || 'design';
-    const theme = {
-      name: themeName,
-      displayName: themeName,
-      mostLike: hsl.l > 50 ? 'light' : 'dark',
-      inherits: 'color',
-      schemaVersion: 1,
-      backgroundImage: backgroundImageUrl,
-      colors: {
-        background: `hsl(${hsl.h} ${hsl.s}% ${hsl.l}%)`,
+  const generateThemeFromColor = useCallback(
+    (
+      color: {
+        r: number;
+        g: number;
+        b: number;
       },
-    };
+      backgroundImageUrl?: string | null,
+      name?: string,
+    ) => {
+      const hsl = rgbToHsl(color.r, color.g, color.b);
+      const themeName = name || 'design';
+      const theme = {
+        name: themeName,
+        displayName: themeName,
+        mostLike: hsl.l > 50 ? 'light' : 'dark',
+        inherits: 'color',
+        schemaVersion: 1,
+        backgroundImage: backgroundImageUrl,
+        colors: {
+          background: `hsl(${hsl.h} ${hsl.s}% ${hsl.l}%)`,
+        },
+      };
+      return theme;
+    },
+    [],
+  );
 
-    return theme;
-  };
+  // Memoize the current theme to prevent unnecessary re-renders
+  const currentTheme = useMemo(() => {
+    return generateThemeFromColor(selectedColor, generatedImageUrl, themeName);
+  }, [selectedColor, generatedImageUrl, themeName, generateThemeFromColor]);
 
   // Apply theme when color, background image, or theme name changes
   useEffect(() => {
-    const themeJson = JSON.stringify(
-      generateThemeFromColor(selectedColor, generatedImageUrl, themeName),
-      null,
-      2,
-    );
+    const themeJson = JSON.stringify(currentTheme, null, 2);
     setCustomTheme(themeJson);
-  }, [selectedColor, generatedImageUrl, themeName, setCustomTheme]);
+  }, [currentTheme, setCustomTheme]);
 
   const handleNextStep = () => {
     if (currentStep < 3) {
@@ -182,12 +164,12 @@ export default function Design() {
 
     setIsSaving(true);
     try {
-      // Generate the final theme with the user-provided name
-      const finalTheme = generateThemeFromColor(
-        selectedColor,
-        generatedImageUrl, // This already contains the base64 data
-        themeName.trim(),
-      );
+      // Use the current theme with the user-provided name
+      const finalTheme = {
+        ...currentTheme,
+        name: themeName.trim(),
+        displayName: themeName.trim(),
+      };
 
       // Create the theme JSON string
       const themeJson = JSON.stringify(finalTheme, null, 2);
