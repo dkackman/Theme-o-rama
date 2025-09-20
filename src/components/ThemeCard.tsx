@@ -1,5 +1,6 @@
-import { Check } from 'lucide-react';
+import { Check, Copy } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 import { applyThemeIsolated, Theme } from 'theme-o-rama';
 import { Button } from './ui/button';
 import {
@@ -31,6 +32,19 @@ export function ThemeCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
+  const copyToClipboard = async (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent theme selection when clicking copy button
+
+    try {
+      const themeJson = JSON.stringify(theme, null, 2);
+      await navigator.clipboard.writeText(themeJson);
+      toast.success(`Theme "${theme.displayName}" copied to clipboard!`);
+    } catch (error) {
+      console.error('Failed to copy theme to clipboard:', error);
+      toast.error('Failed to copy theme to clipboard');
+    }
+  };
+
   useEffect(() => {
     if (cardRef.current) {
       // Apply the theme with complete isolation from ambient theme
@@ -60,6 +74,15 @@ export function ThemeCard({
             {theme.displayName}
           </h3>
           <div className='flex items-center gap-2'>
+            <Button
+              variant='ghost'
+              size='sm'
+              onClick={copyToClipboard}
+              className='h-6 w-6 p-0 hover:bg-muted'
+              title='Copy theme JSON'
+            >
+              <Copy className='h-3 w-3' />
+            </Button>
             {isSelected && <Check className='h-4 w-4' style={checkStyles} />}
           </div>
         </div>
@@ -98,6 +121,15 @@ export function ThemeCard({
             {theme.displayName}
           </h4>
           <div className='flex items-center gap-1'>
+            <Button
+              variant='ghost'
+              size='sm'
+              onClick={copyToClipboard}
+              className='h-5 w-5 p-0 hover:bg-muted'
+              title='Copy theme JSON'
+            >
+              <Copy className='h-2.5 w-2.5' />
+            </Button>
             {isSelected && (
               <Check
                 className='h-3 w-3'
