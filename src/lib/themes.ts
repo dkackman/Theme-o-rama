@@ -7,6 +7,7 @@ export function hasTag(theme: Theme, tag: string): boolean {
 export function validateThemeJson(json: string): void {
   const theme = validateTheme(json);
   if (
+    theme?.buttonStyle !== undefined &&
     theme?.buttonStyle !== 'gradient' &&
     theme?.buttonStyle !== 'shimmer' &&
     theme?.buttonStyle !== 'pixel-art' &&
