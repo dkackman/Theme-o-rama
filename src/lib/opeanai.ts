@@ -6,7 +6,7 @@ if (import.meta.env.MODE === 'development') {
   // This will fail in prod by design to prevent API key leakage
   // because we'll never set the VITE_OPENAI_API_KEY in production
   try {
-  openai = new OpenAI({
+    openai = new OpenAI({
       apiKey: import.meta.env.VITE_OPENAI_API_KEY,
       dangerouslyAllowBrowser: true,
     });

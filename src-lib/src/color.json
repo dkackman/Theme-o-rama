@@ -3,9 +3,7 @@
   "displayName": "Color",
   "mostLike": "dark",
   "schemaVersion": 1,
-  "tags": [
-    "hidden"
-  ],
+  "tags": ["hidden"],
   "colors": {
     "themeColor": "hsl(220 30% 15%)",
     "background": "var(--theme-color)",
