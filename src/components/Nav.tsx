@@ -95,7 +95,7 @@ function NavLink({
     : `${baseClassName} text-muted-foreground hover:text-primary`;
 
   const activeStyle = isActive
-    ? { backgroundColor: 'var(--nav-active-bg)' }
+    ? { backgroundColor: 'var(--nav-active-background)' }
     : {};
 
   const link =
