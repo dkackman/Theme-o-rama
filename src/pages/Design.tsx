@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { useWorkingTheme } from '@/hooks/useWorkingTheme';
 import { generateImage } from '@/lib/opeanai';
 import { isTauriEnvironment, isValidFilename, rgbToHsl } from '@/lib/utils';
 import { save } from '@tauri-apps/plugin-dialog';
@@ -33,6 +34,7 @@ import { useLocalStorage } from 'usehooks-ts';
 
 export default function Design() {
   const { setCustomTheme } = useTheme();
+  const { workingTheme, updateWorkingTheme } = useWorkingTheme();
 
   // Persist design state using localStorage
   const [selectedColor, setSelectedColor] = useLocalStorage<{
@@ -93,52 +95,52 @@ export default function Design() {
       const theme = {
         name: themeName,
         displayName: themeName,
-        mostLike: hsl.l > 50 ? 'light' : 'dark',
+        mostLike: (hsl.l > 50 ? 'light' : 'dark') as 'light' | 'dark',
         inherits: 'color',
         schemaVersion: 1,
-        backgroundImage: backgroundImageUrl,
+        backgroundImage: backgroundImageUrl || undefined,
         colors: {
           themeColor: `hsl(${hsl.h} ${hsl.s}% ${hsl.l}%)`,
           background: backgroundImageUrl ? 'transparent' : `var(--theme-color)`,
           ...(backdropFilters === false && {
-            cardBackdropFilter: null,
-            popoverBackdropFilter: null,
-            inputBackdropFilter: null,
+            cardBackdropFilter: undefined,
+            popoverBackdropFilter: undefined,
+            inputBackdropFilter: undefined,
           }),
         },
         ...(backdropFilters === false && {
           sidebar: {
-            backdropFilter: null,
+            backdropFilter: undefined,
           },
           tables: {
             header: {
-              backdropFilter: null,
+              backdropFilter: undefined,
             },
           },
           row: {
-            backdropFilter: null,
+            backdropFilter: undefined,
           },
           footer: {
-            backdropFilter: null,
+            backdropFilter: undefined,
           },
           buttons: {
             default: {
-              backdropFilter: null,
+              backdropFilter: undefined,
             },
             outline: {
-              backdropFilter: null,
+              backdropFilter: undefined,
             },
             secondary: {
-              backdropFilter: null,
+              backdropFilter: undefined,
             },
             destructive: {
-              backdropFilter: null,
+              backdropFilter: undefined,
             },
             ghost: {
-              backdropFilter: null,
+              backdropFilter: undefined,
             },
             link: {
-              backdropFilter: null,
+              backdropFilter: undefined,
             },
           },
         }),
@@ -153,11 +155,77 @@ export default function Design() {
     return generateThemeFromColor(selectedColor, generatedImageUrl, themeName);
   }, [selectedColor, generatedImageUrl, themeName, generateThemeFromColor]);
 
+  // Load working theme data when component mounts
+  useEffect(() => {
+    if (workingTheme) {
+      // Extract data from working theme to populate form fields
+      if (workingTheme.colors?.themeColor) {
+        // Parse HSL color to RGB
+        const hslMatch = workingTheme.colors.themeColor.match(
+          /hsl\((\d+)\s+(\d+)%\s+(\d+)%\)/,
+        );
+        if (hslMatch) {
+          const h = parseInt(hslMatch[1]);
+          const s = parseInt(hslMatch[2]);
+          const l = parseInt(hslMatch[3]);
+
+          // Convert HSL to RGB
+          const c = ((1 - Math.abs((2 * l) / 100 - 1)) * s) / 100;
+          const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+          const m = l / 100 - c / 2;
+
+          let r, g, b;
+          if (0 <= h && h < 60) {
+            r = c;
+            g = x;
+            b = 0;
+          } else if (60 <= h && h < 120) {
+            r = x;
+            g = c;
+            b = 0;
+          } else if (120 <= h && h < 180) {
+            r = 0;
+            g = c;
+            b = x;
+          } else if (180 <= h && h < 240) {
+            r = 0;
+            g = x;
+            b = c;
+          } else if (240 <= h && h < 300) {
+            r = x;
+            g = 0;
+            b = c;
+          } else {
+            r = c;
+            g = 0;
+            b = x;
+          }
+
+          setSelectedColor({
+            r: Math.round((r + m) * 255),
+            g: Math.round((g + m) * 255),
+            b: Math.round((b + m) * 255),
+          });
+        }
+      }
+
+      if (workingTheme.displayName) {
+        setThemeName(workingTheme.displayName);
+      }
+
+      if (workingTheme.backgroundImage) {
+        setGeneratedImageUrl(workingTheme.backgroundImage);
+      }
+    }
+  }, [workingTheme, setSelectedColor, setThemeName, setGeneratedImageUrl]);
+
   // Apply theme when color, background image, or theme name changes
   useEffect(() => {
     const themeJson = JSON.stringify(currentTheme, null, 2);
     setCustomTheme(themeJson);
-  }, [currentTheme, setCustomTheme]);
+    // Also update the working theme
+    updateWorkingTheme(currentTheme);
+  }, [currentTheme, setCustomTheme, updateWorkingTheme]);
 
   const handleNextStep = () => {
     if (currentStep < 3) {
@@ -221,7 +289,11 @@ export default function Design() {
         ...currentTheme,
         name: themeName.trim(),
         displayName: themeName.trim(),
+        mostLike: currentTheme.mostLike as 'light' | 'dark',
       };
+
+      // Update the working theme with the final theme
+      updateWorkingTheme(finalTheme);
 
       // Create the theme JSON string
       const themeJson = JSON.stringify(finalTheme, null, 2);
