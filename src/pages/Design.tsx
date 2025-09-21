@@ -33,19 +33,41 @@ import { useLocalStorage } from 'usehooks-ts';
 
 export default function Design() {
   const { setCustomTheme } = useTheme();
-  const [selectedColor, setSelectedColor] = useState({
+
+  // Persist design state using localStorage
+  const [selectedColor, setSelectedColor] = useLocalStorage<{
+    r: number;
+    g: number;
+    b: number;
+  }>('theme-o-rama-design-selected-color', {
     r: 27,
     g: 30,
     b: 51,
   });
-  const [currentStep, setCurrentStep] = useState(1);
-  const [prompt, setPrompt] = useState('');
-  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
-  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(
-    null,
+
+  const [currentStep, setCurrentStep] = useLocalStorage<number>(
+    'theme-o-rama-design-current-step',
+    1,
   );
-  const [themeName, setThemeName] = useState('');
+
+  const [prompt, setPrompt] = useLocalStorage<string>(
+    'theme-o-rama-design-prompt',
+    '',
+  );
+
+  const [generatedImageUrl, setGeneratedImageUrl] = useLocalStorage<
+    string | null
+  >('theme-o-rama-design-generated-image-url', null);
+
+  const [themeName, setThemeName] = useLocalStorage<string>(
+    'theme-o-rama-design-theme-name',
+    '',
+  );
+
+  // Non-persistent state
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
   const [selectedImageModel, setSelectedImageModel] = useLocalStorage<string>(
     'theme-o-rama-image-model',
     'dall-e-3',
@@ -54,6 +76,15 @@ export default function Design() {
     'theme-o-rama-backdrop-filters',
     true,
   );
+
+  // Function to clear persisted design state (called after successful save)
+  const clearDesignState = () => {
+    setSelectedColor({ r: 27, g: 30, b: 51 });
+    setCurrentStep(1);
+    setPrompt('');
+    setGeneratedImageUrl(null);
+    setThemeName('');
+  };
 
   // Generate theme JSON from selected color and optional background image
   const generateThemeFromColor = useCallback(
@@ -220,6 +251,7 @@ export default function Design() {
           if (filePath) {
             await writeTextFile(filePath, themeJson);
             toast.success('Theme saved successfully!');
+            clearDesignState(); // Clear the design state for next design
           } else {
             // User cancelled the dialog
             toast.info('Save cancelled');
@@ -240,6 +272,7 @@ export default function Design() {
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
         toast.success('Theme saved successfully!');
+        clearDesignState(); // Clear the design state for next design
       }
     } catch (error) {
       console.error('Error saving theme:', error);

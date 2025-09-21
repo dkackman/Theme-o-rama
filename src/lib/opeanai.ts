@@ -27,9 +27,11 @@ export async function generateImage(
     throw new Error('OpenAI is not initialized');
   }
 
-  const actualPrompt = `Create an image using a color palette centered around the color ${color}. The image
-    should not have any border, frame or empty space around the edges. It is going to be used as a background image for an application,
-    so it should not have any text or logo. The prompt describing the subject of the image is:
+  const actualPrompt = `Create an image using a broad color palette centered around the color ${color}. 
+    The image should be a single subject. It should be centered.
+    should not have any border, frame or empty space around the edges. It
+    should have no text. There should be no logo. 
+    The prompt describing the subject of the image is:
      ${prompt} `;
 
   if (model === 'gpt-image-1') {
