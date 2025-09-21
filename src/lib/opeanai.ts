@@ -34,25 +34,15 @@ export async function generateImage(
     The prompt describing the subject of the image is:
      ${prompt} `;
 
-  if (model === 'gpt-image-1') {
-    const result = await openai.images.generate({
-      model: 'gpt-image-1',
-      prompt: actualPrompt,
-    });
-    if (!result.data) {
-      throw new Error('No image data returned');
-    }
-    const imageData = result.data[0].b64_json;
-    return `data:image/png;base64,${imageData}`;
-  }
-
   const result = await openai.images.generate({
-    model: 'dall-e-3',
+    model: model,
     prompt: actualPrompt,
     size: '1024x1024',
+    ...(model !== 'gpt-image-1' ? { response_format: 'b64_json' } : {}),
   });
   if (!result.data) {
     throw new Error('No image data returned');
   }
-  return result.data[0].url;
+  const imageData = result.data[0].b64_json;
+  return `data:image/png;base64,${imageData}`;
 }

@@ -24,7 +24,7 @@ import { generateImage } from '@/lib/opeanai';
 import { isTauriEnvironment, isValidFilename, rgbToHsl } from '@/lib/utils';
 import { save } from '@tauri-apps/plugin-dialog';
 import { writeTextFile } from '@tauri-apps/plugin-fs';
-import { Info, MessageSquare, Palette, Save } from 'lucide-react';
+import { Info, MessageSquare, Palette, Save, X } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { RgbColorPicker } from 'react-colorful';
 import { toast } from 'react-toastify';
@@ -76,15 +76,6 @@ export default function Design() {
     'theme-o-rama-backdrop-filters',
     true,
   );
-
-  // Function to clear persisted design state (called after successful save)
-  const clearDesignState = () => {
-    setSelectedColor({ r: 27, g: 30, b: 51 });
-    setCurrentStep(1);
-    setPrompt('');
-    setGeneratedImageUrl(null);
-    setThemeName('');
-  };
 
   // Generate theme JSON from selected color and optional background image
   const generateThemeFromColor = useCallback(
@@ -208,6 +199,10 @@ export default function Design() {
     }
   };
 
+  const handleClearBackgroundImage = () => {
+    setGeneratedImageUrl(null);
+  };
+
   const handleSave = async () => {
     if (!themeName.trim()) {
       toast.error('Please enter a theme name');
@@ -251,7 +246,6 @@ export default function Design() {
           if (filePath) {
             await writeTextFile(filePath, themeJson);
             toast.success('Theme saved successfully!');
-            clearDesignState(); // Clear the design state for next design
           } else {
             // User cancelled the dialog
             toast.info('Save cancelled');
@@ -272,7 +266,6 @@ export default function Design() {
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
         toast.success('Theme saved successfully!');
-        clearDesignState(); // Clear the design state for next design
       }
     } catch (error) {
       console.error('Error saving theme:', error);
@@ -427,11 +420,21 @@ export default function Design() {
               {/* Image Preview */}
               {generatedImageUrl && (
                 <div className='flex justify-center'>
-                  <img
-                    src={generatedImageUrl}
-                    alt='Generated theme image'
-                    className='max-w-full h-auto max-h-64 rounded-lg border border-border shadow-sm justify-center'
-                  />
+                  <div className='relative'>
+                    <img
+                      src={generatedImageUrl}
+                      alt='Generated theme image'
+                      className='max-w-full h-auto max-h-64 rounded-lg border border-border shadow-sm justify-center'
+                    />
+                    <Button
+                      variant='destructive'
+                      size='sm'
+                      onClick={handleClearBackgroundImage}
+                      className='absolute -top-2 -right-2 h-6 w-6 rounded-full p-0'
+                    >
+                      <X className='h-3 w-3' />
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>
