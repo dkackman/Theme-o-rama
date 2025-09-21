@@ -1,5 +1,6 @@
-import { Check, Copy } from 'lucide-react';
+import { Check, Copy, Edit, Palette } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { applyThemeIsolated, Theme } from 'theme-o-rama';
 import { Button } from './ui/button';
@@ -13,7 +14,7 @@ import {
 } from './ui/dialog';
 
 interface ThemeCardProps {
-  theme: Theme;
+  theme: Theme | null;
   currentTheme: Theme;
   isSelected: boolean;
   onSelect: (themeName: string) => void;
@@ -29,11 +30,16 @@ export function ThemeCard({
   variant = 'default',
   className = '',
 }: ThemeCardProps) {
+  const navigate = useNavigate();
   const cardRef = useRef<HTMLDivElement>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const copyToClipboard = async (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent theme selection when clicking copy button
+
+    if (!theme) {
+      return;
+    }
 
     try {
       const themeJson = JSON.stringify(theme, null, 2);
@@ -46,7 +52,7 @@ export function ThemeCard({
   };
 
   useEffect(() => {
-    if (cardRef.current) {
+    if (cardRef.current && theme) {
       // Apply the theme with complete isolation from ambient theme
       applyThemeIsolated(theme, cardRef.current);
     }
@@ -71,7 +77,7 @@ export function ThemeCard({
       <div className='p-4'>
         <div className='flex items-center justify-between mb-3'>
           <h3 className='font-medium text-sm text-foreground font-heading'>
-            {theme.displayName}
+            {theme?.displayName || 'Get started'}
           </h3>
           <div className='flex items-center gap-2'>
             <Button
@@ -98,9 +104,11 @@ export function ThemeCard({
             <div className='h-4 w-4 bg-accent rounded-sm' />
             <div className='h-4 w-4 bg-destructive rounded-sm' />
           </div>
-          <div className='text-xs truncate text-muted-foreground font-body'>
-            {theme.fonts?.heading?.split(',')[0] || 'Default'}
-          </div>
+          {theme && (
+            <div className='text-xs truncate text-muted-foreground font-body'>
+              {theme.fonts?.heading?.split(',')[0] || 'Default'}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -118,7 +126,7 @@ export function ThemeCard({
       <div className='p-3'>
         <div className='flex items-center justify-between mb-2'>
           <h4 className='font-medium text-xs text-foreground font-heading'>
-            {theme.displayName}
+            {theme?.displayName || 'Get started'}
           </h4>
           <div className='flex items-center gap-1'>
             <Button
@@ -149,6 +157,26 @@ export function ThemeCard({
     );
   };
 
+  if (!theme) {
+    return (
+      <div
+        className={`border-2 border-dashed border-border rounded-lg p-6 text-center ${className}`}
+      >
+        <Palette className='h-8 w-8 mx-auto mb-3 text-muted-foreground' />
+        <h3 className='font-medium text-sm text-foreground mb-2'>
+          No Working Theme
+        </h3>
+        <p className='text-xs text-muted-foreground mb-4'>
+          Start designing a theme to see it here
+        </p>
+        <Button onClick={() => navigate('/editor')} size='sm'>
+          <Edit className='h-4 w-4 mr-2' />
+          Start Designing
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <>
       <div
@@ -157,7 +185,7 @@ export function ThemeCard({
           isSelected ? 'ring-2' : 'hover:ring-1'
         } ${className}`}
         style={selectionStyle}
-        onClick={() => onSelect(theme.name)}
+        onClick={() => onSelect(theme?.name || '')}
       >
         {variant === 'simple' ? renderSimpleContent() : renderDefaultContent()}
       </div>
@@ -168,7 +196,7 @@ export function ThemeCard({
             <DialogTitle>Delete Theme</DialogTitle>
             <DialogDescription>
               Are you sure you want to delete the theme &quot;
-              {theme.displayName}&quot;?
+              {theme?.displayName || ''}&quot;?
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

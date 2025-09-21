@@ -1,7 +1,7 @@
 import Header from '@/components/Header';
 import Layout from '@/components/Layout';
+import { ThemeCard } from '@/components/ThemeCard';
 import { ThemeSelector } from '@/components/ThemeSelector';
-import { WorkingThemeCard } from '@/components/WorkingThemeCard';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -10,46 +10,18 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useErrors } from '@/hooks/useErrors';
 import { useWorkingTheme } from '@/hooks/useWorkingTheme';
 import { Loader2, Palette } from 'lucide-react';
 import { useTheme } from 'theme-o-rama';
 
 export default function Themes() {
-  const { currentTheme, isLoading, setTheme, setCustomTheme, reloadThemes } =
-    useTheme();
-  const { addError } = useErrors();
-  const { workingTheme, workingThemeJson, clearWorkingTheme } =
-    useWorkingTheme();
-  const handleApplyTheme = () => {
-    if (!workingThemeJson || !workingThemeJson.trim()) {
-      addError({
-        kind: 'invalid',
-        reason: 'Please enter theme JSON',
-      });
-      return;
-    }
+  const { currentTheme, isLoading, setCustomTheme, reloadThemes } = useTheme();
+  const { workingTheme, workingThemeJson } = useWorkingTheme();
 
-    try {
-      const success = setCustomTheme(workingThemeJson);
-      if (!success) {
-        addError({
-          kind: 'invalid',
-          reason: 'Failed to apply theme. Please check your JSON format.',
-        });
-      }
-    } catch (err) {
-      addError({
-        kind: 'invalid',
-        reason: 'An error occurred while applying the theme',
-      });
-      console.error('Error applying theme:', err);
+  const handleApplyWorkingTheme = () => {
+    if (workingThemeJson && workingThemeJson.trim()) {
+      setCustomTheme(workingThemeJson);
     }
-  };
-
-  const handleClearTheme = () => {
-    clearWorkingTheme();
-    setTheme('light');
   };
 
   if (isLoading) {
@@ -99,7 +71,8 @@ export default function Themes() {
                       Choose Your Theme
                     </CardTitle>
                     <CardDescription>
-                      Select from our collection of beautiful themes
+                      Start with one of these themes or pick up where you left
+                      off
                     </CardDescription>
                   </div>
                   <Button
@@ -122,22 +95,15 @@ export default function Themes() {
                     <h3 className='text-sm font-medium mb-3'>
                       Work in Progress
                     </h3>
-                    <WorkingThemeCard
+                    <ThemeCard
                       theme={workingTheme}
-                      isSelected={currentTheme?.name === workingTheme?.name}
-                      onSelect={handleApplyTheme}
-                      onClear={handleClearTheme}
-                      className='max-w-xs'
+                      currentTheme={currentTheme}
+                      isSelected={currentTheme.name === workingTheme?.name}
+                      onSelect={handleApplyWorkingTheme}
                     />
                   </div>
 
-                  {/* Theme Selector */}
-                  <div>
-                    <h3 className='text-sm font-medium mb-3'>
-                      Available Themes
-                    </h3>
-                    <ThemeSelector />
-                  </div>
+                  <ThemeSelector />
                 </div>
               </CardContent>
             </Card>

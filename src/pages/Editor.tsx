@@ -238,13 +238,11 @@ export default function Editor() {
     return generateThemeFromColor(selectedColor, generatedImageUrl, themeName);
   }, [selectedColor, generatedImageUrl, themeName, generateThemeFromColor]);
 
-  // Apply theme when color, background image, or theme name changes
+  // Update working theme when color, background image, or theme name changes
+  // (but don't automatically apply to current theme)
   useEffect(() => {
-    const themeJson = JSON.stringify(generatedTheme, null, 2);
-    setCustomTheme(themeJson);
-    // Also update the working theme
     updateWorkingTheme(generatedTheme);
-  }, [generatedTheme, setCustomTheme, updateWorkingTheme]);
+  }, [generatedTheme, updateWorkingTheme]);
 
   // Handlers
   const handleApplyTheme = () => {

@@ -37,7 +37,7 @@ export function ThemeSelector() {
       {/* Default Themes */}
       {defaultThemes.length > 0 && (
         <div>
-          <h3 className='text-lg font-semibold mb-4'>Default Themes</h3>
+          <h3 className='text-lg font-semibold mb-4'>Available Themes</h3>
           <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
             {defaultThemes.map((theme: Theme) => (
               <ThemeCard
