@@ -10,13 +10,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useErrors } from '@/hooks/useErrors';
 import { useWorkingTheme } from '@/hooks/useWorkingTheme';
 import { validateThemeJson } from '@/lib/themes';
-import { isTauriEnvironment, isValidFilename, rgbToHsl } from '@/lib/utils';
+import {
+  hslToRgb,
+  isTauriEnvironment,
+  isValidFilename,
+  rgbToHsl,
+} from '@/lib/utils';
 import { open, save } from '@tauri-apps/plugin-dialog';
 import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
 import {
@@ -59,23 +65,20 @@ export default function Editor() {
     b: 51,
   });
 
-  const [prompt, setPrompt] = useLocalStorage<string>(
-    'theme-o-rama-design-prompt',
-    '',
-  );
+  const [colorPickerColor, setColorPickerColor] = useState<{
+    r: number;
+    g: number;
+    b: number;
+  }>(selectedColor);
 
-  const [generatedImageUrl, setGeneratedImageUrl] = useLocalStorage<
-    string | null
-  >('theme-o-rama-design-generated-image-url', null);
+  const [backgroundImage, setBackgroundImage] = useLocalStorage<string | null>(
+    'background-image',
+    null,
+  );
 
   const [themeName, setThemeName] = useLocalStorage<string>(
     'theme-o-rama-design-theme-name',
     '',
-  );
-
-  const [selectedImageModel, setSelectedImageModel] = useLocalStorage<string>(
-    'theme-o-rama-image-model',
-    'dall-e-3',
   );
 
   const [backdropFilters, setBackdropFilters] = useLocalStorage<boolean>(
@@ -83,7 +86,6 @@ export default function Editor() {
     true,
   );
 
-  // Editor state
   const [isApplying, setIsApplying] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [validationState, setValidationState] = useState<
@@ -91,7 +93,6 @@ export default function Editor() {
   >('none');
   const [isTauri, setIsTauri] = useState(false);
 
-  // Initialize Tauri detection
   useEffect(() => {
     setIsTauri(isTauriEnvironment());
   }, []);
@@ -101,66 +102,18 @@ export default function Editor() {
     if (workingTheme) {
       // Extract data from working theme to populate form fields
       if (workingTheme.colors?.themeColor) {
-        // Parse HSL color to RGB
-        const hslMatch = workingTheme.colors.themeColor.match(
-          /hsl\((\d+)\s+(\d+)%\s+(\d+)%\)/,
-        );
-        if (hslMatch) {
-          const h = parseInt(hslMatch[1]);
-          const s = parseInt(hslMatch[2]);
-          const l = parseInt(hslMatch[3]);
-
-          // Convert HSL to RGB
-          const c = ((1 - Math.abs((2 * l) / 100 - 1)) * s) / 100;
-          const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-          const m = l / 100 - c / 2;
-
-          let r, g, b;
-          if (0 <= h && h < 60) {
-            r = c;
-            g = x;
-            b = 0;
-          } else if (60 <= h && h < 120) {
-            r = x;
-            g = c;
-            b = 0;
-          } else if (120 <= h && h < 180) {
-            r = 0;
-            g = c;
-            b = x;
-          } else if (180 <= h && h < 240) {
-            r = 0;
-            g = x;
-            b = c;
-          } else if (240 <= h && h < 300) {
-            r = x;
-            g = 0;
-            b = c;
-          } else {
-            r = c;
-            g = 0;
-            b = x;
-          }
-
-          setSelectedColor({
-            r: Math.round((r + m) * 255),
-            g: Math.round((g + m) * 255),
-            b: Math.round((b + m) * 255),
-          });
+        const newColor = hslToRgb(workingTheme.colors.themeColor);
+        if (newColor) {
+          setSelectedColor(newColor);
+          setColorPickerColor(newColor);
         }
       }
 
       if (workingTheme.displayName) {
         setThemeName(workingTheme.displayName);
       }
-
-      if (workingTheme.backgroundImage) {
-        // Save the working theme's background image to localStorage for unified handling
-        localStorage.setItem('background-image', workingTheme.backgroundImage);
-        setGeneratedImageUrl(workingTheme.backgroundImage);
-      }
     }
-  }, [workingTheme, setSelectedColor, setThemeName, setGeneratedImageUrl]);
+  }, [workingTheme, setSelectedColor, setThemeName]);
 
   // Generate theme JSON from selected color and optional background image
   const generateThemeFromColor = useCallback(
@@ -181,7 +134,9 @@ export default function Editor() {
         mostLike: (hsl.l > 50 ? 'light' : 'dark') as 'light' | 'dark',
         inherits: 'color',
         schemaVersion: 1 as const,
-        backgroundImage: backgroundImageUrl || undefined,
+        backgroundImage: backgroundImageUrl
+          ? '{NEED_DATA_URL_BACKGROUND_IMAGE}'
+          : undefined,
         colors: {
           themeColor: `hsl(${hsl.h} ${hsl.s}% ${hsl.l}%)`,
           background: backgroundImageUrl ? 'transparent' : `var(--theme-color)`,
@@ -235,14 +190,16 @@ export default function Editor() {
 
   // Memoize the generated theme to prevent unnecessary re-renders
   const generatedTheme = useMemo(() => {
-    return generateThemeFromColor(selectedColor, generatedImageUrl, themeName);
-  }, [selectedColor, generatedImageUrl, themeName, generateThemeFromColor]);
+    return generateThemeFromColor(selectedColor, backgroundImage, themeName);
+  }, [selectedColor, backgroundImage, themeName, generateThemeFromColor]);
 
-  // Update working theme when color, background image, or theme name changes
-  // (but don't automatically apply to current theme)
+  // Update working theme only when user explicitly changes color, background image, or theme name
+  // This prevents circular updates that cause jittery behavior
+  // Note: We intentionally don't include generatedTheme in deps to prevent circular updates
   useEffect(() => {
     updateWorkingTheme(generatedTheme);
-  }, [generatedTheme, updateWorkingTheme]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedColor, backgroundImage, themeName, updateWorkingTheme]);
 
   // Handlers
   const handleApplyTheme = () => {
@@ -262,11 +219,6 @@ export default function Editor() {
         addError({
           kind: 'invalid',
           reason: 'Failed to apply theme. Please check your JSON format.',
-        });
-      } else {
-        addError({
-          kind: 'success',
-          reason: 'Working theme applied successfully!',
         });
       }
     } catch (err) {
@@ -293,10 +245,6 @@ export default function Editor() {
     try {
       validateThemeJson(workingThemeJson);
       setValidationState('valid');
-      addError({
-        kind: 'success',
-        reason: 'Theme JSON is valid',
-      });
     } catch (err) {
       setValidationState('invalid');
       addError({
@@ -415,11 +363,6 @@ export default function Editor() {
 
             // Update the working theme with the file content
             updateWorkingThemeFromJson(fileContent);
-
-            addError({
-              kind: 'success',
-              reason: 'Theme file loaded and validated successfully',
-            });
           } catch (validationError) {
             setValidationState('invalid');
             addError({
@@ -456,10 +399,6 @@ export default function Editor() {
         try {
           setValidationState('none');
           updateWorkingThemeFromJson(fileContent);
-          addError({
-            kind: 'success',
-            reason: 'Theme file loaded successfully',
-          });
         } catch (validationError) {
           setValidationState('invalid');
           addError({
@@ -506,8 +445,8 @@ export default function Editor() {
                     <CardContent className='space-y-4'>
                       <div className='flex justify-center'>
                         <RgbColorPicker
-                          color={selectedColor}
-                          onChange={setSelectedColor}
+                          color={colorPickerColor}
+                          onChange={setColorPickerColor}
                           style={{ width: '200px', height: '200px' }}
                         />
                       </div>
@@ -515,37 +454,37 @@ export default function Editor() {
                         <div
                           className='w-16 h-16 mx-auto rounded-lg border-2 border-border shadow-sm'
                           style={{
-                            backgroundColor: `rgba(${selectedColor.r}, ${selectedColor.g}, ${selectedColor.b})`,
+                            backgroundColor: `rgba(${colorPickerColor.r}, ${colorPickerColor.g}, ${colorPickerColor.b})`,
                           }}
                         />
                         <div className='mt-2 space-y-1'>
                           <p className='text-sm text-muted-foreground'>
-                            RGBA({selectedColor.r}, {selectedColor.g},{' '}
-                            {selectedColor.b})
+                            RGBA({colorPickerColor.r}, {colorPickerColor.g},{' '}
+                            {colorPickerColor.b})
                           </p>
                           <p className='text-sm text-muted-foreground'>
                             HSL(
                             {
                               rgbToHsl(
-                                selectedColor.r,
-                                selectedColor.g,
-                                selectedColor.b,
+                                colorPickerColor.r,
+                                colorPickerColor.g,
+                                colorPickerColor.b,
                               ).h
                             }
                             ,{' '}
                             {
                               rgbToHsl(
-                                selectedColor.r,
-                                selectedColor.g,
-                                selectedColor.b,
+                                colorPickerColor.r,
+                                colorPickerColor.g,
+                                colorPickerColor.b,
                               ).s
                             }
                             %,{' '}
                             {
                               rgbToHsl(
-                                selectedColor.r,
-                                selectedColor.g,
-                                selectedColor.b,
+                                colorPickerColor.r,
+                                colorPickerColor.g,
+                                colorPickerColor.b,
                               ).l
                             }
                             %)
@@ -557,12 +496,8 @@ export default function Editor() {
 
                   {/* Image Generation */}
                   <BackgroundImageEditor
-                    prompt={prompt}
-                    onPromptChange={setPrompt}
-                    generatedImageUrl={generatedImageUrl}
-                    onGeneratedImageChange={setGeneratedImageUrl}
-                    selectedImageModel={selectedImageModel}
-                    onImageModelChange={setSelectedImageModel}
+                    backgroundImageUrl={backgroundImage}
+                    onBackgroundImageChange={setBackgroundImage}
                     selectedColor={selectedColor}
                     backdropFilters={backdropFilters}
                     onBackdropFiltersChange={setBackdropFilters}
@@ -695,7 +630,7 @@ export default function Editor() {
                 <div className='mt-4 space-y-2'>
                   <Label htmlFor='themeName'>Theme Name</Label>
                   <div className='flex gap-2'>
-                    <input
+                    <Input
                       id='themeName'
                       placeholder='Enter a name for your theme'
                       value={themeName}

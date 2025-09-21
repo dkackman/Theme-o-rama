@@ -11,7 +11,6 @@ import { ThemeProvider, useTheme } from 'theme-o-rama';
 import { ErrorProvider } from './contexts/ErrorContext';
 import About from './pages/About';
 import Components from './pages/Components';
-import Design from './pages/Design';
 import Dialogs from './pages/Dialogs';
 import Editor from './pages/Editor';
 import Tables from './pages/Tables';
@@ -56,7 +55,6 @@ const router = createHashRouter(
       <Route path='/dialogs' element={<Dialogs />} />
       <Route path='/about' element={<About />} />
       <Route path='/theme-preview' element={<ThemePreview />} />
-      <Route path='/design' element={<Design />} />
       <Route path='/editor' element={<Editor />} />
     </>,
   ),

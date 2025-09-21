@@ -1,4 +1,3 @@
-import { isTauriEnvironment } from '@/lib/utils';
 import {
   AppWindow,
   Component,
@@ -32,6 +31,7 @@ export function TopNav({ isCollapsed }: NavProps) {
       >
         <SwatchBook className={className} aria-hidden='true' />
       </NavLink>
+
       <NavLink url={'/editor'} isCollapsed={isCollapsed} message='Editor'>
         <Pencil className={className} />
       </NavLink>
@@ -48,12 +48,6 @@ export function TopNav({ isCollapsed }: NavProps) {
       <NavLink url={'/dialogs'} isCollapsed={isCollapsed} message='Dialogs'>
         <AppWindow className={className} />
       </NavLink>
-      {/* Only show Design link in Tauri environment */}
-      {isTauriEnvironment() && (
-        <NavLink url={'/design'} isCollapsed={isCollapsed} message='Design'>
-          <Pencil className={className} />
-        </NavLink>
-      )}
       <NavLink url={'/about'} isCollapsed={isCollapsed} message='About'>
         <Info className={className} />
       </NavLink>

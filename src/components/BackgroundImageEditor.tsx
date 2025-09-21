@@ -17,17 +17,14 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { generateImage } from '@/lib/opeanai';
-import { Image, MessageSquare, Trash2, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Image, MessageSquare, X } from 'lucide-react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { useLocalStorage } from 'usehooks-ts';
 
 interface BackgroundImageEditorProps {
-  prompt: string;
-  onPromptChange: (prompt: string) => void;
-  generatedImageUrl: string | null;
-  onGeneratedImageChange: (url: string | null) => void;
-  selectedImageModel?: string;
-  onImageModelChange?: (model: string) => void;
+  backgroundImageUrl: string | null;
+  onBackgroundImageChange: (url: string | null) => void;
   selectedColor?: { r: number; g: number; b: number };
   backdropFilters?: boolean;
   onBackdropFiltersChange?: (enabled: boolean) => void;
@@ -35,26 +32,22 @@ interface BackgroundImageEditorProps {
 }
 
 export function BackgroundImageEditor({
-  prompt,
-  onPromptChange,
-  generatedImageUrl,
-  onGeneratedImageChange,
-  selectedImageModel = 'dall-e-3',
-  onImageModelChange,
+  backgroundImageUrl,
+  onBackgroundImageChange,
   selectedColor,
   backdropFilters = true,
   onBackdropFiltersChange,
   className,
 }: BackgroundImageEditorProps) {
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
-
-  // Load background image from localStorage on component mount
-  useEffect(() => {
-    const savedBackgroundImage = localStorage.getItem('background-image');
-    if (savedBackgroundImage && savedBackgroundImage !== generatedImageUrl) {
-      onGeneratedImageChange(savedBackgroundImage);
-    }
-  }, [generatedImageUrl, onGeneratedImageChange]);
+  const [selectedImageModel, setSelectedImageModel] = useLocalStorage<string>(
+    'theme-o-rama-image-model',
+    'dall-e-3',
+  );
+  const [prompt, setPrompt] = useLocalStorage<string>(
+    'theme-o-rama-design-prompt',
+    '',
+  );
 
   const handleGenerateImage = async () => {
     if (!prompt.trim()) {
@@ -75,10 +68,7 @@ export function BackgroundImageEditor({
       );
 
       if (imageUrl) {
-        // Save the generated image to localStorage and update state
-        localStorage.setItem('background-image', imageUrl);
-        onGeneratedImageChange(imageUrl);
-        toast.success('Image generated successfully');
+        onBackgroundImageChange(imageUrl);
       } else {
         toast.error('Failed to generate image');
       }
@@ -91,9 +81,13 @@ export function BackgroundImageEditor({
   };
 
   const handleClearBackgroundImage = () => {
-    // Clear both state and localStorage
-    localStorage.removeItem('background-image');
-    onGeneratedImageChange(null);
+    onBackgroundImageChange(null);
+    const fileInput = document.getElementById(
+      'background-image-upload',
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
   };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,27 +96,11 @@ export function BackgroundImageEditor({
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        // Save the uploaded image to localStorage and update state
-        localStorage.setItem('background-image', result);
-        onGeneratedImageChange(result);
-        toast.success('Image uploaded successfully');
+        onBackgroundImageChange(result);
       };
       reader.readAsDataURL(file);
     }
     event.target.value = '';
-  };
-
-  const handleDeleteUploadedImage = () => {
-    // Clear both state and localStorage
-    localStorage.removeItem('background-image');
-    onGeneratedImageChange(null);
-    // Clear the file input value
-    const fileInput = document.getElementById(
-      'background-image-upload',
-    ) as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = '';
-    }
   };
 
   return (
@@ -138,27 +116,25 @@ export function BackgroundImageEditor({
             id='prompt'
             placeholder='e.g., "A modern minimalist design with clean lines and subtle shadows"'
             value={prompt}
-            onChange={(e) => onPromptChange(e.target.value)}
+            onChange={(e) => setPrompt(e.target.value)}
             className='min-h-[80px]'
           />
         </div>
 
         <div className='flex items-center gap-3'>
           <div className='flex-1'>
-            {onImageModelChange && (
-              <Select
-                value={selectedImageModel}
-                onValueChange={onImageModelChange}
-              >
-                <SelectTrigger id='imageModel'>
-                  <SelectValue placeholder='Select model' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value='dall-e-3'>DALL-E 3</SelectItem>
-                  <SelectItem value='gpt-image-1'>GPT Image 1</SelectItem>
-                </SelectContent>
-              </Select>
-            )}
+            <Select
+              value={selectedImageModel}
+              onValueChange={setSelectedImageModel}
+            >
+              <SelectTrigger id='imageModel'>
+                <SelectValue placeholder='Select model' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='dall-e-3'>DALL-E 3</SelectItem>
+                <SelectItem value='gpt-image-1'>GPT Image 1</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className='flex items-center space-x-2'>
             {onBackdropFiltersChange && (
@@ -201,12 +177,12 @@ export function BackgroundImageEditor({
         </div>
 
         {/* Image Preview */}
-        {generatedImageUrl && (
+        {backgroundImageUrl && (
           <div className='flex justify-center'>
             <div className='relative'>
               <img
-                src={generatedImageUrl}
-                alt='Generated theme image'
+                src={backgroundImageUrl}
+                alt='Background image'
                 className='max-w-full h-auto max-h-32 rounded-lg border border-border shadow-sm'
               />
               <Button
@@ -245,28 +221,7 @@ export function BackgroundImageEditor({
                 </Button>
               </div>
 
-              {/* Image Preview for uploaded images */}
-              {generatedImageUrl && (
-                <div className='flex items-center gap-2'>
-                  <div className='w-8 h-8 rounded border overflow-hidden bg-gray-100'>
-                    <img
-                      src={generatedImageUrl}
-                      alt='Background preview'
-                      className='w-full h-full object-cover'
-                    />
-                  </div>
-                  <Button
-                    variant='ghost'
-                    size='sm'
-                    onClick={handleDeleteUploadedImage}
-                    className='text-red-600 hover:text-red-700 hover:bg-red-50'
-                  >
-                    <Trash2 className='h-4 w-4' />
-                  </Button>
-                </div>
-              )}
-
-              {!generatedImageUrl && (
+              {!backgroundImageUrl && (
                 <span className='text-sm text-gray-500'>
                   No background image set
                 </span>
