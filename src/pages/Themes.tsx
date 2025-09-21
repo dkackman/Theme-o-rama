@@ -44,6 +44,7 @@ export default function Themes() {
   const [validationState, setValidationState] = useState<
     'none' | 'valid' | 'invalid'
   >('none');
+  const [isTauri, setIsTauri] = useState(false);
 
   // Load theme JSON, background image, and maximized state from localStorage on component mount
   useEffect(() => {
@@ -61,6 +62,9 @@ export default function Themes() {
     if (savedMaximized !== null) {
       setIsMaximized(savedMaximized === 'true');
     }
+
+    // Detect Tauri environment
+    setIsTauri(isTauriEnvironment());
   }, []);
 
   // Save theme JSON to localStorage whenever it changes
@@ -145,7 +149,6 @@ export default function Themes() {
       };
       reader.readAsDataURL(file);
     }
-    // Clear the input value so the same file can be selected again
     event.target.value = '';
   };
 
@@ -161,49 +164,17 @@ export default function Themes() {
     }
   };
 
-  const handleOpenTheme = async () => {
-    if (!isTauriEnvironment()) {
-      addError({
-        kind: 'invalid',
-        reason: 'Open Theme is only available in the desktop app',
-      });
-      return;
-    }
+  const handleWebFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const fileContent = e.target?.result as string;
 
-    try {
-      // Show file open dialog
-      const filePath = await open({
-        filters: [
-          {
-            name: 'Theme Files',
-            extensions: ['json'],
-          },
-          {
-            name: 'All Files',
-            extensions: ['*'],
-          },
-        ],
-      });
-
-      if (filePath) {
-        // Read the file content
-        const fileContent = await readTextFile(filePath as string);
-
-        // Validate the JSON
         try {
-          validateThemeJson(fileContent);
-          setValidationState('valid');
-
-          // Update the textarea with the file content
+          setValidationState('none');
           updateThemeJson(fileContent);
-
-          // Save to localStorage
           localStorage.setItem('custom-theme-json', fileContent);
-
-          addError({
-            kind: 'success',
-            reason: 'Theme file loaded and validated successfully',
-          });
         } catch (validationError) {
           setValidationState('invalid');
           addError({
@@ -211,13 +182,71 @@ export default function Themes() {
             reason: `Invalid theme file: ${validationError}`,
           });
         }
+      };
+      reader.readAsText(file);
+    }
+    event.target.value = '';
+  };
+
+  const handleOpenTheme = async () => {
+    if (isTauri) {
+      try {
+        // Show file open dialog
+        const filePath = await open({
+          filters: [
+            {
+              name: 'Theme Files',
+              extensions: ['json'],
+            },
+            {
+              name: 'All Files',
+              extensions: ['*'],
+            },
+          ],
+        });
+
+        if (filePath) {
+          // Read the file content
+          const fileContent = await readTextFile(filePath as string);
+
+          // Validate the JSON
+          try {
+            validateThemeJson(fileContent);
+            setValidationState('valid');
+
+            // Update the textarea with the file content
+            updateThemeJson(fileContent);
+
+            // Save to localStorage
+            localStorage.setItem('custom-theme-json', fileContent);
+
+            addError({
+              kind: 'success',
+              reason: 'Theme file loaded and validated successfully',
+            });
+          } catch (validationError) {
+            setValidationState('invalid');
+            addError({
+              kind: 'invalid',
+              reason: `Invalid theme file: ${validationError}`,
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error opening theme file:', error);
+        addError({
+          kind: 'invalid',
+          reason: 'Failed to open theme file',
+        });
       }
-    } catch (error) {
-      console.error('Error opening theme file:', error);
-      addError({
-        kind: 'invalid',
-        reason: 'Failed to open theme file',
-      });
+    } else {
+      // Web environment - trigger file input
+      const fileInput = document.getElementById(
+        'theme-file-input',
+      ) as HTMLInputElement;
+      if (fileInput) {
+        fileInput.click();
+      }
     }
   };
 
@@ -411,18 +440,24 @@ export default function Themes() {
                       Validate
                     </Button>
                   </div>
-                  {/* Only show Open Theme button in Tauri environment */}
-                  {isTauriEnvironment() && (
-                    <Button
-                      onClick={handleOpenTheme}
-                      variant='outline'
-                      className='w-full sm:w-auto sm:ml-auto'
-                    >
-                      <FolderOpen className='mr-2 h-4 w-4' />
-                      Open Theme
-                    </Button>
-                  )}
+                  <Button
+                    onClick={handleOpenTheme}
+                    variant='outline'
+                    className='w-full sm:w-auto sm:ml-auto'
+                  >
+                    <FolderOpen className='mr-2 h-4 w-4' />
+                    Open Theme
+                  </Button>
                 </div>
+
+                {/* Hidden file input for web environment */}
+                <input
+                  type='file'
+                  accept='.json,application/json'
+                  onChange={handleWebFileUpload}
+                  className='hidden'
+                  id='theme-file-input'
+                />
 
                 {/* Background Image Upload Section */}
                 <div className='border-t pt-4'>
