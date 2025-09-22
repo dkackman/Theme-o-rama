@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Layout from '@/components/Layout';
 import { ThemeActions } from '@/components/ThemeActions';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -14,8 +15,12 @@ import {
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
+import { useErrors } from '@/hooks/useErrors';
 import { useWorkingTheme } from '@/hooks/useWorkingTheme';
-import { Info } from 'lucide-react';
+import { ChevronDown, ChevronUp, Info, Loader2, Upload } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { useTheme } from 'theme-o-rama';
+import { useLocalStorage } from 'usehooks-ts';
 
 export default function Editor() {
   const {
@@ -26,20 +31,84 @@ export default function Editor() {
     selectedColor,
     colorPickerColor,
     backgroundImage,
-    setBackgroundImage,
     themeName,
     setThemeName,
     backdropFilters,
-    setBackdropFilters,
     generatedTheme,
     handleColorPickerChange,
+    handleBackdropFiltersChange,
+    handleBackgroundImageChange,
   } = useWorkingTheme();
 
-  // UI state (not theme-related)
+  const { addError } = useErrors();
+  const { setCustomTheme } = useTheme();
+  const [isActionsPanelMinimized, setIsActionsPanelMinimized] =
+    useLocalStorage<boolean>('theme-o-rama-actions-panel-minimized', false);
 
-  const updateThemeJson = (value: string) => {
-    updateWorkingThemeFromJson(value);
-  };
+  // JSON editor state
+  const [jsonEditorValue, setJsonEditorValue] = useState(
+    workingThemeJson || '',
+  );
+  const [isApplyingJson, setIsApplyingJson] = useState(false);
+  const [isUserEditingJson, setIsUserEditingJson] = useState(false);
+
+  // Handler for applying JSON editor changes
+  const handleApplyJsonTheme = useCallback(() => {
+    if (!jsonEditorValue || !jsonEditorValue.trim()) {
+      addError({
+        kind: 'invalid',
+        reason: 'Please enter theme JSON',
+      });
+      return;
+    }
+
+    setIsApplyingJson(true);
+
+    try {
+      const success = setCustomTheme(jsonEditorValue);
+      if (!success) {
+        addError({
+          kind: 'invalid',
+          reason: 'Failed to apply theme. Please check your JSON format.',
+        });
+      } else {
+        // Update the working theme with the applied JSON
+        updateWorkingThemeFromJson(jsonEditorValue);
+      }
+    } catch (err) {
+      addError({
+        kind: 'invalid',
+        reason: 'An error occurred while applying the theme',
+      });
+      console.error('Error applying theme:', err);
+    } finally {
+      setIsApplyingJson(false);
+    }
+  }, [jsonEditorValue, setCustomTheme, addError, updateWorkingThemeFromJson]);
+
+  // Update JSON editor when working theme changes (from visual updates)
+  const updateJsonEditorFromWorkingTheme = useCallback(() => {
+    // Only sync if user is not actively editing the JSON
+    if (!isUserEditingJson && workingThemeJson !== jsonEditorValue) {
+      setJsonEditorValue(workingThemeJson || '');
+    }
+  }, [workingThemeJson, jsonEditorValue, isUserEditingJson]);
+
+  // Handler for when user starts editing JSON
+  const handleJsonEditorChange = useCallback((value: string) => {
+    setJsonEditorValue(value);
+    setIsUserEditingJson(true);
+  }, []);
+
+  // Handler for when user stops editing JSON (on blur)
+  const handleJsonEditorBlur = useCallback(() => {
+    setIsUserEditingJson(false);
+  }, []);
+
+  // Sync JSON editor with working theme changes
+  useEffect(() => {
+    updateJsonEditorFromWorkingTheme();
+  }, [updateJsonEditorFromWorkingTheme]);
 
   try {
     return (
@@ -77,10 +146,10 @@ export default function Editor() {
                   {/* Image Generation */}
                   <BackgroundImageEditor
                     backgroundImageUrl={backgroundImage}
-                    onBackgroundImageChange={setBackgroundImage}
+                    onBackgroundImageChange={handleBackgroundImageChange}
                     selectedColor={selectedColor}
                     backdropFilters={backdropFilters}
-                    onBackdropFiltersChange={setBackdropFilters}
+                    onBackdropFiltersChange={handleBackdropFiltersChange}
                   />
                 </div>
               </TabsContent>
@@ -91,15 +160,36 @@ export default function Editor() {
                   <CardHeader>
                     <CardTitle className='text-lg'>JSON Editor</CardTitle>
                     <CardDescription>
-                      Edit your theme directly in JSON format
+                      Edit your theme directly in JSON format. Changes are
+                      applied when you click Apply.
                     </CardDescription>
                   </CardHeader>
                   <CardContent className='space-y-4'>
-                    <Label htmlFor='theme-json'>Theme JSON</Label>
+                    <div className='flex items-center justify-between'>
+                      <Label htmlFor='theme-json'>Theme JSON</Label>
+                      <Button
+                        onClick={handleApplyJsonTheme}
+                        disabled={isApplyingJson || !jsonEditorValue?.trim()}
+                        className='flex items-center gap-2'
+                      >
+                        {isApplyingJson ? (
+                          <>
+                            <Loader2 className='h-4 w-4 animate-spin' />
+                            Applying...
+                          </>
+                        ) : (
+                          <>
+                            <Upload className='h-4 w-4' />
+                            Apply Theme
+                          </>
+                        )}
+                      </Button>
+                    </div>
                     <Textarea
                       id='theme-json'
-                      value={workingThemeJson || ''}
-                      onChange={(e) => updateThemeJson(e.target.value)}
+                      value={jsonEditorValue}
+                      onChange={(e) => handleJsonEditorChange(e.target.value)}
+                      onBlur={handleJsonEditorBlur}
                       className='w-full h-80 p-3 border border-gray-300 rounded font-mono text-sm bg-gray-50 resize-y'
                       style={{
                         fontFamily:
@@ -123,23 +213,47 @@ export default function Editor() {
 
             {/* Actions Panel */}
             <Card>
-              <CardHeader>
-                <CardTitle className='text-lg'>Actions</CardTitle>
-                <CardDescription>
-                  Manage your theme with these actions
-                </CardDescription>
+              <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-4'>
+                <div>
+                  <CardTitle className='text-lg'>Actions</CardTitle>
+                  <CardDescription>
+                    Manage your theme with these actions
+                  </CardDescription>
+                </div>
+                <Button
+                  variant='ghost'
+                  size='sm'
+                  onClick={() =>
+                    setIsActionsPanelMinimized(!isActionsPanelMinimized)
+                  }
+                  className='h-8 w-8 p-0'
+                >
+                  {isActionsPanelMinimized ? (
+                    <ChevronDown className='h-4 w-4' />
+                  ) : (
+                    <ChevronUp className='h-4 w-4' />
+                  )}
+                </Button>
               </CardHeader>
-              <CardContent>
-                <ThemeActions
-                  workingThemeJson={workingThemeJson}
-                  themeName={themeName}
-                  generatedTheme={generatedTheme}
-                  setThemeName={setThemeName}
-                  updateWorkingTheme={updateWorkingTheme}
-                  updateWorkingThemeFromJson={updateWorkingThemeFromJson}
-                  clearWorkingTheme={clearWorkingTheme}
-                />
-              </CardContent>
+              <div
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                  isActionsPanelMinimized
+                    ? 'max-h-0 opacity-0'
+                    : 'max-h-[1000px] opacity-100'
+                }`}
+              >
+                <CardContent>
+                  <ThemeActions
+                    workingThemeJson={workingThemeJson}
+                    themeName={themeName}
+                    generatedTheme={generatedTheme}
+                    setThemeName={setThemeName}
+                    updateWorkingTheme={updateWorkingTheme}
+                    updateWorkingThemeFromJson={updateWorkingThemeFromJson}
+                    clearWorkingTheme={clearWorkingTheme}
+                  />
+                </CardContent>
+              </div>
             </Card>
           </div>
         </div>

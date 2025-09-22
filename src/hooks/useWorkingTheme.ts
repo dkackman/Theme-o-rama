@@ -1,11 +1,12 @@
 import { areColorsEqual, hslToRgb, rgbToHsl } from '@/lib/utils';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Theme } from 'theme-o-rama';
+import { Theme, useTheme } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 
 const WORKING_THEME_KEY = 'theme-o-rama-working-theme';
 
 export function useWorkingTheme() {
+  const { setCustomTheme } = useTheme();
   const [workingThemeJson, setWorkingThemeJson] = useLocalStorage<
     string | null
   >(WORKING_THEME_KEY, null);
@@ -172,8 +173,78 @@ export function useWorkingTheme() {
     (newColor: { r: number; g: number; b: number }) => {
       setColorPickerColor(newColor);
       setSelectedColor(newColor);
+
+      // Auto-apply the theme when color changes
+      if (workingThemeJson) {
+        const updatedTheme = generateThemeFromColor(
+          newColor,
+          backgroundImage,
+          themeName,
+          backdropFilters,
+        );
+        const updatedThemeJson = JSON.stringify(updatedTheme, null, 2);
+        // Set the flag to prevent the working theme update effect from running
+        isUpdatingFromWorkingTheme.current = true;
+        setCustomTheme(updatedThemeJson);
+        // Reset the flag after a short delay
+        setTimeout(() => {
+          isUpdatingFromWorkingTheme.current = false;
+        }, 0);
+      }
     },
-    [setSelectedColor],
+    [setSelectedColor, workingThemeJson, generateThemeFromColor, backgroundImage, themeName, backdropFilters, setCustomTheme],
+  );
+
+  // Handler for backdrop filter changes that automatically applies the theme
+  const handleBackdropFiltersChange = useCallback(
+    (enabled: boolean) => {
+      setBackdropFilters(enabled);
+
+      // Auto-apply the theme when backdrop filter setting changes
+      if (workingThemeJson) {
+        const updatedTheme = generateThemeFromColor(
+          selectedColor,
+          backgroundImage,
+          themeName,
+          enabled,
+        );
+        const updatedThemeJson = JSON.stringify(updatedTheme, null, 2);
+        // Set the flag to prevent the working theme update effect from running
+        isUpdatingFromWorkingTheme.current = true;
+        setCustomTheme(updatedThemeJson);
+        // Reset the flag after a short delay
+        setTimeout(() => {
+          isUpdatingFromWorkingTheme.current = false;
+        }, 0);
+      }
+    },
+    [setBackdropFilters, workingThemeJson, generateThemeFromColor, selectedColor, backgroundImage, themeName, setCustomTheme],
+  );
+
+  // Handler for background image changes that automatically applies the theme
+  const handleBackgroundImageChange = useCallback(
+    (imageUrl: string | null) => {
+      setBackgroundImage(imageUrl);
+
+      // Auto-apply the theme when background image changes
+      if (workingThemeJson) {
+        const updatedTheme = generateThemeFromColor(
+          selectedColor,
+          imageUrl,
+          themeName,
+          backdropFilters,
+        );
+        const updatedThemeJson = JSON.stringify(updatedTheme, null, 2);
+        // Set the flag to prevent the working theme update effect from running
+        isUpdatingFromWorkingTheme.current = true;
+        setCustomTheme(updatedThemeJson);
+        // Reset the flag after a short delay
+        setTimeout(() => {
+          isUpdatingFromWorkingTheme.current = false;
+        }, 0);
+      }
+    },
+    [setBackgroundImage, workingThemeJson, generateThemeFromColor, selectedColor, themeName, backdropFilters, setCustomTheme],
   );
 
   // Load working theme data when component mounts
@@ -245,5 +316,7 @@ export function useWorkingTheme() {
     generateThemeFromColor,
     generatedTheme,
     handleColorPickerChange,
+    handleBackdropFiltersChange,
+    handleBackgroundImageChange,
   };
 }

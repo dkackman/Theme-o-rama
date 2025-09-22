@@ -6,15 +6,7 @@ import { validateThemeJson } from '@/lib/themes';
 import { isTauriEnvironment, isValidFilename } from '@/lib/utils';
 import { open, save } from '@tauri-apps/plugin-dialog';
 import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
-import {
-  Check,
-  Eye,
-  FolderOpen,
-  Loader2,
-  RotateCcw,
-  Save,
-  Upload,
-} from 'lucide-react';
+import { Check, Eye, FolderOpen, Loader2, RotateCcw, Save } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -44,9 +36,8 @@ export function ThemeActions({
 }: ThemeActionsProps) {
   const navigate = useNavigate();
   const { addError } = useErrors();
-  const { setTheme, setCustomTheme } = useTheme();
+  const { setTheme } = useTheme();
   const [isTauri, setIsTauri] = useState(false);
-  const [isApplying, setIsApplying] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [validationState, setValidationState] = useState<
     'none' | 'valid' | 'invalid'
@@ -57,35 +48,6 @@ export function ThemeActions({
   }, []);
 
   // Handlers
-  const handleApplyTheme = useCallback(() => {
-    if (!workingThemeJson || !workingThemeJson.trim()) {
-      addError({
-        kind: 'invalid',
-        reason: 'Please enter theme JSON',
-      });
-      return;
-    }
-
-    setIsApplying(true);
-
-    try {
-      const success = setCustomTheme(workingThemeJson);
-      if (!success) {
-        addError({
-          kind: 'invalid',
-          reason: 'Failed to apply theme. Please check your JSON format.',
-        });
-      }
-    } catch (err) {
-      addError({
-        kind: 'invalid',
-        reason: 'An error occurred while applying the theme',
-      });
-      console.error('Error applying theme:', err);
-    } finally {
-      setIsApplying(false);
-    }
-  }, [workingThemeJson, setCustomTheme, addError]);
 
   const handleValidateTheme = useCallback(() => {
     if (!workingThemeJson || !workingThemeJson.trim()) {
@@ -234,7 +196,7 @@ export function ThemeActions({
   return (
     <div className='space-y-4'>
       {/* Action Buttons */}
-      <div className='grid grid-cols-2 md:grid-cols-5 gap-3'>
+      <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
         <Button
           onClick={handleOpenTheme}
           variant='outline'
@@ -242,24 +204,6 @@ export function ThemeActions({
         >
           <FolderOpen className='h-5 w-5' />
           <span className='text-sm'>Open Theme</span>
-        </Button>
-
-        <Button
-          onClick={handleApplyTheme}
-          disabled={isApplying || !workingThemeJson?.trim()}
-          className='flex flex-col items-center gap-2 h-auto py-4'
-        >
-          {isApplying ? (
-            <>
-              <Loader2 className='h-5 w-5 animate-spin' />
-              <span className='text-sm'>Applying...</span>
-            </>
-          ) : (
-            <>
-              <Upload className='h-5 w-5' />
-              <span className='text-sm'>Apply Theme</span>
-            </>
-          )}
         </Button>
 
         <Button
