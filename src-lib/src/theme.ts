@@ -9,24 +9,25 @@ function applyCommonThemeProperties(theme: Theme, root: HTMLElement): void {
 
   // Set theme class for CSS selectors
   // Set data attributes for theme styles
-  const buttonStyle = theme.buttonStyle || '';
-  root.setAttribute('data-theme-styles', buttonStyle);
+  root.setAttribute('data-theme-styles', theme.buttonStyle || '');
 
   if (theme.backgroundImage) {
     root.style.setProperty(
       '--background-image',
       `url(${theme.backgroundImage})`,
     );
-
-    const backgroundSize = theme.backgroundSize || 'cover';
-    root.style.setProperty('--background-size', backgroundSize);
-
-    const backgroundPosition = theme.backgroundPosition || 'center';
-    root.style.setProperty('--background-position', backgroundPosition);
-
-    const backgroundRepeat = theme.backgroundRepeat || 'no-repeat';
-    root.style.setProperty('--background-repeat', backgroundRepeat);
-
+    root.style.setProperty(
+      '--background-size',
+      theme.backgroundSize || 'cover',
+    );
+    root.style.setProperty(
+      '--background-position',
+      theme.backgroundPosition || 'center',
+    );
+    root.style.setProperty(
+      '--background-repeat',
+      theme.backgroundRepeat || 'no-repeat',
+    );
     root.classList.add('has-background-image');
   } else {
     root.style.removeProperty('--background-image');
@@ -43,7 +44,6 @@ function applyThemeVariables(theme: Theme, root: HTMLElement): void {
     root.style.setProperty(
       'color-scheme',
       theme.mostLike === 'light' ? 'dark' : 'light',
-      'important',
     );
   } else {
     root.style.removeProperty('color-scheme');
