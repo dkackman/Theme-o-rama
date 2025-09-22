@@ -1,4 +1,5 @@
 import { Theme, validateTheme } from 'theme-o-rama';
+import { STORAGE_KEYS } from './constants';
 
 export function hasTag(theme: Theme, tag: string): boolean {
   return theme.tags?.includes(tag) === true;
@@ -51,7 +52,7 @@ export function resolveThemeImage(
 ): string {
   // Check for sentinel value to return uploaded background image
   if (imagePath === '{NEED_DATA_URL_BACKGROUND_IMAGE}') {
-    return localStorage.getItem('background-image') ?? '';
+    return localStorage.getItem(STORAGE_KEYS.BACKGROUND_IMAGE) ?? '';
   }
 
   // Use static glob import to avoid dynamic import warnings for local files

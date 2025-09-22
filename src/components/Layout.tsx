@@ -7,14 +7,13 @@ import {
 
 import iconDark from '@/icon-dark.png';
 import iconLight from '@/icon-light.png';
+import { STORAGE_KEYS } from '@/lib/constants';
 import { PanelLeft, PanelLeftClose } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 import { TopNav } from './Nav';
-
-const SIDEBAR_COLLAPSED_STORAGE_KEY = 'theme-o-rama-sidebar-collapsed';
 
 type LayoutProps = PropsWithChildren<object> & {
   transparentBackground?: boolean;
@@ -24,7 +23,7 @@ export function FullLayout(props: LayoutProps) {
   const { currentTheme } = useTheme();
 
   const [isCollapsed, setIsCollapsed] = useLocalStorage<boolean>(
-    SIDEBAR_COLLAPSED_STORAGE_KEY,
+    STORAGE_KEYS.SIDEBAR_COLLAPSED,
     false,
   );
 

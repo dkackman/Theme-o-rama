@@ -1,22 +1,21 @@
+import { STORAGE_KEYS } from '@/lib/constants';
 import { areColorsEqual, hslToRgb, rgbToHsl } from '@/lib/utils';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Theme, useTheme } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 
-const WORKING_THEME_KEY = 'theme-o-rama-working-theme';
-
 export function useWorkingTheme() {
   const { setCustomTheme } = useTheme();
   const [workingThemeJson, setWorkingThemeJson] = useLocalStorage<
     string | null
-  >(WORKING_THEME_KEY, null);
+  >(STORAGE_KEYS.WORKING_THEME, null);
 
   // Theme editor state
   const [selectedColor, setSelectedColor] = useLocalStorage<{
     r: number;
     g: number;
     b: number;
-  }>('theme-o-rama-design-selected-color', {
+  }>(STORAGE_KEYS.SELECTED_COLOR, {
     r: 27,
     g: 30,
     b: 51,
@@ -29,17 +28,17 @@ export function useWorkingTheme() {
   }>(selectedColor);
 
   const [backgroundImage, setBackgroundImage] = useLocalStorage<string | null>(
-    'background-image',
+    STORAGE_KEYS.BACKGROUND_IMAGE,
     null,
   );
 
   const [themeName, setThemeName] = useLocalStorage<string>(
-    'theme-o-rama-design-theme-name',
+    STORAGE_KEYS.THEME_NAME,
     '',
   );
 
   const [backdropFilters, setBackdropFilters] = useLocalStorage<boolean>(
-    'theme-o-rama-backdrop-filters',
+    STORAGE_KEYS.BACKDROP_FILTERS,
     true,
   );
 

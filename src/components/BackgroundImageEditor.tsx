@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { STORAGE_KEYS } from '@/lib/constants';
 import { generateImage } from '@/lib/opeanai';
 import { saveDataUriAsFile } from '@/lib/utils';
 import { Image, MessageSquare, Save, X } from 'lucide-react';
@@ -42,11 +43,11 @@ export function BackgroundImageEditor({
 }: BackgroundImageEditorProps) {
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [selectedImageModel, setSelectedImageModel] = useLocalStorage<string>(
-    'theme-o-rama-image-model',
+    STORAGE_KEYS.IMAGE_MODEL,
     'dall-e-3',
   );
   const [prompt, setPrompt] = useLocalStorage<string>(
-    'theme-o-rama-design-prompt',
+    STORAGE_KEYS.DESIGN_PROMPT,
     '',
   );
 

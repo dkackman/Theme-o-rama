@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useWorkingTheme } from '@/hooks/useWorkingTheme';
+import { STORAGE_KEYS } from '@/lib/constants';
 import { ChevronDown, ChevronUp, Loader2, Palette } from 'lucide-react';
 import { useTheme } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
@@ -30,7 +31,7 @@ export default function Themes() {
   } = useWorkingTheme();
 
   const [isActionsPanelMinimized, setIsActionsPanelMinimized] =
-    useLocalStorage<boolean>('theme-o-rama-actions-panel-minimized', false);
+    useLocalStorage<boolean>(STORAGE_KEYS.ACTIONS_PANEL_MINIMIZED, false);
 
   const handleApplyWorkingTheme = () => {
     if (workingThemeJson && workingThemeJson.trim()) {
