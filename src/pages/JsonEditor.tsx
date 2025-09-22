@@ -24,17 +24,15 @@ export default function JsonEditor() {
   const { addError } = useErrors();
   const { setCustomTheme } = useTheme();
 
-  // JSON editor state
-  const [jsonEditorValue, setJsonEditorValue] = useState(
-    workingThemeJson || '',
-  );
+  // JSON editor state - only loads working theme on page navigation
+  const [jsonEditorValue, setJsonEditorValue] = useState('');
   const [isApplyingJson, setIsApplyingJson] = useState(false);
-  const [isUserEditingJson, setIsUserEditingJson] = useState(false);
+  const [hasLoadedInitialTheme, setHasLoadedInitialTheme] = useState(false);
   const [validationState, setValidationState] = useState<
     'none' | 'valid' | 'invalid'
   >('none');
 
-  // Handler for applying JSON editor changes
+  // Handler for applying JSON editor changes - completely replaces working theme
   const handleApplyJsonTheme = useCallback(() => {
     if (!jsonEditorValue || !jsonEditorValue.trim()) {
       addError({
@@ -47,20 +45,28 @@ export default function JsonEditor() {
     setIsApplyingJson(true);
 
     try {
+      // First validate the JSON
+      validateThemeJson(jsonEditorValue);
+
+      // Apply the theme to the UI
       const success = setCustomTheme(jsonEditorValue);
       if (!success) {
         addError({
           kind: 'invalid',
           reason: 'Failed to apply theme. Please check your JSON format.',
         });
-      } else {
-        // Update the working theme with the applied JSON
-        updateWorkingThemeFromJson(jsonEditorValue);
+        return;
       }
+
+      // Replace the working theme completely with the JSON content
+      updateWorkingThemeFromJson(jsonEditorValue);
+
+      // Reset validation state after successful apply
+      setValidationState('none');
     } catch (err) {
       addError({
         kind: 'invalid',
-        reason: 'An error occurred while applying the theme',
+        reason: `Invalid JSON format: ${err instanceof Error ? err.message : err}`,
       });
       console.error('Error applying theme:', err);
     } finally {
@@ -91,33 +97,20 @@ export default function JsonEditor() {
     }
   }, [jsonEditorValue, addError]);
 
-  // Update JSON editor when working theme changes (from visual updates)
-  const updateJsonEditorFromWorkingTheme = useCallback(() => {
-    // Only sync if user is not actively editing the JSON
-    if (!isUserEditingJson && workingThemeJson !== jsonEditorValue) {
-      setJsonEditorValue(workingThemeJson || '');
-      // Reset user editing flag when theme is cleared
-      if (!workingThemeJson) {
-        setIsUserEditingJson(false);
-      }
-    }
-  }, [workingThemeJson, jsonEditorValue, isUserEditingJson]);
-
-  // Handler for when user starts editing JSON
+  // Handler for when user edits JSON
   const handleJsonEditorChange = useCallback((value: string) => {
     setJsonEditorValue(value);
-    setIsUserEditingJson(true);
+    // Reset validation state when user makes changes
+    setValidationState('none');
   }, []);
 
-  // Handler for when user stops editing JSON (on blur)
-  const handleJsonEditorBlur = useCallback(() => {
-    setIsUserEditingJson(false);
-  }, []);
-
-  // Sync JSON editor with working theme changes
+  // Load working theme JSON only once when component mounts or when workingThemeJson changes from null to a value
   useEffect(() => {
-    updateJsonEditorFromWorkingTheme();
-  }, [updateJsonEditorFromWorkingTheme]);
+    if (!hasLoadedInitialTheme && workingThemeJson) {
+      setJsonEditorValue(workingThemeJson);
+      setHasLoadedInitialTheme(true);
+    }
+  }, [workingThemeJson, hasLoadedInitialTheme]);
 
   try {
     return (
@@ -177,7 +170,6 @@ export default function JsonEditor() {
                   id='theme-json'
                   value={jsonEditorValue}
                   onChange={(e) => handleJsonEditorChange(e.target.value)}
-                  onBlur={handleJsonEditorBlur}
                   className='w-full min-h-[calc(100vh-300px)] p-3 border border-gray-300 rounded font-mono text-sm bg-gray-50 resize-none'
                   style={{
                     fontFamily:
@@ -194,6 +186,11 @@ export default function JsonEditor() {
                   autoComplete='off'
                   autoCorrect='off'
                   autoCapitalize='off'
+                  placeholder={
+                    workingThemeJson
+                      ? ''
+                      : 'No working theme available. Create or select a theme first.'
+                  }
                 />
               </CardContent>
             </Card>
