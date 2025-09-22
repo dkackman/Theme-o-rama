@@ -290,7 +290,6 @@ export default function Editor() {
 
     setIsSaving(true);
     try {
-      // Use the generated theme with the user-provided name
       const finalTheme = {
         ...generatedTheme,
         name: themeName.trim(),
@@ -298,10 +297,7 @@ export default function Editor() {
         mostLike: generatedTheme.mostLike as 'light' | 'dark',
       };
 
-      // Update the working theme with the final theme
       updateWorkingTheme(finalTheme);
-
-      // Create the theme JSON string
       const themeJson = JSON.stringify(finalTheme, null, 2);
 
       if (isTauriEnvironment() && save && writeTextFile) {
@@ -353,7 +349,6 @@ export default function Editor() {
   const handleOpenTheme = async () => {
     if (isTauri) {
       try {
-        // Show file open dialog
         const filePath = await open({
           filters: [
             {
@@ -368,15 +363,11 @@ export default function Editor() {
         });
 
         if (filePath) {
-          // Read the file content
           const fileContent = await readTextFile(filePath as string);
 
-          // Validate the JSON
           try {
             validateThemeJson(fileContent);
             setValidationState('valid');
-
-            // Update the working theme with the file content
             updateWorkingThemeFromJson(fileContent);
           } catch (validationError) {
             setValidationState('invalid');
@@ -478,31 +469,14 @@ export default function Editor() {
                             {colorPickerColor.b})
                           </p>
                           <p className='text-sm text-muted-foreground'>
-                            HSL(
-                            {
-                              rgbToHsl(
+                            {(() => {
+                              const hsl = rgbToHsl(
                                 colorPickerColor.r,
                                 colorPickerColor.g,
                                 colorPickerColor.b,
-                              ).h
-                            }
-                            ,{' '}
-                            {
-                              rgbToHsl(
-                                colorPickerColor.r,
-                                colorPickerColor.g,
-                                colorPickerColor.b,
-                              ).s
-                            }
-                            %,{' '}
-                            {
-                              rgbToHsl(
-                                colorPickerColor.r,
-                                colorPickerColor.g,
-                                colorPickerColor.b,
-                              ).l
-                            }
-                            %)
+                              );
+                              return `HSL(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+                            })()}
                           </p>
                         </div>
                       </div>
