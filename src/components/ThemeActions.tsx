@@ -1,0 +1,371 @@
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useErrors } from '@/hooks/useErrors';
+import { validateThemeJson } from '@/lib/themes';
+import { isTauriEnvironment, isValidFilename } from '@/lib/utils';
+import { open, save } from '@tauri-apps/plugin-dialog';
+import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
+import {
+  Check,
+  Eye,
+  FolderOpen,
+  Loader2,
+  RotateCcw,
+  Save,
+  Upload,
+} from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { Theme, useTheme } from 'theme-o-rama';
+
+interface ThemeActionsProps {
+  // State
+  workingThemeJson: string | null;
+  themeName: string;
+  generatedTheme: Theme; // Theme object for saving
+
+  // Setters
+  setThemeName: (name: string) => void;
+  updateWorkingTheme: (theme: Theme) => void;
+  updateWorkingThemeFromJson: (json: string) => void;
+  clearWorkingTheme: () => void;
+}
+
+export function ThemeActions({
+  workingThemeJson,
+  themeName,
+  generatedTheme,
+  setThemeName,
+  updateWorkingTheme,
+  updateWorkingThemeFromJson,
+  clearWorkingTheme,
+}: ThemeActionsProps) {
+  const navigate = useNavigate();
+  const { addError } = useErrors();
+  const { setTheme, setCustomTheme } = useTheme();
+  const [isTauri, setIsTauri] = useState(false);
+  const [isApplying, setIsApplying] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [validationState, setValidationState] = useState<
+    'none' | 'valid' | 'invalid'
+  >('none');
+
+  useEffect(() => {
+    setIsTauri(isTauriEnvironment());
+  }, []);
+
+  // Handlers
+  const handleApplyTheme = useCallback(() => {
+    if (!workingThemeJson || !workingThemeJson.trim()) {
+      addError({
+        kind: 'invalid',
+        reason: 'Please enter theme JSON',
+      });
+      return;
+    }
+
+    setIsApplying(true);
+
+    try {
+      const success = setCustomTheme(workingThemeJson);
+      if (!success) {
+        addError({
+          kind: 'invalid',
+          reason: 'Failed to apply theme. Please check your JSON format.',
+        });
+      }
+    } catch (err) {
+      addError({
+        kind: 'invalid',
+        reason: 'An error occurred while applying the theme',
+      });
+      console.error('Error applying theme:', err);
+    } finally {
+      setIsApplying(false);
+    }
+  }, [workingThemeJson, setCustomTheme, addError]);
+
+  const handleValidateTheme = useCallback(() => {
+    if (!workingThemeJson || !workingThemeJson.trim()) {
+      setValidationState('invalid');
+      addError({
+        kind: 'invalid',
+        reason: 'Please enter theme JSON to validate',
+      });
+      return;
+    }
+
+    try {
+      validateThemeJson(workingThemeJson);
+      setValidationState('valid');
+    } catch (err) {
+      setValidationState('invalid');
+      addError({
+        kind: 'invalid',
+        reason: `Invalid JSON format. Please check your syntax. ${err}`,
+      });
+    }
+  }, [workingThemeJson, addError]);
+
+  const handleClearTheme = useCallback(() => {
+    clearWorkingTheme();
+    setTheme('light');
+  }, [clearWorkingTheme, setTheme]);
+
+  const handleSave = useCallback(async () => {
+    if (!themeName.trim()) {
+      toast.error('Please enter a theme name');
+      return;
+    }
+
+    if (!isValidFilename(themeName)) {
+      toast.error('Theme name contains invalid characters for filename');
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const finalTheme = {
+        ...generatedTheme,
+        name: themeName.trim(),
+        displayName: themeName.trim(),
+        mostLike: generatedTheme.mostLike as 'light' | 'dark',
+      };
+
+      updateWorkingTheme(finalTheme);
+      const themeJson = JSON.stringify(finalTheme, null, 2);
+
+      if (isTauriEnvironment() && save && writeTextFile) {
+        try {
+          // Use Tauri's native save dialog
+          const filePath = await save({
+            defaultPath: `${themeName.trim()}.json`,
+            filters: [
+              {
+                name: 'Theme Files',
+                extensions: ['json'],
+              },
+              {
+                name: 'All Files',
+                extensions: ['*'],
+              },
+            ],
+          });
+
+          if (filePath) {
+            await writeTextFile(filePath, themeJson);
+            toast.success('Theme saved successfully!');
+          }
+        } catch (error) {
+          console.error('Tauri save error:', error);
+          toast.error('Error saving with Tauri dialog');
+        }
+      } else {
+        // Fallback for web mode - use browser download
+        const blob = new Blob([themeJson], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${themeName.trim()}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        toast.success('Theme saved successfully!');
+      }
+    } catch (error) {
+      console.error('Error saving theme:', error);
+      toast.error('Error saving theme');
+    } finally {
+      setIsSaving(false);
+    }
+  }, [themeName, generatedTheme, updateWorkingTheme]);
+
+  const handleOpenTheme = useCallback(async () => {
+    if (isTauri) {
+      try {
+        const filePath = await open({
+          filters: [
+            {
+              name: 'Theme Files',
+              extensions: ['json'],
+            },
+            {
+              name: 'All Files',
+              extensions: ['*'],
+            },
+          ],
+        });
+
+        if (filePath) {
+          const fileContent = await readTextFile(filePath as string);
+
+          try {
+            validateThemeJson(fileContent);
+            setValidationState('valid');
+            updateWorkingThemeFromJson(fileContent);
+          } catch (validationError) {
+            setValidationState('invalid');
+            addError({
+              kind: 'invalid',
+              reason: `Invalid theme file: ${validationError}`,
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error opening theme file:', error);
+        addError({
+          kind: 'invalid',
+          reason: 'Failed to open theme file',
+        });
+      }
+    } else {
+      // Web environment - trigger file input
+      const fileInput = document.getElementById(
+        'theme-file-input',
+      ) as HTMLInputElement;
+      if (fileInput) {
+        fileInput.click();
+      }
+    }
+  }, [isTauri, updateWorkingThemeFromJson, addError]);
+  return (
+    <div className='space-y-4'>
+      {/* Action Buttons */}
+      <div className='grid grid-cols-2 md:grid-cols-5 gap-3'>
+        <Button
+          onClick={handleOpenTheme}
+          variant='outline'
+          className='flex flex-col items-center gap-2 h-auto py-4'
+        >
+          <FolderOpen className='h-5 w-5' />
+          <span className='text-sm'>Open Theme</span>
+        </Button>
+
+        <Button
+          onClick={handleApplyTheme}
+          disabled={isApplying || !workingThemeJson?.trim()}
+          className='flex flex-col items-center gap-2 h-auto py-4'
+        >
+          {isApplying ? (
+            <>
+              <Loader2 className='h-5 w-5 animate-spin' />
+              <span className='text-sm'>Applying...</span>
+            </>
+          ) : (
+            <>
+              <Upload className='h-5 w-5' />
+              <span className='text-sm'>Apply Theme</span>
+            </>
+          )}
+        </Button>
+
+        <Button
+          onClick={handleValidateTheme}
+          variant='outline'
+          disabled={!workingThemeJson?.trim()}
+          className={`flex flex-col items-center gap-2 h-auto py-4 ${
+            validationState === 'valid'
+              ? 'border-green-500 text-green-600 hover:bg-green-50'
+              : validationState === 'invalid'
+                ? 'border-red-500 text-red-600 hover:bg-red-50'
+                : ''
+          }`}
+        >
+          <Check className='h-5 w-5' />
+          <span className='text-sm'>Validate</span>
+        </Button>
+
+        <Button
+          onClick={handleClearTheme}
+          variant='outline'
+          className='flex flex-col items-center gap-2 h-auto py-4 text-destructive hover:text-destructive'
+        >
+          <RotateCcw className='h-5 w-5' />
+          <span className='text-sm'>Reset</span>
+        </Button>
+
+        <Button
+          onClick={handleSave}
+          disabled={
+            isSaving || !themeName.trim() || !isValidFilename(themeName)
+          }
+          className='flex flex-col items-center gap-2 h-auto py-4'
+        >
+          {isSaving ? (
+            <>
+              <Loader2 className='h-5 w-5 animate-spin' />
+              <span className='text-sm'>Saving...</span>
+            </>
+          ) : (
+            <>
+              <Save className='h-5 w-5' />
+              <span className='text-sm'>Save Theme</span>
+            </>
+          )}
+        </Button>
+      </div>
+
+      {/* Theme Name Input */}
+      <div className='space-y-2'>
+        <Label htmlFor='themeName'>Theme Name</Label>
+        <div className='flex gap-2'>
+          <Input
+            id='themeName'
+            placeholder='Enter a name for your theme'
+            value={themeName}
+            onChange={(e) => setThemeName(e.target.value)}
+            className='flex-1 px-3 py-2 border border-gray-300 rounded text-sm'
+          />
+          <Button
+            onClick={() => navigate('/theme-preview')}
+            variant='outline'
+            size='sm'
+          >
+            <Eye className='h-4 w-4 mr-2' />
+            Preview
+          </Button>
+        </div>
+        {themeName && !isValidFilename(themeName) && (
+          <p className='text-sm text-destructive'>
+            Theme name contains invalid characters for filename
+          </p>
+        )}
+      </div>
+
+      {/* Hidden file input for web environment */}
+      {!isTauri && (
+        <input
+          id='theme-file-input'
+          type='file'
+          accept='.json'
+          style={{ display: 'none' }}
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = (event) => {
+                const fileContent = event.target?.result as string;
+                try {
+                  validateThemeJson(fileContent);
+                  setValidationState('valid');
+                  updateWorkingThemeFromJson(fileContent);
+                } catch (error) {
+                  setValidationState('invalid');
+                  addError({
+                    kind: 'invalid',
+                    reason: `Invalid theme file: ${error}`,
+                  });
+                }
+              };
+              reader.readAsText(file);
+            }
+            e.target.value = '';
+          }}
+        />
+      )}
+    </div>
+  );
+}

@@ -17,7 +17,8 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { generateImage } from '@/lib/opeanai';
-import { Image, MessageSquare, X } from 'lucide-react';
+import { saveDataUriAsFile } from '@/lib/utils';
+import { Image, MessageSquare, Save, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useLocalStorage } from 'usehooks-ts';
@@ -103,6 +104,25 @@ export function BackgroundImageEditor({
     event.target.value = '';
   };
 
+  const handleSaveImage = () => {
+    if (!backgroundImageUrl) {
+      toast.error('No image to save');
+      return;
+    }
+
+    try {
+      // Generate a filename with timestamp
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const filename = `background-image-${timestamp}.png`;
+
+      saveDataUriAsFile(backgroundImageUrl, filename);
+      toast.success('Image saved successfully!');
+    } catch (error) {
+      console.error('Error saving image:', error);
+      toast.error('Failed to save image');
+    }
+  };
+
   return (
     <Card className={className}>
       <CardHeader>
@@ -110,8 +130,8 @@ export function BackgroundImageEditor({
         <CardDescription>Generate or upload a background image</CardDescription>
       </CardHeader>
       <CardContent className='space-y-4'>
-        <div className='space-y-2'>
-          <Label htmlFor='prompt'>Theme Description</Label>
+        <div className='space-y-1'>
+          <Label htmlFor='prompt'>Background image prompt</Label>
           <Textarea
             id='prompt'
             placeholder='e.g., "A modern minimalist design with clean lines and subtle shadows"'
@@ -178,21 +198,23 @@ export function BackgroundImageEditor({
 
         {/* Image Preview */}
         {backgroundImageUrl && (
-          <div className='flex justify-center'>
-            <div className='relative'>
-              <img
-                src={backgroundImageUrl}
-                alt='Background image'
-                className='max-w-full h-auto max-h-32 rounded-lg border border-border shadow-sm'
-              />
-              <Button
-                variant='destructive'
-                size='sm'
-                onClick={handleClearBackgroundImage}
-                className='absolute -top-2 -right-2 h-6 w-6 rounded-full p-0'
-              >
-                <X className='h-3 w-3' />
-              </Button>
+          <div className='space-y-3'>
+            <div className='flex justify-center'>
+              <div className='relative'>
+                <img
+                  src={backgroundImageUrl}
+                  alt='Background image'
+                  className='max-w-full h-auto max-h-32 rounded-lg border border-border shadow-sm'
+                />
+                <Button
+                  variant='destructive'
+                  size='sm'
+                  onClick={handleClearBackgroundImage}
+                  className='absolute -top-2 -right-2 h-6 w-6 rounded-full p-0'
+                >
+                  <X className='h-3 w-3' />
+                </Button>
+              </div>
             </div>
           </div>
         )}
@@ -227,6 +249,17 @@ export function BackgroundImageEditor({
                 </span>
               )}
             </div>
+
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={handleSaveImage}
+              disabled={!backgroundImageUrl}
+              className='flex items-center gap-2'
+            >
+              <Save className='h-4 w-4' />
+              Save Image
+            </Button>
           </div>
         </div>
       </CardContent>

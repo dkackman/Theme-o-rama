@@ -23,7 +23,7 @@ export function formatTimestamp(
   }).format(date);
 }
 
-export const isValidFilename = (filename: string): boolean => {
+export function isValidFilename(filename: string): boolean {
   // Check for invalid characters and ensure it's not empty
   const invalidChars = /[<>:"/\\|?*]/;
   // Check for control characters (ASCII 0-31)
@@ -41,7 +41,7 @@ export const isValidFilename = (filename: string): boolean => {
     !invalidChars.test(filename) &&
     !hasControlChars(filename)
   );
-};
+}
 
 export function isValidUrl(str: string) {
   try {
@@ -110,7 +110,18 @@ export function hslToRgb(themeColor: string) {
   return null;
 }
 
-export const rgbToHsl = (r: number, g: number, b: number) => {
+export function areColorsEqual(
+  color1: { r: number; g: number; b: number },
+  color2: { r: number; g: number; b: number },
+): boolean {
+  return (
+    Math.abs(color1.r - color2.r) <= 1 &&
+    Math.abs(color1.g - color2.g) <= 1 &&
+    Math.abs(color1.b - color2.b) <= 1
+  );
+}
+
+export function rgbToHsl(r: number, g: number, b: number) {
   r /= 255;
   g /= 255;
   b /= 255;
@@ -144,7 +155,7 @@ export const rgbToHsl = (r: number, g: number, b: number) => {
     s: Math.round(s * 100),
     l: Math.round(l * 100),
   };
-};
+}
 
 export function isTauriEnvironment() {
   return (
@@ -157,4 +168,43 @@ export function isTauriEnvironment() {
       typeof (window as unknown as { __TAURI_METADATA__: boolean })
         .__TAURI_METADATA__ !== 'undefined')
   );
+}
+
+// Helper function to save data URI image to file
+export function saveDataUriAsFile(
+  dataUri: string,
+  filename = 'image.png',
+): void {
+  try {
+    // Extract the base64 data from the data URI
+    const base64Data = dataUri.split(',')[1];
+    if (!base64Data) {
+      throw new Error('Invalid data URI format');
+    }
+
+    // Convert base64 to blob
+    const byteCharacters = atob(base64Data);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+
+    // Determine MIME type from data URI
+    const mimeType = dataUri.split(',')[0].split(':')[1].split(';')[0];
+    const blob = new Blob([byteArray], { type: mimeType });
+
+    // Create download link
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Error saving image:', error);
+    throw new Error('Failed to save image');
+  }
 }
