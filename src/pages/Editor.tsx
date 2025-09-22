@@ -125,6 +125,7 @@ export default function Editor() {
       },
       backgroundImageUrl?: string | null,
       name?: string,
+      backdropFilters?: boolean,
     ) => {
       const hsl = rgbToHsl(color.r, color.g, color.b);
       const themeName = name || 'design';
@@ -141,57 +142,68 @@ export default function Editor() {
           themeColor: `hsl(${hsl.h} ${hsl.s}% ${hsl.l}%)`,
           background: backgroundImageUrl ? 'transparent' : `var(--theme-color)`,
           ...(backdropFilters === false && {
-            cardBackdropFilter: undefined,
-            popoverBackdropFilter: undefined,
-            inputBackdropFilter: undefined,
+            cardBackdropFilter: null,
+            popoverBackdropFilter: null,
+            inputBackdropFilter: null,
           }),
         },
         ...(backdropFilters === false && {
           sidebar: {
-            backdropFilter: undefined,
+            backdropFilter: null,
           },
           tables: {
             header: {
-              backdropFilter: undefined,
+              backdropFilter: null,
             },
           },
           row: {
-            backdropFilter: undefined,
+            backdropFilter: null,
           },
           footer: {
-            backdropFilter: undefined,
+            backdropFilter: null,
           },
           buttons: {
             default: {
-              backdropFilter: undefined,
+              backdropFilter: null,
             },
             outline: {
-              backdropFilter: undefined,
+              backdropFilter: null,
             },
             secondary: {
-              backdropFilter: undefined,
+              backdropFilter: null,
             },
             destructive: {
-              backdropFilter: undefined,
+              backdropFilter: null,
             },
             ghost: {
-              backdropFilter: undefined,
+              backdropFilter: null,
             },
             link: {
-              backdropFilter: undefined,
+              backdropFilter: null,
             },
           },
         }),
       };
       return theme;
     },
-    [backdropFilters],
+    [],
   );
 
   // Memoize the generated theme to prevent unnecessary re-renders
   const generatedTheme = useMemo(() => {
-    return generateThemeFromColor(selectedColor, backgroundImage, themeName);
-  }, [selectedColor, backgroundImage, themeName, generateThemeFromColor]);
+    return generateThemeFromColor(
+      selectedColor,
+      backgroundImage,
+      themeName,
+      backdropFilters,
+    );
+  }, [
+    selectedColor,
+    backgroundImage,
+    themeName,
+    generateThemeFromColor,
+    backdropFilters,
+  ]);
 
   // Update working theme only when user explicitly changes color, background image, or theme name
   // This prevents circular updates that cause jittery behavior
@@ -199,7 +211,13 @@ export default function Editor() {
   useEffect(() => {
     updateWorkingTheme(generatedTheme);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedColor, backgroundImage, themeName, updateWorkingTheme]);
+  }, [
+    selectedColor,
+    backgroundImage,
+    themeName,
+    updateWorkingTheme,
+    backdropFilters,
+  ]);
 
   // Handlers
   const handleApplyTheme = () => {
@@ -306,9 +324,6 @@ export default function Editor() {
           if (filePath) {
             await writeTextFile(filePath, themeJson);
             toast.success('Theme saved successfully!');
-          } else {
-            // User cancelled the dialog
-            toast.info('Save cancelled');
           }
         } catch (error) {
           console.error('Tauri save error:', error);
