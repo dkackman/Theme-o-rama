@@ -13,7 +13,8 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useErrors } from '@/hooks/useErrors';
 import { useWorkingTheme } from '@/hooks/useWorkingTheme';
-import { Info, Loader2, Upload } from 'lucide-react';
+import { validateThemeJson } from '@/lib/themes';
+import { Check, Info, Loader2, Upload } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTheme } from 'theme-o-rama';
 
@@ -29,6 +30,9 @@ export default function JsonEditor() {
   );
   const [isApplyingJson, setIsApplyingJson] = useState(false);
   const [isUserEditingJson, setIsUserEditingJson] = useState(false);
+  const [validationState, setValidationState] = useState<
+    'none' | 'valid' | 'invalid'
+  >('none');
 
   // Handler for applying JSON editor changes
   const handleApplyJsonTheme = useCallback(() => {
@@ -64,11 +68,38 @@ export default function JsonEditor() {
     }
   }, [jsonEditorValue, setCustomTheme, addError, updateWorkingThemeFromJson]);
 
+  // Handler for validating JSON editor content
+  const handleValidateJson = useCallback(() => {
+    if (!jsonEditorValue || !jsonEditorValue.trim()) {
+      setValidationState('invalid');
+      addError({
+        kind: 'invalid',
+        reason: 'Please enter theme JSON to validate',
+      });
+      return;
+    }
+
+    try {
+      validateThemeJson(jsonEditorValue);
+      setValidationState('valid');
+    } catch (err) {
+      setValidationState('invalid');
+      addError({
+        kind: 'invalid',
+        reason: `Invalid JSON format. Please check your syntax. ${err}`,
+      });
+    }
+  }, [jsonEditorValue, addError]);
+
   // Update JSON editor when working theme changes (from visual updates)
   const updateJsonEditorFromWorkingTheme = useCallback(() => {
     // Only sync if user is not actively editing the JSON
     if (!isUserEditingJson && workingThemeJson !== jsonEditorValue) {
       setJsonEditorValue(workingThemeJson || '');
+      // Reset user editing flag when theme is cleared
+      if (!workingThemeJson) {
+        setIsUserEditingJson(false);
+      }
     }
   }, [workingThemeJson, jsonEditorValue, isUserEditingJson]);
 
@@ -107,23 +138,40 @@ export default function JsonEditor() {
               <CardContent className='space-y-4'>
                 <div className='flex items-center justify-between'>
                   <Label htmlFor='theme-json'>Theme JSON</Label>
-                  <Button
-                    onClick={handleApplyJsonTheme}
-                    disabled={isApplyingJson || !jsonEditorValue?.trim()}
-                    className='flex items-center gap-2'
-                  >
-                    {isApplyingJson ? (
-                      <>
-                        <Loader2 className='h-4 w-4 animate-spin' />
-                        Applying...
-                      </>
-                    ) : (
-                      <>
-                        <Upload className='h-4 w-4' />
-                        Apply Theme
-                      </>
-                    )}
-                  </Button>
+                  <div className='flex items-center gap-2'>
+                    <Button
+                      onClick={handleValidateJson}
+                      variant='outline'
+                      disabled={!jsonEditorValue?.trim()}
+                      className={`flex items-center gap-2 ${
+                        validationState === 'valid'
+                          ? 'border-green-500 text-green-600 hover:bg-green-50'
+                          : validationState === 'invalid'
+                            ? 'border-red-500 text-red-600 hover:bg-red-50'
+                            : ''
+                      }`}
+                    >
+                      <Check className='h-4 w-4' />
+                      Validate
+                    </Button>
+                    <Button
+                      onClick={handleApplyJsonTheme}
+                      disabled={isApplyingJson || !jsonEditorValue?.trim()}
+                      className='flex items-center gap-2'
+                    >
+                      {isApplyingJson ? (
+                        <>
+                          <Loader2 className='h-4 w-4 animate-spin' />
+                          Applying...
+                        </>
+                      ) : (
+                        <>
+                          <Upload className='h-4 w-4' />
+                          Apply Theme
+                        </>
+                      )}
+                    </Button>
+                  </div>
                 </div>
                 <Textarea
                   id='theme-json'

@@ -2,11 +2,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useErrors } from '@/hooks/useErrors';
-import { validateThemeJson } from '@/lib/themes';
 import { isTauriEnvironment, isValidFilename } from '@/lib/utils';
 import { open, save } from '@tauri-apps/plugin-dialog';
 import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
-import { Check, Eye, FolderOpen, Loader2, RotateCcw, Save } from 'lucide-react';
+import {
+  Eye,
+  FileInput,
+  FolderOpen,
+  Loader2,
+  RotateCcw,
+  Save,
+} from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -14,7 +20,6 @@ import { Theme, useTheme } from 'theme-o-rama';
 
 interface ThemeActionsProps {
   // State
-  workingThemeJson: string | null;
   themeName: string;
   generatedTheme: Theme; // Theme object for saving
 
@@ -26,7 +31,6 @@ interface ThemeActionsProps {
 }
 
 export function ThemeActions({
-  workingThemeJson,
   themeName,
   generatedTheme,
   setThemeName,
@@ -39,37 +43,12 @@ export function ThemeActions({
   const { setTheme } = useTheme();
   const [isTauri, setIsTauri] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [validationState, setValidationState] = useState<
-    'none' | 'valid' | 'invalid'
-  >('none');
 
   useEffect(() => {
     setIsTauri(isTauriEnvironment());
   }, []);
 
   // Handlers
-
-  const handleValidateTheme = useCallback(() => {
-    if (!workingThemeJson || !workingThemeJson.trim()) {
-      setValidationState('invalid');
-      addError({
-        kind: 'invalid',
-        reason: 'Please enter theme JSON to validate',
-      });
-      return;
-    }
-
-    try {
-      validateThemeJson(workingThemeJson);
-      setValidationState('valid');
-    } catch (err) {
-      setValidationState('invalid');
-      addError({
-        kind: 'invalid',
-        reason: `Invalid JSON format. Please check your syntax. ${err}`,
-      });
-    }
-  }, [workingThemeJson, addError]);
 
   const handleClearTheme = useCallback(() => {
     clearWorkingTheme();
@@ -164,17 +143,7 @@ export function ThemeActions({
         if (filePath) {
           const fileContent = await readTextFile(filePath as string);
 
-          try {
-            validateThemeJson(fileContent);
-            setValidationState('valid');
-            updateWorkingThemeFromJson(fileContent);
-          } catch (validationError) {
-            setValidationState('invalid');
-            addError({
-              kind: 'invalid',
-              reason: `Invalid theme file: ${validationError}`,
-            });
-          }
+          updateWorkingThemeFromJson(fileContent);
         }
       } catch (error) {
         console.error('Error opening theme file:', error);
@@ -205,23 +174,6 @@ export function ThemeActions({
           <FolderOpen className='h-5 w-5' />
           <span className='text-sm'>Open Theme</span>
         </Button>
-
-        <Button
-          onClick={handleValidateTheme}
-          variant='outline'
-          disabled={!workingThemeJson?.trim()}
-          className={`flex flex-col items-center gap-2 h-auto py-4 ${
-            validationState === 'valid'
-              ? 'border-green-500 text-green-600 hover:bg-green-50'
-              : validationState === 'invalid'
-                ? 'border-red-500 text-red-600 hover:bg-red-50'
-                : ''
-          }`}
-        >
-          <Check className='h-5 w-5' />
-          <span className='text-sm'>Validate</span>
-        </Button>
-
         <Button
           onClick={handleClearTheme}
           variant='outline'
@@ -230,7 +182,6 @@ export function ThemeActions({
           <RotateCcw className='h-5 w-5' />
           <span className='text-sm'>Reset</span>
         </Button>
-
         <Button
           onClick={handleSave}
           disabled={
@@ -249,6 +200,15 @@ export function ThemeActions({
               <span className='text-sm'>Save Theme</span>
             </>
           )}
+        </Button>{' '}
+        <Button
+          disabled={true}
+          className='flex flex-col items-center gap-2 h-auto py-4'
+        >
+          <>
+            <FileInput className='h-5 w-5' />
+            <span className='text-sm'>Prepare NFT</span>
+          </>
         </Button>
       </div>
 
@@ -292,17 +252,7 @@ export function ThemeActions({
               const reader = new FileReader();
               reader.onload = (event) => {
                 const fileContent = event.target?.result as string;
-                try {
-                  validateThemeJson(fileContent);
-                  setValidationState('valid');
-                  updateWorkingThemeFromJson(fileContent);
-                } catch (error) {
-                  setValidationState('invalid');
-                  addError({
-                    kind: 'invalid',
-                    reason: `Invalid theme file: ${error}`,
-                  });
-                }
+                updateWorkingThemeFromJson(fileContent);
               };
               reader.readAsText(file);
             }

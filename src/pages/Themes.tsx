@@ -109,7 +109,6 @@ export default function Themes() {
               >
                 <CardContent>
                   <ThemeActions
-                    workingThemeJson={workingThemeJson}
                     themeName={themeName}
                     generatedTheme={generatedTheme}
                     setThemeName={setThemeName}

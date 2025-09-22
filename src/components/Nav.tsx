@@ -1,7 +1,7 @@
 import {
   AppWindow,
-  Code,
   Component,
+  CurlyBraces,
   Info,
   SwatchBook,
   Table,
@@ -37,7 +37,7 @@ export function TopNav({ isCollapsed }: NavProps) {
         isCollapsed={isCollapsed}
         message='JSON Editor'
       >
-        <Code className={className} />
+        <CurlyBraces className={className} />
       </NavLink>
       <NavLink
         url={'/background-editor'}
