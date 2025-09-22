@@ -18,7 +18,7 @@ import { useTheme } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 
 export default function Themes() {
-  const { currentTheme, isLoading, setCustomTheme, reloadThemes } = useTheme();
+  const { currentTheme, isLoading, setCustomTheme } = useTheme();
   const {
     workingTheme,
     workingThemeJson,
@@ -130,21 +130,10 @@ export default function Themes() {
                       Choose Your Theme
                     </CardTitle>
                     <CardDescription>
-                      Start with one of these themes or pick up where you left
-                      off
+                      Pick up where you left or start with one of these example
+                      themes
                     </CardDescription>
                   </div>
-                  <Button
-                    variant='outline'
-                    size='sm'
-                    onClick={reloadThemes}
-                    disabled={isLoading}
-                  >
-                    <Loader2
-                      className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`}
-                    />
-                    Reload Themes
-                  </Button>
                 </div>
               </CardHeader>
               <CardContent>
