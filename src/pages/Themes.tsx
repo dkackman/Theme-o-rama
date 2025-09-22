@@ -1,5 +1,6 @@
 import Header from '@/components/Header';
 import Layout from '@/components/Layout';
+import { ThemeActions } from '@/components/ThemeActions';
 import { ThemeCard } from '@/components/ThemeCard';
 import { ThemeSelector } from '@/components/ThemeSelector';
 import { Button } from '@/components/ui/button';
@@ -11,12 +12,25 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useWorkingTheme } from '@/hooks/useWorkingTheme';
-import { Loader2, Palette } from 'lucide-react';
+import { ChevronDown, ChevronUp, Loader2, Palette } from 'lucide-react';
 import { useTheme } from 'theme-o-rama';
+import { useLocalStorage } from 'usehooks-ts';
 
 export default function Themes() {
   const { currentTheme, isLoading, setCustomTheme, reloadThemes } = useTheme();
-  const { workingTheme, workingThemeJson } = useWorkingTheme();
+  const {
+    workingTheme,
+    workingThemeJson,
+    updateWorkingTheme,
+    updateWorkingThemeFromJson,
+    clearWorkingTheme,
+    themeName,
+    setThemeName,
+    generatedTheme,
+  } = useWorkingTheme();
+
+  const [isActionsPanelMinimized, setIsActionsPanelMinimized] =
+    useLocalStorage<boolean>('theme-o-rama-actions-panel-minimized', false);
 
   const handleApplyWorkingTheme = () => {
     if (workingThemeJson && workingThemeJson.trim()) {
@@ -62,6 +76,51 @@ export default function Themes() {
 
         <div className='flex-1 overflow-auto'>
           <div className={`container mx-auto p-6 space-y-8`}>
+            {/* Actions Panel */}
+            <Card>
+              <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-4'>
+                <div>
+                  <CardTitle className='text-lg'>Actions</CardTitle>
+                  <CardDescription>
+                    Manage your theme with these actions
+                  </CardDescription>
+                </div>
+                <Button
+                  variant='ghost'
+                  size='sm'
+                  onClick={() =>
+                    setIsActionsPanelMinimized(!isActionsPanelMinimized)
+                  }
+                  className='h-8 w-8 p-0'
+                >
+                  {isActionsPanelMinimized ? (
+                    <ChevronDown className='h-4 w-4' />
+                  ) : (
+                    <ChevronUp className='h-4 w-4' />
+                  )}
+                </Button>
+              </CardHeader>
+              <div
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                  isActionsPanelMinimized
+                    ? 'max-h-0 opacity-0'
+                    : 'max-h-[1000px] opacity-100'
+                }`}
+              >
+                <CardContent>
+                  <ThemeActions
+                    workingThemeJson={workingThemeJson}
+                    themeName={themeName}
+                    generatedTheme={generatedTheme}
+                    setThemeName={setThemeName}
+                    updateWorkingTheme={updateWorkingTheme}
+                    updateWorkingThemeFromJson={updateWorkingThemeFromJson}
+                    clearWorkingTheme={clearWorkingTheme}
+                  />
+                </CardContent>
+              </div>
+            </Card>
+
             <Card>
               <CardHeader>
                 <div className='flex items-center justify-between'>

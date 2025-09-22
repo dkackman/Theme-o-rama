@@ -130,7 +130,7 @@ export default function JsonEditor() {
                   value={jsonEditorValue}
                   onChange={(e) => handleJsonEditorChange(e.target.value)}
                   onBlur={handleJsonEditorBlur}
-                  className='w-full h-80 p-3 border border-gray-300 rounded font-mono text-sm bg-gray-50 resize-y'
+                  className='w-full min-h-[calc(100vh-300px)] p-3 border border-gray-300 rounded font-mono text-sm bg-gray-50 resize-none'
                   style={{
                     fontFamily:
                       'Monaco, Menlo, Ubuntu Mono, Consolas, source-code-pro, monospace',
@@ -140,6 +140,7 @@ export default function JsonEditor() {
                     backgroundColor: '#ffffff',
                     color: '#000000',
                     whiteSpace: 'pre',
+                    height: 'calc(100vh - 300px)',
                   }}
                   spellCheck={false}
                   autoComplete='off'

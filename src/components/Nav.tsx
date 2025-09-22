@@ -3,9 +3,9 @@ import {
   Code,
   Component,
   Info,
-  Pencil,
   SwatchBook,
   Table,
+  Wallpaper,
 } from 'lucide-react';
 import { NavLink } from './NavLink';
 import { Separator } from './ui/separator';
@@ -32,16 +32,19 @@ export function TopNav({ isCollapsed }: NavProps) {
       >
         <SwatchBook className={className} aria-hidden='true' />
       </NavLink>
-
-      <NavLink url={'/editor'} isCollapsed={isCollapsed} message='Editor'>
-        <Pencil className={className} />
-      </NavLink>
       <NavLink
         url={'/json-editor'}
         isCollapsed={isCollapsed}
         message='JSON Editor'
       >
         <Code className={className} />
+      </NavLink>
+      <NavLink
+        url={'/background-editor'}
+        isCollapsed={isCollapsed}
+        message='Background'
+      >
+        <Wallpaper className={className} />
       </NavLink>
       <NavLink
         url={'/components'}

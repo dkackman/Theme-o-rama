@@ -192,7 +192,15 @@ export function useWorkingTheme() {
         }, 0);
       }
     },
-    [setSelectedColor, workingThemeJson, generateThemeFromColor, backgroundImage, themeName, backdropFilters, setCustomTheme],
+    [
+      setSelectedColor,
+      workingThemeJson,
+      generateThemeFromColor,
+      backgroundImage,
+      themeName,
+      backdropFilters,
+      setCustomTheme,
+    ],
   );
 
   // Handler for backdrop filter changes that automatically applies the theme
@@ -218,7 +226,15 @@ export function useWorkingTheme() {
         }, 0);
       }
     },
-    [setBackdropFilters, workingThemeJson, generateThemeFromColor, selectedColor, backgroundImage, themeName, setCustomTheme],
+    [
+      setBackdropFilters,
+      workingThemeJson,
+      generateThemeFromColor,
+      selectedColor,
+      backgroundImage,
+      themeName,
+      setCustomTheme,
+    ],
   );
 
   // Handler for background image changes that automatically applies the theme
@@ -244,7 +260,15 @@ export function useWorkingTheme() {
         }, 0);
       }
     },
-    [setBackgroundImage, workingThemeJson, generateThemeFromColor, selectedColor, themeName, backdropFilters, setCustomTheme],
+    [
+      setBackgroundImage,
+      workingThemeJson,
+      generateThemeFromColor,
+      selectedColor,
+      themeName,
+      backdropFilters,
+      setCustomTheme,
+    ],
   );
 
   // Load working theme data when component mounts

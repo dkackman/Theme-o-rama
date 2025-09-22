@@ -10,9 +10,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ThemeProvider, useTheme } from 'theme-o-rama';
 import { ErrorProvider } from './contexts/ErrorContext';
 import About from './pages/About';
+import BackgroundEditor from './pages/BackgroundEditor';
 import Components from './pages/Components';
 import Dialogs from './pages/Dialogs';
-import Editor from './pages/Editor';
 import JsonEditor from './pages/JsonEditor';
 import Tables from './pages/Tables';
 import ThemePreview from './pages/ThemePreview';
@@ -56,7 +56,7 @@ const router = createHashRouter(
       <Route path='/dialogs' element={<Dialogs />} />
       <Route path='/about' element={<About />} />
       <Route path='/theme-preview' element={<ThemePreview />} />
-      <Route path='/editor' element={<Editor />} />
+      <Route path='/background-editor' element={<BackgroundEditor />} />
       <Route path='/json-editor' element={<JsonEditor />} />
     </>,
   ),
