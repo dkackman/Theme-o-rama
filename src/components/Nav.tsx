@@ -1,5 +1,6 @@
 import {
   AppWindow,
+  Code,
   Component,
   Info,
   Pencil,
@@ -34,6 +35,13 @@ export function TopNav({ isCollapsed }: NavProps) {
 
       <NavLink url={'/editor'} isCollapsed={isCollapsed} message='Editor'>
         <Pencil className={className} />
+      </NavLink>
+      <NavLink
+        url={'/json-editor'}
+        isCollapsed={isCollapsed}
+        message='JSON Editor'
+      >
+        <Code className={className} />
       </NavLink>
       <NavLink
         url={'/components'}

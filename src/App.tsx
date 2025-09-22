@@ -13,6 +13,7 @@ import About from './pages/About';
 import Components from './pages/Components';
 import Dialogs from './pages/Dialogs';
 import Editor from './pages/Editor';
+import JsonEditor from './pages/JsonEditor';
 import Tables from './pages/Tables';
 import ThemePreview from './pages/ThemePreview';
 import Themes from './pages/Themes';
@@ -56,6 +57,7 @@ const router = createHashRouter(
       <Route path='/about' element={<About />} />
       <Route path='/theme-preview' element={<ThemePreview />} />
       <Route path='/editor' element={<Editor />} />
+      <Route path='/json-editor' element={<JsonEditor />} />
     </>,
   ),
 );
