@@ -1,9 +1,13 @@
 import { Theme } from './theme.type';
 
 function applyCommonThemeProperties(theme: Theme, root: HTMLElement): void {
-  // Set theme class for CSS selectors
-  root.classList.add(`theme-${theme.name}`);
+  try {
+    root.classList.add(`theme-${theme.name.replace(/ /g, '-')}`);
+  } catch {
+    root.classList.add(`theme-invalid-name}`);
+  }
 
+  // Set theme class for CSS selectors
   // Set data attributes for theme styles
   const buttonStyle = theme.buttonStyle || '';
   root.setAttribute('data-theme-styles', buttonStyle);

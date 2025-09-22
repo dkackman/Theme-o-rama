@@ -70,7 +70,11 @@ export function useWorkingTheme() {
       const hsl = rgbToHsl(color.r, color.g, color.b);
       const themeName = name || 'design';
       // Sanitize the theme name for use as an identifier (no spaces, special chars)
-      const sanitizedName = themeName.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+      const sanitizedName = themeName
+        .toLowerCase()
+        .replace(/[^a-z0-9-]/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
       const theme = {
         name: sanitizedName || 'design',
         displayName: themeName,
@@ -172,7 +176,14 @@ export function useWorkingTheme() {
     setColorPickerColor({ r: 220, g: 220, b: 220 });
     setBackgroundImage(null);
     setBackdropFilters(true);
-  }, [setWorkingThemeJson, setThemeName, setSelectedColor, setColorPickerColor, setBackgroundImage, setBackdropFilters]);
+  }, [
+    setWorkingThemeJson,
+    setThemeName,
+    setSelectedColor,
+    setColorPickerColor,
+    setBackgroundImage,
+    setBackdropFilters,
+  ]);
 
   // Handler to sync color picker with selected color and update working theme
   const handleColorPickerChange = useCallback(
