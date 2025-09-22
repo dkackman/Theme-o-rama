@@ -19,10 +19,14 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTheme } from 'theme-o-rama';
 
 export default function JsonEditor() {
-  const { workingThemeJson, updateWorkingThemeFromJson } = useWorkingTheme();
+  const {
+    workingThemeJson,
+    updateWorkingThemeFromJson,
+    isCurrentThemeEditable,
+  } = useWorkingTheme();
 
   const { addError } = useErrors();
-  const { setCustomTheme } = useTheme();
+  const { setCustomTheme, currentTheme } = useTheme();
 
   // JSON editor state - only loads working theme on page navigation
   const [jsonEditorValue, setJsonEditorValue] = useState('');
@@ -104,13 +108,23 @@ export default function JsonEditor() {
     setValidationState('none');
   }, []);
 
-  // Load working theme JSON only once when component mounts or when workingThemeJson changes from null to a value
+  // Load theme JSON only once when component mounts
+  // Show working theme if editable, otherwise show current theme
   useEffect(() => {
-    if (!hasLoadedInitialTheme && workingThemeJson) {
-      setJsonEditorValue(workingThemeJson);
+    if (!hasLoadedInitialTheme) {
+      if (isCurrentThemeEditable && workingThemeJson) {
+        setJsonEditorValue(workingThemeJson);
+      } else if (currentTheme) {
+        setJsonEditorValue(JSON.stringify(currentTheme, null, 2));
+      }
       setHasLoadedInitialTheme(true);
     }
-  }, [workingThemeJson, hasLoadedInitialTheme]);
+  }, [
+    workingThemeJson,
+    currentTheme,
+    isCurrentThemeEditable,
+    hasLoadedInitialTheme,
+  ]);
 
   try {
     return (
@@ -119,13 +133,25 @@ export default function JsonEditor() {
 
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6 space-y-6'>
+            {/* Readonly Notice */}
+            {!isCurrentThemeEditable && (
+              <Alert>
+                <Info className='h-4 w-4' />
+                <AlertDescription>
+                  You are viewing an example theme. Switch to the working theme
+                  to make edits.
+                </AlertDescription>
+              </Alert>
+            )}
+
             {/* JSON Editor */}
             <Card>
               <CardHeader>
                 <CardTitle className='text-lg'>JSON Editor</CardTitle>
                 <CardDescription>
-                  Edit your theme directly in JSON format. Changes are applied
-                  when you click Apply.
+                  {isCurrentThemeEditable
+                    ? 'Edit your theme directly in JSON format. Changes are applied when you click Apply.'
+                    : 'View the current theme in JSON format. Switch to the working theme to edit.'}
                 </CardDescription>
               </CardHeader>
               <CardContent className='space-y-4'>
@@ -135,7 +161,9 @@ export default function JsonEditor() {
                     <Button
                       onClick={handleValidateJson}
                       variant='outline'
-                      disabled={!jsonEditorValue?.trim()}
+                      disabled={
+                        !isCurrentThemeEditable || !jsonEditorValue?.trim()
+                      }
                       className={`flex items-center gap-2 ${
                         validationState === 'valid'
                           ? 'border-green-500 text-green-600 hover:bg-green-50'
@@ -149,7 +177,11 @@ export default function JsonEditor() {
                     </Button>
                     <Button
                       onClick={handleApplyJsonTheme}
-                      disabled={isApplyingJson || !jsonEditorValue?.trim()}
+                      disabled={
+                        !isCurrentThemeEditable ||
+                        isApplyingJson ||
+                        !jsonEditorValue?.trim()
+                      }
                       className='flex items-center gap-2'
                     >
                       {isApplyingJson ? (
@@ -169,8 +201,12 @@ export default function JsonEditor() {
                 <Textarea
                   id='theme-json'
                   value={jsonEditorValue}
-                  onChange={(e) => handleJsonEditorChange(e.target.value)}
-                  className='w-full min-h-[calc(100vh-300px)] p-3 border border-gray-300 rounded font-mono text-sm bg-gray-50 resize-none'
+                  onChange={
+                    isCurrentThemeEditable
+                      ? (e) => handleJsonEditorChange(e.target.value)
+                      : () => {}
+                  }
+                  className={`w-full min-h-[calc(100vh-300px)] p-3 border border-gray-300 rounded font-mono text-sm bg-gray-50 resize-none ${!isCurrentThemeEditable ? 'opacity-75' : ''}`}
                   style={{
                     fontFamily:
                       'Monaco, Menlo, Ubuntu Mono, Consolas, source-code-pro, monospace',
@@ -186,11 +222,8 @@ export default function JsonEditor() {
                   autoComplete='off'
                   autoCorrect='off'
                   autoCapitalize='off'
-                  placeholder={
-                    workingThemeJson
-                      ? ''
-                      : 'No working theme available. Create or select a theme first.'
-                  }
+                  placeholder={!currentTheme ? 'No theme available.' : ''}
+                  readOnly={!isCurrentThemeEditable}
                 />
               </CardContent>
             </Card>

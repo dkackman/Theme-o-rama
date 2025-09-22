@@ -10,6 +10,10 @@ export function useWorkingTheme() {
     string | null
   >(STORAGE_KEYS.WORKING_THEME, null);
 
+  // Check if current theme is editable (i.e., it's the working theme)
+  const [savedTheme] = useLocalStorage<string | null>('theme', null);
+  const isCurrentThemeEditable = savedTheme === 'custom';
+
   // Theme editor state
   const [selectedColor, setSelectedColor] = useLocalStorage<{
     r: number;
@@ -340,6 +344,7 @@ export function useWorkingTheme() {
     updateWorkingThemeFromJson,
     clearWorkingTheme,
     hasWorkingTheme,
+    isCurrentThemeEditable,
 
     // Theme editor state
     selectedColor,

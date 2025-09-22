@@ -9,19 +9,23 @@ interface ColorPickerProps {
   };
   onChange: (color: { r: number; g: number; b: number }) => void;
   className?: string;
+  disabled?: boolean;
 }
 
 export function ColorPicker({
   color,
   onChange,
   className = '',
+  disabled = false,
 }: ColorPickerProps) {
   return (
-    <div className={`space-y-4 ${className}`}>
+    <div
+      className={`space-y-4 ${className} ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
+    >
       <div className='flex justify-center'>
         <RgbColorPicker
           color={color}
-          onChange={onChange}
+          onChange={disabled ? undefined : onChange}
           style={{ width: '200px', height: '200px' }}
         />
       </div>
