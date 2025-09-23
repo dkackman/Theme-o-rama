@@ -85,9 +85,7 @@ export function useWorkingTheme() {
         mostLike: (hsl.l > 50 ? 'light' : 'dark') as 'light' | 'dark',
         inherits: 'color',
         schemaVersion: 1 as const,
-        backgroundImage: backgroundImageUrl
-          ? '{NEED_DATA_URL_BACKGROUND_IMAGE}'
-          : undefined,
+        backgroundImage: backgroundImageUrl ? '{LOCAL_STORAGE}' : undefined,
         colors: {
           themeColor: `hsl(${hsl.h} ${hsl.s}% ${hsl.l}%)`,
           background: backgroundImageUrl ? 'transparent' : `var(--theme-color)`,

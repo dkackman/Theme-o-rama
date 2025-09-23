@@ -6,10 +6,10 @@ import React, {
   useState,
 } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
+import colorTheme from './color.json';
 import darkTheme from './dark.json';
 import { applyTheme, Theme } from './index';
 import lightTheme from './light.json';
-import colorTheme from './color.json';
 import { ImageResolver, ThemeLoader } from './theme-loader';
 
 // Theme discovery function type - can be provided by the consuming application

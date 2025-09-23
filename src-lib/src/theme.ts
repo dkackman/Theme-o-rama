@@ -1,33 +1,32 @@
 import { Theme } from './theme.type';
 
 function applyCommonThemeProperties(theme: Theme, root: HTMLElement): void {
+  // Set theme class for CSS selectors
   try {
-    root.classList.add(`theme-${theme.name.replace(/ /g, '-')}`);
+    root.classList.add(`theme-${theme.name}`);
   } catch {
     root.classList.add(`theme-invalid-name}`);
   }
 
-  // Set theme class for CSS selectors
   // Set data attributes for theme styles
-  root.setAttribute('data-theme-styles', theme.buttonStyle || '');
+  const buttonStyle = theme.buttonStyle || '';
+  root.setAttribute('data-theme-styles', buttonStyle);
 
   if (theme.backgroundImage) {
     root.style.setProperty(
       '--background-image',
       `url(${theme.backgroundImage})`,
     );
-    root.style.setProperty(
-      '--background-size',
-      theme.backgroundSize || 'cover',
-    );
-    root.style.setProperty(
-      '--background-position',
-      theme.backgroundPosition || 'center',
-    );
-    root.style.setProperty(
-      '--background-repeat',
-      theme.backgroundRepeat || 'no-repeat',
-    );
+
+    const backgroundSize = theme.backgroundSize || 'cover';
+    root.style.setProperty('--background-size', backgroundSize);
+
+    const backgroundPosition = theme.backgroundPosition || 'center';
+    root.style.setProperty('--background-position', backgroundPosition);
+
+    const backgroundRepeat = theme.backgroundRepeat || 'no-repeat';
+    root.style.setProperty('--background-repeat', backgroundRepeat);
+
     root.classList.add('has-background-image');
   } else {
     root.style.removeProperty('--background-image');
@@ -44,6 +43,7 @@ function applyThemeVariables(theme: Theme, root: HTMLElement): void {
     root.style.setProperty(
       'color-scheme',
       theme.mostLike === 'light' ? 'dark' : 'light',
+      'important',
     );
   } else {
     root.style.removeProperty('color-scheme');
@@ -290,14 +290,12 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
       theme.backgroundPosition || 'center';
     document.body.style.backgroundRepeat =
       theme.backgroundRepeat || 'no-repeat';
-    document.body.style.backgroundAttachment = 'fixed';
   } else {
     document.body.classList.remove('has-background-image');
     document.body.style.backgroundImage = '';
     document.body.style.backgroundSize = '';
     document.body.style.backgroundPosition = '';
     document.body.style.backgroundRepeat = '';
-    document.body.style.backgroundAttachment = '';
   }
 
   if (theme.switches) {

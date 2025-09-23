@@ -52,11 +52,6 @@ export class ThemeLoader {
     imageResolver: ImageResolver | null = null,
   ): Theme {
     const theme = validateTheme(themeJson);
-    if (urlRequiresResolution(theme.backgroundImage)) {
-      // this is passed as a sentinel value to the image resolver that it needs to
-      // resolve the background image from the local storage or otherwise as a data url
-      theme.backgroundImage = '{NEED_DATA_URL_BACKGROUND_IMAGE}';
-    }
 
     return this.initializeTheme(theme, imageResolver);
   }

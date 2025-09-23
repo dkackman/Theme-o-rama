@@ -28,6 +28,7 @@ export default function Themes() {
     themeName,
     setThemeName,
     generatedTheme,
+    isCurrentThemeEditable,
   } = useWorkingTheme();
 
   const [isActionsPanelMinimized, setIsActionsPanelMinimized] =
@@ -35,7 +36,10 @@ export default function Themes() {
 
   const handleApplyWorkingTheme = () => {
     if (workingThemeJson && workingThemeJson.trim()) {
-      setCustomTheme(workingThemeJson);
+      const success = setCustomTheme(workingThemeJson);
+      if (!success) {
+        console.error('Failed to apply working theme');
+      }
     }
   };
 
@@ -146,8 +150,8 @@ export default function Themes() {
                     <ThemeCard
                       theme={workingTheme}
                       currentTheme={currentTheme}
-                      isSelected={currentTheme.name === workingTheme?.name}
-                      onSelect={handleApplyWorkingTheme}
+                      isSelected={isCurrentThemeEditable}
+                      onSelect={() => handleApplyWorkingTheme()}
                     />
                   </div>
 

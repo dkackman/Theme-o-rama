@@ -51,7 +51,7 @@ export function resolveThemeImage(
   imagePath: string,
 ): string {
   // Check for sentinel value to return uploaded background image
-  if (imagePath === '{NEED_DATA_URL_BACKGROUND_IMAGE}') {
+  if (imagePath === '{LOCAL_STORAGE}') {
     return localStorage.getItem(STORAGE_KEYS.BACKGROUND_IMAGE) ?? '';
   }
 
