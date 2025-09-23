@@ -72,16 +72,16 @@ export default function Header(
             marginLeft: '-8px',
             paddingTop: 'env(safe-area-inset-top)',
             paddingBottom: 'env(safe-area-inset-bottom)',
-            ...(currentTheme?.backgroundImage && {
-              backgroundImage: `url(${currentTheme.backgroundImage})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              backgroundAttachment: 'scroll',
-              backgroundColor: 'transparent',
-              transform: 'translateZ(0)',
-              willChange: 'transform',
-            }),
+            // ...(currentTheme?.backgroundImage && {
+            //   backgroundImage: `url(${currentTheme.backgroundImage})`,
+            //   backgroundSize: 'cover',
+            //   backgroundPosition: 'center',
+            //   backgroundRepeat: 'no-repeat',
+            //   backgroundAttachment: 'scroll',
+            //   backgroundColor: 'transparent',
+            //   transform: 'translateZ(0)',
+            //   willChange: 'transform',
+            // }),
           }}
         >
           <div
