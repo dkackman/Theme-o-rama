@@ -1,46 +1,43 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { useErrors } from '@/hooks/useErrors';
+import { useWorkingThemeState } from '@/hooks/useWorkingThemeState';
 import { isTauriEnvironment, isValidFilename } from '@/lib/utils';
 import { open, save } from '@tauri-apps/plugin-dialog';
 import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
-import {
-  Eye,
-  FileInput,
-  FolderOpen,
-  Loader2,
-  RotateCcw,
-  Save,
-} from 'lucide-react';
+import { FileInput, FolderOpen, Loader2, RotateCcw, Save } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Theme, useTheme } from 'theme-o-rama';
 
 interface ThemeActionsProps {
   // State
-  themeName: string;
   generatedTheme: Theme; // Theme object for saving
 
   // Setters
-  setThemeName: (name: string) => void;
   updateWorkingTheme: (theme: Theme) => void;
   updateWorkingThemeFromJson: (json: string) => void;
   clearWorkingTheme: () => void;
 }
 
 export function ThemeActions({
-  themeName,
   generatedTheme,
-  setThemeName,
   updateWorkingTheme,
   updateWorkingThemeFromJson,
   clearWorkingTheme,
 }: ThemeActionsProps) {
-  const navigate = useNavigate();
   const { addError } = useErrors();
   const { setTheme } = useTheme();
+  const { Theme, setThemeDisplayName, setInherits, setMostLike } =
+    useWorkingThemeState();
   const [isTauri, setIsTauri] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -56,12 +53,12 @@ export function ThemeActions({
   }, [clearWorkingTheme, setTheme]);
 
   const handleSave = useCallback(async () => {
-    if (!themeName.trim()) {
+    if (!Theme.displayName?.trim()) {
       toast.error('Please enter a theme name');
       return;
     }
 
-    if (!isValidFilename(themeName)) {
+    if (!isValidFilename(Theme.displayName)) {
       toast.error('Theme name contains invalid characters for filename');
       return;
     }
@@ -70,8 +67,8 @@ export function ThemeActions({
     try {
       const finalTheme = {
         ...generatedTheme,
-        name: themeName.trim(),
-        displayName: themeName.trim(),
+        name: Theme.displayName.trim(),
+        displayName: Theme.displayName.trim(),
         mostLike: generatedTheme.mostLike as 'light' | 'dark',
       };
 
@@ -82,7 +79,7 @@ export function ThemeActions({
         try {
           // Use Tauri's native save dialog
           const filePath = await save({
-            defaultPath: `${themeName.trim()}.json`,
+            defaultPath: `${Theme.displayName.trim()}.json`,
             filters: [
               {
                 name: 'Theme Files',
@@ -109,7 +106,7 @@ export function ThemeActions({
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = `${themeName.trim()}.json`;
+        link.download = `${Theme.displayName.trim()}.json`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -122,7 +119,7 @@ export function ThemeActions({
     } finally {
       setIsSaving(false);
     }
-  }, [themeName, generatedTheme, updateWorkingTheme]);
+  }, [Theme.displayName, generatedTheme, updateWorkingTheme]);
 
   const handleOpenTheme = useCallback(async () => {
     if (isTauri) {
@@ -185,7 +182,9 @@ export function ThemeActions({
         <Button
           onClick={handleSave}
           disabled={
-            isSaving || !themeName.trim() || !isValidFilename(themeName)
+            isSaving ||
+            !Theme.displayName?.trim() ||
+            !isValidFilename(Theme.displayName || '')
           }
           className='flex flex-col items-center gap-2 h-auto py-4'
         >
@@ -212,31 +211,70 @@ export function ThemeActions({
         </Button>
       </div>
 
-      {/* Theme Name Input */}
-      <div className='space-y-2'>
-        <Label htmlFor='themeName'>Theme Name</Label>
-        <div className='flex gap-2'>
+      {/* Theme Name and Selectors */}
+      <div className='flex flex-col xl:flex-row gap-2'>
+        <div className='flex-1 space-y-2'>
+          <Label htmlFor='themeName'>Theme Name</Label>
           <Input
             id='themeName'
             placeholder='Enter a name for your theme'
-            value={themeName}
-            onChange={(e) => setThemeName(e.target.value)}
-            className='flex-1 px-3 py-2 border border-gray-300 rounded text-sm'
+            value={Theme.displayName || ''}
+            onChange={(e) => setThemeDisplayName(e.target.value)}
+            className='w-full px-3 py-2 border border-gray-300 rounded text-sm'
           />
-          <Button
-            onClick={() => navigate('/theme-preview')}
-            variant='outline'
-            size='sm'
-          >
-            <Eye className='h-4 w-4 mr-2' />
-            Preview
-          </Button>
+          {Theme.displayName && !isValidFilename(Theme.displayName) && (
+            <p className='text-sm text-destructive'>
+              Theme name contains invalid characters for filename
+            </p>
+          )}
         </div>
-        {themeName && !isValidFilename(themeName) && (
-          <p className='text-sm text-destructive'>
-            Theme name contains invalid characters for filename
-          </p>
-        )}
+
+        <div className='flex flex-col lg:flex-row xl:contents gap-2'>
+          <div className='flex-1 space-y-2'>
+            <Label htmlFor='inherits'>Inherits</Label>
+            <Select
+              value={Theme.inherits || 'none'}
+              onValueChange={(value) =>
+                setInherits(
+                  value === 'none'
+                    ? undefined
+                    : (value as 'light' | 'dark' | 'color'),
+                )
+              }
+            >
+              <SelectTrigger className='w-full'>
+                <SelectValue placeholder='Select inheritance' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='none'>None</SelectItem>
+                <SelectItem value='light'>Light</SelectItem>
+                <SelectItem value='dark'>Dark</SelectItem>
+                <SelectItem value='color'>Color</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className='flex-1 space-y-2'>
+            <Label htmlFor='mostLike'>Most Like</Label>
+            <Select
+              value={Theme.mostLike || 'none'}
+              onValueChange={(value) =>
+                setMostLike(
+                  value === 'none' ? undefined : (value as 'light' | 'dark'),
+                )
+              }
+            >
+              <SelectTrigger className='w-full'>
+                <SelectValue placeholder='Select most like' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='none'>None</SelectItem>
+                <SelectItem value='light'>Light</SelectItem>
+                <SelectItem value='dark'>Dark</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
       </div>
 
       {/* Hidden file input for web environment */}

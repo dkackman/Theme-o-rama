@@ -12,21 +12,26 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useWorkingTheme } from '@/hooks/useWorkingTheme';
+import { useWorkingThemeState } from '@/hooks/useWorkingThemeState';
 import { STORAGE_KEYS } from '@/lib/constants';
-import { ChevronDown, ChevronUp, Loader2, Palette } from 'lucide-react';
+import {
+  Captions,
+  ChevronDown,
+  ChevronUp,
+  Loader2,
+  Palette,
+} from 'lucide-react';
 import { useTheme } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 
 export default function Themes() {
   const { currentTheme, isLoading, setCustomTheme } = useTheme();
+  const { Theme } = useWorkingThemeState();
   const {
-    workingTheme,
     workingThemeJson,
     updateWorkingTheme,
     updateWorkingThemeFromJson,
     clearWorkingTheme,
-    themeName,
-    setThemeName,
     generatedTheme,
     isCurrentThemeEditable,
   } = useWorkingTheme();
@@ -85,7 +90,10 @@ export default function Themes() {
             <Card>
               <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-4'>
                 <div>
-                  <CardTitle className='text-lg'>Actions</CardTitle>
+                  <CardTitle className='flex items-center gap-2'>
+                    <Captions className='h-5 w-5' />
+                    Actions
+                  </CardTitle>
                   <CardDescription>
                     Manage your theme with these actions
                   </CardDescription>
@@ -114,9 +122,7 @@ export default function Themes() {
               >
                 <CardContent>
                   <ThemeActions
-                    themeName={themeName}
                     generatedTheme={generatedTheme}
-                    setThemeName={setThemeName}
                     updateWorkingTheme={updateWorkingTheme}
                     updateWorkingThemeFromJson={updateWorkingThemeFromJson}
                     clearWorkingTheme={clearWorkingTheme}
@@ -148,7 +154,7 @@ export default function Themes() {
                       Work in Progress
                     </h3>
                     <ThemeCard
-                      theme={workingTheme}
+                      theme={Theme}
                       currentTheme={currentTheme}
                       isSelected={isCurrentThemeEditable}
                       onSelect={() => handleApplyWorkingTheme()}
