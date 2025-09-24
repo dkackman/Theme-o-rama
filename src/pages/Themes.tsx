@@ -21,6 +21,7 @@ import {
   Loader2,
   Palette,
 } from 'lucide-react';
+import { useEffect } from 'react';
 import { useTheme } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 
@@ -37,8 +38,16 @@ export default function Themes() {
   const [isActionsPanelMinimized, setIsActionsPanelMinimized] =
     useLocalStorage<boolean>(STORAGE_KEYS.ACTIONS_PANEL_MINIMIZED, false);
 
+  // Apply the working theme at startup
+  useEffect(() => {
+    if (!isLoading && WorkingTheme) {
+      const workingThemeJson = JSON.stringify(getInitializedWorkingTheme());
+      setCustomTheme(workingThemeJson);
+    }
+  }, [isLoading, WorkingTheme, getInitializedWorkingTheme, setCustomTheme]);
+
   const handleApplyWorkingTheme = () => {
-    const workingThemeJson = JSON.stringify(WorkingTheme);
+    const workingThemeJson = JSON.stringify(getInitializedWorkingTheme());
     if (workingThemeJson && workingThemeJson.trim()) {
       const success = setCustomTheme(workingThemeJson);
       if (!success) {
@@ -122,7 +131,9 @@ export default function Themes() {
                 <CardContent>
                   <ThemeActions
                     generatedTheme={generatedTheme}
-                    updateWorkingTheme={updateWorkingTheme}
+                    updateWorkingrestore
+                    working
+                    themTheme={updateWorkingTheme}
                     updateWorkingThemeFromJson={updateWorkingThemeFromJson}
                     clearWorkingTheme={clearWorkingTheme}
                   />
@@ -155,7 +166,9 @@ export default function Themes() {
                     <ThemeCard
                       theme={getInitializedWorkingTheme()}
                       currentTheme={currentTheme}
-                      isSelected={currentTheme?.name === WorkingTheme.name}
+                      isSelected={
+                        currentTheme?.name === 'theme-a-roo-working-theme'
+                      }
                       onSelect={() => handleApplyWorkingTheme()}
                     />
                   </div>
