@@ -204,7 +204,7 @@ export default function JsonEditor() {
                   onChange={
                     isCurrentThemeEditable
                       ? (e) => handleJsonEditorChange(e.target.value)
-                      : () => {}
+                      : () => undefined
                   }
                   className={`w-full min-h-[calc(100vh-300px)] p-3 border border-gray-300 rounded font-mono text-sm bg-gray-50 resize-none ${!isCurrentThemeEditable ? 'opacity-75' : ''}`}
                   style={{
