@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select';
 import { useErrors } from '@/hooks/useErrors';
 import { useWorkingThemeState } from '@/hooks/useWorkingThemeState';
-import { isTauriEnvironment, isValidFilename } from '@/lib/utils';
+import { isTauriEnvironment } from '@/lib/utils';
 import { open, save } from '@tauri-apps/plugin-dialog';
 import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
 import { FileInput, FolderOpen, Loader2, RotateCcw, Save } from 'lucide-react';
@@ -21,29 +21,32 @@ import { Theme, useTheme } from 'theme-o-rama';
 interface ThemeActionsProps {
   // State
   generatedTheme: Theme; // Theme object for saving
+  currentTheme: Theme | null; // Current theme to check if working theme is selected
 
   // Setters
-  updateWorkingTheme: (theme: Theme) => void;
   updateWorkingThemeFromJson: (json: string) => void;
-  clearWorkingTheme: () => void;
 }
 
 export function ThemeActions({
-  generatedTheme,
-  updateWorkingTheme,
+  currentTheme,
   updateWorkingThemeFromJson,
-  clearWorkingTheme,
 }: ThemeActionsProps) {
   const { addError } = useErrors();
   const { setTheme } = useTheme();
   const {
-    WorkingTheme: Theme,
+    WorkingTheme,
     setThemeDisplayName,
     setInherits,
     setMostLike,
+    clearWorkingTheme,
+    deriveThemeName,
   } = useWorkingThemeState();
   const [isTauri, setIsTauri] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  // Check if working theme is currently selected
+  const isWorkingThemeSelected =
+    currentTheme?.name === 'theme-a-roo-working-theme';
 
   useEffect(() => {
     setIsTauri(isTauriEnvironment());
@@ -57,33 +60,24 @@ export function ThemeActions({
   }, [clearWorkingTheme, setTheme]);
 
   const handleSave = useCallback(async () => {
-    if (!Theme.displayName?.trim()) {
+    if (!WorkingTheme.displayName?.trim()) {
       toast.error('Please enter a theme name');
-      return;
-    }
-
-    if (!isValidFilename(Theme.displayName)) {
-      toast.error('Theme name contains invalid characters for filename');
       return;
     }
 
     setIsSaving(true);
     try {
       const finalTheme = {
-        ...generatedTheme,
-        name: Theme.displayName.trim(),
-        displayName: Theme.displayName.trim(),
-        mostLike: generatedTheme.mostLike as 'light' | 'dark',
+        ...WorkingTheme,
+        name: deriveThemeName(),
       };
-
-      updateWorkingTheme(finalTheme);
       const themeJson = JSON.stringify(finalTheme, null, 2);
 
       if (isTauriEnvironment() && save && writeTextFile) {
         try {
           // Use Tauri's native save dialog
           const filePath = await save({
-            defaultPath: `${Theme.displayName.trim()}.json`,
+            defaultPath: `${deriveThemeName()}.json`,
             filters: [
               {
                 name: 'Theme Files',
@@ -110,7 +104,7 @@ export function ThemeActions({
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = `${Theme.displayName.trim()}.json`;
+        link.download = `${deriveThemeName()}.json`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -123,7 +117,7 @@ export function ThemeActions({
     } finally {
       setIsSaving(false);
     }
-  }, [Theme.displayName, generatedTheme, updateWorkingTheme]);
+  }, [WorkingTheme, deriveThemeName]);
 
   const handleOpenTheme = useCallback(async () => {
     if (isTauri) {
@@ -177,19 +171,16 @@ export function ThemeActions({
         </Button>
         <Button
           onClick={handleClearTheme}
+          disabled={!isWorkingThemeSelected}
           variant='outline'
-          className='flex flex-col items-center gap-2 h-auto py-4 text-destructive hover:text-destructive'
+          className='flex flex-col items-center gap-2 h-auto py-4 text-destructive hover:text-destructive disabled:opacity-50 disabled:cursor-not-allowed'
         >
           <RotateCcw className='h-5 w-5' />
           <span className='text-sm'>Reset</span>
         </Button>
         <Button
           onClick={handleSave}
-          disabled={
-            isSaving ||
-            !Theme.displayName?.trim() ||
-            !isValidFilename(Theme.displayName || '')
-          }
+          disabled={isSaving || !WorkingTheme.displayName?.trim()}
           className='flex flex-col items-center gap-2 h-auto py-4'
         >
           {isSaving ? (
@@ -200,7 +191,7 @@ export function ThemeActions({
           ) : (
             <>
               <Save className='h-5 w-5' />
-              <span className='text-sm'>Save Theme</span>
+              <span className='text-sm'>Save Theme as...</span>
             </>
           )}
         </Button>{' '}
@@ -218,26 +209,22 @@ export function ThemeActions({
       {/* Theme Name and Selectors */}
       <div className='flex flex-col xl:flex-row gap-2'>
         <div className='flex-1 space-y-2'>
-          <Label htmlFor='themeName'>Theme Name</Label>
+          <Label htmlFor='themeName'>Working Theme Name</Label>
           <Input
             id='themeName'
             placeholder='Enter a name for your theme'
-            value={Theme.displayName || ''}
+            value={WorkingTheme.displayName || ''}
             onChange={(e) => setThemeDisplayName(e.target.value)}
-            className='w-full px-3 py-2 border border-gray-300 rounded text-sm'
+            disabled={!isWorkingThemeSelected}
+            className='w-full px-3 py-2 border border-gray-300 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed'
           />
-          {Theme.displayName && !isValidFilename(Theme.displayName) && (
-            <p className='text-sm text-destructive'>
-              Theme name contains invalid characters for filename
-            </p>
-          )}
         </div>
 
         <div className='flex flex-col lg:flex-row xl:contents gap-2'>
           <div className='flex-1 space-y-2'>
             <Label htmlFor='inherits'>Inherits</Label>
             <Select
-              value={Theme.inherits || 'none'}
+              value={WorkingTheme.inherits || 'none'}
               onValueChange={(value) =>
                 setInherits(
                   value === 'none'
@@ -245,8 +232,9 @@ export function ThemeActions({
                     : (value as 'light' | 'dark' | 'color'),
                 )
               }
+              disabled={!isWorkingThemeSelected}
             >
-              <SelectTrigger className='w-full'>
+              <SelectTrigger className='w-full disabled:opacity-50 disabled:cursor-not-allowed'>
                 <SelectValue placeholder='Select inheritance' />
               </SelectTrigger>
               <SelectContent>
@@ -261,14 +249,15 @@ export function ThemeActions({
           <div className='flex-1 space-y-2'>
             <Label htmlFor='mostLike'>Most Like</Label>
             <Select
-              value={Theme.mostLike || 'none'}
+              value={WorkingTheme.mostLike || 'none'}
               onValueChange={(value) =>
                 setMostLike(
                   value === 'none' ? undefined : (value as 'light' | 'dark'),
                 )
               }
+              disabled={!isWorkingThemeSelected}
             >
-              <SelectTrigger className='w-full'>
+              <SelectTrigger className='w-full disabled:opacity-50 disabled:cursor-not-allowed'>
                 <SelectValue placeholder='Select most like' />
               </SelectTrigger>
               <SelectContent>

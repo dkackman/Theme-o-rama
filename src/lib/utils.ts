@@ -10,6 +10,19 @@ export function dbg<T>(value: T): T {
   return value;
 }
 
+export function makeValidFileName(filename: string): string {
+  const validFilename = filename
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9-]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+  if (validFilename.length === 0) {
+    return 'my-custom-theme';
+  }
+  return validFilename;
+}
+
 export function formatTimestamp(
   timestamp: number | null,
   dateStyle = 'medium',
@@ -21,26 +34,6 @@ export function formatTimestamp(
     dateStyle: dateStyle as 'full' | 'long' | 'medium' | 'short',
     timeStyle: timeStyle as 'full' | 'long' | 'medium' | 'short',
   }).format(date);
-}
-
-export function isValidFilename(filename: string): boolean {
-  // Check for invalid characters and ensure it's not empty
-  const invalidChars = /[<>:"/\\|?*]/;
-  // Check for control characters (ASCII 0-31)
-  const hasControlChars = (str: string) => {
-    for (let i = 0; i < str.length; i++) {
-      const charCode = str.charCodeAt(i);
-      if (charCode >= 0 && charCode <= 31) {
-        return true;
-      }
-    }
-    return false;
-  };
-  return (
-    filename.trim().length > 0 &&
-    !invalidChars.test(filename) &&
-    !hasControlChars(filename)
-  );
 }
 
 export function isValidUrl(str: string) {

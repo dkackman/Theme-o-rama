@@ -1,3 +1,4 @@
+import { makeValidFileName } from '@/lib/utils';
 import { Theme, useTheme } from 'theme-o-rama';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -11,12 +12,14 @@ interface WorkingThemeState {
   setThemeDisplayName: (displayName: string) => void;
   setInherits: (inherits: InheritsType) => void;
   setMostLike: (mostLike: MostLikeType) => void;
+  clearWorkingTheme: () => void;
+  deriveThemeName: () => string;
 }
 
 const DESIGN_THEME_NAME = 'theme-a-roo-working-theme';
 const useWorkingThemeStateStore = create<WorkingThemeState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       WorkingTheme: {
         name: DESIGN_THEME_NAME,
         displayName: 'Design',
@@ -39,6 +42,18 @@ const useWorkingThemeStateStore = create<WorkingThemeState>()(
         }),
       setMostLike: (mostLike: MostLikeType) =>
         set((state) => ({ WorkingTheme: { ...state.WorkingTheme, mostLike } })),
+      clearWorkingTheme: () =>
+        set({
+          WorkingTheme: {
+            name: DESIGN_THEME_NAME,
+            displayName: 'New Theme',
+            schemaVersion: 1,
+            inherits: 'color',
+          },
+        }),
+      deriveThemeName: () => {
+        return makeValidFileName(get().WorkingTheme.displayName);
+      },
     }),
     {
       name: 'working-theme-storage', // unique name for localStorage key

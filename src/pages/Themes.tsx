@@ -21,38 +21,51 @@ import {
   Loader2,
   Palette,
 } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTheme } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 
 export default function Themes() {
   const { currentTheme, isLoading, setCustomTheme } = useTheme();
   const { WorkingTheme, getInitializedWorkingTheme } = useWorkingThemeState();
-  const {
-    updateWorkingTheme,
-    updateWorkingThemeFromJson,
-    clearWorkingTheme,
-    generatedTheme,
-  } = useWorkingTheme();
+  const { updateWorkingThemeFromJson, generatedTheme } = useWorkingTheme();
 
   const [isActionsPanelMinimized, setIsActionsPanelMinimized] =
     useLocalStorage<boolean>(STORAGE_KEYS.ACTIONS_PANEL_MINIMIZED, false);
 
-  // Apply the working theme at startup
+  const hasAppliedWorkingTheme = useRef(false);
+
+  // Apply the working theme at startup only once
   useEffect(() => {
-    if (!isLoading && WorkingTheme) {
+    if (!isLoading && WorkingTheme && !hasAppliedWorkingTheme.current) {
+      const workingThemeJson = JSON.stringify(getInitializedWorkingTheme());
+      setCustomTheme(workingThemeJson);
+      hasAppliedWorkingTheme.current = true;
+    }
+  }, [isLoading, WorkingTheme, getInitializedWorkingTheme, setCustomTheme]);
+
+  // Auto-apply working theme changes when working theme is currently selected
+  useEffect(() => {
+    if (
+      !isLoading &&
+      currentTheme?.name === 'theme-a-roo-working-theme' &&
+      hasAppliedWorkingTheme.current
+    ) {
       const workingThemeJson = JSON.stringify(getInitializedWorkingTheme());
       setCustomTheme(workingThemeJson);
     }
-  }, [isLoading, WorkingTheme, getInitializedWorkingTheme, setCustomTheme]);
+  }, [
+    isLoading,
+    currentTheme?.name,
+    WorkingTheme,
+    getInitializedWorkingTheme,
+    setCustomTheme,
+  ]);
 
   const handleApplyWorkingTheme = () => {
     const workingThemeJson = JSON.stringify(getInitializedWorkingTheme());
     if (workingThemeJson && workingThemeJson.trim()) {
-      const success = setCustomTheme(workingThemeJson);
-      if (!success) {
-        console.error('Failed to apply working theme');
-      }
+      setCustomTheme(workingThemeJson);
     }
   };
 
@@ -131,11 +144,8 @@ export default function Themes() {
                 <CardContent>
                   <ThemeActions
                     generatedTheme={generatedTheme}
-                    updateWorkingrestore
-                    working
-                    themTheme={updateWorkingTheme}
+                    currentTheme={currentTheme}
                     updateWorkingThemeFromJson={updateWorkingThemeFromJson}
-                    clearWorkingTheme={clearWorkingTheme}
                   />
                 </CardContent>
               </div>
@@ -167,7 +177,8 @@ export default function Themes() {
                       theme={getInitializedWorkingTheme()}
                       currentTheme={currentTheme}
                       isSelected={
-                        currentTheme?.name === 'theme-a-roo-working-theme'
+                        currentTheme?.name === 'theme-a-roo-working-theme' ||
+                        currentTheme?.name === 'custom'
                       }
                       onSelect={() => handleApplyWorkingTheme()}
                     />

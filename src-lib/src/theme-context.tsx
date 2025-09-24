@@ -136,9 +136,12 @@ export function ThemeProvider({
       if (!discoverThemes) {
         // If no discovery function provided, just use the default themes from cache
         setIsLoading(false);
-        const theme = themeLoader.getTheme(savedTheme);
-        setCurrentTheme(theme);
-        applyTheme(theme, document.documentElement);
+        // Don't re-initialize if the saved theme is 'custom' - it's already applied
+        if (savedTheme !== 'custom') {
+          const theme = themeLoader.getTheme(savedTheme);
+          setCurrentTheme(theme);
+          applyTheme(theme, document.documentElement);
+        }
         return;
       }
 
@@ -153,9 +156,12 @@ export function ThemeProvider({
           setSavedTheme('dark');
         }
 
-        const theme = themeLoader.getTheme(savedTheme);
-        setCurrentTheme(theme);
-        applyTheme(theme, document.documentElement);
+        // Don't re-initialize if the saved theme is 'custom' - it's already applied
+        if (savedTheme !== 'custom') {
+          const theme = themeLoader.getTheme(savedTheme);
+          setCurrentTheme(theme);
+          applyTheme(theme, document.documentElement);
+        }
       } catch (err) {
         console.error('Error loading themes:', err);
         setError('Failed to load themes');
