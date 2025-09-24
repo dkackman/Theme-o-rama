@@ -56,7 +56,7 @@ export class ThemeLoader {
     return this.initializeTheme(theme, imageResolver);
   }
 
-  private initializeTheme(
+  public initializeTheme(
     theme: Theme,
     imageResolver: ImageResolver | null = null,
   ): Theme {

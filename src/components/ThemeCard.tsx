@@ -169,7 +169,7 @@ export function ThemeCard({
         <p className='text-xs text-muted-foreground mb-4'>
           Start designing a theme to see it here
         </p>
-        <Button onClick={() => navigate('/editor')} size='sm'>
+        <Button onClick={() => navigate('/json-editor')} size='sm'>
           <Edit className='h-4 w-4 mr-2' />
           Start Designing
         </Button>

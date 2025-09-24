@@ -36,8 +36,12 @@ export function ThemeActions({
 }: ThemeActionsProps) {
   const { addError } = useErrors();
   const { setTheme } = useTheme();
-  const { Theme, setThemeDisplayName, setInherits, setMostLike } =
-    useWorkingThemeState();
+  const {
+    WorkingTheme: Theme,
+    setThemeDisplayName,
+    setInherits,
+    setMostLike,
+  } = useWorkingThemeState();
   const [isTauri, setIsTauri] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 

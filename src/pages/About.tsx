@@ -31,10 +31,22 @@ export default function About() {
               <CardHeader>
                 <CardTitle>More Information</CardTitle>
                 <CardDescription>
-                  More information about theme-o-rama.
+                  More information about theme-a-roo.
                 </CardDescription>
               </CardHeader>
               <CardContent className='space-y-6'>
+                <div>
+                  <Button variant='link' asChild>
+                    <a
+                      href='https://github.com/dkackman/theme-a-roo'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      <Github className='h-4 w-4 mr-2' /> Theme-a-roo github
+                      repo
+                    </a>
+                  </Button>
+                </div>{' '}
                 <div>
                   <Button variant='link' asChild>
                     <a
@@ -42,7 +54,8 @@ export default function About() {
                       target='_blank'
                       rel='noopener noreferrer'
                     >
-                      <Github className='h-4 w-4 mr-2' /> github repo
+                      <Github className='h-4 w-4 mr-2' /> Theme-o-rama github
+                      repo
                     </a>
                   </Button>
                 </div>

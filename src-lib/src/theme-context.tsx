@@ -24,6 +24,7 @@ interface ThemeContextType {
   error: string | null;
   lastUsedNonCoreTheme: string | null;
   reloadThemes: () => Promise<void>;
+  initializeTheme: (theme: Theme) => Theme;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -179,6 +180,10 @@ export function ThemeProvider({
     themeLoader.loadThemes(appThemes, imageResolver);
   }
 
+  const initializeTheme = (theme: Theme): Theme => {
+    return themeLoader.initializeTheme(theme, imageResolver);
+  };
+
   return (
     <ThemeContext.Provider
       value={{
@@ -190,6 +195,7 @@ export function ThemeProvider({
         error,
         lastUsedNonCoreTheme,
         reloadThemes,
+        initializeTheme,
       }}
     >
       {children}

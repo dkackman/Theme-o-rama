@@ -26,20 +26,19 @@ import { useLocalStorage } from 'usehooks-ts';
 
 export default function Themes() {
   const { currentTheme, isLoading, setCustomTheme } = useTheme();
-  const { Theme } = useWorkingThemeState();
+  const { WorkingTheme, getInitializedWorkingTheme } = useWorkingThemeState();
   const {
-    workingThemeJson,
     updateWorkingTheme,
     updateWorkingThemeFromJson,
     clearWorkingTheme,
     generatedTheme,
-    isCurrentThemeEditable,
   } = useWorkingTheme();
 
   const [isActionsPanelMinimized, setIsActionsPanelMinimized] =
     useLocalStorage<boolean>(STORAGE_KEYS.ACTIONS_PANEL_MINIMIZED, false);
 
   const handleApplyWorkingTheme = () => {
+    const workingThemeJson = JSON.stringify(WorkingTheme);
     if (workingThemeJson && workingThemeJson.trim()) {
       const success = setCustomTheme(workingThemeJson);
       if (!success) {
@@ -137,11 +136,11 @@ export default function Themes() {
                   <div>
                     <CardTitle className='flex items-center gap-2'>
                       <Palette className='h-5 w-5' />
-                      Choose Your Theme
+                      Choose a Theme
                     </CardTitle>
                     <CardDescription>
-                      Pick up where you left or start with one of these example
-                      themes
+                      Pick up where you left off or start with one of these
+                      example themes
                     </CardDescription>
                   </div>
                 </div>
@@ -154,9 +153,9 @@ export default function Themes() {
                       Work in Progress
                     </h3>
                     <ThemeCard
-                      theme={Theme}
+                      theme={getInitializedWorkingTheme()}
                       currentTheme={currentTheme}
-                      isSelected={isCurrentThemeEditable}
+                      isSelected={currentTheme?.name === WorkingTheme.name}
                       onSelect={() => handleApplyWorkingTheme()}
                     />
                   </div>
