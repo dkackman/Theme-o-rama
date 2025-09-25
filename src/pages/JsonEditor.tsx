@@ -120,7 +120,12 @@ export default function JsonEditor() {
       }
       setHasLoadedInitialTheme(true);
     }
-  }, [currentTheme, hasLoadedInitialTheme, isWorkingThemeSelected]);
+  }, [
+    currentTheme,
+    hasLoadedInitialTheme,
+    isWorkingThemeSelected,
+    WorkingTheme,
+  ]);
 
   try {
     return (

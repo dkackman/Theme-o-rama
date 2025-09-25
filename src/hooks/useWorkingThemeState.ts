@@ -87,13 +87,15 @@ const useWorkingThemeStateStore = create<WorkingThemeState>()(
             ...state.WorkingTheme,
             colors: {
               ...state.WorkingTheme.colors,
-              themeColor: `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`
-            }
+              themeColor: `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`,
+            },
           },
         }));
       },
       getThemeColor: () => {
-        const rgb = hslToRgb(get().WorkingTheme.colors?.themeColor || 'hsl(220, 30%, 15%)');
+        const rgb = hslToRgb(
+          get().WorkingTheme.colors?.themeColor || 'hsl(220, 30%, 15%)',
+        );
         return rgb || { r: 220, g: 30, b: 15 };
       },
     }),
