@@ -12,21 +12,17 @@ import {
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useErrors } from '@/hooks/useErrors';
-import { useWorkingTheme } from '@/hooks/useWorkingTheme';
+import { DESIGN_THEME_NAME } from '@/hooks/useWorkingThemeState';
 import { validateThemeJson } from '@/lib/themes';
 import { Check, Info, Loader2, Upload } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTheme } from 'theme-o-rama';
 
 export default function JsonEditor() {
-  const {
-    workingThemeJson,
-    updateWorkingThemeFromJson,
-    isCurrentThemeEditable,
-  } = useWorkingTheme();
-
   const { addError } = useErrors();
   const { setCustomTheme, currentTheme } = useTheme();
+  // Check if working theme is currently selected
+  const isWorkingThemeSelected = currentTheme?.name === DESIGN_THEME_NAME;
 
   // JSON editor state - only loads working theme on page navigation
   const [jsonEditorValue, setJsonEditorValue] = useState('');
@@ -63,7 +59,7 @@ export default function JsonEditor() {
       }
 
       // Replace the working theme completely with the JSON content
-      updateWorkingThemeFromJson(jsonEditorValue);
+      //updateWorkingThemeFromJson(jsonEditorValue);
 
       // Reset validation state after successful apply
       setValidationState('none');
@@ -76,7 +72,7 @@ export default function JsonEditor() {
     } finally {
       setIsApplyingJson(false);
     }
-  }, [jsonEditorValue, setCustomTheme, addError, updateWorkingThemeFromJson]);
+  }, [jsonEditorValue, setCustomTheme, addError]);
 
   // Handler for validating JSON editor content
   const handleValidateJson = useCallback(() => {
@@ -112,19 +108,15 @@ export default function JsonEditor() {
   // Show working theme if editable, otherwise show current theme
   useEffect(() => {
     if (!hasLoadedInitialTheme) {
-      if (isCurrentThemeEditable && workingThemeJson) {
+      const workingThemeJson = 'spoons';
+      if (isWorkingThemeSelected && workingThemeJson) {
         setJsonEditorValue(workingThemeJson);
       } else if (currentTheme) {
         setJsonEditorValue(JSON.stringify(currentTheme, null, 2));
       }
       setHasLoadedInitialTheme(true);
     }
-  }, [
-    workingThemeJson,
-    currentTheme,
-    isCurrentThemeEditable,
-    hasLoadedInitialTheme,
-  ]);
+  }, [currentTheme, hasLoadedInitialTheme]);
 
   try {
     return (
@@ -134,7 +126,7 @@ export default function JsonEditor() {
         <div className='flex-1 overflow-auto'>
           <div className='container mx-auto p-6 space-y-6'>
             {/* Readonly Notice */}
-            {!isCurrentThemeEditable && (
+            {!isWorkingThemeSelected && (
               <Alert>
                 <Info className='h-4 w-4' />
                 <AlertDescription>
@@ -149,7 +141,7 @@ export default function JsonEditor() {
               <CardHeader>
                 <CardTitle className='text-lg'>JSON Editor</CardTitle>
                 <CardDescription>
-                  {isCurrentThemeEditable
+                  {isWorkingThemeSelected
                     ? 'Edit your theme directly in JSON format. Changes are applied when you click Apply.'
                     : 'View the current theme in JSON format. Switch to the working theme to edit.'}
                 </CardDescription>
@@ -162,7 +154,7 @@ export default function JsonEditor() {
                       onClick={handleValidateJson}
                       variant='outline'
                       disabled={
-                        !isCurrentThemeEditable || !jsonEditorValue?.trim()
+                        !isWorkingThemeSelected || !jsonEditorValue?.trim()
                       }
                       className={`flex items-center gap-2 ${
                         validationState === 'valid'
@@ -178,7 +170,7 @@ export default function JsonEditor() {
                     <Button
                       onClick={handleApplyJsonTheme}
                       disabled={
-                        !isCurrentThemeEditable ||
+                        !isWorkingThemeSelected ||
                         isApplyingJson ||
                         !jsonEditorValue?.trim()
                       }
@@ -202,11 +194,11 @@ export default function JsonEditor() {
                   id='theme-json'
                   value={jsonEditorValue}
                   onChange={
-                    isCurrentThemeEditable
+                    isWorkingThemeSelected
                       ? (e) => handleJsonEditorChange(e.target.value)
                       : () => undefined
                   }
-                  className={`w-full min-h-[calc(100vh-300px)] p-3 border border-gray-300 rounded font-mono text-sm bg-gray-50 resize-none ${!isCurrentThemeEditable ? 'opacity-75' : ''}`}
+                  className={`w-full min-h-[calc(100vh-300px)] p-3 border border-gray-300 rounded font-mono text-sm bg-gray-50 resize-none ${!isWorkingThemeSelected ? 'opacity-75' : ''}`}
                   style={{
                     fontFamily:
                       'Monaco, Menlo, Ubuntu Mono, Consolas, source-code-pro, monospace',
@@ -223,7 +215,7 @@ export default function JsonEditor() {
                   autoCorrect='off'
                   autoCapitalize='off'
                   placeholder={!currentTheme ? 'No theme available.' : ''}
-                  readOnly={!isCurrentThemeEditable}
+                  readOnly={!isWorkingThemeSelected}
                 />
               </CardContent>
             </Card>

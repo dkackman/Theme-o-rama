@@ -14,9 +14,11 @@ interface WorkingThemeState {
   setMostLike: (mostLike: MostLikeType) => void;
   clearWorkingTheme: () => void;
   deriveThemeName: () => string;
+  setWorkingThemeFromCurrent: (currentTheme: Theme) => void;
+  setWorkingThemeFromJson: (json: string) => void;
 }
 
-const DESIGN_THEME_NAME = 'theme-a-roo-working-theme';
+export const DESIGN_THEME_NAME = 'theme-a-roo-working-theme';
 const useWorkingThemeStateStore = create<WorkingThemeState>()(
   persist(
     (set, get) => ({
@@ -53,6 +55,28 @@ const useWorkingThemeStateStore = create<WorkingThemeState>()(
         }),
       deriveThemeName: () => {
         return makeValidFileName(get().WorkingTheme.displayName);
+      },
+      setWorkingThemeFromCurrent: (currentTheme: Theme) => {
+        const workingThemeCopy = {
+          ...currentTheme,
+          name: DESIGN_THEME_NAME,
+          displayName: currentTheme.displayName || 'New Theme',
+        };
+        set({ WorkingTheme: workingThemeCopy });
+      },
+      setWorkingThemeFromJson: (json: string) => {
+        try {
+          const parsedTheme = JSON.parse(json) as Theme;
+          const workingThemeCopy = {
+            ...parsedTheme,
+            name: DESIGN_THEME_NAME,
+            displayName: parsedTheme.displayName || 'Imported Theme',
+          };
+          set({ WorkingTheme: workingThemeCopy });
+        } catch (error) {
+          console.error('Error parsing theme JSON:', error);
+          throw new Error('Invalid theme JSON format');
+        }
       },
     }),
     {

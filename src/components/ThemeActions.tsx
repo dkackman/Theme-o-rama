@@ -9,7 +9,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useErrors } from '@/hooks/useErrors';
-import { useWorkingThemeState } from '@/hooks/useWorkingThemeState';
+import {
+  DESIGN_THEME_NAME,
+  useWorkingThemeState,
+} from '@/hooks/useWorkingThemeState';
 import { isTauriEnvironment } from '@/lib/utils';
 import { open, save } from '@tauri-apps/plugin-dialog';
 import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
@@ -20,19 +23,12 @@ import { Theme, useTheme } from 'theme-o-rama';
 
 interface ThemeActionsProps {
   // State
-  generatedTheme: Theme; // Theme object for saving
   currentTheme: Theme | null; // Current theme to check if working theme is selected
-
-  // Setters
-  updateWorkingThemeFromJson: (json: string) => void;
 }
 
-export function ThemeActions({
-  currentTheme,
-  updateWorkingThemeFromJson,
-}: ThemeActionsProps) {
+export function ThemeActions({ currentTheme }: ThemeActionsProps) {
   const { addError } = useErrors();
-  const { setTheme } = useTheme();
+  const { setCustomTheme } = useTheme();
   const {
     WorkingTheme,
     setThemeDisplayName,
@@ -40,13 +36,15 @@ export function ThemeActions({
     setMostLike,
     clearWorkingTheme,
     deriveThemeName,
+    setWorkingThemeFromCurrent,
+    setWorkingThemeFromJson,
+    getInitializedWorkingTheme,
   } = useWorkingThemeState();
   const [isTauri, setIsTauri] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   // Check if working theme is currently selected
-  const isWorkingThemeSelected =
-    currentTheme?.name === 'theme-a-roo-working-theme';
+  const isWorkingThemeSelected = currentTheme?.name === DESIGN_THEME_NAME;
 
   useEffect(() => {
     setIsTauri(isTauriEnvironment());
@@ -56,8 +54,44 @@ export function ThemeActions({
 
   const handleClearTheme = useCallback(() => {
     clearWorkingTheme();
-    setTheme('light');
-  }, [clearWorkingTheme, setTheme]);
+    // Apply the reset working theme immediately and ensure it's selected
+    const initializedTheme = getInitializedWorkingTheme();
+    // Ensure the theme name is correct for selection detection
+    const workingThemeWithCorrectName = {
+      ...initializedTheme,
+      name: DESIGN_THEME_NAME,
+    };
+    const workingThemeJson = JSON.stringify(
+      workingThemeWithCorrectName,
+      null,
+      2,
+    );
+    setCustomTheme(workingThemeJson);
+  }, [clearWorkingTheme, getInitializedWorkingTheme, setCustomTheme]);
+
+  const handleStartWithThisTheme = useCallback(() => {
+    if (currentTheme) {
+      setWorkingThemeFromCurrent(currentTheme);
+      // Apply the working theme immediately and ensure it's selected
+      const initializedTheme = getInitializedWorkingTheme();
+      // Ensure the theme name is correct for selection detection
+      const workingThemeWithCorrectName = {
+        ...initializedTheme,
+        name: DESIGN_THEME_NAME,
+      };
+      const workingThemeJson = JSON.stringify(
+        workingThemeWithCorrectName,
+        null,
+        2,
+      );
+      setCustomTheme(workingThemeJson);
+    }
+  }, [
+    currentTheme,
+    setWorkingThemeFromCurrent,
+    getInitializedWorkingTheme,
+    setCustomTheme,
+  ]);
 
   const handleSave = useCallback(async () => {
     if (!WorkingTheme.displayName?.trim()) {
@@ -137,8 +171,20 @@ export function ThemeActions({
 
         if (filePath) {
           const fileContent = await readTextFile(filePath as string);
+          setWorkingThemeFromJson(fileContent);
 
-          updateWorkingThemeFromJson(fileContent);
+          // Apply the imported theme immediately
+          const initializedTheme = getInitializedWorkingTheme();
+          const workingThemeWithCorrectName = {
+            ...initializedTheme,
+            name: DESIGN_THEME_NAME,
+          };
+          const workingThemeJson = JSON.stringify(
+            workingThemeWithCorrectName,
+            null,
+            2,
+          );
+          setCustomTheme(workingThemeJson);
         }
       } catch (error) {
         console.error('Error opening theme file:', error);
@@ -156,7 +202,13 @@ export function ThemeActions({
         fileInput.click();
       }
     }
-  }, [isTauri, updateWorkingThemeFromJson, addError]);
+  }, [
+    isTauri,
+    addError,
+    setWorkingThemeFromJson,
+    getInitializedWorkingTheme,
+    setCustomTheme,
+  ]);
   return (
     <div className='space-y-4'>
       {/* Action Buttons */}
@@ -170,13 +222,20 @@ export function ThemeActions({
           <span className='text-sm'>Open Theme</span>
         </Button>
         <Button
-          onClick={handleClearTheme}
-          disabled={!isWorkingThemeSelected}
+          onClick={
+            isWorkingThemeSelected ? handleClearTheme : handleStartWithThisTheme
+          }
           variant='outline'
-          className='flex flex-col items-center gap-2 h-auto py-4 text-destructive hover:text-destructive disabled:opacity-50 disabled:cursor-not-allowed'
+          className={`flex flex-col items-center gap-2 h-auto py-4 ${
+            isWorkingThemeSelected
+              ? 'text-destructive hover:text-destructive'
+              : 'text-primary hover:text-primary'
+          }`}
         >
           <RotateCcw className='h-5 w-5' />
-          <span className='text-sm'>Reset</span>
+          <span className='text-sm'>
+            {isWorkingThemeSelected ? 'Reset' : 'Start with this theme'}
+          </span>
         </Button>
         <Button
           onClick={handleSave}
@@ -283,7 +342,28 @@ export function ThemeActions({
               const reader = new FileReader();
               reader.onload = (event) => {
                 const fileContent = event.target?.result as string;
-                updateWorkingThemeFromJson(fileContent);
+                try {
+                  setWorkingThemeFromJson(fileContent);
+
+                  // Apply the imported theme immediately
+                  const initializedTheme = getInitializedWorkingTheme();
+                  const workingThemeWithCorrectName = {
+                    ...initializedTheme,
+                    name: DESIGN_THEME_NAME,
+                  };
+                  const workingThemeJson = JSON.stringify(
+                    workingThemeWithCorrectName,
+                    null,
+                    2,
+                  );
+                  setCustomTheme(workingThemeJson);
+                } catch (error) {
+                  console.error('Error loading theme file:', error);
+                  addError({
+                    kind: 'invalid',
+                    reason: 'Failed to load theme file',
+                  });
+                }
               };
               reader.readAsText(file);
             }

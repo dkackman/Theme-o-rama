@@ -11,8 +11,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useWorkingTheme } from '@/hooks/useWorkingTheme';
-import { useWorkingThemeState } from '@/hooks/useWorkingThemeState';
+import {
+  DESIGN_THEME_NAME,
+  useWorkingThemeState,
+} from '@/hooks/useWorkingThemeState';
 import { STORAGE_KEYS } from '@/lib/constants';
 import {
   Captions,
@@ -28,7 +30,6 @@ import { useLocalStorage } from 'usehooks-ts';
 export default function Themes() {
   const { currentTheme, isLoading, setCustomTheme } = useTheme();
   const { WorkingTheme, getInitializedWorkingTheme } = useWorkingThemeState();
-  const { updateWorkingThemeFromJson, generatedTheme } = useWorkingTheme();
 
   const [isActionsPanelMinimized, setIsActionsPanelMinimized] =
     useLocalStorage<boolean>(STORAGE_KEYS.ACTIONS_PANEL_MINIMIZED, false);
@@ -48,7 +49,7 @@ export default function Themes() {
   useEffect(() => {
     if (
       !isLoading &&
-      currentTheme?.name === 'theme-a-roo-working-theme' &&
+      currentTheme?.name === DESIGN_THEME_NAME &&
       hasAppliedWorkingTheme.current
     ) {
       const workingThemeJson = JSON.stringify(getInitializedWorkingTheme());
@@ -142,11 +143,7 @@ export default function Themes() {
                 }`}
               >
                 <CardContent>
-                  <ThemeActions
-                    generatedTheme={generatedTheme}
-                    currentTheme={currentTheme}
-                    updateWorkingThemeFromJson={updateWorkingThemeFromJson}
-                  />
+                  <ThemeActions currentTheme={currentTheme} />
                 </CardContent>
               </div>
             </Card>
@@ -177,8 +174,8 @@ export default function Themes() {
                       theme={getInitializedWorkingTheme()}
                       currentTheme={currentTheme}
                       isSelected={
-                        currentTheme?.name === 'theme-a-roo-working-theme' ||
-                        currentTheme?.name === 'custom'
+                        currentTheme?.name === DESIGN_THEME_NAME ||
+                        currentTheme?.name === 'my-custom-theme'
                       }
                       onSelect={() => handleApplyWorkingTheme()}
                     />

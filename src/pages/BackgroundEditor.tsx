@@ -10,7 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useWorkingTheme } from '@/hooks/useWorkingTheme';
 import { Info } from 'lucide-react';
 
 export default function BackgroundEditor() {
