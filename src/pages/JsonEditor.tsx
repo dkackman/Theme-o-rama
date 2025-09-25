@@ -12,7 +12,10 @@ import {
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useErrors } from '@/hooks/useErrors';
-import { DESIGN_THEME_NAME } from '@/hooks/useWorkingThemeState';
+import {
+  DESIGN_THEME_NAME,
+  useWorkingThemeState,
+} from '@/hooks/useWorkingThemeState';
 import { validateThemeJson } from '@/lib/themes';
 import { Check, Info, Loader2, Upload } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
@@ -21,6 +24,7 @@ import { useTheme } from 'theme-o-rama';
 export default function JsonEditor() {
   const { addError } = useErrors();
   const { setCustomTheme, currentTheme } = useTheme();
+  const { WorkingTheme } = useWorkingThemeState();
   // Check if working theme is currently selected
   const isWorkingThemeSelected = currentTheme?.name === DESIGN_THEME_NAME;
 
@@ -108,7 +112,7 @@ export default function JsonEditor() {
   // Show working theme if editable, otherwise show current theme
   useEffect(() => {
     if (!hasLoadedInitialTheme) {
-      const workingThemeJson = 'spoons';
+      const workingThemeJson = JSON.stringify(WorkingTheme, null, 2);
       if (isWorkingThemeSelected && workingThemeJson) {
         setJsonEditorValue(workingThemeJson);
       } else if (currentTheme) {
@@ -116,7 +120,7 @@ export default function JsonEditor() {
       }
       setHasLoadedInitialTheme(true);
     }
-  }, [currentTheme, hasLoadedInitialTheme]);
+  }, [currentTheme, hasLoadedInitialTheme, isWorkingThemeSelected]);
 
   try {
     return (

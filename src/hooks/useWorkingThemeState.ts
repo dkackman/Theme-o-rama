@@ -1,4 +1,4 @@
-import { makeValidFileName } from '@/lib/utils';
+import { hslToRgb, makeValidFileName, rgbToHsl } from '@/lib/utils';
 import { Theme, useTheme } from 'theme-o-rama';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -16,6 +16,8 @@ interface WorkingThemeState {
   deriveThemeName: () => string;
   setWorkingThemeFromCurrent: (currentTheme: Theme) => void;
   setWorkingThemeFromJson: (json: string) => void;
+  setThemeColor: ({ r, g, b }: { r: number; g: number; b: number }) => void;
+  getThemeColor: () => { r: number; g: number; b: number };
 }
 
 export const DESIGN_THEME_NAME = 'theme-a-roo-working-theme';
@@ -77,6 +79,22 @@ const useWorkingThemeStateStore = create<WorkingThemeState>()(
           console.error('Error parsing theme JSON:', error);
           throw new Error('Invalid theme JSON format');
         }
+      },
+      setThemeColor: ({ r, g, b }: { r: number; g: number; b: number }) => {
+        const hsl = rgbToHsl(r, g, b);
+        set((state) => ({
+          WorkingTheme: {
+            ...state.WorkingTheme,
+            colors: {
+              ...state.WorkingTheme.colors,
+              themeColor: `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`
+            }
+          },
+        }));
+      },
+      getThemeColor: () => {
+        const rgb = hslToRgb(get().WorkingTheme.colors?.themeColor || 'hsl(220, 30%, 15%)');
+        return rgb || { r: 220, g: 30, b: 15 };
       },
     }),
     {

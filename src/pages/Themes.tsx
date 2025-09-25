@@ -11,10 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {
-  DESIGN_THEME_NAME,
-  useWorkingThemeState,
-} from '@/hooks/useWorkingThemeState';
+import { useWorkingThemeAutoApply } from '@/hooks/useWorkingThemeAutoApply';
+import { useWorkingThemeState } from '@/hooks/useWorkingThemeState';
 import { STORAGE_KEYS } from '@/lib/constants';
 import {
   Captions,
@@ -23,45 +21,16 @@ import {
   Loader2,
   Palette,
 } from 'lucide-react';
-import { useEffect, useRef } from 'react';
 import { useTheme } from 'theme-o-rama';
 import { useLocalStorage } from 'usehooks-ts';
 
 export default function Themes() {
-  const { currentTheme, isLoading, setCustomTheme } = useTheme();
-  const { WorkingTheme, getInitializedWorkingTheme } = useWorkingThemeState();
+  const { currentTheme, setCustomTheme, isLoading } = useTheme();
+  const { getInitializedWorkingTheme } = useWorkingThemeState();
+  const { isWorkingThemeSelected } = useWorkingThemeAutoApply();
 
   const [isActionsPanelMinimized, setIsActionsPanelMinimized] =
     useLocalStorage<boolean>(STORAGE_KEYS.ACTIONS_PANEL_MINIMIZED, false);
-
-  const hasAppliedWorkingTheme = useRef(false);
-
-  // Apply the working theme at startup only once
-  useEffect(() => {
-    if (!isLoading && WorkingTheme && !hasAppliedWorkingTheme.current) {
-      const workingThemeJson = JSON.stringify(getInitializedWorkingTheme());
-      setCustomTheme(workingThemeJson);
-      hasAppliedWorkingTheme.current = true;
-    }
-  }, [isLoading, WorkingTheme, getInitializedWorkingTheme, setCustomTheme]);
-
-  // Auto-apply working theme changes when working theme is currently selected
-  useEffect(() => {
-    if (
-      !isLoading &&
-      currentTheme?.name === DESIGN_THEME_NAME &&
-      hasAppliedWorkingTheme.current
-    ) {
-      const workingThemeJson = JSON.stringify(getInitializedWorkingTheme());
-      setCustomTheme(workingThemeJson);
-    }
-  }, [
-    isLoading,
-    currentTheme?.name,
-    WorkingTheme,
-    getInitializedWorkingTheme,
-    setCustomTheme,
-  ]);
 
   const handleApplyWorkingTheme = () => {
     const workingThemeJson = JSON.stringify(getInitializedWorkingTheme());
@@ -174,7 +143,7 @@ export default function Themes() {
                       theme={getInitializedWorkingTheme()}
                       currentTheme={currentTheme}
                       isSelected={
-                        currentTheme?.name === DESIGN_THEME_NAME ||
+                        isWorkingThemeSelected ||
                         currentTheme?.name === 'my-custom-theme'
                       }
                       onSelect={() => handleApplyWorkingTheme()}

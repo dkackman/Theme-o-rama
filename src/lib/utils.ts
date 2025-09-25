@@ -55,7 +55,7 @@ export function isValidUrl(str: string) {
 }
 
 export function hslToRgb(themeColor: string) {
-  const hslMatch = themeColor.match(/hsl\((\d+)\s+(\d+)%\s+(\d+)%\)/);
+  const hslMatch = themeColor.match(/hsl\((\d+)[,\s]+(\d+)%[,\s]+(\d+)%\)/);
   if (hslMatch) {
     const h = parseInt(hslMatch[1]);
     const s = parseInt(hslMatch[2]);
