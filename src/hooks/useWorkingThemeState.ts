@@ -1,3 +1,4 @@
+import { STORAGE_KEYS } from '@/lib/constants';
 import { hslToRgb, makeValidFileName, rgbToHsl } from '@/lib/utils';
 import { Theme, useTheme } from 'theme-o-rama';
 import { create } from 'zustand';
@@ -43,7 +44,9 @@ const useWorkingThemeStateStore = create<WorkingThemeState>()(
         set((state) => ({ WorkingTheme: { ...state.WorkingTheme, inherits } })),
       setMostLike: (mostLike: MostLikeType) =>
         set((state) => ({ WorkingTheme: { ...state.WorkingTheme, mostLike } })),
-      clearWorkingTheme: () =>
+      clearWorkingTheme: () => {
+        // Clear localStorage background image
+        localStorage.removeItem(STORAGE_KEYS.BACKGROUND_IMAGE);
         set({
           WorkingTheme: {
             name: DESIGN_THEME_NAME,
@@ -51,7 +54,8 @@ const useWorkingThemeStateStore = create<WorkingThemeState>()(
             schemaVersion: 1,
             inherits: 'color',
           },
-        }),
+        });
+      },
       deriveThemeName: () => {
         return makeValidFileName(get().WorkingTheme.displayName);
       },
@@ -96,15 +100,39 @@ const useWorkingThemeStateStore = create<WorkingThemeState>()(
         return rgb || { r: 220, g: 30, b: 15 };
       },
       setBackgroundImage: (url: string | null) => {
-        set((state) => ({
-          WorkingTheme: {
-            ...state.WorkingTheme,
-            backgroundImage: url || undefined,
-          },
-        }));
+        if (url && (url.startsWith('data:') || url.startsWith('blob:'))) {
+          // Store data URI/blob in localStorage and use sentinel value
+          localStorage.setItem(STORAGE_KEYS.BACKGROUND_IMAGE, url);
+          set((state) => ({
+            WorkingTheme: {
+              ...state.WorkingTheme,
+              backgroundImage: '{LOCAL_STORAGE}',
+              colors: {
+                ...state.WorkingTheme.colors,
+                background: url ? 'transparent' : undefined,
+              },
+            },
+          }));
+        } else {
+          // Regular URL - store directly
+          set((state) => ({
+            WorkingTheme: {
+              ...state.WorkingTheme,
+              backgroundImage: url || undefined,
+              colors: {
+                ...state.WorkingTheme.colors,
+                background: url ? 'transparent' : undefined,
+              },
+            },
+          }));
+        }
       },
       getBackgroundImage: () => {
-        return get().WorkingTheme.backgroundImage || null;
+        const backgroundImage = get().WorkingTheme.backgroundImage;
+        if (backgroundImage === '{LOCAL_STORAGE}') {
+          return localStorage.getItem(STORAGE_KEYS.BACKGROUND_IMAGE);
+        }
+        return backgroundImage || null;
       },
       setBackdropFilters: (enabled: boolean) => {
         set((state) => ({
