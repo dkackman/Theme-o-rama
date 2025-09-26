@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -8,7 +9,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { useWorkingThemeState } from '@/hooks/useWorkingThemeState';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { generateImage } from '@/lib/opeanai';
 import { saveDataUriAsFile } from '@/lib/utils';
@@ -18,18 +18,22 @@ import { toast } from 'react-toastify';
 import { useLocalStorage } from 'usehooks-ts';
 
 interface BackgroundImageEditorProps {
+  backgroundImageUrl: string | null;
+  onBackgroundImageChange: (url: string | null) => void;
+  selectedColor?: { r: number; g: number; b: number };
+  backdropFilters?: boolean;
+  onBackdropFiltersChange?: (enabled: boolean) => void;
   disabled?: boolean;
 }
 
 export function BackgroundImageEditor({
+  backgroundImageUrl,
+  onBackgroundImageChange,
+  selectedColor,
+  backdropFilters = true,
+  onBackdropFiltersChange,
   disabled = false,
 }: BackgroundImageEditorProps) {
-  const { getBackgroundImage, setBackgroundImage, getThemeColor } =
-    useWorkingThemeState();
-
-  // Get current values from the store
-  const backgroundImageUrl = getBackgroundImage();
-  const selectedColor = getThemeColor();
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [selectedImageModel, setSelectedImageModel] = useLocalStorage<string>(
     STORAGE_KEYS.IMAGE_MODEL,
@@ -59,7 +63,7 @@ export function BackgroundImageEditor({
       );
 
       if (imageUrl) {
-        setBackgroundImage(imageUrl);
+        onBackgroundImageChange(imageUrl);
       } else {
         toast.error('Failed to generate image');
       }
@@ -72,7 +76,7 @@ export function BackgroundImageEditor({
   };
 
   const handleClearBackgroundImage = () => {
-    setBackgroundImage('');
+    onBackgroundImageChange(null);
     const fileInput = document.getElementById(
       'background-image-upload',
     ) as HTMLInputElement;
@@ -87,7 +91,7 @@ export function BackgroundImageEditor({
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        setBackgroundImage(result);
+        onBackgroundImageChange(result);
       };
       reader.readAsDataURL(file);
     }
@@ -144,6 +148,28 @@ export function BackgroundImageEditor({
               <SelectItem value='gpt-image-1'>GPT Image 1</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+        <div className='flex items-center space-x-2'>
+          {onBackdropFiltersChange && (
+            <>
+              <Checkbox
+                id='backdropFilters'
+                checked={backdropFilters}
+                onCheckedChange={
+                  disabled
+                    ? () => undefined
+                    : (checked) => onBackdropFiltersChange(checked === true)
+                }
+                disabled={disabled}
+              />
+              <Label
+                htmlFor='backdropFilters'
+                className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+              >
+                Backdrop filters
+              </Label>
+            </>
+          )}
         </div>
         <div className='flex-1'>
           <Button

@@ -12,10 +12,8 @@ import {
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useErrors } from '@/hooks/useErrors';
-import {
-  DESIGN_THEME_NAME,
-  useWorkingThemeState,
-} from '@/hooks/useWorkingThemeState';
+import { useWorkingThemeAutoApply } from '@/hooks/useWorkingThemeAutoApply';
+import { useWorkingThemeState } from '@/hooks/useWorkingThemeState';
 import { validateThemeJson } from '@/lib/themes';
 import { Check, Info, Loader2, Upload } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
@@ -25,8 +23,7 @@ export default function JsonEditor() {
   const { addError } = useErrors();
   const { setCustomTheme, currentTheme } = useTheme();
   const { WorkingTheme } = useWorkingThemeState();
-  // Check if working theme is currently selected
-  const isWorkingThemeSelected = currentTheme?.name === DESIGN_THEME_NAME;
+  const { isWorkingThemeSelected } = useWorkingThemeAutoApply();
 
   // JSON editor state - only loads working theme on page navigation
   const [jsonEditorValue, setJsonEditorValue] = useState('');
@@ -120,12 +117,7 @@ export default function JsonEditor() {
       }
       setHasLoadedInitialTheme(true);
     }
-  }, [
-    currentTheme,
-    hasLoadedInitialTheme,
-    isWorkingThemeSelected,
-    WorkingTheme,
-  ]);
+  }, [currentTheme, hasLoadedInitialTheme, isWorkingThemeSelected]);
 
   try {
     return (

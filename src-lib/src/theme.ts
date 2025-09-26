@@ -1,5 +1,30 @@
 import { Theme } from './theme.type';
 
+function clearThemeVariables(root: HTMLElement) {
+  // Remove any existing theme classes
+  const existingThemeClasses = Array.from(root.classList).filter((cls) =>
+    cls.startsWith('theme-'),
+  );
+  root.classList.remove(...existingThemeClasses);
+
+  // Clear all CSS variables to reset to defaults
+  [
+    ...colorVariableNames,
+    ...fontVariableNames,
+    ...cornerVariableNames,
+    ...shadowVariableNames,
+    ...themeFeatureFlagVariableNames,
+    ...navigationAndButtonVariableNames,
+    ...backgroundImageVariableNames,
+    ...tableVariableNames,
+    ...switchVariableNames,
+    ...backdropFilterVariableNames,
+    ...buttonVariableNames,
+  ].forEach((cssVar) => {
+    root.style.removeProperty(cssVar);
+  });
+}
+
 function applyCommonThemeProperties(theme: Theme, root: HTMLElement): void {
   // Set theme class for CSS selectors
   try {
@@ -73,28 +98,7 @@ function applyThemeVariables(theme: Theme, root: HTMLElement): void {
 }
 
 export function applyTheme(theme: Theme, root: HTMLElement) {
-  // Remove any existing theme classes
-  const existingThemeClasses = Array.from(root.classList).filter((cls) =>
-    cls.startsWith('theme-'),
-  );
-  root.classList.remove(...existingThemeClasses);
-
-  // Clear all CSS variables to reset to defaults
-  [
-    ...colorVariableNames,
-    ...fontVariableNames,
-    ...cornerVariableNames,
-    ...shadowVariableNames,
-    ...themeFeatureFlagVariableNames,
-    ...navigationAndButtonVariableNames,
-    ...backgroundImageVariableNames,
-    ...tableVariableNames,
-    ...switchVariableNames,
-    ...backdropFilterVariableNames,
-    ...buttonVariableNames,
-  ].forEach((cssVar) => {
-    root.style.removeProperty(cssVar);
-  });
+  clearThemeVariables(root);
   applyThemeVariables(theme, root);
 
   // Apply backdrop-filter variables if defined in colors object
@@ -322,6 +326,7 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
 }
 
 export function applyThemeIsolated(theme: Theme, root: HTMLElement): void {
+  clearThemeVariables(root);
   applyThemeVariables(theme, root);
   applyCommonThemeProperties(theme, root);
 

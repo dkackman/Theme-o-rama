@@ -1,20 +1,23 @@
-import { useWorkingThemeState } from '@/hooks/useWorkingThemeState';
 import { rgbToHsl } from '@/lib/utils';
 import { RgbColorPicker } from 'react-colorful';
 
 interface ColorPickerProps {
+  color: {
+    r: number;
+    g: number;
+    b: number;
+  };
+  onChange: (color: { r: number; g: number; b: number }) => void;
   className?: string;
   disabled?: boolean;
 }
 
 export function ColorPicker({
+  color,
+  onChange,
   className = '',
   disabled = false,
 }: ColorPickerProps) {
-  const { getThemeColor, setThemeColor } = useWorkingThemeState();
-
-  // Get current color from the store
-  const color = getThemeColor();
   return (
     <div
       className={`space-y-4 ${className} ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
@@ -22,7 +25,7 @@ export function ColorPicker({
       <div className='flex justify-center'>
         <RgbColorPicker
           color={color}
-          onChange={disabled ? undefined : setThemeColor}
+          onChange={disabled ? undefined : onChange}
           style={{ width: '200px', height: '200px' }}
         />
       </div>

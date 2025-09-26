@@ -18,8 +18,6 @@ interface WorkingThemeState {
   setWorkingThemeFromJson: (json: string) => void;
   setThemeColor: ({ r, g, b }: { r: number; g: number; b: number }) => void;
   getThemeColor: () => { r: number; g: number; b: number };
-  setBackgroundImage: (backgroundImage: string) => void;
-  getBackgroundImage: () => string;
 }
 
 export const DESIGN_THEME_NAME = 'theme-a-roo-working-theme';
@@ -38,14 +36,7 @@ const useWorkingThemeStateStore = create<WorkingThemeState>()(
           WorkingTheme: { ...state.WorkingTheme, displayName },
         })),
       setInherits: (inherits: InheritsType) =>
-        set((state) => {
-          const newTheme = { ...state.WorkingTheme, inherits };
-          // Auto-set mostLike when inherits is set to light or dark
-          if (inherits === 'light' || inherits === 'dark') {
-            newTheme.mostLike = inherits;
-          }
-          return { WorkingTheme: newTheme };
-        }),
+        set((state) => ({ WorkingTheme: { ...state.WorkingTheme, inherits } })),
       setMostLike: (mostLike: MostLikeType) =>
         set((state) => ({ WorkingTheme: { ...state.WorkingTheme, mostLike } })),
       clearWorkingTheme: () =>
@@ -100,11 +91,6 @@ const useWorkingThemeStateStore = create<WorkingThemeState>()(
         );
         return rgb || { r: 220, g: 30, b: 15 };
       },
-      setBackgroundImage: (backgroundImage: string) =>
-        set((state) => ({
-          WorkingTheme: { ...state.WorkingTheme, backgroundImage },
-        })),
-      getBackgroundImage: () => get().WorkingTheme.backgroundImage || '',
     }),
     {
       name: 'working-theme-storage', // unique name for localStorage key

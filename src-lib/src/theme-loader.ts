@@ -62,16 +62,10 @@ export class ThemeLoader {
   ): Theme {
     try {
       if (theme.inherits) {
-        const inheritedTheme = this.themesCache.getTheme(theme.inherits);
-        if (inheritedTheme) {
-          const tags = theme.tags || [];
-          theme = deepMerge(inheritedTheme, theme);
-          theme.tags = tags;
-        } else {
-          console.warn(
-            `Inherited theme for ${theme.name}:${theme.inherits} not found`,
-          );
-        }
+        const inheritedTheme = this.themesCache.getThemeSafe(theme.inherits);
+        const tags = theme.tags || [];
+        theme = deepMerge(inheritedTheme, theme);
+        theme.tags = tags;
       }
 
       if (theme.backgroundImage && imageResolver) {

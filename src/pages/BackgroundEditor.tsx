@@ -1,4 +1,3 @@
-import { BackgroundImageEditor } from '@/components/BackgroundImageEditor';
 import { ColorPicker } from '@/components/ColorPicker';
 import Header from '@/components/Header';
 import Layout from '@/components/Layout';
@@ -11,10 +10,24 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useWorkingThemeAutoApply } from '@/hooks/useWorkingThemeAutoApply';
+import { useWorkingThemeState } from '@/hooks/useWorkingThemeState';
 import { Info } from 'lucide-react';
 
 export default function BackgroundEditor() {
+  const { getThemeColor, setThemeColor } = useWorkingThemeState();
   const { isWorkingThemeSelected } = useWorkingThemeAutoApply();
+
+  // Get current color from working theme
+  const colorPickerColor = getThemeColor();
+
+  // Handle color picker changes
+  const handleColorPickerChange = (color: {
+    r: number;
+    g: number;
+    b: number;
+  }) => {
+    setThemeColor(color);
+  };
 
   try {
     return (
@@ -48,7 +61,11 @@ export default function BackgroundEditor() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <ColorPicker disabled={!isWorkingThemeSelected} />
+                    <ColorPicker
+                      color={colorPickerColor}
+                      onChange={handleColorPickerChange}
+                      disabled={!isWorkingThemeSelected}
+                    />
                   </CardContent>
                 </Card>
 
@@ -63,7 +80,14 @@ export default function BackgroundEditor() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className='space-y-4'>
-                    <BackgroundImageEditor disabled={!isWorkingThemeSelected} />
+                    {/* <BackgroundImageEditor
+                      backgroundImageUrl=''
+                      onBackgroundImageChange={() => {}}
+                      selectedColor={colorPickerColor}
+                      backdropFilters={{}}
+                      onBackdropFiltersChange={() => {}}
+                      disabled={!isWorkingThemeSelected}
+                    /> */}
                   </CardContent>
                 </Card>
               </div>

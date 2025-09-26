@@ -14,20 +14,21 @@ export const useWorkingThemeAutoApply = () => {
   const { WorkingTheme, getInitializedWorkingTheme } = useWorkingThemeState();
 
   const hasAppliedWorkingTheme = useRef(false);
+  const lastAppliedThemeHash = useRef<string>('');
 
-  // Apply the working theme at startup only once, but only if working theme is already selected
+  // Apply the working theme at startup only if no theme is selected or working theme was already selected
   useEffect(() => {
-    if (
-      !isLoading &&
-      WorkingTheme &&
-      !hasAppliedWorkingTheme.current &&
-      currentTheme?.name === DESIGN_THEME_NAME
-    ) {
-      const workingThemeJson = JSON.stringify(getInitializedWorkingTheme());
-      setCustomTheme(workingThemeJson);
+    if (!isLoading && WorkingTheme && !hasAppliedWorkingTheme.current) {
+      // Only auto-apply if no current theme exists OR if working theme was previously selected
+      if (!currentTheme || currentTheme.name === DESIGN_THEME_NAME) {
+        const workingThemeJson = JSON.stringify(getInitializedWorkingTheme());
+        setCustomTheme(workingThemeJson);
+        lastAppliedThemeHash.current = workingThemeJson;
+      }
       hasAppliedWorkingTheme.current = true;
     }
-  }, [isLoading, WorkingTheme, getInitializedWorkingTheme, setCustomTheme, currentTheme?.name]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]); // Only depend on isLoading to run once at startup
 
   // Auto-apply working theme changes when working theme is currently selected
   useEffect(() => {
@@ -37,15 +38,15 @@ export const useWorkingThemeAutoApply = () => {
       hasAppliedWorkingTheme.current
     ) {
       const workingThemeJson = JSON.stringify(getInitializedWorkingTheme());
-      setCustomTheme(workingThemeJson);
+
+      // Only apply if the theme has actually changed to prevent recursion
+      if (workingThemeJson !== lastAppliedThemeHash.current) {
+        setCustomTheme(workingThemeJson);
+        lastAppliedThemeHash.current = workingThemeJson;
+      }
     }
-  }, [
-    isLoading,
-    currentTheme?.name,
-    WorkingTheme,
-    getInitializedWorkingTheme,
-    setCustomTheme,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [WorkingTheme]); // Only depend on WorkingTheme changes
 
   return {
     isWorkingThemeSelected: currentTheme?.name === DESIGN_THEME_NAME,

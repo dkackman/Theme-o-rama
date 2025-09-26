@@ -53,7 +53,6 @@ export function ThemeCard({
 
   useEffect(() => {
     if (cardRef.current && theme) {
-      // Apply the theme with complete isolation from ambient theme
       applyThemeIsolated(theme, cardRef.current);
     }
   }, [theme]);
