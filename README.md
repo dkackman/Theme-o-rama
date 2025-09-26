@@ -29,7 +29,7 @@ Navigate to `http://localhost:4174/`
 
 As you create and modify your themes, you can preview them in the theme selector by running `pnpm tauri dev`. Updates will be automatically reflected in the UI when you save your changes.
 
-A more functional theme editor is available over a [Theme-a-rama](https://github.com/dkackman/theme-a-roo).
+A more functional theme editor is available over a [Theme-a-roo](https://github.com/dkackman/theme-a-roo).
 
 ### Theme Structure
 
