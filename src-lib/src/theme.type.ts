@@ -33,9 +33,9 @@ export interface Theme {
     input?: string;
     inputBackground?: string;
     ring?: string;
-    cardBackdropFilter?: string;
-    popoverBackdropFilter?: string;
-    inputBackdropFilter?: string;
+    cardBackdropFilter?: string | null;
+    popoverBackdropFilter?: string | null;
+    inputBackdropFilter?: string | null;
   };
   fonts?: {
     sans?: string;
@@ -66,7 +66,7 @@ export interface Theme {
   // Optional theme-specific sidebar configuration
   sidebar?: {
     background?: string;
-    backdropFilter?: string;
+    backdropFilter?: string | null;
     border?: string;
   };
   // Optional theme-specific table configurations
@@ -78,13 +78,13 @@ export interface Theme {
       background?: string;
       color?: string;
       border?: string;
-      backdropFilter?: string;
+      backdropFilter?: string | null;
     };
     row?: {
       background?: string;
       color?: string;
       border?: string;
-      backdropFilter?: string;
+      backdropFilter?: string | null;
       hover?: {
         background?: string;
         color?: string;
@@ -101,7 +101,7 @@ export interface Theme {
       background?: string;
       color?: string;
       border?: string;
-      backdropFilter?: string;
+      backdropFilter?: string | null;
     };
   };
   // Optional theme-specific button configurations
@@ -115,7 +115,7 @@ export interface Theme {
       borderColor?: string;
       borderRadius?: string;
       boxShadow?: string;
-      backdropFilter?: string;
+      backdropFilter?: string | null;
       hover?: {
         background?: string;
         color?: string;
@@ -142,7 +142,7 @@ export interface Theme {
       borderColor?: string;
       borderRadius?: string;
       boxShadow?: string;
-      backdropFilter?: string;
+      backdropFilter?: string | null;
       hover?: {
         background?: string;
         color?: string;
@@ -169,7 +169,7 @@ export interface Theme {
       borderColor?: string;
       borderRadius?: string;
       boxShadow?: string;
-      backdropFilter?: string;
+      backdropFilter?: string | null;
       hover?: {
         background?: string;
         color?: string;
@@ -196,7 +196,7 @@ export interface Theme {
       borderColor?: string;
       borderRadius?: string;
       boxShadow?: string;
-      backdropFilter?: string;
+      backdropFilter?: string | null;
       hover?: {
         background?: string;
         color?: string;
@@ -223,7 +223,7 @@ export interface Theme {
       borderColor?: string;
       borderRadius?: string;
       boxShadow?: string;
-      backdropFilter?: string;
+      backdropFilter?: string | null;
       hover?: {
         background?: string;
         color?: string;
@@ -250,7 +250,7 @@ export interface Theme {
       borderColor?: string;
       borderRadius?: string;
       boxShadow?: string;
-      backdropFilter?: string;
+      backdropFilter?: string | null;
       hover?: {
         background?: string;
         color?: string;

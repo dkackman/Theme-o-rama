@@ -52,31 +52,20 @@ export class ThemeLoader {
     imageResolver: ImageResolver | null = null,
   ): Theme {
     const theme = validateTheme(themeJson);
-    if (urlRequiresResolution(theme.backgroundImage)) {
-      // this is passed as a sentinel value to the image resolver that it needs to
-      // resolve the background image from the local storage or otherwise as a data url
-      theme.backgroundImage = '{NEED_DATA_URL_BACKGROUND_IMAGE}';
-    }
 
     return this.initializeTheme(theme, imageResolver);
   }
 
-  private initializeTheme(
+  public initializeTheme(
     theme: Theme,
     imageResolver: ImageResolver | null = null,
   ): Theme {
     try {
       if (theme.inherits) {
-        const inheritedTheme = this.themesCache.getTheme(theme.inherits);
-        if (inheritedTheme) {
-          const tags = theme.tags || [];
-          theme = deepMerge(inheritedTheme, theme);
-          theme.tags = tags;
-        } else {
-          console.warn(
-            `Inherited theme for ${theme.name}:${theme.inherits} not found`,
-          );
-        }
+        const inheritedTheme = this.themesCache.getThemeSafe(theme.inherits);
+        const tags = theme.tags || [];
+        theme = deepMerge(inheritedTheme, theme);
+        theme.tags = tags;
       }
 
       if (theme.backgroundImage && imageResolver) {

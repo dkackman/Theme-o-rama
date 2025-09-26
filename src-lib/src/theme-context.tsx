@@ -6,10 +6,10 @@ import React, {
   useState,
 } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
+import colorTheme from './color.json';
 import darkTheme from './dark.json';
 import { applyTheme, Theme } from './index';
 import lightTheme from './light.json';
-import colorTheme from './color.json';
 import { ImageResolver, ThemeLoader } from './theme-loader';
 
 // Theme discovery function type - can be provided by the consuming application
@@ -24,6 +24,7 @@ interface ThemeContextType {
   error: string | null;
   lastUsedNonCoreTheme: string | null;
   reloadThemes: () => Promise<void>;
+  initializeTheme: (theme: Theme) => Theme;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -88,7 +89,7 @@ export function ThemeProvider({
         if (theme) {
           setCurrentTheme(theme);
           applyTheme(theme, document.documentElement);
-          setSavedTheme('custom'); // Mark as custom theme
+          setSavedTheme('theme-a-roo-custom-theme'); // Mark as custom theme
           setError(null); // Clear any previous errors
           return true;
         }
@@ -135,9 +136,12 @@ export function ThemeProvider({
       if (!discoverThemes) {
         // If no discovery function provided, just use the default themes from cache
         setIsLoading(false);
-        const theme = themeLoader.getTheme(savedTheme);
-        setCurrentTheme(theme);
-        applyTheme(theme, document.documentElement);
+        // Don't re-initialize if the saved theme is 'theme-a-roo-custom-theme' - it's already applied
+        if (savedTheme !== 'theme-a-roo-custom-theme') {
+          const theme = themeLoader.getTheme(savedTheme);
+          setCurrentTheme(theme);
+          applyTheme(theme, document.documentElement);
+        }
         return;
       }
 
@@ -152,9 +156,12 @@ export function ThemeProvider({
           setSavedTheme('dark');
         }
 
-        const theme = themeLoader.getTheme(savedTheme);
-        setCurrentTheme(theme);
-        applyTheme(theme, document.documentElement);
+        // Don't re-initialize if the saved theme is 'theme-a-roo-custom-theme' - it's already applied
+        if (savedTheme !== 'theme-a-roo-custom-theme') {
+          const theme = themeLoader.getTheme(savedTheme);
+          setCurrentTheme(theme);
+          applyTheme(theme, document.documentElement);
+        }
       } catch (err) {
         console.error('Error loading themes:', err);
         setError('Failed to load themes');
@@ -179,6 +186,10 @@ export function ThemeProvider({
     themeLoader.loadThemes(appThemes, imageResolver);
   }
 
+  const initializeTheme = (theme: Theme): Theme => {
+    return themeLoader.initializeTheme(theme, imageResolver);
+  };
+
   return (
     <ThemeContext.Provider
       value={{
@@ -190,6 +201,7 @@ export function ThemeProvider({
         error,
         lastUsedNonCoreTheme,
         reloadThemes,
+        initializeTheme,
       }}
     >
       {children}
