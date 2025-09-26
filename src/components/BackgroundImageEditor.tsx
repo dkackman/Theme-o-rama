@@ -1,5 +1,5 @@
+import { PasteInput } from '@/components/PasteInput';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -8,33 +8,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
+import { useWorkingThemeAutoApply } from '@/hooks/useWorkingThemeAutoApply';
+import { useWorkingThemeState } from '@/hooks/useWorkingThemeState';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { generateImage } from '@/lib/opeanai';
 import { saveDataUriAsFile } from '@/lib/utils';
-import { Image, MessageSquare, Save, X } from 'lucide-react';
+import { readClipboardText } from '@/lib/web-fallbacks';
+import { Download, Link, Sparkles, Upload, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useLocalStorage } from 'usehooks-ts';
 
-interface BackgroundImageEditorProps {
-  backgroundImageUrl: string | null;
-  onBackgroundImageChange: (url: string | null) => void;
-  selectedColor?: { r: number; g: number; b: number };
-  backdropFilters?: boolean;
-  onBackdropFiltersChange?: (enabled: boolean) => void;
-  disabled?: boolean;
-}
+export function BackgroundImageEditor() {
+  const { getThemeColor, getBackgroundImage, setBackgroundImage } =
+    useWorkingThemeState();
+  const { isWorkingThemeSelected } = useWorkingThemeAutoApply();
 
-export function BackgroundImageEditor({
-  backgroundImageUrl,
-  onBackgroundImageChange,
-  selectedColor,
-  backdropFilters = true,
-  onBackdropFiltersChange,
-  disabled = false,
-}: BackgroundImageEditorProps) {
+  const backgroundImageUrl = getBackgroundImage();
+  const selectedColor = getThemeColor();
+  const disabled = !isWorkingThemeSelected;
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
   const [selectedImageModel, setSelectedImageModel] = useLocalStorage<string>(
     STORAGE_KEYS.IMAGE_MODEL,
     'dall-e-3',
@@ -63,7 +59,7 @@ export function BackgroundImageEditor({
       );
 
       if (imageUrl) {
-        onBackgroundImageChange(imageUrl);
+        setBackgroundImage(imageUrl);
       } else {
         toast.error('Failed to generate image');
       }
@@ -76,7 +72,7 @@ export function BackgroundImageEditor({
   };
 
   const handleClearBackgroundImage = () => {
-    onBackgroundImageChange(null);
+    setBackgroundImage(null);
     const fileInput = document.getElementById(
       'background-image-upload',
     ) as HTMLInputElement;
@@ -91,11 +87,43 @@ export function BackgroundImageEditor({
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        onBackgroundImageChange(result);
+        setBackgroundImage(result);
       };
       reader.readAsDataURL(file);
     }
     event.target.value = '';
+  };
+
+  const handlePasteUrl = async () => {
+    if (!imageUrl.trim()) {
+      toast.error('Please enter an image URL');
+      return;
+    }
+
+    try {
+      // Validate URL format
+      new URL(imageUrl);
+      setBackgroundImage(imageUrl);
+      setImageUrl(''); // Clear the input
+    } catch (error) {
+      console.error('Invalid URL:', error);
+      toast.error('Please enter a valid image URL');
+    }
+  };
+
+  const handlePasteFromClipboard = async () => {
+    try {
+      const text = await readClipboardText();
+
+      if (text && text.trim()) {
+        setImageUrl(text.trim());
+      } else {
+        toast.info('No text found in clipboard');
+      }
+    } catch (error) {
+      console.error('Failed to read clipboard:', error);
+      toast.error('Failed to read from clipboard');
+    }
   };
 
   const handleSaveImage = () => {
@@ -118,83 +146,13 @@ export function BackgroundImageEditor({
   };
 
   return (
-    <>
-      <div className='space-y-1'>
-        <Label htmlFor='prompt'>Background image prompt</Label>
-        <Textarea
-          id='prompt'
-          placeholder='e.g., "A modern minimalist design with clean lines and subtle shadows"'
-          value={prompt}
-          onChange={
-            disabled ? () => undefined : (e) => setPrompt(e.target.value)
-          }
-          className='min-h-[80px]'
-          disabled={disabled}
-        />
-      </div>
-
-      <div className='flex items-center gap-3'>
-        <div className='flex-1'>
-          <Select
-            value={selectedImageModel}
-            onValueChange={disabled ? () => undefined : setSelectedImageModel}
-            disabled={disabled}
-          >
-            <SelectTrigger id='imageModel'>
-              <SelectValue placeholder='Select model' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value='dall-e-3'>DALL-E 3</SelectItem>
-              <SelectItem value='gpt-image-1'>GPT Image 1</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className='flex items-center space-x-2'>
-          {onBackdropFiltersChange && (
-            <>
-              <Checkbox
-                id='backdropFilters'
-                checked={backdropFilters}
-                onCheckedChange={
-                  disabled
-                    ? () => undefined
-                    : (checked) => onBackdropFiltersChange(checked === true)
-                }
-                disabled={disabled}
-              />
-              <Label
-                htmlFor='backdropFilters'
-                className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-              >
-                Backdrop filters
-              </Label>
-            </>
-          )}
-        </div>
-        <div className='flex-1'>
-          <Button
-            onClick={handleGenerateImage}
-            disabled={disabled || isGeneratingImage || !prompt.trim()}
-            className='w-full'
-          >
-            {isGeneratingImage ? (
-              <>
-                <div className='animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2' />
-                Generating Image...
-              </>
-            ) : (
-              <>
-                <MessageSquare className='h-4 w-4 mr-2' />
-                Generate Image
-              </>
-            )}
-          </Button>
-        </div>
-      </div>
-
-      {/* Image Preview */}
+    <div className='space-y-6'>
+      {/* Current Image Preview */}
       {backgroundImageUrl && (
         <div className='space-y-3'>
+          <Label className='text-sm font-medium'>
+            Current Background Image
+          </Label>
           <div className='flex justify-center'>
             <div className='relative'>
               <img
@@ -213,53 +171,146 @@ export function BackgroundImageEditor({
               </Button>
             </div>
           </div>
+          <div className='flex justify-center'>
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={handleSaveImage}
+              disabled={disabled}
+              className='flex items-center gap-2'
+            >
+              <Download className='h-4 w-4' />
+              Download Image
+            </Button>
+          </div>
+          <Separator />
         </div>
       )}
 
-      {/* Image Upload Section */}
-      <div className='border-t pt-4'>
-        <div className='flex items-center justify-between gap-3'>
-          <div className='flex items-center gap-3'>
-            <div className='flex items-center gap-2'>
-              <input
-                type='file'
-                accept='image/*'
-                onChange={handleImageUpload}
-                className='hidden'
-                id='background-image-upload'
-              />
-              <Button
-                variant='outline'
-                size='sm'
-                onClick={() =>
-                  document.getElementById('background-image-upload')?.click()
+      {/* Three Ways to Add Image */}
+      <div className='space-y-6'>
+        <div className='text-center'>
+          <p className='text-sm text-muted-foreground'>
+            Choose one of these three methods
+          </p>
+        </div>
+
+        {/* Method 1: Paste URL */}
+        <div className='space-y-3 p-4 border rounded-lg'>
+          <div className='flex items-center gap-2 mb-3'>
+            <Link className='h-5 w-5 text-blue-500' />
+            <Label className='text-base font-medium'>1. Paste Image URL</Label>
+          </div>
+          <div className='space-y-2'>
+            <PasteInput
+              placeholder='Paste or enter image URL here...'
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              onEndIconClick={handlePasteFromClipboard}
+              disabled={disabled}
+            />
+            <Button
+              onClick={handlePasteUrl}
+              disabled={disabled || !imageUrl.trim()}
+              className='w-full'
+            >
+              <Link className='h-4 w-4 mr-2' />
+              Apply Image URL
+            </Button>
+          </div>
+        </div>
+
+        {/* Method 2: Upload File */}
+        <div className='space-y-3 p-4 border rounded-lg'>
+          <div className='flex items-center gap-2 mb-3'>
+            <Upload className='h-5 w-5 text-green-500' />
+            <Label className='text-base font-medium'>
+              2. Upload from Device
+            </Label>
+          </div>
+          <div className='space-y-2'>
+            <input
+              type='file'
+              accept='image/*'
+              onChange={handleImageUpload}
+              className='hidden'
+              id='background-image-upload'
+            />
+            <Button
+              variant='outline'
+              onClick={() =>
+                document.getElementById('background-image-upload')?.click()
+              }
+              disabled={disabled}
+              className='w-full'
+            >
+              <Upload className='h-4 w-4 mr-2' />
+              Choose File to Upload
+            </Button>
+          </div>
+        </div>
+
+        {/* Method 3: AI Generate */}
+        <div className='space-y-3 p-4 border rounded-lg'>
+          <div className='flex items-center gap-2 mb-3'>
+            <Sparkles className='h-5 w-5 text-purple-500' />
+            <Label className='text-base font-medium'>3. Generate with AI</Label>
+          </div>
+          <div className='space-y-3'>
+            <div className='space-y-2'>
+              <Label htmlFor='prompt' className='text-sm'>
+                Describe your background image
+              </Label>
+              <Textarea
+                id='prompt'
+                placeholder='e.g., "A modern minimalist design with clean lines and subtle shadows"'
+                value={prompt}
+                onChange={
+                  disabled ? () => undefined : (e) => setPrompt(e.target.value)
                 }
+                className='min-h-[80px]'
                 disabled={disabled}
+              />
+            </div>
+            <div className='flex gap-3'>
+              <div className='flex-1'>
+                <Select
+                  value={selectedImageModel}
+                  onValueChange={
+                    disabled ? () => undefined : setSelectedImageModel
+                  }
+                  disabled={disabled}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder='Select AI model' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='dall-e-3'>DALL-E 3</SelectItem>
+                    <SelectItem value='gpt-image-1'>GPT Image 1</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button
+                onClick={handleGenerateImage}
+                disabled={disabled || isGeneratingImage || !prompt.trim()}
+                className='flex-1'
               >
-                <Image className='mr-2 h-4 w-4' />
-                Upload Image
+                {isGeneratingImage ? (
+                  <>
+                    <div className='animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2' />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className='h-4 w-4 mr-2' />
+                    Generate Image
+                  </>
+                )}
               </Button>
             </div>
-
-            {!backgroundImageUrl && (
-              <span className='text-sm text-gray-500'>
-                No background image set
-              </span>
-            )}
           </div>
-
-          <Button
-            variant='outline'
-            size='sm'
-            onClick={handleSaveImage}
-            disabled={disabled || !backgroundImageUrl}
-            className='flex items-center gap-2'
-          >
-            <Save className='h-4 w-4' />
-            Save Image
-          </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

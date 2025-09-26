@@ -112,7 +112,7 @@ export default function Themes() {
                 }`}
               >
                 <CardContent>
-                  <ThemeActions currentTheme={currentTheme} />
+                  <ThemeActions />
                 </CardContent>
               </div>
             </Card>

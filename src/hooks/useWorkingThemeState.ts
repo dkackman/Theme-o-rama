@@ -18,6 +18,10 @@ interface WorkingThemeState {
   setWorkingThemeFromJson: (json: string) => void;
   setThemeColor: ({ r, g, b }: { r: number; g: number; b: number }) => void;
   getThemeColor: () => { r: number; g: number; b: number };
+  setBackgroundImage: (url: string | null) => void;
+  getBackgroundImage: () => string | null;
+  setBackdropFilters: (enabled: boolean) => void;
+  getBackdropFilters: () => boolean;
 }
 
 export const DESIGN_THEME_NAME = 'theme-a-roo-working-theme';
@@ -90,6 +94,38 @@ const useWorkingThemeStateStore = create<WorkingThemeState>()(
           get().WorkingTheme.colors?.themeColor || 'hsl(220, 30%, 15%)',
         );
         return rgb || { r: 220, g: 30, b: 15 };
+      },
+      setBackgroundImage: (url: string | null) => {
+        set((state) => ({
+          WorkingTheme: {
+            ...state.WorkingTheme,
+            backgroundImage: url || undefined,
+          },
+        }));
+      },
+      getBackgroundImage: () => {
+        return get().WorkingTheme.backgroundImage || null;
+      },
+      setBackdropFilters: (enabled: boolean) => {
+        set((state) => ({
+          WorkingTheme: {
+            ...state.WorkingTheme,
+            colors: {
+              ...state.WorkingTheme.colors,
+              cardBackdropFilter: enabled ? 'blur(10px)' : null,
+              popoverBackdropFilter: enabled ? 'blur(10px)' : null,
+              inputBackdropFilter: enabled ? 'blur(10px)' : null,
+            },
+          },
+        }));
+      },
+      getBackdropFilters: () => {
+        const theme = get().WorkingTheme;
+        return Boolean(
+          theme.colors?.cardBackdropFilter ||
+          theme.colors?.popoverBackdropFilter ||
+          theme.colors?.inputBackdropFilter
+        );
       },
     }),
     {

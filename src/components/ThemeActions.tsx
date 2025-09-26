@@ -19,16 +19,11 @@ import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
 import { FileInput, FolderOpen, Loader2, RotateCcw, Save } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Theme, useTheme } from 'theme-o-rama';
+import { useTheme } from 'theme-o-rama';
 
-interface ThemeActionsProps {
-  // State
-  currentTheme: Theme | null; // Current theme to check if working theme is selected
-}
-
-export function ThemeActions({ currentTheme }: ThemeActionsProps) {
+export function ThemeActions() {
   const { addError } = useErrors();
-  const { setCustomTheme } = useTheme();
+  const { currentTheme, setCustomTheme } = useTheme();
   const {
     WorkingTheme,
     setThemeDisplayName,
