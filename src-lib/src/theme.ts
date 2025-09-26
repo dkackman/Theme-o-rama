@@ -18,14 +18,14 @@ function clearThemeVariables(root: HTMLElement) {
     ...backgroundImageVariableNames,
     ...tableVariableNames,
     ...switchVariableNames,
-    ...backdropFilterVariableNames,
     ...buttonVariableNames,
+    ...backdropFilterVariableNames,
   ].forEach((cssVar) => {
     root.style.removeProperty(cssVar);
   });
 }
 
-function applyCommonThemeProperties(theme: Theme, root: HTMLElement): void {
+function applyThemeProperties(theme: Theme, root: HTMLElement): void {
   // Set theme class for CSS selectors
   try {
     root.classList.add(`theme-${theme.name}`);
@@ -37,33 +37,6 @@ function applyCommonThemeProperties(theme: Theme, root: HTMLElement): void {
   const buttonStyle = theme.buttonStyle || '';
   root.setAttribute('data-theme-styles', buttonStyle);
 
-  if (theme.backgroundImage) {
-    root.style.setProperty(
-      '--background-image',
-      `url(${theme.backgroundImage})`,
-    );
-
-    const backgroundSize = theme.backgroundSize || 'cover';
-    root.style.setProperty('--background-size', backgroundSize);
-
-    const backgroundPosition = theme.backgroundPosition || 'center';
-    root.style.setProperty('--background-position', backgroundPosition);
-
-    const backgroundRepeat = theme.backgroundRepeat || 'no-repeat';
-    root.style.setProperty('--background-repeat', backgroundRepeat);
-
-    root.classList.add('has-background-image');
-  } else {
-    root.style.removeProperty('--background-image');
-    root.style.removeProperty('--background-size');
-    root.style.removeProperty('--background-position');
-    root.style.removeProperty('--background-repeat');
-    root.classList.remove('has-background-image');
-  }
-}
-
-function applyThemeVariables(theme: Theme, root: HTMLElement): void {
-  // Apply color-scheme based on mostLike property
   if (theme.mostLike) {
     root.style.setProperty(
       'color-scheme',
@@ -73,6 +46,34 @@ function applyThemeVariables(theme: Theme, root: HTMLElement): void {
   } else {
     root.style.removeProperty('color-scheme');
   }
+}
+
+function applyBackgroundImage(theme: Theme, root: HTMLElement): void {
+  if (theme.backgroundImage) {
+    root.style.setProperty(
+      '--background-image',
+      `url(${theme.backgroundImage})`,
+    );
+
+    root.style.setProperty(
+      '--background-size',
+      theme.backgroundSize || 'cover',
+    );
+    root.style.setProperty(
+      '--background-position',
+      theme.backgroundPosition || 'center',
+    );
+    root.style.setProperty(
+      '--background-repeat',
+      theme.backgroundRepeat || 'no-repeat',
+    );
+    root.classList.add('has-background-image');
+  } else {
+    root.classList.remove('has-background-image');
+  }
+}
+
+function applyMappedVariables(theme: Theme, root: HTMLElement): void {
   // Create mappings from theme properties to CSS variables
   const variableMappings = [
     {
@@ -95,13 +96,7 @@ function applyThemeVariables(theme: Theme, root: HTMLElement): void {
       });
     }
   });
-}
 
-export function applyTheme(theme: Theme, root: HTMLElement) {
-  clearThemeVariables(root);
-  applyThemeVariables(theme, root);
-
-  // Apply backdrop-filter variables if defined in colors object
   if (theme.colors) {
     const backdropFilterMap: Record<string, string> = {};
     [
@@ -120,19 +115,88 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
       }
     });
   }
+}
 
-  // Apply theme-specific input background if defined
-  if (theme.colors?.inputBackground) {
-    root.style.setProperty(
-      '--input-background',
-      theme.colors.inputBackground || '',
-    );
-  } else if (theme.colors?.input) {
-    // For other themes, use the regular input color
-    root.style.setProperty('--input-background', theme.colors.input || '');
+function applyTableVariables(theme: Theme, root: HTMLElement): void {
+  if (theme.tables) {
+    const tableSections = [
+      {
+        obj: theme.tables,
+        prefix: 'table',
+        properties: ['background', 'border', 'borderRadius', 'boxShadow'],
+      },
+      {
+        obj: theme.tables.header,
+        prefix: 'table-header',
+        properties: ['background', 'color', 'border', 'backdropFilter'],
+      },
+      {
+        obj: theme.tables.row,
+        prefix: 'table-row',
+        properties: ['background', 'color', 'border', 'backdropFilter'],
+      },
+      {
+        obj: theme.tables.row?.hover,
+        prefix: 'table-row-hover',
+        properties: ['background', 'color'],
+      },
+      {
+        obj: theme.tables.row?.selected,
+        prefix: 'table-row-selected',
+        properties: ['background', 'color'],
+      },
+      {
+        obj: theme.tables.cell,
+        prefix: 'table-cell',
+        properties: ['border'],
+      },
+      {
+        obj: theme.tables.footer,
+        prefix: 'table-footer',
+        properties: ['background', 'color', 'border', 'backdropFilter'],
+      },
+    ];
+
+    tableSections.forEach(({ obj, prefix, properties }) => {
+      if (obj) {
+        properties.forEach((property) => {
+          const value = (obj as Record<string, unknown>)[property];
+          if (value && typeof value === 'string') {
+            const cssVar = `--${prefix}-${property.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
+            root.style.setProperty(cssVar, value);
+
+            // For backdropFilter properties, also set the webkit version
+            if (property === 'backdropFilter') {
+              const webkitCssVar = `${cssVar}-webkit`;
+              root.style.setProperty(webkitCssVar, value);
+            }
+          }
+        });
+      }
+    });
   }
-  // If neither is defined, CSS defaults will be used
+}
 
+function applySidebarVariables(theme: Theme, root: HTMLElement): void {
+  if (theme.sidebar) {
+    const sidebarProperties = ['background', 'backdropFilter', 'border'];
+
+    sidebarProperties.forEach((property) => {
+      const value = (theme.sidebar as Record<string, unknown>)[property];
+      if (value && typeof value === 'string') {
+        const cssVar = `--sidebar-${property.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
+        root.style.setProperty(cssVar, value);
+
+        if (property === 'backdropFilter') {
+          const webkitCssVar = `${cssVar}-webkit`;
+          root.style.setProperty(webkitCssVar, value);
+        }
+      }
+    });
+  }
+}
+
+function applyButtonVariables(theme: Theme, root: HTMLElement): void {
   if (theme.buttons) {
     const propertyToCssMap = {
       background: 'background',
@@ -205,101 +269,17 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
   });
 
   document.body.setAttribute('data-theme-styles', buttonStyle);
+}
 
-  if (theme.tables) {
-    const tableSections = [
-      {
-        obj: theme.tables,
-        prefix: 'table',
-        properties: ['background', 'border', 'borderRadius', 'boxShadow'],
-      },
-      {
-        obj: theme.tables.header,
-        prefix: 'table-header',
-        properties: ['background', 'color', 'border', 'backdropFilter'],
-      },
-      {
-        obj: theme.tables.row,
-        prefix: 'table-row',
-        properties: ['background', 'color', 'border', 'backdropFilter'],
-      },
-      {
-        obj: theme.tables.row?.hover,
-        prefix: 'table-row-hover',
-        properties: ['background', 'color'],
-      },
-      {
-        obj: theme.tables.row?.selected,
-        prefix: 'table-row-selected',
-        properties: ['background', 'color'],
-      },
-      {
-        obj: theme.tables.cell,
-        prefix: 'table-cell',
-        properties: ['border'],
-      },
-      {
-        obj: theme.tables.footer,
-        prefix: 'table-footer',
-        properties: ['background', 'color', 'border', 'backdropFilter'],
-      },
-    ];
-
-    tableSections.forEach(({ obj, prefix, properties }) => {
-      if (obj) {
-        properties.forEach((property) => {
-          const value = (obj as Record<string, unknown>)[property];
-          if (value && typeof value === 'string') {
-            const cssVar = `--${prefix}-${property.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
-            root.style.setProperty(cssVar, value);
-
-            // For backdropFilter properties, also set the webkit version
-            if (property === 'backdropFilter') {
-              const webkitCssVar = `${cssVar}-webkit`;
-              root.style.setProperty(webkitCssVar, value);
-            }
-          }
-        });
-      }
-    });
-  }
-
-  if (theme.sidebar) {
-    const sidebarProperties = ['background', 'backdropFilter', 'border'];
-
-    sidebarProperties.forEach((property) => {
-      const value = (theme.sidebar as Record<string, unknown>)[property];
-      if (value && typeof value === 'string') {
-        const cssVar = `--sidebar-${property.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
-        root.style.setProperty(cssVar, value);
-
-        if (property === 'backdropFilter') {
-          const webkitCssVar = `${cssVar}-webkit`;
-          root.style.setProperty(webkitCssVar, value);
-        }
-      }
-    });
-  }
-
-  // Apply common theme properties (background image, classes, etc.)
-  applyCommonThemeProperties(theme, root);
-
-  // Apply document-wide background image handling for main theme
-  if (theme.backgroundImage) {
-    document.body.classList.add('has-background-image');
-    // Also set the background image directly on the body
-    document.body.style.backgroundImage = `url(${theme.backgroundImage})`;
-    document.body.style.backgroundSize = theme.backgroundSize || 'cover';
-    document.body.style.backgroundPosition =
-      theme.backgroundPosition || 'center';
-    document.body.style.backgroundRepeat =
-      theme.backgroundRepeat || 'no-repeat';
-  } else {
-    document.body.classList.remove('has-background-image');
-    document.body.style.backgroundImage = '';
-    document.body.style.backgroundSize = '';
-    document.body.style.backgroundPosition = '';
-    document.body.style.backgroundRepeat = '';
+function applyOtherControlVariables(theme: Theme, root: HTMLElement): void {
+  if (theme.colors?.inputBackground) {
+    root.style.setProperty(
+      '--input-background',
+      theme.colors.inputBackground || '',
+    );
+  } else if (theme.colors?.input) {
+    // For other themes, use the regular input color
+    root.style.setProperty('--input-background', theme.colors.input || '');
   }
 
   if (theme.switches) {
@@ -324,27 +304,57 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
     }
   }
 }
+export function applyTheme(theme: Theme, root: HTMLElement) {
+  clearThemeVariables(root);
+  applyThemeProperties(theme, root);
+  applyMappedVariables(theme, root);
+  applyBackgroundImage(theme, root);
+  applyTableVariables(theme, root);
+  applySidebarVariables(theme, root);
+  applyButtonVariables(theme, root);
+  applyOtherControlVariables(theme, root);
+
+  // Apply document-wide background image handling for main theme
+  if (theme.backgroundImage) {
+    document.body.classList.add('has-background-image');
+    // Also set the background image directly on the body
+    document.body.style.backgroundImage = `url(${theme.backgroundImage})`;
+    document.body.style.backgroundSize = theme.backgroundSize || 'cover';
+    document.body.style.backgroundPosition =
+      theme.backgroundPosition || 'center';
+    document.body.style.backgroundRepeat =
+      theme.backgroundRepeat || 'no-repeat';
+  } else {
+    document.body.classList.remove('has-background-image');
+    document.body.style.backgroundImage = '';
+    document.body.style.backgroundSize = '';
+    document.body.style.backgroundPosition = '';
+    document.body.style.backgroundRepeat = '';
+  }
+}
 
 export function applyThemeIsolated(theme: Theme, root: HTMLElement): void {
   clearThemeVariables(root);
-  applyThemeVariables(theme, root);
-  applyCommonThemeProperties(theme, root);
+  applyThemeProperties(theme, root);
+  applyMappedVariables(theme, root);
+  applyTableVariables(theme, root);
+  applySidebarVariables(theme, root);
+  applyButtonVariables(theme, root);
+  applyOtherControlVariables(theme, root);
 
-  if (theme.backgroundImage) {
-    const backgroundStyles = {
-      backgroundImage: `url(${theme.backgroundImage})`,
-      backgroundSize: theme.backgroundSize || 'cover',
-      backgroundPosition: theme.backgroundPosition || 'center',
-      backgroundRepeat: theme.backgroundRepeat || 'no-repeat',
-    };
+  const backgroundStyles = {
+    backgroundImage: `url(${theme.backgroundImage})`,
+    backgroundSize: theme.backgroundSize || 'cover',
+    backgroundPosition: theme.backgroundPosition || 'center',
+    backgroundRepeat: theme.backgroundRepeat || 'no-repeat',
+  };
 
-    Object.entries(backgroundStyles).forEach(([property, value]) => {
-      root.style.setProperty(
-        property.replace(/([A-Z])/g, '-$1').toLowerCase(),
-        value,
-      );
-    });
-  }
+  Object.entries(backgroundStyles).forEach(([property, value]) => {
+    root.style.setProperty(
+      property.replace(/([A-Z])/g, '-$1').toLowerCase(),
+      value,
+    );
+  });
 
   // Set explicit background and text colors for complete isolation
   if (theme.colors?.background) {
@@ -435,13 +445,9 @@ const tableVariableNames = [
   '--table-header-background',
   '--table-header-color',
   '--table-header-border',
-  '--table-header-backdrop-filter',
-  '--table-header-backdrop-filter-webkit',
   '--table-row-background',
   '--table-row-color',
   '--table-row-border',
-  '--table-row-backdrop-filter',
-  '--table-row-backdrop-filter-webkit',
   '--table-row-hover-background',
   '--table-row-hover-color',
   '--table-row-selected-background',
@@ -450,8 +456,6 @@ const tableVariableNames = [
   '--table-footer-background',
   '--table-footer-color',
   '--table-footer-border',
-  '--table-footer-backdrop-filter',
-  '--table-footer-backdrop-filter-webkit',
 ];
 
 const switchVariableNames = [
@@ -462,12 +466,19 @@ const switchVariableNames = [
 
 const backdropFilterVariableNames = [
   '--card-backdrop-filter',
+  '--card-backdrop-filter-webkit',
   '--popover-backdrop-filter',
+  '--popover-backdrop-filter-webkit',
   '--input-backdrop-filter',
-  '--table-header-backdrop-filter',
-  '--table-row-backdrop-filter',
-  '--table-footer-backdrop-filter',
+  '--input-backdrop-filter-webkit',
   '--sidebar-backdrop-filter',
+  '--sidebar-backdrop-filter-webkit',
+  '--table-header-backdrop-filter',
+  '--table-header-backdrop-filter-webkit',
+  '--table-footer-backdrop-filter',
+  '--table-footer-backdrop-filter-webkit',
+  '--table-row-backdrop-filter',
+  '--table-row-backdrop-filter-webkit',
 ];
 
 const buttonBaseVariableNames = [

@@ -1,3 +1,4 @@
+import { BackdropFilters } from '@/components/BackdropFilters';
 import { BackgroundImageEditor } from '@/components/BackgroundImageEditor';
 import { ColorPicker } from '@/components/ColorPicker';
 import Header from '@/components/Header';
@@ -37,22 +38,42 @@ export default function BackgroundEditor() {
             {/* Visual Editor */}
             <div className='space-y-4'>
               <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
-                {/* Color Picker */}
-                <Card
-                  className={`${!isWorkingThemeSelected ? 'opacity-50' : ''}`}
-                >
-                  <CardHeader>
-                    <CardTitle className='text-lg'>Color Selection</CardTitle>
-                    <CardDescription>
-                      Choose your theme&apos;s base color
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ColorPicker />
-                  </CardContent>
-                </Card>
+                {/* Left Column - Color and Filters */}
+                <div className='space-y-6'>
+                  {/* Color Picker */}
+                  <Card
+                    className={`${!isWorkingThemeSelected ? 'opacity-50' : ''}`}
+                  >
+                    <CardHeader>
+                      <CardTitle className='text-lg'>Color Selection</CardTitle>
+                      <CardDescription>
+                        Choose your theme&apos;s base color
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <ColorPicker />
+                    </CardContent>
+                  </Card>
 
-                {/* Image Generation */}
+                  {/* Backdrop Filters */}
+                  <Card
+                    className={`${!isWorkingThemeSelected ? 'opacity-50' : ''}`}
+                  >
+                    <CardHeader>
+                      <CardTitle className='text-lg'>
+                        Backdrop Filters
+                      </CardTitle>
+                      <CardDescription>
+                        Control blur effects on UI elements
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <BackdropFilters />
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Right Column - Background Image */}
                 <Card
                   className={`${!isWorkingThemeSelected ? 'opacity-50' : ''}`}
                 >

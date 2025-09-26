@@ -24,17 +24,20 @@ interface WorkingThemeState {
   setBackdropFilters: (enabled: boolean) => void;
   getBackdropFilters: () => boolean;
 }
-
 export const DESIGN_THEME_NAME = 'theme-a-roo-working-theme';
+
+const DEFAULT_THEME = {
+  name: DESIGN_THEME_NAME,
+  displayName: 'Design',
+  schemaVersion: 1,
+  inherits: 'color' as const,
+  mostLike: 'light' as const,
+};
+
 const useWorkingThemeStateStore = create<WorkingThemeState>()(
   persist(
     (set, get) => ({
-      WorkingTheme: {
-        name: DESIGN_THEME_NAME,
-        displayName: 'Design',
-        schemaVersion: 1,
-        inherits: 'color',
-      },
+      WorkingTheme: DEFAULT_THEME,
       setTheme: (theme: Theme) => set({ WorkingTheme: theme }),
       setThemeDisplayName: (displayName: string) =>
         set((state) => ({
@@ -47,14 +50,7 @@ const useWorkingThemeStateStore = create<WorkingThemeState>()(
       clearWorkingTheme: () => {
         // Clear localStorage background image
         localStorage.removeItem(STORAGE_KEYS.BACKGROUND_IMAGE);
-        set({
-          WorkingTheme: {
-            name: DESIGN_THEME_NAME,
-            displayName: 'New Theme',
-            schemaVersion: 1,
-            inherits: 'color',
-          },
-        });
+        set({ WorkingTheme: DEFAULT_THEME });
       },
       deriveThemeName: () => {
         return makeValidFileName(get().WorkingTheme.displayName);
@@ -140,19 +136,53 @@ const useWorkingThemeStateStore = create<WorkingThemeState>()(
             ...state.WorkingTheme,
             colors: {
               ...state.WorkingTheme.colors,
-              cardBackdropFilter: enabled ? 'blur(10px)' : null,
-              popoverBackdropFilter: enabled ? 'blur(10px)' : null,
-              inputBackdropFilter: enabled ? 'blur(10px)' : null,
+              cardBackdropFilter: enabled
+                ? 'blur(16px) saturate(180%) brightness(1.1)'
+                : null,
+              popoverBackdropFilter: enabled
+                ? 'blur(20px) saturate(180%) brightness(1.1)'
+                : null,
+              inputBackdropFilter: enabled
+                ? 'blur(8px) saturate(150%) brightness(1.05)'
+                : null,
+            },
+            sidebar: {
+              ...state.WorkingTheme.sidebar,
+              backdropFilter: enabled
+                ? 'blur(20px) saturate(180%) brightness(1.1)'
+                : null,
+            },
+            tables: {
+              ...state.WorkingTheme.tables,
+              header: {
+                ...state.WorkingTheme.tables?.header,
+                backdropFilter: enabled
+                  ? 'blur(8px) saturate(150%) brightness(1.05)'
+                  : null,
+              },
+              row: {
+                ...state.WorkingTheme.tables?.row,
+                backdropFilter: enabled
+                  ? 'blur(4px) saturate(120%) brightness(1.02)'
+                  : null,
+              },
+              footer: {
+                ...state.WorkingTheme.tables?.footer,
+                backdropFilter: enabled
+                  ? 'blur(8px) saturate(150%) brightness(1.05)'
+                  : null,
+              },
             },
           },
         }));
       },
       getBackdropFilters: () => {
+        // This will be updated to use initialized theme in the hook
         const theme = get().WorkingTheme;
         return Boolean(
           theme.colors?.cardBackdropFilter ||
-          theme.colors?.popoverBackdropFilter ||
-          theme.colors?.inputBackdropFilter
+            theme.colors?.popoverBackdropFilter ||
+            theme.colors?.inputBackdropFilter,
         );
       },
     }),
@@ -175,8 +205,29 @@ export const useWorkingThemeState = () => {
     return store.WorkingTheme;
   };
 
+  const getBackdropFilters = () => {
+    const initializedTheme = getInitializedWorkingTheme();
+
+    // Check all backdrop filter properties in the theme
+    const hasBackdropFilters = Boolean(
+      // Colors backdrop filters
+      initializedTheme.colors?.cardBackdropFilter ||
+        initializedTheme.colors?.popoverBackdropFilter ||
+        initializedTheme.colors?.inputBackdropFilter ||
+        // Sidebar backdrop filter
+        initializedTheme.sidebar?.backdropFilter ||
+        // Table backdrop filters
+        initializedTheme.tables?.header?.backdropFilter ||
+        initializedTheme.tables?.row?.backdropFilter ||
+        initializedTheme.tables?.footer?.backdropFilter,
+    );
+
+    return hasBackdropFilters;
+  };
+
   return {
     ...store,
     getInitializedWorkingTheme: getInitializedWorkingTheme,
+    getBackdropFilters: getBackdropFilters,
   };
 };
