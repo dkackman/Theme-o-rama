@@ -136,12 +136,6 @@ export function ThemeProvider({
       if (!discoverThemes) {
         // If no discovery function provided, just use the default themes from cache
         setIsLoading(false);
-        // Don't re-initialize if the saved theme is 'theme-a-roo-custom-theme' - it's already applied
-        if (savedTheme !== 'theme-a-roo-custom-theme') {
-          const theme = themeLoader.getTheme(savedTheme);
-          setCurrentTheme(theme);
-          applyTheme(theme, document.documentElement);
-        }
         return;
       }
 
@@ -154,13 +148,6 @@ export function ThemeProvider({
         // Check for legacy dark setting and migrate if needed
         if (dark && !savedTheme) {
           setSavedTheme('dark');
-        }
-
-        // Don't re-initialize if the saved theme is 'theme-a-roo-custom-theme' - it's already applied
-        if (savedTheme !== 'theme-a-roo-custom-theme') {
-          const theme = themeLoader.getTheme(savedTheme);
-          setCurrentTheme(theme);
-          applyTheme(theme, document.documentElement);
         }
       } catch (err) {
         console.error('Error loading themes:', err);
