@@ -33,8 +33,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from 'theme-o-rama';
 
 export default function Themes() {
-  const { currentTheme, isLoading, setTheme, setCustomTheme, reloadThemes } =
-    useTheme();
+  const { isLoading, setTheme, setCustomTheme, reloadThemes } = useTheme();
   const { addError } = useErrors();
   const navigate = useNavigate();
   const [themeJson, setThemeJson] = useState('');
@@ -73,7 +72,7 @@ export default function Themes() {
     setValidationState('none'); // Reset validation state when JSON changes
   };
 
-  const handleApplyTheme = () => {
+  const handleApplyTheme = async () => {
     if (!themeJson.trim()) {
       addError({
         kind: 'invalid',
@@ -90,7 +89,7 @@ export default function Themes() {
     }
 
     try {
-      const success = setCustomTheme(themeJson);
+      const success = await setCustomTheme(themeJson);
       if (!success) {
         addError({
           kind: 'invalid',
@@ -266,21 +265,6 @@ export default function Themes() {
     );
   }
 
-  if (!currentTheme) {
-    return (
-      <Layout>
-        <Header title='Theme' />
-        <div className='flex-1 overflow-auto'>
-          <div className='container mx-auto p-6'>
-            <div className='flex items-center justify-center p-8'>
-              <span>No theme available</span>
-            </div>
-          </div>
-        </div>
-      </Layout>
-    );
-  }
-
   try {
     return (
       <Layout>
@@ -392,7 +376,7 @@ export default function Themes() {
                 <div className='flex flex-col sm:flex-row gap-2'>
                   <div className='flex flex-col sm:flex-row gap-2'>
                     <Button
-                      onClick={handleApplyTheme}
+                      onClick={async () => await handleApplyTheme()}
                       disabled={isApplying || !themeJson.trim()}
                       className='w-full sm:w-auto'
                     >

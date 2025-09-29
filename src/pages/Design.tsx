@@ -155,8 +155,11 @@ export default function Design() {
 
   // Apply theme when color, background image, or theme name changes
   useEffect(() => {
-    const themeJson = JSON.stringify(currentTheme, null, 2);
-    setCustomTheme(themeJson);
+    const applyTheme = async () => {
+      const themeJson = JSON.stringify(currentTheme, null, 2);
+      await setCustomTheme(themeJson);
+    };
+    applyTheme();
   }, [currentTheme, setCustomTheme]);
 
   const handleNextStep = () => {
