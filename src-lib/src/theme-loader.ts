@@ -4,7 +4,10 @@ import { Theme } from './theme.type';
 import { deepMerge } from './utils';
 
 // Theme discovery function type - can be provided by the consuming application
-export type ImageResolver = (themeName: string, imagePath: string) => string;
+export type ImageResolver = (
+  themeName: string,
+  imagePath: string,
+) => Promise<string>;
 
 export class ThemeLoader {
   private readonly themesCache: ThemeCache;
@@ -24,20 +27,22 @@ export class ThemeLoader {
     return this.themesCache.getThemes();
   }
 
-  public loadThemes(
+  public async loadThemes(
     themes: Theme[],
     imageResolver: ImageResolver | null = null,
-  ): void {
-    themes.forEach((theme) => this.loadTheme(theme, imageResolver));
+  ): Promise<void> {
+    await Promise.all(
+      themes.map((theme) => this.loadTheme(theme, imageResolver)),
+    );
   }
 
-  public loadTheme(
+  public async loadTheme(
     theme: Theme,
     imageResolver: ImageResolver | null = null,
-  ): void {
+  ): Promise<void> {
     try {
       // Create a deep copy of the theme to avoid readonly issues
-      const workingTheme = this.initializeTheme(
+      const workingTheme = await this.initializeTheme(
         JSON.parse(JSON.stringify(theme)) as Theme,
         imageResolver,
       );
@@ -47,36 +52,25 @@ export class ThemeLoader {
     }
   }
 
-  public loadThemeFromJson(
+  public async loadThemeFromJson(
     themeJson: string,
     imageResolver: ImageResolver | null = null,
-  ): Theme {
+  ): Promise<Theme> {
     const theme = validateTheme(themeJson);
-    if (urlRequiresResolution(theme.backgroundImage)) {
-      // this is passed as a sentinel value to the image resolver that it needs to
-      // resolve the background image from the local storage or otherwise as a data url
-      theme.backgroundImage = '{NEED_DATA_URL_BACKGROUND_IMAGE}';
-    }
 
-    return this.initializeTheme(theme, imageResolver);
+    return await this.initializeTheme(theme, imageResolver);
   }
 
-  private initializeTheme(
+  public async initializeTheme(
     theme: Theme,
     imageResolver: ImageResolver | null = null,
-  ): Theme {
+  ): Promise<Theme> {
     try {
       if (theme.inherits) {
-        const inheritedTheme = this.themesCache.getTheme(theme.inherits);
-        if (inheritedTheme) {
-          const tags = theme.tags || [];
-          theme = deepMerge(inheritedTheme, theme);
-          theme.tags = tags;
-        } else {
-          console.warn(
-            `Inherited theme for ${theme.name}:${theme.inherits} not found`,
-          );
-        }
+        const inheritedTheme = this.themesCache.getThemeSafe(theme.inherits);
+        const tags = theme.tags || [];
+        theme = deepMerge(inheritedTheme, theme);
+        theme.tags = tags;
       }
 
       if (theme.backgroundImage && imageResolver) {
@@ -84,7 +78,7 @@ export class ThemeLoader {
           // we allow remote urls and local files for built in themes
           // local images get imported from the theme's folder
           if (urlRequiresResolution(theme.backgroundImage)) {
-            theme.backgroundImage = imageResolver(
+            theme.backgroundImage = await imageResolver(
               theme.name,
               theme.backgroundImage,
             );

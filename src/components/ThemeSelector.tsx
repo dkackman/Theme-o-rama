@@ -24,10 +24,6 @@ export function ThemeSelector() {
     );
   }
 
-  if (!currentTheme) {
-    return <div className='text-center p-8'>No theme available</div>;
-  }
-
   const defaultThemes = availableThemes
     .filter((theme: Theme) => !hasTag(theme, 'hidden'))
     .sort((a: Theme, b: Theme) => a.displayName.localeCompare(b.displayName));
@@ -43,8 +39,7 @@ export function ThemeSelector() {
               <ThemeCard
                 key={theme.name}
                 theme={theme}
-                currentTheme={currentTheme}
-                isSelected={currentTheme.name === theme.name}
+                isSelected={currentTheme?.name === theme.name}
                 onSelect={setTheme}
               />
             ))}
@@ -109,8 +104,7 @@ export function ThemeSelectorSimple() {
           <ThemeCard
             key={theme.name}
             theme={theme}
-            currentTheme={currentTheme}
-            isSelected={currentTheme.name === theme.name}
+            isSelected={currentTheme?.name === theme.name}
             onSelect={setTheme}
             variant='simple'
           />

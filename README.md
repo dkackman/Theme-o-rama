@@ -2,9 +2,7 @@
 
 # Theme-o-rama
 
-A theme development and testing environment for the Sage Chia Wallet. This repository allows you to create, test, and preview custom UI themes for the Sage wallet application.
-
-The associated npm library is reusable.
+A reusable library for dynamic theme management in React applications with shadcn/ui and Tailwind CSS. Features advanced theme discovery, inheritance, custom theme support, and dynamic theme switching at runtime. This is used by the [Sage Wallet](https://github.com/Chia-Network/sage-wallet).
 
 ## Quick Start
 
@@ -27,9 +25,11 @@ pnpm preview:web
 
 Navigate to `http://localhost:4174/`
 
-## Creating Custom Themes
+## Browsing Themes
 
 As you create and modify your themes, you can preview them in the theme selector by running `pnpm tauri dev`. Updates will be automatically reflected in the UI when you save your changes.
+
+A more functional theme editor is available over a [Theme-a-roo](https://github.com/dkackman/theme-a-roo).
 
 ### Theme Structure
 

@@ -258,7 +258,6 @@
     background-size: var(--background-size, cover);
     background-position: var(--background-position, center);
     background-repeat: var(--background-repeat, no-repeat);
-    background-attachment: fixed;
   }
 
   /* Theme cards with background images */

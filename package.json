@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "packageManager": "pnpm@10.17.0",
+  "packageManager": "pnpm@10.17.1",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -52,7 +52,7 @@
     "react-toastify": "^11.0.3",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "theme-o-rama": "0.1.0-beta.10",
+    "theme-o-rama": "^0.2.0",
     "usehooks-ts": "^3.1.0",
     "zod": "^3.23.8",
     "zustand": "^4.5.5"

@@ -14,7 +14,6 @@ import {
 
 interface ThemeCardProps {
   theme: Theme;
-  currentTheme: Theme;
   isSelected: boolean;
   onSelect: (themeName: string) => void;
   variant?: 'default' | 'compact' | 'simple';
@@ -23,7 +22,6 @@ interface ThemeCardProps {
 
 export function ThemeCard({
   theme,
-  currentTheme,
   isSelected,
   onSelect,
   variant = 'default',
@@ -55,16 +53,16 @@ export function ThemeCard({
   // Only apply selection outline as inline style
   const selectionStyle = isSelected
     ? {
-        outline: `2px solid ${currentTheme.colors?.primary || 'hsl(220 13% 91%)'}`,
+        outline: `2px solid ${theme?.colors?.primary || 'hsl(220 13% 91%)'}`,
       }
     : {};
 
   const renderDefaultContent = () => {
     const checkStyles: Record<string, string | undefined> = {};
-    if (currentTheme.colors?.primary) {
-      checkStyles.color = currentTheme.colors.primary;
+    if (theme?.colors?.primary) {
+      checkStyles.color = theme.colors.primary;
     } else {
-      checkStyles.color = 'hsl(220 13% 91%)'; // Default gray
+      checkStyles.color = 'currentColor';
     }
 
     return (
@@ -108,8 +106,8 @@ export function ThemeCard({
 
   const renderSimpleContent = () => {
     const checkStyles: Record<string, string | undefined> = {};
-    if (currentTheme.colors?.primary) {
-      checkStyles.color = currentTheme.colors.primary;
+    if (theme?.colors?.primary) {
+      checkStyles.color = theme.colors.primary;
     } else {
       checkStyles.color = 'currentColor';
     }

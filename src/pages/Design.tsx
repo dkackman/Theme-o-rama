@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -23,7 +24,7 @@ import { generateImage } from '@/lib/opeanai';
 import { isTauriEnvironment, isValidFilename, rgbToHsl } from '@/lib/utils';
 import { save } from '@tauri-apps/plugin-dialog';
 import { writeTextFile } from '@tauri-apps/plugin-fs';
-import { Info, MessageSquare, Palette, Save } from 'lucide-react';
+import { Info, MessageSquare, Palette, Save, X } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { RgbColorPicker } from 'react-colorful';
 import { toast } from 'react-toastify';
@@ -32,22 +33,48 @@ import { useLocalStorage } from 'usehooks-ts';
 
 export default function Design() {
   const { setCustomTheme } = useTheme();
-  const [selectedColor, setSelectedColor] = useState({
+
+  // Persist design state using localStorage
+  const [selectedColor, setSelectedColor] = useLocalStorage<{
+    r: number;
+    g: number;
+    b: number;
+  }>('theme-o-rama-design-selected-color', {
     r: 27,
     g: 30,
     b: 51,
   });
-  const [currentStep, setCurrentStep] = useState(1);
-  const [prompt, setPrompt] = useState('');
-  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
-  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(
-    null,
+
+  const [currentStep, setCurrentStep] = useLocalStorage<number>(
+    'theme-o-rama-design-current-step',
+    1,
   );
-  const [themeName, setThemeName] = useState('');
+
+  const [prompt, setPrompt] = useLocalStorage<string>(
+    'theme-o-rama-design-prompt',
+    '',
+  );
+
+  const [generatedImageUrl, setGeneratedImageUrl] = useLocalStorage<
+    string | null
+  >('theme-o-rama-design-generated-image-url', null);
+
+  const [themeName, setThemeName] = useLocalStorage<string>(
+    'theme-o-rama-design-theme-name',
+    '',
+  );
+
+  // Non-persistent state
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
   const [selectedImageModel, setSelectedImageModel] = useLocalStorage<string>(
     'theme-o-rama-image-model',
     'dall-e-3',
+  );
+  const [backdropFilters, setBackdropFilters] = useLocalStorage<boolean>(
+    'theme-o-rama-backdrop-filters',
+    true,
   );
 
   // Generate theme JSON from selected color and optional background image
@@ -73,11 +100,52 @@ export default function Design() {
         colors: {
           themeColor: `hsl(${hsl.h} ${hsl.s}% ${hsl.l}%)`,
           background: backgroundImageUrl ? 'transparent' : `var(--theme-color)`,
+          ...(backdropFilters === false && {
+            cardBackdropFilter: null,
+            popoverBackdropFilter: null,
+            inputBackdropFilter: null,
+          }),
         },
+        ...(backdropFilters === false && {
+          sidebar: {
+            backdropFilter: null,
+          },
+          tables: {
+            header: {
+              backdropFilter: null,
+            },
+          },
+          row: {
+            backdropFilter: null,
+          },
+          footer: {
+            backdropFilter: null,
+          },
+          buttons: {
+            default: {
+              backdropFilter: null,
+            },
+            outline: {
+              backdropFilter: null,
+            },
+            secondary: {
+              backdropFilter: null,
+            },
+            destructive: {
+              backdropFilter: null,
+            },
+            ghost: {
+              backdropFilter: null,
+            },
+            link: {
+              backdropFilter: null,
+            },
+          },
+        }),
       };
       return theme;
     },
-    [],
+    [backdropFilters],
   );
 
   // Memoize the current theme to prevent unnecessary re-renders
@@ -87,8 +155,11 @@ export default function Design() {
 
   // Apply theme when color, background image, or theme name changes
   useEffect(() => {
-    const themeJson = JSON.stringify(currentTheme, null, 2);
-    setCustomTheme(themeJson);
+    const applyTheme = async () => {
+      const themeJson = JSON.stringify(currentTheme, null, 2);
+      await setCustomTheme(themeJson);
+    };
+    applyTheme();
   }, [currentTheme, setCustomTheme]);
 
   const handleNextStep = () => {
@@ -129,6 +200,10 @@ export default function Design() {
     } finally {
       setIsGeneratingImage(false);
     }
+  };
+
+  const handleClearBackgroundImage = () => {
+    setGeneratedImageUrl(null);
   };
 
   const handleSave = async () => {
@@ -309,6 +384,21 @@ export default function Design() {
                     </SelectContent>
                   </Select>
                 </div>
+                <div className='flex items-center space-x-2'>
+                  <Checkbox
+                    id='backdropFilters'
+                    checked={backdropFilters}
+                    onCheckedChange={(checked) =>
+                      setBackdropFilters(checked === true)
+                    }
+                  />
+                  <Label
+                    htmlFor='backdropFilters'
+                    className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                  >
+                    Backdrop filters
+                  </Label>
+                </div>
                 <div className='flex-1'>
                   <Button
                     onClick={handleGenerateImage}
@@ -333,11 +423,21 @@ export default function Design() {
               {/* Image Preview */}
               {generatedImageUrl && (
                 <div className='flex justify-center'>
-                  <img
-                    src={generatedImageUrl}
-                    alt='Generated theme image'
-                    className='max-w-full h-auto max-h-64 rounded-lg border border-border shadow-sm justify-center'
-                  />
+                  <div className='relative'>
+                    <img
+                      src={generatedImageUrl}
+                      alt='Generated theme image'
+                      className='max-w-full h-auto max-h-64 rounded-lg border border-border shadow-sm justify-center'
+                    />
+                    <Button
+                      variant='destructive'
+                      size='sm'
+                      onClick={handleClearBackgroundImage}
+                      className='absolute -top-2 -right-2 h-6 w-6 rounded-full p-0'
+                    >
+                      <X className='h-3 w-3' />
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>

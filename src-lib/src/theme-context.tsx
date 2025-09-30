@@ -5,11 +5,10 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
+import colorTheme from './color.json';
 import darkTheme from './dark.json';
 import { applyTheme, Theme } from './index';
 import lightTheme from './light.json';
-import colorTheme from './color.json';
 import { ImageResolver, ThemeLoader } from './theme-loader';
 
 // Theme discovery function type - can be provided by the consuming application
@@ -18,12 +17,13 @@ export type ThemeDiscoveryFunction = () => Promise<Theme[]>;
 interface ThemeContextType {
   currentTheme: Theme | null;
   setTheme: (themeName: string) => void;
-  setCustomTheme: (themeJson: string) => boolean;
+  setCustomTheme: (themeJson: string) => Promise<boolean>;
   availableThemes: Theme[];
   isLoading: boolean;
   error: string | null;
   lastUsedNonCoreTheme: string | null;
   reloadThemes: () => Promise<void>;
+  initializeTheme: (theme: Theme) => Promise<Theme>;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -46,15 +46,19 @@ export function ThemeProvider({
 
   // Use refs for stable instances that don't need to trigger re-renders
   const themeLoader = useRef<ThemeLoader>(new ThemeLoader()).current;
-  const [savedTheme, setSavedTheme] = useLocalStorage<string | null>(
-    'theme',
-    null,
+
+  // Local storage state management
+  const [savedTheme, setSavedTheme] = useState<string | null>(
+    () => localStorage.getItem('theme') || null,
   );
-  // this is the pre-themes dark mode setting that we will migrate if needed
-  const [dark] = useLocalStorage<boolean>('dark', false);
-  const [lastUsedNonCoreTheme, setLastUsedNonCoreTheme] = useLocalStorage<
+  const [dark] = useState<boolean>(
+    () => localStorage.getItem('dark') === 'true',
+  );
+  const [lastUsedNonCoreTheme, setLastUsedNonCoreTheme] = useState<
     string | null
-  >('theme-o-rama-last-used-non-core-theme', null);
+  >(
+    () => localStorage.getItem('theme-o-rama-last-used-non-core-theme') || null,
+  );
 
   const setTheme = async (themeName: string) => {
     if (isSettingTheme) return; // Prevent concurrent calls
@@ -65,9 +69,14 @@ export function ThemeProvider({
       setCurrentTheme(theme);
       applyTheme(theme, document.documentElement);
       setSavedTheme(themeName);
+      localStorage.setItem('theme', themeName);
       // Save as last used non-core theme if it's not light or dark
       if (themeName !== 'light' && themeName !== 'dark') {
         setLastUsedNonCoreTheme(themeName);
+        localStorage.setItem(
+          'theme-o-rama-last-used-non-core-theme',
+          themeName,
+        );
       }
       setError(null); // Clear any previous errors
     } catch (err) {
@@ -78,17 +87,21 @@ export function ThemeProvider({
     }
   };
 
-  const setCustomTheme = (themeJson: string | null): boolean => {
+  const setCustomTheme = async (themeJson: string | null): Promise<boolean> => {
     if (isSettingTheme) return false; // Prevent concurrent calls
 
     setIsSettingTheme(true);
     try {
       if (themeJson) {
-        const theme = themeLoader.loadThemeFromJson(themeJson, imageResolver);
+        const theme = await themeLoader.loadThemeFromJson(
+          themeJson,
+          imageResolver,
+        );
         if (theme) {
           setCurrentTheme(theme);
           applyTheme(theme, document.documentElement);
-          setSavedTheme('custom'); // Mark as custom theme
+          setSavedTheme(theme.name); // Mark as custom theme
+          localStorage.setItem('theme', theme.name);
           setError(null); // Clear any previous errors
           return true;
         }
@@ -135,9 +148,6 @@ export function ThemeProvider({
       if (!discoverThemes) {
         // If no discovery function provided, just use the default themes from cache
         setIsLoading(false);
-        const theme = themeLoader.getTheme(savedTheme);
-        setCurrentTheme(theme);
-        applyTheme(theme, document.documentElement);
         return;
       }
 
@@ -150,11 +160,13 @@ export function ThemeProvider({
         // Check for legacy dark setting and migrate if needed
         if (dark && !savedTheme) {
           setSavedTheme('dark');
+          localStorage.setItem('theme', 'dark');
         }
 
-        const theme = themeLoader.getTheme(savedTheme);
-        setCurrentTheme(theme);
-        applyTheme(theme, document.documentElement);
+        // Set initial theme after loading
+        const initialTheme = themeLoader.getTheme(savedTheme);
+        setCurrentTheme(initialTheme);
+        applyTheme(initialTheme, document.documentElement);
       } catch (err) {
         console.error('Error loading themes:', err);
         setError('Failed to load themes');
@@ -172,12 +184,16 @@ export function ThemeProvider({
     discoverThemes: ThemeDiscoveryFunction,
     imageResolver: ImageResolver | null = null,
   ) {
-    themeLoader.loadTheme(lightTheme as Theme);
-    themeLoader.loadTheme(darkTheme as Theme);
-    themeLoader.loadTheme(colorTheme as Theme);
+    await themeLoader.loadTheme(lightTheme as Theme);
+    await themeLoader.loadTheme(darkTheme as Theme);
+    await themeLoader.loadTheme(colorTheme as Theme);
     const appThemes = await discoverThemes();
-    themeLoader.loadThemes(appThemes, imageResolver);
+    await themeLoader.loadThemes(appThemes, imageResolver);
   }
+
+  const initializeTheme = async (theme: Theme): Promise<Theme> => {
+    return await themeLoader.initializeTheme(theme, imageResolver);
+  };
 
   return (
     <ThemeContext.Provider
@@ -190,6 +206,7 @@ export function ThemeProvider({
         error,
         lastUsedNonCoreTheme,
         reloadThemes,
+        initializeTheme,
       }}
     >
       {children}
