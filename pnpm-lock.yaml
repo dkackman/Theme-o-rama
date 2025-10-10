@@ -117,8 +117,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.12)
       theme-o-rama:
-        specifier: file:./src-lib
-        version: file:src-lib(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.2.0
+        version: 0.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       usehooks-ts:
         specifier: ^3.1.0
         version: 3.1.0(react@18.3.1)
@@ -1751,6 +1751,7 @@ packages:
   eslint@8.57.0:
     resolution: {integrity: sha512-dZ6+mexnaTIbSBZWgou51U6OmzIhYM2VcNdtiTtI7qPNZm35Akpr0f6vtw3w1Kmn5PYo+tZVfh13WrhpS6oLqQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   espree@9.6.1:
@@ -2661,8 +2662,8 @@ packages:
   text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
 
-  theme-o-rama@file:src-lib:
-    resolution: {directory: src-lib, type: directory}
+  theme-o-rama@0.2.2:
+    resolution: {integrity: sha512-+nGVT4bHE0bcTf4+jf/LsTcsF7liXjditWs8jb082tzBH/gyqDtwuUN0387kqmVmsK93NEKd99j+Wke4XUfojA==}
     peerDependencies:
       react: ^18.3.1
       react-dom: ^18.3.1
@@ -5467,7 +5468,7 @@ snapshots:
 
   text-table@0.2.0: {}
 
-  theme-o-rama@file:src-lib(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  theme-o-rama@0.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
