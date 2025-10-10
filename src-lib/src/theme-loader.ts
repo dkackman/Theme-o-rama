@@ -58,7 +58,9 @@ export class ThemeLoader {
   ): Promise<Theme> {
     const theme = validateTheme(themeJson);
 
-    return await this.initializeTheme(theme, imageResolver);
+    const initializeTheme = await this.initializeTheme(theme, imageResolver);
+    this.themesCache.addTheme(initializeTheme);
+    return initializeTheme;
   }
 
   public async initializeTheme(
