@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import 'theme-o-rama/themes.css';
 import './globals.css';
 import { Providers } from './providers';
 

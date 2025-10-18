@@ -2,39 +2,4 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 
-  Theme CSS is handled by the library via JavaScript
-  The library applies CSS variables to document.documentElement
-  We don't import themes.css because it uses @layer directives
-  that conflict with Next.js PostCSS processing
-*/
-
-@layer base {
-  :root {
-    color-scheme: light;
-  }
-
-  :root[data-theme='dark'],
-  :root.theme-dark {
-    color-scheme: dark;
-  }
-
-  /* Smooth theme transitions */
-  html {
-    transition:
-      background-color 0.2s ease,
-      color 0.2s ease;
-  }
-
-  body {
-    min-height: 100vh;
-    background: var(--background);
-    color: var(--foreground);
-  }
-}
-
-@layer components {
-  .card {
-    @apply rounded-lg border bg-card text-card-foreground shadow-sm;
-  }
-}
+/* App-specific styles - themes.css is imported in layout.tsx */

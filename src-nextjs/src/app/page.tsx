@@ -28,7 +28,7 @@ export default function Home() {
         </div>
 
         {/* Current Theme Info */}
-        <div className='card p-6 space-y-4'>
+        <div className='p-6 space-y-4 rounded-lg border bg-card text-card-foreground shadow-sm'>
           <h2 className='text-2xl font-semibold'>Current Theme</h2>
           <div className='space-y-2'>
             <p>
@@ -45,7 +45,7 @@ export default function Home() {
         </div>
 
         {/* Theme Selector */}
-        <div className='card p-6 space-y-4'>
+        <div className='p-6 space-y-4 rounded-lg border bg-card text-card-foreground shadow-sm'>
           <h2 className='text-2xl font-semibold'>Available Themes</h2>
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
             {availableThemes.map((theme) => (
@@ -68,7 +68,7 @@ export default function Home() {
         </div>
 
         {/* Test Components */}
-        <div className='card p-6 space-y-4'>
+        <div className='p-6 space-y-4 rounded-lg border bg-card text-card-foreground shadow-sm'>
           <h2 className='text-2xl font-semibold'>Theme Test Components</h2>
 
           <div className='space-y-4'>
@@ -92,13 +92,13 @@ export default function Home() {
             <div className='space-y-2'>
               <h3 className='font-medium'>Cards</h3>
               <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                <div className='card p-4'>
+                <div className='p-4 rounded-lg border bg-card text-card-foreground shadow-sm'>
                   <h4 className='font-semibold mb-2'>Card 1</h4>
                   <p className='text-muted-foreground'>
                     This is a card with themed styling.
                   </p>
                 </div>
-                <div className='card p-4'>
+                <div className='p-4 rounded-lg border bg-card text-card-foreground shadow-sm'>
                   <h4 className='font-semibold mb-2'>Card 2</h4>
                   <p className='text-muted-foreground'>
                     Cards adapt to the current theme.
@@ -129,7 +129,7 @@ export default function Home() {
         </div>
 
         {/* SSR Test Info */}
-        <div className='card p-6 space-y-4 bg-accent/10'>
+        <div className='p-6 space-y-4 rounded-lg border bg-accent/10 shadow-sm'>
           <h2 className='text-2xl font-semibold'>SSR Compatibility</h2>
           <div className='space-y-2 text-sm'>
             <p>✅ No server-side errors</p>
