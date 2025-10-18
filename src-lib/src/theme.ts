@@ -268,7 +268,10 @@ function applyButtonVariables(theme: Theme, root: HTMLElement): void {
     );
   });
 
-  document.body.setAttribute('data-theme-styles', buttonStyle);
+  // SSR-safe: Only set body attribute in browser environment
+  if (typeof document !== 'undefined' && document.body) {
+    document.body.setAttribute('data-theme-styles', buttonStyle);
+  }
 }
 
 function applyOtherControlVariables(theme: Theme, root: HTMLElement): void {
@@ -314,22 +317,24 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
   applyButtonVariables(theme, root);
   applyOtherControlVariables(theme, root);
 
-  // Apply document-wide background image handling for main theme
-  if (theme.backgroundImage) {
-    document.body.classList.add('has-background-image');
-    // Also set the background image directly on the body
-    document.body.style.backgroundImage = `url(${theme.backgroundImage})`;
-    document.body.style.backgroundSize = theme.backgroundSize || 'cover';
-    document.body.style.backgroundPosition =
-      theme.backgroundPosition || 'center';
-    document.body.style.backgroundRepeat =
-      theme.backgroundRepeat || 'no-repeat';
-  } else {
-    document.body.classList.remove('has-background-image');
-    document.body.style.backgroundImage = '';
-    document.body.style.backgroundSize = '';
-    document.body.style.backgroundPosition = '';
-    document.body.style.backgroundRepeat = '';
+  // Apply document-wide background image handling for main theme (SSR-safe)
+  if (typeof document !== 'undefined' && document.body) {
+    if (theme.backgroundImage) {
+      document.body.classList.add('has-background-image');
+      // Also set the background image directly on the body
+      document.body.style.backgroundImage = `url(${theme.backgroundImage})`;
+      document.body.style.backgroundSize = theme.backgroundSize || 'cover';
+      document.body.style.backgroundPosition =
+        theme.backgroundPosition || 'center';
+      document.body.style.backgroundRepeat =
+        theme.backgroundRepeat || 'no-repeat';
+    } else {
+      document.body.classList.remove('has-background-image');
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundSize = '';
+      document.body.style.backgroundPosition = '';
+      document.body.style.backgroundRepeat = '';
+    }
   }
 }
 

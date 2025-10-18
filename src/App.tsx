@@ -1,4 +1,6 @@
+import { LAST_NON_CORE_THEME_KEY, THEME_STORAGE_KEY } from '@/lib/constants';
 import { discoverThemes, resolveThemeImage } from '@/lib/themes';
+import { useCallback, useEffect } from 'react';
 import {
   createHashRouter,
   createRoutesFromElements,
@@ -15,6 +17,30 @@ import Dialogs from './pages/Dialogs';
 import Tables from './pages/Tables';
 import ThemePreview from './pages/ThemePreview';
 import Themes from './pages/Themes';
+
+// One-time migration for legacy dark mode preference
+function useLegacyDarkModeMigration() {
+  useEffect(() => {
+    try {
+      const oldDark = localStorage.getItem('dark');
+      const currentTheme = localStorage.getItem(THEME_STORAGE_KEY);
+
+      // Migrate old dark mode setting if exists and no theme is set
+      if (oldDark === 'true' && !currentTheme) {
+        localStorage.setItem(THEME_STORAGE_KEY, 'dark');
+        console.log('Migrated legacy dark mode preference to theme');
+      }
+
+      // Clean up old dark preference after migration
+      if (oldDark !== null && currentTheme) {
+        localStorage.removeItem('dark');
+        console.log('Cleaned up legacy dark mode preference');
+      }
+    } catch (error) {
+      console.warn('Failed to migrate legacy dark mode preference:', error);
+    }
+  }, []);
+}
 
 // Deprecation warning banner component
 function DeprecationWarning() {
@@ -89,16 +115,53 @@ const router = createHashRouter(
   ),
 );
 
+// App content with migration
+function AppContent() {
+  // Run legacy dark mode migration on mount
+  useLegacyDarkModeMigration();
+
+  return (
+    <>
+      <DeprecationWarning />
+      <RouterProvider router={router} />
+      <ThemeAwareToastContainer />
+    </>
+  );
+}
+
 export default function App() {
+  // Read initial theme from localStorage
+  const defaultTheme = (() => {
+    try {
+      return localStorage.getItem(THEME_STORAGE_KEY) || 'light';
+    } catch {
+      return 'light';
+    }
+  })();
+
+  // Handle theme changes - save to localStorage
+  const handleThemeChange = useCallback((themeName: string) => {
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, themeName);
+
+      // Save as last used non-core theme if it's not light or dark
+      if (themeName !== 'light' && themeName !== 'dark') {
+        localStorage.setItem(LAST_NON_CORE_THEME_KEY, themeName);
+      }
+    } catch (error) {
+      console.warn('Failed to save theme preference:', error);
+    }
+  }, []);
+
   return (
     <ThemeProvider
       discoverThemes={discoverThemes}
       imageResolver={resolveThemeImage}
+      defaultTheme={defaultTheme}
+      onThemeChange={handleThemeChange}
     >
       <ErrorProvider>
-        <DeprecationWarning />
-        <RouterProvider router={router} />
-        <ThemeAwareToastContainer />
+        <AppContent />
       </ErrorProvider>
     </ThemeProvider>
   );

@@ -2,11 +2,34 @@
 
 A comprehensive TypeScript library for dynamic theme management in React applications with shadcn/ui and Tailwind CSS. Features advanced theme discovery, inheritance, custom theme support, and dynamic theme switching at runtime.
 
+## Requirements
+
+- **React** 18.0+ or 19.0+
+- **TypeScript** 5.0+ (optional, but recommended)
+
+The library uses only stable React APIs and is compatible with all React 18.x and 19.x versions.
+
 ## Installation
 
 ```bash
 npm install theme-o-rama
+# or
+pnpm add theme-o-rama
+# or
+yarn add theme-o-rama
 ```
+
+## Framework Compatibility
+
+Theme-o-rama is designed to work seamlessly with:
+
+- ✅ **Vite** + React
+- ✅ **Create React App**
+- ✅ **Next.js** (Pages Router & App Router)
+- ✅ **Remix**
+- ✅ Any React SSR framework
+
+The library is SSR-safe and includes proper guards for server-side rendering environments.
 
 ## Usage
 
@@ -130,6 +153,195 @@ function YourComponent() {
   );
 }
 ```
+
+### Next.js Integration
+
+Theme-o-rama is fully compatible with Next.js (both Pages Router and App Router). The library is SSR-safe with proper guards for server-side rendering.
+
+#### Next.js App Router (13+)
+
+```typescript
+// app/layout.tsx
+import { ThemeProvider } from 'theme-o-rama';
+import 'theme-o-rama/themes.css';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+#### Next.js Pages Router
+
+```typescript
+// pages/_app.tsx
+import type { AppProps } from 'next/app';
+import { ThemeProvider } from 'theme-o-rama';
+import 'theme-o-rama/themes.css';
+
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <ThemeProvider>
+      <Component {...pageProps} />
+    </ThemeProvider>
+  );
+}
+```
+
+#### Using Themes in Next.js Components
+
+```typescript
+// app/components/ThemeSelector.tsx (or pages/components/ThemeSelector.tsx)
+'use client'; // Only needed for App Router
+
+import { useTheme } from 'theme-o-rama';
+
+export function ThemeSelector() {
+  const { setTheme, currentTheme, availableThemes } = useTheme();
+
+  return (
+    <select
+      value={currentTheme?.name || 'light'}
+      onChange={(e) => setTheme(e.target.value)}
+    >
+      {availableThemes.map(theme => (
+        <option key={theme.name} value={theme.name}>
+          {theme.displayName}
+        </option>
+      ))}
+    </select>
+  );
+}
+```
+
+**Note:** The `ThemeProvider` component automatically includes the `'use client'` directive, making it compatible with Next.js App Router. Any component using the `useTheme` hook should also be a Client Component.
+
+#### Preventing Flash of Unstyled Content (FOUC)
+
+Since themes are applied client-side after hydration, you may notice a brief flash of default styling. To minimize this, add a blocking script that applies the theme before React hydrates:
+
+**Next.js App Router:**
+
+```typescript
+// app/layout.tsx
+import { ThemeProvider } from 'theme-o-rama';
+import 'theme-o-rama/themes.css';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Blocking script to prevent FOUC */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme') || 'light';
+
+                  // Apply theme class immediately
+                  document.documentElement.className = 'theme-' + theme;
+                  document.documentElement.setAttribute('data-theme', theme);
+
+                  // Set color-scheme for browser UI
+                  document.documentElement.style.colorScheme = theme === 'dark' ? 'dark' : 'light';
+                } catch (e) {
+                  console.error('Theme initialization error:', e);
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+**Next.js Pages Router:**
+
+```typescript
+// pages/_document.tsx
+import { Html, Head, Main, NextScript } from 'next/document';
+
+export default function Document() {
+  return (
+    <Html suppressHydrationWarning>
+      <Head>
+        {/* Blocking script to prevent FOUC */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme') || 'light';
+
+                  // Apply theme class immediately
+                  document.documentElement.className = 'theme-' + theme;
+                  document.documentElement.setAttribute('data-theme', theme);
+
+                  // Set color-scheme for browser UI
+                  document.documentElement.style.colorScheme = theme === 'dark' ? 'dark' : 'light';
+                } catch (e) {
+                  console.error('Theme initialization error:', e);
+                }
+              })();
+            `,
+          }}
+        />
+      </Head>
+      <body>
+        <Main />
+        <NextScript />
+      </body>
+    </Html>
+  );
+}
+```
+
+**What this script does:**
+
+- Runs before React hydration (blocking)
+- Reads theme from localStorage
+- Sets `theme-{name}` class on `<html>` element
+- Sets `data-theme` attribute for CSS targeting
+- Sets `color-scheme` for native browser UI elements
+- Provides basic theme indication before full theme loads
+
+**Add supporting CSS for instant feedback:**
+
+```css
+/* In your global CSS or theme-o-rama/themes.css */
+:root {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'],
+:root.theme-dark {
+  color-scheme: dark;
+}
+
+/* Optional: Add basic color transitions for smooth theme changes */
+html {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+```
+
+The `suppressHydrationWarning` prop on `<html>` is needed because the blocking script modifies the DOM before React hydration, which would otherwise cause a warning.
 
 ### Theme Discovery and Image Resolution
 

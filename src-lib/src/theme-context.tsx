@@ -1,3 +1,5 @@
+'use client';
+
 import React, {
   createContext,
   useContext,
@@ -11,8 +13,14 @@ import { applyTheme, Theme } from './index';
 import lightTheme from './light.json';
 import { ImageResolver, ThemeLoader } from './theme-loader';
 
+// Browser detection for SSR compatibility
+const isBrowser = typeof window !== 'undefined';
+
 // Theme discovery function type - can be provided by the consuming application
 export type ThemeDiscoveryFunction = () => Promise<Theme[]>;
+
+// Callback when theme changes - allows app to handle storage
+export type ThemeChangeCallback = (themeName: string) => void;
 
 interface ThemeContextType {
   currentTheme: Theme | null;
@@ -21,7 +29,6 @@ interface ThemeContextType {
   availableThemes: Theme[];
   isLoading: boolean;
   error: string | null;
-  lastUsedNonCoreTheme: string | null;
   reloadThemes: () => Promise<void>;
   initializeTheme: (theme: Theme) => Promise<Theme>;
 }
@@ -32,12 +39,16 @@ interface ThemeProviderProps {
   children: React.ReactNode;
   discoverThemes?: ThemeDiscoveryFunction;
   imageResolver?: ImageResolver;
+  defaultTheme?: string;
+  onThemeChange?: ThemeChangeCallback;
 }
 
 export function ThemeProvider({
   children,
   discoverThemes,
   imageResolver,
+  defaultTheme = 'light',
+  onThemeChange,
 }: ThemeProviderProps) {
   const [currentTheme, setCurrentTheme] = useState<Theme | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -47,18 +58,11 @@ export function ThemeProvider({
   // Use refs for stable instances that don't need to trigger re-renders
   const themeLoader = useRef<ThemeLoader>(new ThemeLoader()).current;
 
-  // Local storage state management
-  const [savedTheme, setSavedTheme] = useState<string | null>(
-    () => localStorage.getItem('theme') || null,
-  );
-  const [dark] = useState<boolean>(
-    () => localStorage.getItem('dark') === 'true',
-  );
-  const [lastUsedNonCoreTheme, setLastUsedNonCoreTheme] = useState<
-    string | null
-  >(
-    () => localStorage.getItem('theme-o-rama-last-used-non-core-theme') || null,
-  );
+  // Store the callback in a ref to avoid re-running effects when it changes
+  const onThemeChangeRef = useRef(onThemeChange);
+  useEffect(() => {
+    onThemeChangeRef.current = onThemeChange;
+  }, [onThemeChange]);
 
   const setTheme = async (themeName: string) => {
     if (isSettingTheme) return; // Prevent concurrent calls
@@ -67,17 +71,15 @@ export function ThemeProvider({
     try {
       const theme = themeLoader.getTheme(themeName);
       setCurrentTheme(theme);
-      applyTheme(theme, document.documentElement);
-      setSavedTheme(themeName);
-      localStorage.setItem('theme', themeName);
-      // Save as last used non-core theme if it's not light or dark
-      if (themeName !== 'light' && themeName !== 'dark') {
-        setLastUsedNonCoreTheme(themeName);
-        localStorage.setItem(
-          'theme-o-rama-last-used-non-core-theme',
-          themeName,
-        );
+      if (isBrowser) {
+        applyTheme(theme, document.documentElement);
       }
+
+      // Notify app of theme change (app handles storage)
+      if (onThemeChangeRef.current) {
+        onThemeChangeRef.current(themeName);
+      }
+
       setError(null); // Clear any previous errors
     } catch (err) {
       console.error('Error setting theme:', err);
@@ -99,9 +101,15 @@ export function ThemeProvider({
         );
         if (theme) {
           setCurrentTheme(theme);
-          applyTheme(theme, document.documentElement);
-          setSavedTheme(theme.name); // Mark as custom theme
-          localStorage.setItem('theme', theme.name);
+          if (isBrowser) {
+            applyTheme(theme, document.documentElement);
+          }
+
+          // Notify app of theme change (app handles storage)
+          if (onThemeChangeRef.current) {
+            onThemeChangeRef.current(theme.name);
+          }
+
           setError(null); // Clear any previous errors
           return true;
         }
@@ -131,9 +139,11 @@ export function ThemeProvider({
       themeLoader.clearCache();
       await loadAndCacheThemes(discoverThemes, imageResolver);
 
-      const theme = themeLoader.getTheme(savedTheme);
+      const theme = themeLoader.getTheme(defaultTheme);
       setCurrentTheme(theme);
-      applyTheme(theme, document.documentElement);
+      if (isBrowser) {
+        applyTheme(theme, document.documentElement);
+      }
     } catch (err) {
       console.error('Error reloading themes:', err);
       setError('Failed to reload themes');
@@ -157,16 +167,12 @@ export function ThemeProvider({
 
         await loadAndCacheThemes(discoverThemes, imageResolver);
 
-        // Check for legacy dark setting and migrate if needed
-        if (dark && !savedTheme) {
-          setSavedTheme('dark');
-          localStorage.setItem('theme', 'dark');
-        }
-
-        // Set initial theme after loading
-        const initialTheme = themeLoader.getTheme(savedTheme);
+        // Set initial theme after loading (use defaultTheme prop)
+        const initialTheme = themeLoader.getTheme(defaultTheme);
         setCurrentTheme(initialTheme);
-        applyTheme(initialTheme, document.documentElement);
+        if (isBrowser) {
+          applyTheme(initialTheme, document.documentElement);
+        }
       } catch (err) {
         console.error('Error loading themes:', err);
         setError('Failed to load themes');
@@ -178,7 +184,7 @@ export function ThemeProvider({
     };
 
     initializeThemes();
-  }, [savedTheme, dark, setSavedTheme]);
+  }, [defaultTheme, discoverThemes, imageResolver]);
 
   async function loadAndCacheThemes(
     discoverThemes: ThemeDiscoveryFunction,
@@ -204,7 +210,6 @@ export function ThemeProvider({
         availableThemes: themeLoader.getThemes(),
         isLoading,
         error,
-        lastUsedNonCoreTheme,
         reloadThemes,
         initializeTheme,
       }}

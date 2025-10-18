@@ -1,3 +1,4 @@
+import { LAST_NON_CORE_THEME_KEY } from '@/lib/constants';
 import { hasTag } from '@/lib/themes';
 import { Loader2 } from 'lucide-react';
 import { Theme, useTheme } from 'theme-o-rama';
@@ -51,13 +52,16 @@ export function ThemeSelector() {
 }
 
 export function ThemeSelectorSimple() {
-  const {
-    currentTheme,
-    setTheme,
-    availableThemes,
-    isLoading,
-    lastUsedNonCoreTheme,
-  } = useTheme();
+  const { currentTheme, setTheme, availableThemes, isLoading } = useTheme();
+
+  // Read last used non-core theme from localStorage
+  const lastUsedNonCoreTheme = (() => {
+    try {
+      return localStorage.getItem(LAST_NON_CORE_THEME_KEY);
+    } catch {
+      return null;
+    }
+  })();
 
   if (isLoading || !currentTheme) {
     return (
