@@ -111,8 +111,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.12)
       theme-o-rama:
-        specifier: file:./src-lib
-        version: file:src-lib(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: ^0.3.0
+        version: 0.3.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       usehooks-ts:
         specifier: ^3.1.1
         version: 3.1.1(react@19.2.0)
@@ -2781,8 +2781,8 @@ packages:
   text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
 
-  theme-o-rama@file:src-lib:
-    resolution: {directory: src-lib, type: directory}
+  theme-o-rama@0.3.0:
+    resolution: {integrity: sha512-otVf7ybOW+CjB4Gh71Xo97rtUXpeQwxe1HKXpRiGIMyRGuoqGgfa0DDUbspulITrm9dNwdJlBWizLCDHRPMr4Q==}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
@@ -5667,7 +5667,7 @@ snapshots:
 
   text-table@0.2.0: {}
 
-  theme-o-rama@file:src-lib(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  theme-o-rama@0.3.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)

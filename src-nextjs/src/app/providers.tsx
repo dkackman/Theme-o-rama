@@ -1,11 +1,28 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { ThemeProvider } from 'theme-o-rama';
+import { Theme, ThemeProvider } from 'theme-o-rama';
+import colorfulTheme from '../themes/colorful.json';
 
 interface ProvidersProps {
   children: React.ReactNode;
   initialTheme: string;
+}
+
+// Discover custom themes for this app
+async function discoverThemes(): Promise<Theme[]> {
+  // Return app-specific themes
+  return [colorfulTheme as Theme];
+}
+
+// Image resolver for theme background images
+async function resolveThemeImage(
+  themeName: string,
+  imagePath: string,
+): Promise<string> {
+  // Images are in /public/themes/{imagePath}
+  // Next.js serves public files from root
+  return `/themes/${themeName}/${imagePath}`;
 }
 
 export function Providers({ children, initialTheme }: ProvidersProps) {
@@ -33,6 +50,8 @@ export function Providers({ children, initialTheme }: ProvidersProps) {
     <ThemeProvider
       defaultTheme={defaultTheme}
       onThemeChange={handleThemeChange}
+      discoverThemes={discoverThemes}
+      imageResolver={resolveThemeImage}
     >
       {children}
     </ThemeProvider>

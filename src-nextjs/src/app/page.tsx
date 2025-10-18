@@ -136,7 +136,7 @@ export default function Home() {
             <p>✅ No hydration mismatches</p>
             <p>✅ Theme persists across page reloads</p>
             <p>✅ FOUC prevented with blocking script</p>
-            <p>✅ Works with Next.js App Router</p>
+            <p>✅ Works with Next.js App and Pages Routers</p>
           </div>
         </div>
       </div>

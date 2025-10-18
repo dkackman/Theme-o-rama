@@ -50,7 +50,7 @@
     "react-toastify": "^11.0.3",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "theme-o-rama": "file:./src-lib",
+    "theme-o-rama": "^0.3.0",
     "usehooks-ts": "^3.1.1",
     "zod": "^3.23.8",
     "zustand": "^4.5.5"
