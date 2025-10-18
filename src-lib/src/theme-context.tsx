@@ -45,7 +45,7 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({
   children,
-  discoverThemes,
+  discoverThemes = async (): Promise<Theme[]> => [],
   imageResolver,
   defaultTheme = 'light',
   onThemeChange,
@@ -58,11 +58,16 @@ export function ThemeProvider({
   // Use refs for stable instances that don't need to trigger re-renders
   const themeLoader = useRef<ThemeLoader>(new ThemeLoader()).current;
 
-  // Store the callback in a ref to avoid re-running effects when it changes
+  // Store callbacks and functions in refs to avoid re-running effects when they change
   const onThemeChangeRef = useRef(onThemeChange);
+  const imageResolverRef = useRef(imageResolver);
+  const discoverThemesRef = useRef(discoverThemes);
+
   useEffect(() => {
     onThemeChangeRef.current = onThemeChange;
-  }, [onThemeChange]);
+    imageResolverRef.current = imageResolver;
+    discoverThemesRef.current = discoverThemes;
+  }, [onThemeChange, imageResolver, discoverThemes]);
 
   const setTheme = async (themeName: string) => {
     if (isSettingTheme) return; // Prevent concurrent calls
@@ -127,17 +132,22 @@ export function ThemeProvider({
   };
 
   const reloadThemes = async () => {
-    if (!discoverThemes) {
-      console.warn('No theme discovery function provided');
-      return;
-    }
-
     try {
       setIsLoading(true);
       setError(null);
 
       themeLoader.clearCache();
-      await loadAndCacheThemes(discoverThemes, imageResolver);
+
+      // Always load built-in themes
+      await themeLoader.loadTheme(lightTheme as Theme);
+      await themeLoader.loadTheme(darkTheme as Theme);
+      await themeLoader.loadTheme(colorTheme as Theme);
+
+      // Load additional themes if discovery function provided
+      if (discoverThemesRef.current) {
+        const appThemes = await discoverThemesRef.current();
+        await themeLoader.loadThemes(appThemes, imageResolverRef.current);
+      }
 
       const theme = themeLoader.getTheme(defaultTheme);
       setCurrentTheme(theme);
@@ -155,17 +165,20 @@ export function ThemeProvider({
 
   useEffect(() => {
     const initializeThemes = async () => {
-      if (!discoverThemes) {
-        // If no discovery function provided, just use the default themes from cache
-        setIsLoading(false);
-        return;
-      }
-
       try {
         setIsLoading(true);
         setError(null);
 
-        await loadAndCacheThemes(discoverThemes, imageResolver);
+        // Always load built-in themes
+        await themeLoader.loadTheme(lightTheme as Theme);
+        await themeLoader.loadTheme(darkTheme as Theme);
+        await themeLoader.loadTheme(colorTheme as Theme);
+
+        // Load additional themes if discovery function provided
+        if (discoverThemesRef.current) {
+          const appThemes = await discoverThemesRef.current();
+          await themeLoader.loadThemes(appThemes, imageResolverRef.current);
+        }
 
         // Set initial theme after loading (use defaultTheme prop)
         const initialTheme = themeLoader.getTheme(defaultTheme);
@@ -184,21 +197,12 @@ export function ThemeProvider({
     };
 
     initializeThemes();
-  }, [defaultTheme, discoverThemes, imageResolver]);
-
-  async function loadAndCacheThemes(
-    discoverThemes: ThemeDiscoveryFunction,
-    imageResolver: ImageResolver | null = null,
-  ) {
-    await themeLoader.loadTheme(lightTheme as Theme);
-    await themeLoader.loadTheme(darkTheme as Theme);
-    await themeLoader.loadTheme(colorTheme as Theme);
-    const appThemes = await discoverThemes();
-    await themeLoader.loadThemes(appThemes, imageResolver);
-  }
+    // Only re-run when defaultTheme changes, not when functions change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultTheme]);
 
   const initializeTheme = async (theme: Theme): Promise<Theme> => {
-    return await themeLoader.initializeTheme(theme, imageResolver);
+    return await themeLoader.initializeTheme(theme, imageResolverRef.current);
   };
 
   return (
