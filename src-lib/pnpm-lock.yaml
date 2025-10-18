@@ -8,14 +8,11 @@ importers:
   .:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: ^18.0.0 || ^19.0.0
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: ^18.0.0 || ^19.0.0
         version: 18.3.1(react@18.3.1)
-      usehooks-ts:
-        specifier: ^3.1.0
-        version: 3.1.1(react@18.3.1)
     devDependencies:
       '@types/node':
         specifier: ^22.1.0
@@ -1132,12 +1129,6 @@ packages:
       }
     engines: { node: '>=10' }
 
-  lodash.debounce@4.0.8:
-    resolution:
-      {
-        integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==,
-      }
-
   lodash.merge@4.6.2:
     resolution:
       {
@@ -1715,15 +1706,6 @@ packages:
       {
         integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==,
       }
-
-  usehooks-ts@3.1.1:
-    resolution:
-      {
-        integrity: sha512-I4diPp9Cq6ieSUH2wu+fDAVQO43xwtulo+fKEidHUwZPnYImbtkTjzIJYcDcJqxgmX31GVqNFURodvcgHcW0pA==,
-      }
-    engines: { node: '>=16.15.0' }
-    peerDependencies:
-      react: ^16.8.0  || ^17 || ^18 || ^19 || ^19.0.0-rc
 
   v8-compile-cache-lib@3.0.1:
     resolution:
@@ -2599,8 +2581,6 @@ snapshots:
     dependencies:
       p-locate: 5.0.0
 
-  lodash.debounce@4.0.8: {}
-
   lodash.merge@4.6.2: {}
 
   loose-envify@1.4.0:
@@ -3005,11 +2985,6 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
-
-  usehooks-ts@3.1.1(react@18.3.1):
-    dependencies:
-      lodash.debounce: 4.0.8
-      react: 18.3.1
 
   v8-compile-cache-lib@3.0.1: {}
 

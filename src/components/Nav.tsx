@@ -3,15 +3,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { isTauriEnvironment } from '@/lib/utils';
-import {
-  AppWindow,
-  Component,
-  Info,
-  Pencil,
-  SwatchBook,
-  Table,
-} from 'lucide-react';
+import { AppWindow, Component, Info, SwatchBook, Table } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Separator } from './ui/separator';
@@ -51,12 +43,6 @@ export function TopNav({ isCollapsed }: NavProps) {
       <NavLink url={'/dialogs'} isCollapsed={isCollapsed} message='Dialogs'>
         <AppWindow className={className} />
       </NavLink>
-      {/* Only show Design link in Tauri environment */}
-      {isTauriEnvironment() && (
-        <NavLink url={'/design'} isCollapsed={isCollapsed} message='Design'>
-          <Pencil className={className} />
-        </NavLink>
-      )}
       <NavLink url={'/about'} isCollapsed={isCollapsed} message='About'>
         <Info className={className} />
       </NavLink>

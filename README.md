@@ -6,11 +6,14 @@ A reusable library for dynamic theme management in React applications with shadc
 
 ## Quick Start
 
-### Prerequisites
+### Prerequisites (for the testharness app)
+
+1. **PNPM** - Install via [pnpm.io](https://pnpm.io/installation)
+
+### Prerequisites (for the theme-o-rama library)
 
 1. **Rust** - Install via [Rustup](https://rustup.rs)
-2. **PNPM** - Install via [pnpm.io](https://pnpm.io/installation)
-3. **Tauri dependencies** - Follow [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/)
+2. **Tauri dependencies** - Follow [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/)
 
 ### Building & Running
 

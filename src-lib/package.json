@@ -1,6 +1,6 @@
 {
   "name": "theme-o-rama",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A TypeScript library for dynamic theme management in react + shadcn + tailwind applications",
   "type": "module",
   "main": "./dist/index.js",
@@ -23,7 +23,8 @@
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run clean && npm run build",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "lint": "eslint ."
   },
   "keywords": [
     "theme",
@@ -45,19 +46,16 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "prettier": "^3.6.2",
     "@types/node": "^22.1.0",
-    "typescript": "^5.5.4",
-    "typescript-json-schema": "^0.65.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.9"
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "prettier": "^3.6.2",
+    "typescript": "^5.5.4",
+    "typescript-json-schema": "^0.65.1"
   },
   "peerDependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
-  },
-  "dependencies": {
-    "usehooks-ts": "^3.1.0"
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   }
 }
