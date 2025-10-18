@@ -7,11 +7,11 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import colorTheme from './color.json';
-import darkTheme from './dark.json';
-import { applyTheme, Theme } from './index';
-import lightTheme from './light.json';
-import { ImageResolver, ThemeLoader } from './theme-loader';
+import colorTheme from './color.json' with { type: 'json' };
+import darkTheme from './dark.json' with { type: 'json' };
+import { applyTheme, Theme } from './index.js';
+import lightTheme from './light.json' with { type: 'json' };
+import { ImageResolver, ThemeLoader } from './theme-loader.js';
 
 // Browser detection for SSR compatibility
 const isBrowser = typeof window !== 'undefined';

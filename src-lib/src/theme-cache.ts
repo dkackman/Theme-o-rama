@@ -1,5 +1,5 @@
-import light from './light.json';
-import { Theme } from './theme.type';
+import light from './light.json' with { type: 'json' };
+import { Theme } from './theme.type.js';
 
 export class ThemeCache {
   private themesCache: Map<string, Theme>;

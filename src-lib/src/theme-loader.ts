@@ -1,7 +1,7 @@
-import { ThemeCache } from './theme-cache';
-import { validateTheme } from './theme-schema-validation';
-import { Theme } from './theme.type';
-import { deepMerge } from './utils';
+import { ThemeCache } from './theme-cache.js';
+import { validateTheme } from './theme-schema-validation.js';
+import { Theme } from './theme.type.js';
+import { deepMerge } from './utils.js';
 
 // Theme discovery function type - can be provided by the consuming application
 export type ImageResolver = (

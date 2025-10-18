@@ -10,16 +10,16 @@ export default tseslint.config(
     ignores: [
       'target/**/*',
       'src/bindings.ts',
-      'src_lib/dist/**/*',
-      'src_lib/dist-web/**/*',
+      'src-lib/dist/**/*',
+      'src-lib/dist-web/**/*',
     ],
   },
   {
     files: [
       'src/**/*.ts',
       'src/**/*.tsx',
-      'src_lib/**/*.ts',
-      'src_lib/**/*.tsx',
+      'src-lib/**/*.ts',
+      'src-lib/**/*.tsx',
     ],
     extends: [
       eslint.configs.recommended,

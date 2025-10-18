@@ -1,4 +1,4 @@
-import { Theme } from './theme.type';
+import { Theme } from './theme.type.js';
 
 function clearThemeVariables(root: HTMLElement) {
   // Remove any existing theme classes

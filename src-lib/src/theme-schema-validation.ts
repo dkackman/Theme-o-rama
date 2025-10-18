@@ -1,4 +1,4 @@
-import { Theme } from './theme.type';
+import { Theme } from './theme.type.js';
 
 export function validateTheme(data: unknown): Theme {
   let parsedData: unknown = data;
@@ -8,6 +8,7 @@ export function validateTheme(data: unknown): Theme {
     try {
       parsedData = JSON.parse(data);
     } catch (error) {
+      console.error(error);
       throw new Error(
         'Invalid theme JSON structure. The theme string must be valid JSON',
       );
