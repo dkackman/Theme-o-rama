@@ -63,17 +63,17 @@ The `theme-o-rama` CSS variables are now mapped to Tailwind's theme system using
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   /* ... */
-  
+
   /* Border radius */
   --radius-sm: var(--corner-sm);
   --radius-md: var(--corner-md);
   /* ... */
-  
+
   /* Shadows */
   --shadow-sm: var(--shadow-sm);
   --shadow-card: var(--shadow-card);
   /* ... */
-  
+
   /* Fonts */
   --font-family-sans: var(--font-sans);
   --font-family-heading: var(--font-heading);

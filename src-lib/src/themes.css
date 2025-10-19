@@ -243,13 +243,54 @@
   --switch-thumb-background: hsl(0 0% 100%);
 }
 
-* {
-  border-color: var(--border);
+/* Smooth theme transitions */
+:root {
+  /* Transition duration - can be overridden by themes */
+  --theme-transition-duration: 300ms;
+  --theme-transition-timing: ease-in-out;
 }
 
+/* Respect user's motion preferences for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --theme-transition-duration: 0ms;
+  }
+}
+
+/* Apply transitions to elements that use theme colors */
+* {
+  border-color: var(--border);
+  transition:
+    background-color var(--theme-transition-duration)
+      var(--theme-transition-timing),
+    color var(--theme-transition-duration) var(--theme-transition-timing),
+    border-color var(--theme-transition-duration) var(--theme-transition-timing),
+    box-shadow var(--theme-transition-duration) var(--theme-transition-timing),
+    opacity var(--theme-transition-duration) var(--theme-transition-timing);
+}
+
+/* Disable transitions for certain elements that should be instant */
+*:where(
+    input,
+    textarea,
+    select,
+    button:active,
+    [data-no-transition],
+    .no-transition
+  ) {
+  transition-duration: 0ms !important;
+}
+
+/* Special handling for background images - fade in/out */
 body {
   background-color: var(--background);
   color: var(--foreground);
+  transition:
+    background-color var(--theme-transition-duration)
+      var(--theme-transition-timing),
+    background-image var(--theme-transition-duration)
+      var(--theme-transition-timing),
+    color var(--theme-transition-duration) var(--theme-transition-timing);
 }
 
 body.has-background-image {
@@ -262,6 +303,16 @@ body.has-background-image {
 /* Theme cards with background images */
 .has-background-image.bg-card {
   background-color: var(--card);
+}
+
+/* Ensure cards and popovers transition smoothly */
+.bg-card,
+.bg-popover {
+  transition:
+    background-color var(--theme-transition-duration)
+      var(--theme-transition-timing),
+    color var(--theme-transition-duration) var(--theme-transition-timing),
+    border-color var(--theme-transition-duration) var(--theme-transition-timing);
 }
 
 /* Dynamic outline button styling for all themes */

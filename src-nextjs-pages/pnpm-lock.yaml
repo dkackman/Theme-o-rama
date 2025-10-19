@@ -21,8 +21,8 @@ importers:
         specifier: ^19.0.0
         version: 19.2.0(react@19.2.0)
       theme-o-rama:
-        specifier: ^0.3.3
-        version: 0.3.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: file:../src-lib
+        version: file:../src-lib(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4.1.14
@@ -1715,8 +1715,8 @@ packages:
   text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
 
-  theme-o-rama@0.3.3:
-    resolution: {integrity: sha512-WogjcX2HcJxdvRIpwZ1+MP64GBUqukSOIhZHEQOPD/l0ww9Md3JwUWYYfS5gDsrF1HXYS2MCO9ikOuglB7ZCZg==}
+  theme-o-rama@file:../src-lib:
+    resolution: {directory: ../src-lib, type: directory}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
@@ -3654,7 +3654,7 @@ snapshots:
 
   text-table@0.2.0: {}
 
-  theme-o-rama@0.3.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  theme-o-rama@file:../src-lib(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
