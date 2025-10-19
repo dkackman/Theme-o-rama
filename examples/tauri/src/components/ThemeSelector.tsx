@@ -5,8 +5,7 @@ import { Theme, useTheme } from 'theme-o-rama';
 import { ThemeCard } from './ThemeCard';
 
 export function ThemeSelector() {
-  const { currentTheme, setTheme, availableThemes, isLoading, error } =
-    useTheme();
+  const { currentTheme, setTheme, availableThemes, isLoading, error } = useTheme();
 
   if (isLoading) {
     return (
@@ -75,26 +74,18 @@ export function ThemeSelectorSimple() {
   }
 
   // Get the core themes: light and dark
-  const lightTheme = availableThemes.find(
-    (theme: Theme) => theme.name === 'light',
-  );
-  const darkTheme = availableThemes.find(
-    (theme: Theme) => theme.name === 'dark',
-  );
+  const lightTheme = availableThemes.find((theme: Theme) => theme.name === 'light');
+  const darkTheme = availableThemes.find((theme: Theme) => theme.name === 'dark');
 
   // Get the third theme: last used non-core theme or colorful as fallback
   let thirdTheme = null;
   if (lastUsedNonCoreTheme) {
-    thirdTheme = availableThemes.find(
-      (theme: Theme) => theme.name === lastUsedNonCoreTheme,
-    );
+    thirdTheme = availableThemes.find((theme: Theme) => theme.name === lastUsedNonCoreTheme);
   }
 
   // If no last used non-core theme or it's not available, use colorful as fallback
   if (!thirdTheme) {
-    thirdTheme = availableThemes.find(
-      (theme: Theme) => theme.name === 'colorful',
-    );
+    thirdTheme = availableThemes.find((theme: Theme) => theme.name === 'colorful');
   }
 
   const coreThemes = [lightTheme, darkTheme, thirdTheme].filter(

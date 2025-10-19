@@ -1,0 +1,35 @@
+# Dependencies
+node_modules
+pnpm-lock.yaml
+package-lock.json
+
+# Build outputs
+dist/
+dist/**
+dist-web/
+dist-web/**
+out/
+out/**
+build/
+build/**
+.next/
+.next/**
+
+# Tauri/Rust
+target/
+target/**
+**/target/
+**/target/**
+src-tauri/gen/
+src-tauri/gen/**
+**/src-tauri/gen/
+**/src-tauri/gen/**
+**/bindings.ts
+
+# Generated files
+**/locales
+docs
+
+# Cache
+.turbo
+.cache

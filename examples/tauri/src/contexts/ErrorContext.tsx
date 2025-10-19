@@ -19,9 +19,7 @@ export interface ErrorContextType {
   addError: (error: CustomError) => void;
 }
 
-export const ErrorContext = createContext<ErrorContextType | undefined>(
-  undefined,
-);
+export const ErrorContext = createContext<ErrorContextType | undefined>(undefined);
 
 export function ErrorProvider({ children }: { children: ReactNode }) {
   const [errors, setErrors] = useState<CustomError[]>([]);

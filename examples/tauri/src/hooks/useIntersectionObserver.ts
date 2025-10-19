@@ -26,11 +26,5 @@ export function useIntersectionObserver(
       observer.disconnect();
     };
     // Only re-create observer if element or options change
-  }, [
-    elementRef,
-    options.threshold,
-    options.root,
-    options.rootMargin,
-    options,
-  ]);
+  }, [elementRef, options.threshold, options.root, options.rootMargin, options]);
 }

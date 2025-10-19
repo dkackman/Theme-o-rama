@@ -2,13 +2,7 @@ import Header from '@/components/Header';
 import Layout from '@/components/Layout';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -21,14 +15,7 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
-import {
-  Copy,
-  Info,
-  LinkIcon,
-  MoreVertical,
-  SendIcon,
-  UserRoundPlus,
-} from 'lucide-react';
+import { Copy, Info, LinkIcon, MoreVertical, SendIcon, UserRoundPlus } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -62,8 +49,8 @@ export default function Components() {
               <CardHeader>
                 <CardTitle>Components</CardTitle>
                 <CardDescription>
-                  Preview of the current theme&apos;s color palette and styling
-                  for controls and components.
+                  Preview of the current theme&apos;s color palette and styling for controls and
+                  components.
                 </CardDescription>
               </CardHeader>
               <CardContent className='space-y-6'>
@@ -71,9 +58,7 @@ export default function Components() {
                 <div>
                   <Separator className='my-1' />
 
-                  <Label className='text-base font-semibold mb-3 block'>
-                    Colors
-                  </Label>
+                  <Label className='text-base font-semibold mb-3 block'>Colors</Label>
                   <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
                     <div className='space-y-2'>
                       <Label>Primary</Label>
@@ -96,9 +81,7 @@ export default function Components() {
 
                 {/* Border Radius */}
                 <div>
-                  <Label className='text-base font-semibold mb-3 block'>
-                    Border Radius
-                  </Label>
+                  <Label className='text-base font-semibold mb-3 block'>Border Radius</Label>
                   <div className='space-y-4'>
                     <div>
                       Border Radius:{' '}
@@ -114,49 +97,29 @@ export default function Components() {
                 </div>
 
                 <div>
-                  <Label className='text-base font-semibold mb-3 block'>
-                    Component Examples
-                  </Label>
+                  <Label className='text-base font-semibold mb-3 block'>Component Examples</Label>
                   <div>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button
-                          variant='outline'
-                          onClick={(e) => e.stopPropagation()}
-                        >
+                        <Button variant='outline' onClick={(e) => e.stopPropagation()}>
                           <span>Drop down menu</span>
-                          <MoreVertical
-                            className='h-5 w-5'
-                            aria-hidden='true'
-                          />
+                          <MoreVertical className='h-5 w-5' aria-hidden='true' />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align='end'>
                         <DropdownMenuGroup>
                           <DropdownMenuItem className='cursor-pointer'>
-                            <SendIcon
-                              className='mr-2 h-4 w-4'
-                              aria-hidden='true'
-                            />
+                            <SendIcon className='mr-2 h-4 w-4' aria-hidden='true' />
                             <span>Transfer</span>
                           </DropdownMenuItem>
 
-                          <DropdownMenuItem
-                            className='cursor-pointer'
-                            disabled={true}
-                          >
-                            <UserRoundPlus
-                              className='mr-2 h-4 w-4'
-                              aria-hidden='true'
-                            />
+                          <DropdownMenuItem className='cursor-pointer' disabled={true}>
+                            <UserRoundPlus className='mr-2 h-4 w-4' aria-hidden='true' />
                             <span>Disabled</span>
                           </DropdownMenuItem>
 
                           <DropdownMenuItem className='cursor-pointer'>
-                            <LinkIcon
-                              className='mr-2 h-4 w-4'
-                              aria-hidden='true'
-                            />
+                            <LinkIcon className='mr-2 h-4 w-4' aria-hidden='true' />
                             <span>Item</span>
                           </DropdownMenuItem>
 
@@ -208,9 +171,7 @@ export default function Components() {
                     </div>
 
                     <div className='space-y-4'>
-                      <Label className='text-base font-semibold block'>
-                        Buttons
-                      </Label>
+                      <Label className='text-base font-semibold block'>Buttons</Label>
                       <div className='flex flex-col sm:flex-row gap-2 flex-wrap'>
                         <Button>Primary</Button>
                         <Button variant='outline'>Outline</Button>

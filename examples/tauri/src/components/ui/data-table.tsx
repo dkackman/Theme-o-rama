@@ -92,10 +92,7 @@ export function DataTable<TData, TValue>({
                   >
                     {header.isPlaceholder
                       ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                      : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>
@@ -115,21 +112,14 @@ export function DataTable<TData, TValue>({
                       role='cell'
                       className={`${cell.column.columnDef.meta?.cellClassName ?? 'truncate px-2'} ${cell.column.columnDef.meta?.className ?? ''}`}
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className='h-24 text-center'
-                  role='cell'
-                >
+                <TableCell colSpan={columns.length} className='h-24 text-center' role='cell'>
                   No results.
                 </TableCell>
               </TableRow>
@@ -138,10 +128,7 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       {showTotalRows && (
-        <div
-          className='text-sm text-muted-foreground mt-1 mb-2'
-          aria-label={showingLabel}
-        >
+        <div className='text-sm text-muted-foreground mt-1 mb-2' aria-label={showingLabel}>
           {showingLabel}
         </div>
       )}

@@ -45,20 +45,14 @@ export async function discoverThemes(): Promise<Theme[]> {
   }
 }
 
-export async function resolveThemeImage(
-  themeName: string,
-  imagePath: string,
-): Promise<string> {
+export async function resolveThemeImage(themeName: string, imagePath: string): Promise<string> {
   // Check for sentinel value to return uploaded background image
   if (imagePath === '{NEED_DATA_URL_BACKGROUND_IMAGE}') {
     return localStorage.getItem('background-image') ?? '';
   }
 
   // Use static glob import to avoid dynamic import warnings for local files
-  const imageModules = import.meta.glob(
-    '../themes/*/*.{jpg,jpeg,png,gif,webp}',
-    { eager: true },
-  );
+  const imageModules = import.meta.glob('../themes/*/*.{jpg,jpeg,png,gif,webp}', { eager: true });
   const resolvedPath = `../themes/${themeName}/${imagePath}`;
   const imageModule = imageModules[resolvedPath];
 

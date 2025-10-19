@@ -9,9 +9,7 @@ export const amount = (precision: number) =>
       'Value has too many decimals',
     )
     .refine((amount) => {
-      const mojos = BigNumber(amount || 0).multipliedBy(
-        BigNumber(10).pow(precision),
-      );
+      const mojos = BigNumber(amount || 0).multipliedBy(BigNumber(10).pow(precision));
 
       return mojos.isLessThanOrEqualTo(BigNumber('18446744073709551615'));
     }, 'Values is too large');

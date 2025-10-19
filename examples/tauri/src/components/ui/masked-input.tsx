@@ -40,10 +40,7 @@ function isLocaleNumber(stringNumber: string, locale?: string): boolean {
       .replace(/\p{Number}/gu, '');
 
     // convert decimal separator to period
-    const normalizedNumber = stringNumber.replace(
-      new RegExp(`\\${decimalSeparator}`),
-      '.',
-    );
+    const normalizedNumber = stringNumber.replace(new RegExp(`\\${decimalSeparator}`), '.');
 
     // Check if it's a valid number and not NaN
     const parsedNumber = Number(normalizedNumber);

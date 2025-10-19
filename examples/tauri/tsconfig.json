@@ -11,9 +11,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "examples/tauri/src/*"
-      ]
+      "@/*": ["examples/tauri/src/*"]
     }
   }
 }

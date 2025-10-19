@@ -36,11 +36,7 @@ export const isValidFilename = (filename: string): boolean => {
     }
     return false;
   };
-  return (
-    filename.trim().length > 0 &&
-    !invalidChars.test(filename) &&
-    !hasControlChars(filename)
-  );
+  return filename.trim().length > 0 && !invalidChars.test(filename) && !hasControlChars(filename);
 };
 
 export function isValidUrl(str: string) {
@@ -51,10 +47,7 @@ export function isValidUrl(str: string) {
       const url = new URL(str);
       // since this is used for nft links, we don't want to allow localhost,
       // or 127.0.0.1 to prevent links to local resources
-      return (
-        url.hostname.toLowerCase() !== 'localhost' &&
-        url.hostname !== '127.0.0.1'
-      );
+      return url.hostname.toLowerCase() !== 'localhost' && url.hostname !== '127.0.0.1';
     }
   } catch {
     return false;
@@ -101,11 +94,10 @@ export function isTauriEnvironment() {
   return (
     typeof window !== 'undefined' &&
     (!!(window as unknown as { __TAURI__: boolean }).__TAURI__ ||
-      !!(window as unknown as { __TAURI_INTERNALS__: boolean })
-        .__TAURI_INTERNALS__ ||
+      !!(window as unknown as { __TAURI_INTERNALS__: boolean }).__TAURI_INTERNALS__ ||
       typeof (window as unknown as { __TAURI_PLUGIN_INTERNALS__: boolean })
         .__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
-      typeof (window as unknown as { __TAURI_METADATA__: boolean })
-        .__TAURI_METADATA__ !== 'undefined')
+      typeof (window as unknown as { __TAURI_METADATA__: boolean }).__TAURI_METADATA__ !==
+        'undefined')
   );
 }

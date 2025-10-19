@@ -2,13 +2,7 @@ import Header from '@/components/Header';
 import Layout from '@/components/Layout';
 import { ThemeSelector } from '@/components/ThemeSelector';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useErrors } from '@/hooks/useErrors';
 import { validateThemeJson } from '@/lib/themes';
@@ -40,9 +34,7 @@ export default function Themes() {
   const [isApplying, setIsApplying] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
-  const [validationState, setValidationState] = useState<
-    'none' | 'valid' | 'invalid'
-  >('none');
+  const [validationState, setValidationState] = useState<'none' | 'valid' | 'invalid'>('none');
   const [isTauri, setIsTauri] = useState(false);
 
   // Load theme JSON, background image, and maximized state from localStorage on component mount
@@ -135,9 +127,7 @@ export default function Themes() {
     }
   };
 
-  const handleBackgroundImageUpload = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleBackgroundImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -155,9 +145,7 @@ export default function Themes() {
     setBackgroundImage(null);
     localStorage.removeItem('background-image');
     // Clear the file input value
-    const fileInput = document.getElementById(
-      'background-image-upload',
-    ) as HTMLInputElement;
+    const fileInput = document.getElementById('background-image-upload') as HTMLInputElement;
     if (fileInput) {
       fileInput.value = '';
     }
@@ -240,9 +228,7 @@ export default function Themes() {
       }
     } else {
       // Web environment - trigger file input
-      const fileInput = document.getElementById(
-        'theme-file-input',
-      ) as HTMLInputElement;
+      const fileInput = document.getElementById('theme-file-input') as HTMLInputElement;
       if (fileInput) {
         fileInput.click();
       }
@@ -288,15 +274,8 @@ export default function Themes() {
                         Select from our collection of beautiful themes
                       </CardDescription>
                     </div>
-                    <Button
-                      variant='outline'
-                      size='sm'
-                      onClick={reloadThemes}
-                      disabled={isLoading}
-                    >
-                      <Loader2
-                        className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`}
-                      />
+                    <Button variant='outline' size='sm' onClick={reloadThemes} disabled={isLoading}>
+                      <Loader2 className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
                       Reload Themes
                     </Button>
                   </div>
@@ -317,8 +296,7 @@ export default function Themes() {
                       Apply Custom Theme
                     </CardTitle>
                     <CardDescription>
-                      Paste your theme JSON below to apply a custom theme to the
-                      entire application.
+                      Paste your theme JSON below to apply a custom theme to the entire application.
                     </CardDescription>
                   </div>
                   <Button
@@ -327,10 +305,7 @@ export default function Themes() {
                     onClick={() => {
                       const newMaximized = !isMaximized;
                       setIsMaximized(newMaximized);
-                      localStorage.setItem(
-                        'themes-editor-maximized',
-                        newMaximized.toString(),
-                      );
+                      localStorage.setItem('themes-editor-maximized', newMaximized.toString());
                     }}
                     className='shrink-0'
                   >
@@ -354,8 +329,7 @@ export default function Themes() {
                     isMaximized ? 'flex-1 min-h-0' : 'h-80'
                   }`}
                   style={{
-                    fontFamily:
-                      'Monaco, Menlo, Ubuntu Mono, Consolas, source-code-pro, monospace',
+                    fontFamily: 'Monaco, Menlo, Ubuntu Mono, Consolas, source-code-pro, monospace',
                     tabSize: 4,
                     MozTabSize: 4,
                     fontSize: 14,
@@ -445,9 +419,7 @@ export default function Themes() {
 
                 {/* Background Image Upload Section */}
                 <div className='border-t pt-4'>
-                  <Label className='text-sm font-medium'>
-                    Background Image
-                  </Label>
+                  <Label className='text-sm font-medium'>Background Image</Label>
                   <div className='flex items-center justify-between gap-3 mt-2'>
                     <div className='flex items-center gap-3'>
                       <div className='flex items-center gap-2'>
@@ -462,9 +434,7 @@ export default function Themes() {
                           variant='outline'
                           size='sm'
                           onClick={() =>
-                            document
-                              .getElementById('background-image-upload')
-                              ?.click()
+                            document.getElementById('background-image-upload')?.click()
                           }
                         >
                           <Image className='mr-2 h-4 w-4' />
@@ -494,18 +464,12 @@ export default function Themes() {
                       )}
 
                       {!backgroundImage && (
-                        <span className='text-sm text-gray-500'>
-                          No background image set
-                        </span>
+                        <span className='text-sm text-gray-500'>No background image set</span>
                       )}
                     </div>
 
                     {/* Theme Preview Button */}
-                    <Button
-                      variant='outline'
-                      size='sm'
-                      onClick={() => navigate('/theme-preview')}
-                    >
+                    <Button variant='outline' size='sm' onClick={() => navigate('/theme-preview')}>
                       <Eye className='mr-2 h-4 w-4' />
                       Make Preview Image
                     </Button>

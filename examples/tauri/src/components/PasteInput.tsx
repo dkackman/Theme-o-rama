@@ -24,20 +24,12 @@ export const PasteInput = forwardRef<HTMLInputElement, PasteInputProps>(
     ref,
   ) => {
     return (
-      <div
-        className={cn(
-          'dynamic-input flex h-9 w-full items-center relative',
-          className,
-        )}
-      >
+      <div className={cn('dynamic-input flex h-9 w-full items-center relative', className)}>
         <Input
           ref={ref}
           type='text'
           placeholder={placeholder}
-          className={cn(
-            'pr-10 w-full focus:outline-none select-none',
-            truncate && 'truncate',
-          )}
+          className={cn('pr-10 w-full focus:outline-none select-none', truncate && 'truncate')}
           onChange={onChange}
           value={value}
           {...props}

@@ -92,8 +92,7 @@ export default function Header(
                     borderRight: '1px solid var(--sidebar-border)',
                     background: 'var(--sidebar-background)',
                     backdropFilter: 'var(--sidebar-backdrop-filter)',
-                    WebkitBackdropFilter:
-                      'var(--sidebar-backdrop-filter-webkit)',
+                    WebkitBackdropFilter: 'var(--sidebar-backdrop-filter-webkit)',
                   }
                 : {}
             }
@@ -105,9 +104,7 @@ export default function Header(
                 aria-label='Go to home'
               >
                 <img
-                  src={
-                    currentTheme?.mostLike === 'light' ? iconDark : iconLight
-                  }
+                  src={currentTheme?.mostLike === 'light' ? iconDark : iconLight}
                   className='h-6 w-6'
                   alt='Theme icon'
                   aria-hidden='true'

@@ -10,14 +10,7 @@ export interface LoadingButtonProps extends ButtonProps {
 
 const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonProps>(
   (
-    {
-      loading = false,
-      loadingText,
-      children,
-      disabled,
-      'aria-label': ariaLabel,
-      ...props
-    },
+    { loading = false, loadingText, children, disabled, 'aria-label': ariaLabel, ...props },
     ref,
   ) => {
     const getLoadingAriaLabel = () => {
@@ -35,12 +28,7 @@ const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonProps>(
         aria-busy={loading}
         {...props}
       >
-        {loading && (
-          <LoaderCircleIcon
-            className='mr-2 h-4 w-4 animate-spin'
-            aria-hidden='true'
-          />
-        )}
+        {loading && <LoaderCircleIcon className='mr-2 h-4 w-4 animate-spin' aria-hidden='true' />}
         {loading && loadingText ? loadingText : children}
       </Button>
     );

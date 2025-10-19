@@ -1,13 +1,7 @@
 // Web fallbacks for Tauri-specific APIs
 
 // Platform detection fallback
-type SupportedPlatform =
-  | 'ios'
-  | 'android'
-  | 'macos'
-  | 'windows'
-  | 'linux'
-  | 'web';
+type SupportedPlatform = 'ios' | 'android' | 'macos' | 'windows' | 'linux' | 'web';
 
 export function getPlatform(): SupportedPlatform {
   if (typeof window === 'undefined') return 'web';
@@ -61,18 +55,10 @@ export function getWebSafeAreaInsets(): Insets {
 
   // Use CSS env() values if available
   const computedStyle = getComputedStyle(document.documentElement);
-  const top = parseInt(
-    computedStyle.getPropertyValue('--safe-area-inset-top') || '0',
-  );
-  const bottom = parseInt(
-    computedStyle.getPropertyValue('--safe-area-inset-bottom') || '0',
-  );
-  const left = parseInt(
-    computedStyle.getPropertyValue('--safe-area-inset-left') || '0',
-  );
-  const right = parseInt(
-    computedStyle.getPropertyValue('--safe-area-inset-right') || '0',
-  );
+  const top = parseInt(computedStyle.getPropertyValue('--safe-area-inset-top') || '0');
+  const bottom = parseInt(computedStyle.getPropertyValue('--safe-area-inset-bottom') || '0');
+  const left = parseInt(computedStyle.getPropertyValue('--safe-area-inset-left') || '0');
+  const right = parseInt(computedStyle.getPropertyValue('--safe-area-inset-right') || '0');
 
   return { top, bottom, left, right };
 }
@@ -87,9 +73,7 @@ export function openWebBarcodeScanner(): void {
 }
 
 // Permission request fallback
-export async function requestWebPermissions(): Promise<
-  'granted' | 'denied' | 'prompt'
-> {
+export async function requestWebPermissions(): Promise<'granted' | 'denied' | 'prompt'> {
   if (typeof navigator !== 'undefined' && 'permissions' in navigator) {
     try {
       const result = await navigator.permissions.query({

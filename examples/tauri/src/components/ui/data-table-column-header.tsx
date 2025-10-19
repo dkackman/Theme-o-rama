@@ -3,8 +3,7 @@ import { cn } from '@/lib/utils';
 import { Column } from '@tanstack/react-table';
 import { ArrowDown, ArrowUp, ChevronsUpDown } from 'lucide-react';
 
-interface DataTableColumnHeaderProps<TData, TValue>
-  extends React.HTMLAttributes<HTMLDivElement> {
+interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;
   title: string;
 }
@@ -28,9 +27,7 @@ export function DataTableColumnHeader<TData, TValue>({
         size='sm'
         className='-ml-3 h-8 data-[state=open]:bg-accent'
         onClick={() => column.toggleSorting(column.getIsSorted() !== 'desc')}
-        aria-label={
-          'Sort by ' + title + (isSorted ? ` (${sortDirection})` : '')
-        }
+        aria-label={'Sort by ' + title + (isSorted ? ` (${sortDirection})` : '')}
         aria-sort={isSorted ? sortDirection : 'none'}
       >
         <span>{title}</span>

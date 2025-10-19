@@ -1,8 +1,4 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { AppWindow, Component, Info, SwatchBook, Table } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -22,19 +18,10 @@ export function TopNav({ isCollapsed }: NavProps) {
       aria-label='Main navigation'
     >
       <Separator className='mb-3' role='presentation' />
-      <NavLink
-        url={'/'}
-        isCollapsed={isCollapsed}
-        message='Themes'
-        ariaCurrent='page'
-      >
+      <NavLink url={'/'} isCollapsed={isCollapsed} message='Themes' ariaCurrent='page'>
         <SwatchBook className={className} aria-hidden='true' />
       </NavLink>
-      <NavLink
-        url={'/components'}
-        isCollapsed={isCollapsed}
-        message='Components'
-      >
+      <NavLink url={'/components'} isCollapsed={isCollapsed} message='Components'>
         <Component className={className} />
       </NavLink>
       <NavLink url={'/tables'} isCollapsed={isCollapsed} message='Tables'>
@@ -69,8 +56,7 @@ function NavLink({
   const location = useLocation();
   const isActive =
     typeof url === 'string' &&
-    (location.pathname === url ||
-      (url !== '/' && location.pathname.startsWith(url)));
+    (location.pathname === url || (url !== '/' && location.pathname.startsWith(url)));
 
   const baseClassName = `flex items-center gap-3 rounded-lg py-1.5 transition-all ${
     isCollapsed ? 'justify-center' : 'px-2'
@@ -80,9 +66,7 @@ function NavLink({
     ? `${baseClassName} text-primary border-primary`
     : `${baseClassName} text-muted-foreground hover:text-primary`;
 
-  const activeStyle = isActive
-    ? { backgroundColor: 'var(--nav-active-background)' }
-    : {};
+  const activeStyle = isActive ? { backgroundColor: 'var(--nav-active-background)' } : {};
 
   const link =
     typeof url === 'string' ? (

@@ -2,13 +2,7 @@ import Header from '@/components/Header';
 import Layout from '@/components/Layout';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Copy, Github, Info, Package } from 'lucide-react';
 import { toast } from 'react-toastify';
 import schemaJson from 'theme-o-rama/schema.json';
@@ -30,9 +24,7 @@ export default function About() {
             <Card>
               <CardHeader>
                 <CardTitle>More Information</CardTitle>
-                <CardDescription>
-                  More information about theme-o-rama.
-                </CardDescription>
+                <CardDescription>More information about theme-o-rama.</CardDescription>
               </CardHeader>
               <CardContent className='space-y-6'>
                 <div>
@@ -65,8 +57,7 @@ export default function About() {
               <CardHeader>
                 <CardTitle>Theme JSON Schema</CardTitle>
                 <CardDescription>
-                  View the JSON schema that defines the structure of theme
-                  files.
+                  View the JSON schema that defines the structure of theme files.
                 </CardDescription>
               </CardHeader>
               <CardContent className='space-y-4'>

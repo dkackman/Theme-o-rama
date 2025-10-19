@@ -1,12 +1,7 @@
 import Header from '@/components/Header';
 import Layout from '@/components/Layout';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { DataTable } from '@/components/ui/data-table';
 import { ColumnDef } from '@tanstack/react-table';
 import { Info } from 'lucide-react';
@@ -56,8 +51,7 @@ export default function Tables() {
               <CardHeader>
                 <CardTitle>Tables Theme</CardTitle>
                 <CardDescription>
-                  Preview of the current theme&apos;s color palette and styling
-                  for tables.
+                  Preview of the current theme&apos;s color palette and styling for tables.
                 </CardDescription>
               </CardHeader>
             </Card>

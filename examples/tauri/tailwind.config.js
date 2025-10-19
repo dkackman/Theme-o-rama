@@ -1,3 +1,4 @@
+import tailwindcssAnimate from 'tailwindcss-animate';
 import { themeExtensions } from 'theme-o-rama/tailwind.config.js';
 
 /** @type {import('tailwindcss').Config} */
@@ -26,5 +27,5 @@ export default {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [tailwindcssAnimate],
 };

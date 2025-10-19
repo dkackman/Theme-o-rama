@@ -36,10 +36,7 @@ export default function ThemePreview() {
     toast.success(`Theme preview saved to Downloads folder.`);
   };
 
-  const downloadForTauri = async (
-    canvas: HTMLCanvasElement,
-    filename: string,
-  ) => {
+  const downloadForTauri = async (canvas: HTMLCanvasElement, filename: string) => {
     if (!isTauriEnvironment()) {
       throw new Error('Tauri environment not detected');
     }
@@ -128,12 +125,10 @@ export default function ThemePreview() {
         <div className='container mx-auto p-6'>
           <div className='flex flex-col items-center space-y-6'>
             <div className='text-center'>
-              <h2 className='text-2xl font-bold mb-2'>
-                Current Theme Preview recently{' '}
-              </h2>
+              <h2 className='text-2xl font-bold mb-2'>Current Theme Preview recently </h2>
               <p className='text-muted-foreground mb-4'>
-                A larger preview of your currently active theme. Check the
-                output carefully as it may not be perfect.
+                A larger preview of your currently active theme. Check the output carefully as it
+                may not be perfect.
               </p>
               <Button onClick={handleDownload} className='mb-4'>
                 <Download className='w-4 h-4 mr-2' />
@@ -229,9 +224,7 @@ export default function ThemePreview() {
 
                   {/* Sample Card */}
                   <div className='bg-card text-card-foreground border border-border rounded-lg p-3'>
-                    <div className='text-sm font-medium font-heading mb-1'>
-                      {' '}
-                    </div>
+                    <div className='text-sm font-medium font-heading mb-1'> </div>
                     <div className='text-xs text-muted-foreground font-body'></div>
                   </div>
                 </div>
@@ -247,8 +240,7 @@ export default function ThemePreview() {
                     Theme Preview
                   </div>
                 </div>
-                This theme preview shows how your theme will look so you can
-                share it with others.
+                This theme preview shows how your theme will look so you can share it with others.
               </div>
             </div>
           </div>

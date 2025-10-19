@@ -32,20 +32,12 @@ export const Pagination = ({
   pageSizeOptions = [8, 16, 32, 64],
   compact = false,
 }: PaginationProps) => {
-  const totalPages = total
-    ? Math.max(1, Math.ceil(total / pageSize))
-    : undefined;
+  const totalPages = total ? Math.max(1, Math.ceil(total / pageSize)) : undefined;
   const isFirstPage = page === 1;
-  const isLastPage = totalPages
-    ? page === totalPages
-    : !canLoadMore || isLoading;
+  const isLastPage = totalPages ? page === totalPages : !canLoadMore || isLoading;
 
   return (
-    <nav
-      role='navigation'
-      aria-label='Pagination'
-      className='flex justify-between gap-2'
-    >
+    <nav role='navigation' aria-label='Pagination' className='flex justify-between gap-2'>
       <div className={`flex items-center justify-start gap-2`}>
         <Button
           size='icon'
@@ -79,11 +71,7 @@ export const Pagination = ({
             </SelectTrigger>
             <SelectContent>
               {Array.from({ length: totalPages }, (_, i) => (
-                <SelectItem
-                  key={i}
-                  value={(i + 1).toString()}
-                  aria-label={`Go to page ${i + 1}`}
-                >
+                <SelectItem key={i} value={(i + 1).toString()} aria-label={`Go to page ${i + 1}`}>
                   {i + 1}
                 </SelectItem>
               ))}
@@ -127,10 +115,7 @@ export const Pagination = ({
             value={pageSize.toString()}
             aria-labelledby='items-per-page-label'
           >
-            <SelectTrigger
-              className='w-min'
-              aria-label={`${pageSize} items per page`}
-            >
+            <SelectTrigger className='w-min' aria-label={`${pageSize} items per page`}>
               {pageSize}
             </SelectTrigger>
             <SelectContent>

@@ -1,8 +1,0 @@
-pnpm-lock.yaml
-tauri/src-tauri/target
-tauri/src-tauri/gen
-tauri/src/bindings.ts
-tauri/src/locales
-docs
-dist-web
-dist

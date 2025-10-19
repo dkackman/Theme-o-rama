@@ -2,13 +2,7 @@ import Header from '@/components/Header';
 import Layout from '@/components/Layout';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -36,10 +30,7 @@ export default function Dialogs() {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const schema = z.object({
-    spoons: z
-      .string()
-      .min(1, 'At least one spoon is required')
-      .max(10, 'No more than 10 spoons'),
+    spoons: z.string().min(1, 'At least one spoon is required').max(10, 'No more than 10 spoons'),
     combineFee: z.string().min(1, 'Not enough funds to cover the fee'),
   });
 
@@ -102,11 +93,7 @@ export default function Dialogs() {
                   )}
                 />
                 <DialogFooter className='gap-2'>
-                  <Button
-                    type='button'
-                    variant='outline'
-                    onClick={() => setDialogOpen(false)}
-                  >
+                  <Button type='button' variant='outline' onClick={() => setDialogOpen(false)}>
                     Cancel
                   </Button>
                   <Button type='submit'>Ok</Button>

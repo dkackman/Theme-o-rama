@@ -68,9 +68,7 @@ export function ThemeCard({
     return (
       <div className='p-4'>
         <div className='flex items-center justify-between mb-3'>
-          <h3 className='font-medium text-sm text-foreground font-heading'>
-            {theme.displayName}
-          </h3>
+          <h3 className='font-medium text-sm text-foreground font-heading'>{theme.displayName}</h3>
           <div className='flex items-center gap-2'>
             <Button
               variant='ghost'
@@ -115,9 +113,7 @@ export function ThemeCard({
     return (
       <div className='p-3'>
         <div className='flex items-center justify-between mb-2'>
-          <h4 className='font-medium text-xs text-foreground font-heading'>
-            {theme.displayName}
-          </h4>
+          <h4 className='font-medium text-xs text-foreground font-heading'>{theme.displayName}</h4>
           <div className='flex items-center gap-1'>
             <Button
               variant='ghost'
@@ -129,11 +125,7 @@ export function ThemeCard({
               <Copy className='h-2.5 w-2.5' />
             </Button>
             {isSelected && (
-              <Check
-                className='h-3 w-3'
-                style={checkStyles}
-                aria-label='Theme selected'
-              />
+              <Check className='h-3 w-3' style={checkStyles} aria-label='Theme selected' />
             )}
           </div>
         </div>
@@ -170,10 +162,7 @@ export function ThemeCard({
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant='outline'
-              onClick={() => setShowDeleteConfirm(false)}
-            >
+            <Button variant='outline' onClick={() => setShowDeleteConfirm(false)}>
               Cancel
             </Button>
           </DialogFooter>

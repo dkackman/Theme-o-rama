@@ -1,9 +1,4 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 import iconDark from '@/icon-dark.png';
 import iconLight from '@/icon-light.png';
@@ -29,10 +24,7 @@ export function FullLayout(props: LayoutProps) {
   );
 
   const walletIcon = (
-    <Link
-      to='/'
-      className={`flex items-center gap-2 font-semibold font-heading`}
-    >
+    <Link to='/' className={`flex items-center gap-2 font-semibold font-heading`}>
       <img
         src={currentTheme?.mostLike === 'light' ? iconDark : iconLight}
         className='h-6 w-6'
@@ -52,10 +44,7 @@ export function FullLayout(props: LayoutProps) {
   const walletIconWithTooltip = isCollapsed ? (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Link
-          to='/'
-          className={`flex items-center gap-2 font-semibold font-heading`}
-        >
+        <Link to='/' className={`flex items-center gap-2 font-semibold font-heading`}>
           <img
             src={currentTheme?.mostLike === 'light' ? iconDark : iconLight}
             className='h-6 w-6'
@@ -99,18 +88,13 @@ export function FullLayout(props: LayoutProps) {
                       type='button'
                       onClick={() => setIsCollapsed(!isCollapsed)}
                       className='text-muted-foreground hover:text-primary transition-colors'
-                      aria-label={
-                        isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
-                      }
+                      aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
                       aria-expanded={!isCollapsed}
                     >
                       {isCollapsed ? (
                         <PanelLeft className='h-5 w-5' aria-hidden='true' />
                       ) : (
-                        <PanelLeftClose
-                          className='h-5 w-5'
-                          aria-hidden='true'
-                        />
+                        <PanelLeftClose className='h-5 w-5' aria-hidden='true' />
                       )}
                     </button>
                   </TooltipTrigger>

@@ -12,13 +12,7 @@ const imageTypes = [
   'image/x-ico',
   'image/bmp',
 ];
-const videoTypes = [
-  'video/webm',
-  'video/mp4',
-  'video/ogg',
-  'video/quicktime',
-  'video/mpeg',
-];
+const videoTypes = ['video/webm', 'video/mp4', 'video/ogg', 'video/quicktime', 'video/mpeg'];
 const audioTypes = [
   'audio/webm',
   'audio/mpeg',
@@ -53,9 +47,7 @@ export function nftUri(mimeType: string | null, data: string | null): string {
   const baseMimeType = getBaseMimeType(mimeType);
   if (
     !baseMimeType ||
-    !imageTypes
-      .concat(videoTypes, audioTypes, textTypes, jsonTypes)
-      .includes(baseMimeType)
+    !imageTypes.concat(videoTypes, audioTypes, textTypes, jsonTypes).includes(baseMimeType)
   )
     return invalid;
 

@@ -18,11 +18,7 @@ if (import.meta.env.MODE === 'development') {
   openai = null;
 }
 
-export async function generateImage(
-  prompt: string,
-  color: string,
-  model: string,
-) {
+export async function generateImage(prompt: string, color: string, model: string) {
   if (openai === null) {
     throw new Error('OpenAI is not initialized');
   }
