@@ -1,4 +1,4 @@
-import { themeExtensions } from './src-lib/tailwind.config.js';
+import { themeExtensions } from 'theme-o-rama/tailwind.config.js';
 
 /** @type {import('tailwindcss').Config} */
 export default {

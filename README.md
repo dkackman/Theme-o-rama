@@ -1,42 +1,153 @@
-<a href="https://www.npmjs.com/package/theme-o-rama"><img src="https://img.shields.io/npm/v/theme-o-rama.svg?sanitize=true" alt="Version"></a>
-
 # Theme-o-rama
 
-A reusable library for dynamic theme management in React applications with shadcn/ui and Tailwind CSS. Features advanced theme discovery, inheritance, custom theme support, and dynamic theme switching at runtime. This is used by the [Sage Wallet](https://github.com/Chia-Network/sage-wallet).
+[![npm version](https://img.shields.io/npm/v/theme-o-rama.svg?sanitize=true)](https://www.npmjs.com/package/theme-o-rama)
 
-## Quick Start
+A reusable TypeScript library for dynamic theme management in React applications with shadcn/ui and Tailwind CSS. Features smooth transitions, theme inheritance, custom theme support, SSR compatibility, and Tailwind v3/v4 support. Originally created for the [Sage Wallet](https://github.com/Chia-Network/sage-wallet).
 
-### Prerequisites (for the testharness app)
+## ✨ Features
 
-1. **PNPM** - Install via [pnpm.io](https://pnpm.io/installation)
+- **Dynamic Theme Switching** - Smooth 300ms transitions between themes
+- **Theme Inheritance** - Build themes on top of existing ones
+- **Background Images** - Support for themed background images
+- **SSR Compatible** - Works with Next.js App Router and Pages Router
+- **Tailwind v3 & v4** - Compatible with both versions
 
-### Prerequisites (for the theme-o-rama library)
+## 📦 Installation
+
+```bash
+npm install theme-o-rama
+# or
+pnpm add theme-o-rama
+# or
+yarn add theme-o-rama
+```
+
+## 🚀 Quick Start
+
+### 1. Import CSS and Wrap with Provider
+
+```tsx
+// App.tsx or _app.tsx
+import { ThemeProvider } from 'theme-o-rama';
+import 'theme-o-rama/themes.css';
+
+export default function App({ children }) {
+  return (
+    <ThemeProvider defaultTheme="light">
+      {children}
+    </ThemeProvider>
+  );
+}
+```
+
+### 2. Configure Tailwind
+
+```js
+// tailwind.config.js
+import { themeExtensions } from 'theme-o-rama/tailwind.config.js';
+
+export default {
+  theme: {
+    extend: {
+      ...themeExtensions,
+      // Your custom extensions
+    }
+  }
+}
+```
+
+### 3. Use Theme Hook
+
+```tsx
+import { useTheme } from 'theme-o-rama';
+
+function ThemeSwitcher() {
+  const { currentTheme, setTheme, availableThemes } = useTheme();
+  
+  return (
+    <select onChange={(e) => setTheme(e.target.value)}>
+      {availableThemes.map(theme => (
+        <option key={theme.name} value={theme.name}>
+          {theme.displayName}
+        </option>
+      ))}
+    </select>
+  );
+}
+```
+
+## 📚 Repository Structure
+
+This is a monorepo containing:
+
+- **`src/`** - The theme-o-rama library (publishable npm package)
+- **`examples/tauri/`** - Full-featured Tauri app example
+- **`examples/nextjs/`** - Next.js App Router example (Tailwind v4)
+- **`examples/nextjs-pages/`** - Next.js Pages Router example (Tailwind v4)
+
+## 🎨 Examples
+
+### Tauri Example (Full-Featured)
+
+```bash
+cd examples/tauri
+pnpm install
+pnpm tauri dev
+```
+
+Features theme browsing, creation, and a complete theme editor.
+
+### Next.js App Router Example
+
+```bash
+cd examples/nextjs
+pnpm install
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000)
+
+### Next.js Pages Router Example
+
+```bash
+cd examples/nextjs-pages
+pnpm install
+pnpm dev
+```
+
+Open [http://localhost:3001](http://localhost:3001)
+
+## 🛠️ Development
+
+### Working on the Library
+
+```bash
+# Install dependencies for all workspace packages
+pnpm install
+
+# Build the library
+cd src
+pnpm build
+
+# Examples will automatically use the workspace version
+```
+
+### Prerequisites for Tauri Example
 
 1. **Rust** - Install via [Rustup](https://rustup.rs)
 2. **Tauri dependencies** - Follow [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/)
+3. **PNPM** - Install via [pnpm.io](https://pnpm.io/installation)
 
-### Building & Running
+## 📖 Documentation
 
-```bash
-# Install dependencies
-pnpm install
+- [Theme Structure Guide](#theme-structure) - How to create themes
+- [Tailwind v4 Compatibility](./TAILWIND_V4_COMPATIBILITY.md) - Tailwind v3 vs v4
+- [Theme Transitions](./THEME_TRANSITIONS.md) - Customizing transitions
+- [API Reference](./src/README.md) - Full library documentation
 
-# Run in development mode
-pnpm build:web
-pnpm preview:web
-```
+## 🎨 Theme Structure
 
-Navigate to `http://localhost:4174/`
-
-## Browsing Themes
-
-As you create and modify your themes, you can preview them in the theme selector by running `pnpm tauri dev`. Updates will be automatically reflected in the UI when you save your changes.
-
-A more functional theme editor is available over a [Theme-a-roo](https://github.com/dkackman/theme-a-roo).
-
-### Theme Structure
-
-Themes are JSON files located in `src/themes/[theme-name]/theme.json`. Each theme must include:
+Themes are JSON files. In the Tauri example, they're in `examples/tauri/src/themes/[theme-name]/theme.json`. Each theme must include:
 
 ```json
 {
@@ -143,27 +254,100 @@ Define custom button appearances:
 
 ### Example Themes
 
-- **Light** (`src/themes/light/`) - Clean, minimal light theme
-- **Dark** (`src/themes/dark/`) - Dark theme inheriting from light
-- **Colorful** (`src/themes/colorful/`) - Vibrant theme with background image and custom styling
+The Tauri example includes several themes:
+
+- **Light** - Clean, minimal light theme
+- **Dark** - Dark theme inheriting from light
+- **Color** - Based on light with custom colors
+- **Colorful** - Vibrant theme with background image
+- **Glass Dark/Light** - Themes with backdrop blur effects
+- **Circuit** - Tech-themed with circuit board background
+- **Win95** - Windows 95 inspired retro theme
+- **XCH Dark/Light** - Chia-branded themes
 
 ### Testing Your Theme
 
-1. Create your theme folder: `src/themes/my-theme/`
+In the Tauri example:
+
+1. Create your theme folder: `examples/tauri/src/themes/my-theme/`
 2. Add `theme.json` with your theme definition
 3. Run `pnpm tauri dev` to see your theme in the theme selector
 4. Navigate to the Themes page to preview and test your theme
 
 ### Theme Validation
 
-Themes are automatically validated against the schema defined in `src/themes/schema.json`. Invalid themes will show error messages in the console.
+Themes are automatically validated against the JSON schema. Invalid themes will show error messages in the console.
 
-## Development
+## 🎛️ Theme Transitions
 
-This is a Tauri-based application with:
+The library includes smooth CSS transitions (300ms by default) when switching themes. Customize or disable:
 
-- **Frontend**: React + TypeScript + Tailwind CSS
-- **Backend**: Rust with Tauri v2
-- **UI Components**: Shadcn/ui components
+```css
+:root {
+  --theme-transition-duration: 500ms; /* Slower */
+  --theme-transition-timing: ease-out; /* Custom easing */
+}
 
-For more detailed development information, see the main [Sage Wallet repository](https://github.com/Chia-Network/sage-wallet).
+/* Or disable */
+:root {
+  --theme-transition-duration: 0ms;
+}
+```
+
+Automatically respects `prefers-reduced-motion` for accessibility.
+
+See [THEME_TRANSITIONS.md](./THEME_TRANSITIONS.md) for details.
+
+## 🔧 Advanced Features
+
+### Custom Theme Discovery
+
+```tsx
+import { ThemeProvider } from 'theme-o-rama';
+
+async function discoverThemes() {
+  // Load your app-specific themes
+  const customThemes = await loadCustomThemes();
+  return customThemes;
+}
+
+<ThemeProvider discoverThemes={discoverThemes}>
+  {children}
+</ThemeProvider>
+```
+
+### Image Resolution
+
+```tsx
+async function resolveThemeImage(themeName, imagePath) {
+  // Return URL for theme images
+  return `/themes/${themeName}/${imagePath}`;
+}
+
+<ThemeProvider imageResolver={resolveThemeImage}>
+  {children}
+</ThemeProvider>
+```
+
+### Theme Persistence
+
+```tsx
+<ThemeProvider
+  defaultTheme="light"
+  onThemeChange={(themeName) => {
+    localStorage.setItem('theme', themeName);
+  }}
+>
+  {children}
+</ThemeProvider>
+```
+
+## 📄 License
+
+Apache-2.0 - See [LICENSE](./LICENSE) for details.
+
+## 🙏 Acknowledgments
+
+Originally created for the [Sage Wallet](https://github.com/Chia-Network/sage-wallet) project.
+
+For a more complete theme editor, check out [Theme-a-roo](https://github.com/dkackman/theme-a-roo).
