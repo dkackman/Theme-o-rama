@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-/* App-specific styles - themes.css is imported in layout.tsx */
+/* App-specific styles - themes.css is imported in _app.tsx */
 
 @theme {
   /* Colors - map theme-o-rama CSS variables to Tailwind colors */

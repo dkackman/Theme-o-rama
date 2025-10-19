@@ -1,5 +1,54 @@
 import { Theme } from './theme.type.js';
 
+// Tailwind v4 variable names (--color-*, --radius-*, --shadow-*, --font-family-*)
+const tailwindV4VariableNames = [
+  // Colors
+  '--color-background',
+  '--color-foreground',
+  '--color-card',
+  '--color-card-foreground',
+  '--color-popover',
+  '--color-popover-foreground',
+  '--color-primary',
+  '--color-primary-foreground',
+  '--color-secondary',
+  '--color-secondary-foreground',
+  '--color-muted',
+  '--color-muted-foreground',
+  '--color-accent',
+  '--color-accent-foreground',
+  '--color-destructive',
+  '--color-destructive-foreground',
+  '--color-border',
+  '--color-input',
+  '--color-input-background',
+  '--color-ring',
+  // Radius
+  '--radius-none',
+  '--radius-sm',
+  '--radius-md',
+  '--radius-lg',
+  '--radius-xl',
+  '--radius-full',
+  // Shadows (note: --shadow and --radius are duplicates, but included for completeness)
+  '--shadow-none',
+  '--shadow-sm',
+  '--shadow',
+  '--shadow-md',
+  '--shadow-lg',
+  '--shadow-xl',
+  '--shadow-inner',
+  '--shadow-card',
+  '--shadow-button',
+  '--shadow-dropdown',
+  // Fonts
+  '--font-family-sans',
+  '--font-family-serif',
+  '--font-family-mono',
+  '--font-family-heading',
+  '--font-family-body',
+];
+
 function clearThemeVariables(root: HTMLElement) {
   // Remove any existing theme classes
   const existingThemeClasses = Array.from(root.classList).filter((cls) =>
@@ -20,6 +69,7 @@ function clearThemeVariables(root: HTMLElement) {
     ...switchVariableNames,
     ...buttonVariableNames,
     ...backdropFilterVariableNames,
+    ...tailwindV4VariableNames,
   ].forEach((cssVar) => {
     root.style.removeProperty(cssVar);
   });
@@ -347,6 +397,10 @@ export function applyThemeIsolated(theme: Theme, root: HTMLElement): void {
   applyButtonVariables(theme, root);
   applyOtherControlVariables(theme, root);
 
+  // Apply Tailwind v4 color mappings for isolation
+  // Tailwind v4 uses --color-* variables, so we need to set them from --*
+  applyTailwindV4ColorMappings(theme, root);
+
   const backgroundStyles = {
     backgroundImage: `url(${theme.backgroundImage})`,
     backgroundSize: theme.backgroundSize || 'cover',
@@ -368,6 +422,83 @@ export function applyThemeIsolated(theme: Theme, root: HTMLElement): void {
   if (theme.colors?.foreground) {
     root.style.color = theme.colors.foreground;
   }
+}
+
+/**
+ * Apply Tailwind v4 color mappings for isolated theme cards
+ * Tailwind v4 uses --color-* variables instead of direct --* variables
+ */
+function applyTailwindV4ColorMappings(_theme: Theme, root: HTMLElement): void {
+  // Mapping of Tailwind v4 color variables to theme variables
+  const colorMappings = {
+    '--color-background': '--background',
+    '--color-foreground': '--foreground',
+    '--color-card': '--card',
+    '--color-card-foreground': '--card-foreground',
+    '--color-popover': '--popover',
+    '--color-popover-foreground': '--popover-foreground',
+    '--color-primary': '--primary',
+    '--color-primary-foreground': '--primary-foreground',
+    '--color-secondary': '--secondary',
+    '--color-secondary-foreground': '--secondary-foreground',
+    '--color-muted': '--muted',
+    '--color-muted-foreground': '--muted-foreground',
+    '--color-accent': '--accent',
+    '--color-accent-foreground': '--accent-foreground',
+    '--color-destructive': '--destructive',
+    '--color-destructive-foreground': '--destructive-foreground',
+    '--color-border': '--border',
+    '--color-input': '--input',
+    '--color-input-background': '--input-background',
+    '--color-ring': '--ring',
+  };
+
+  // Get computed styles to read the theme variables we just set
+  const computedStyle = getComputedStyle(root);
+
+  // For each Tailwind v4 color variable, copy the value from the theme variable
+  Object.entries(colorMappings).forEach(([tailwindVar, themeVar]) => {
+    const value = computedStyle.getPropertyValue(themeVar).trim();
+    if (value) {
+      root.style.setProperty(tailwindVar, value);
+    }
+  });
+
+  // Also map radius, shadow, and font variables for Tailwind v4
+  const otherMappings = {
+    // Radius
+    '--radius-none': '--corner-none',
+    '--radius-sm': '--corner-sm',
+    '--radius-md': '--corner-md',
+    '--radius-lg': '--corner-lg',
+    '--radius-xl': '--corner-xl',
+    '--radius-full': '--corner-full',
+    '--radius': '--radius',
+    // Shadows
+    '--shadow-none': '--shadow-none',
+    '--shadow-sm': '--shadow-sm',
+    '--shadow': '--shadow-md',
+    '--shadow-md': '--shadow-md',
+    '--shadow-lg': '--shadow-lg',
+    '--shadow-xl': '--shadow-xl',
+    '--shadow-inner': '--shadow-inner',
+    '--shadow-card': '--shadow-card',
+    '--shadow-button': '--shadow-button',
+    '--shadow-dropdown': '--shadow-dropdown',
+    // Fonts
+    '--font-family-sans': '--font-sans',
+    '--font-family-serif': '--font-serif',
+    '--font-family-mono': '--font-mono',
+    '--font-family-heading': '--font-heading',
+    '--font-family-body': '--font-body',
+  };
+
+  Object.entries(otherMappings).forEach(([tailwindVar, themeVar]) => {
+    const value = computedStyle.getPropertyValue(themeVar).trim();
+    if (value) {
+      root.style.setProperty(tailwindVar, value);
+    }
+  });
 }
 
 const colorVariableNames = [
