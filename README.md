@@ -140,9 +140,6 @@ pnpm build
 
 ## 📖 Documentation
 
-- [Theme Structure Guide](#theme-structure) - How to create themes
-- [Tailwind v4 Compatibility](./TAILWIND_V4_COMPATIBILITY.md) - Tailwind v3 vs v4
-- [Theme Transitions](./THEME_TRANSITIONS.md) - Customizing transitions
 - [API Reference](./src/README.md) - Full library documentation
 
 ## 🎨 Theme Structure

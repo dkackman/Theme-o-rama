@@ -17,5 +17,8 @@
   "files.associations": {
     "*.tsx": "typescriptreact",
     "*.ts": "typescript"
-  }
+  },
+  "cSpell.words": [
+    "FOUC"
+  ]
 }

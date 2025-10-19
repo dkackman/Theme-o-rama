@@ -16,15 +16,15 @@ This is a Next.js test application demonstrating the integration of `theme-o-ram
 
 1. Install dependencies:
 
-```bash
-npm install
-```
+    ```bash
+    npm install
+    ```
 
 2. Run the development server:
 
-```bash
-npm run dev
-```
+    ```bash
+    npm run dev
+    ```
 
 3. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
@@ -48,7 +48,7 @@ All browser APIs are properly guarded:
 
 ## Project Structure
 
-```
+```bash
 src-nextjs/
 ├── app/
 │   ├── layout.tsx          # Root layout with ThemeProvider

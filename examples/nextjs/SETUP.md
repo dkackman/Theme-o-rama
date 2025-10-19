@@ -57,7 +57,7 @@ Should build without errors and run in production mode.
 
 ## Architecture
 
-```
+```bash
 Client Request → Server
                    ↓
               SSR Render
@@ -81,17 +81,17 @@ Client Request → Server
 
 ## Troubleshooting
 
-**Issue: Theme doesn't persist**
+### Theme doesn't persist
 
 - Check browser localStorage in DevTools
 - Verify `onThemeChange` callback is firing
 
-**Issue: FOUC still occurs**
+### FOUC still occurs
 
 - Ensure blocking script is in `<head>`
 - Check that `suppressHydrationWarning` is on `<html>`
 
-**Issue: Build fails**
+### Build fails
 
 - Run `npm install` in `src-lib` first
 - Run `npm run build` in `src-lib`

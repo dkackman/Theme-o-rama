@@ -38,7 +38,7 @@ pnpm start
 
 ## Project Structure
 
-```
+```bash
 src-nextjs-pages/
 ├── public/
 │   └── themes/              # Theme assets (images, etc.)
