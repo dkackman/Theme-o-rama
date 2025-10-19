@@ -1,0 +1,68 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# All files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# JavaScript, TypeScript, JSX, TSX
+[*.{js,jsx,ts,tsx,mjs,cjs}]
+indent_style = space
+indent_size = 2
+max_line_length = 100
+
+# JSON files
+[*.json]
+indent_style = space
+indent_size = 2
+
+# YAML files
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# CSS, SCSS, Less
+[*.{css,scss,less}]
+indent_style = space
+indent_size = 2
+
+# HTML
+[*.html]
+indent_style = space
+indent_size = 2
+
+# Configuration files
+[{package.json,.prettierrc,.eslintrc,.babelrc}]
+indent_style = space
+indent_size = 2
+
+# Rust files (for Tauri)
+[*.rs]
+indent_style = space
+indent_size = 4
+max_line_length = 100
+
+# Cargo files
+[Cargo.toml]
+indent_style = space
+indent_size = 4
+
+# Shell scripts
+[*.sh]
+indent_style = space
+indent_size = 2
+
+# Makefiles
+[Makefile]
+indent_style = tab
+
