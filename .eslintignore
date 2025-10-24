@@ -1,0 +1,13 @@
+dist
+dist-web
+docs
+node_modules
+.next
+out
+build
+*.config.js
+*.config.ts
+pnpm-lock.yaml
+package-lock.json
+
+

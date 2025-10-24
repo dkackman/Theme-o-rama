@@ -1,0 +1,24 @@
+{
+  "name": "theme-o-rama-workspace",
+  "version": "0.3.5",
+  "private": true,
+  "description": "Theme-o-rama monorepo workspace",
+  "scripts": {
+    "lint": "pnpm -r lint",
+    "lint:fix": "pnpm -r exec -- eslint . --fix",
+    "prettier": "prettier --write .",
+    "prettier:check": "prettier --check .",
+    "build": "pnpm -r --filter theme-o-rama build",
+    "dev:nextjs": "pnpm --filter theme-o-rama-nextjs-test dev",
+    "dev:nextjs-pages": "pnpm --filter theme-o-rama-nextjs-pages-test dev",
+    "dev:tauri": "pnpm --filter theme-o-rama-app dev"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.38.0",
+    "eslint": "^9.38.0",
+    "prettier": "^3.6.2",
+    "@typescript-eslint/eslint-plugin": "^8.36.0",
+    "@typescript-eslint/parser": "^8.36.0",
+    "typescript-eslint": "^8.36.0"
+  }
+}

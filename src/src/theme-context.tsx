@@ -189,7 +189,6 @@ export function ThemeProvider({
 
     initializeThemes();
     // Only re-run when defaultTheme changes, not when functions change
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultTheme]);
 
   const initializeTheme = async (theme: Theme): Promise<Theme> => {
