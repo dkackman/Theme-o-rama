@@ -1,59 +1,57 @@
-import { Theme } from './theme.type.js';
+import { Theme } from "./theme.type.js";
 
 // Tailwind v4 variable names (--color-*, --radius-*, --shadow-*, --font-family-*)
 const tailwindV4VariableNames = [
   // Colors
-  '--color-background',
-  '--color-foreground',
-  '--color-card',
-  '--color-card-foreground',
-  '--color-popover',
-  '--color-popover-foreground',
-  '--color-primary',
-  '--color-primary-foreground',
-  '--color-secondary',
-  '--color-secondary-foreground',
-  '--color-muted',
-  '--color-muted-foreground',
-  '--color-accent',
-  '--color-accent-foreground',
-  '--color-destructive',
-  '--color-destructive-foreground',
-  '--color-border',
-  '--color-input',
-  '--color-input-background',
-  '--color-ring',
+  "--color-background",
+  "--color-foreground",
+  "--color-card",
+  "--color-card-foreground",
+  "--color-popover",
+  "--color-popover-foreground",
+  "--color-primary",
+  "--color-primary-foreground",
+  "--color-secondary",
+  "--color-secondary-foreground",
+  "--color-muted",
+  "--color-muted-foreground",
+  "--color-accent",
+  "--color-accent-foreground",
+  "--color-destructive",
+  "--color-destructive-foreground",
+  "--color-border",
+  "--color-input",
+  "--color-input-background",
+  "--color-ring",
   // Radius
-  '--radius-none',
-  '--radius-sm',
-  '--radius-md',
-  '--radius-lg',
-  '--radius-xl',
-  '--radius-full',
+  "--radius-none",
+  "--radius-sm",
+  "--radius-md",
+  "--radius-lg",
+  "--radius-xl",
+  "--radius-full",
   // Shadows (note: --shadow and --radius are duplicates, but included for completeness)
-  '--shadow-none',
-  '--shadow-sm',
-  '--shadow',
-  '--shadow-md',
-  '--shadow-lg',
-  '--shadow-xl',
-  '--shadow-inner',
-  '--shadow-card',
-  '--shadow-button',
-  '--shadow-dropdown',
+  "--shadow-none",
+  "--shadow-sm",
+  "--shadow",
+  "--shadow-md",
+  "--shadow-lg",
+  "--shadow-xl",
+  "--shadow-inner",
+  "--shadow-card",
+  "--shadow-button",
+  "--shadow-dropdown",
   // Fonts
-  '--font-family-sans',
-  '--font-family-serif',
-  '--font-family-mono',
-  '--font-family-heading',
-  '--font-family-body',
+  "--font-family-sans",
+  "--font-family-serif",
+  "--font-family-mono",
+  "--font-family-heading",
+  "--font-family-body",
 ];
 
 function clearThemeVariables(root: HTMLElement) {
   // Remove any existing theme classes
-  const existingThemeClasses = Array.from(root.classList).filter((cls) =>
-    cls.startsWith('theme-'),
-  );
+  const existingThemeClasses = Array.from(root.classList).filter((cls) => cls.startsWith("theme-"));
   root.classList.remove(...existingThemeClasses);
 
   // Clear all CSS variables to reset to defaults
@@ -84,42 +82,24 @@ function applyThemeProperties(theme: Theme, root: HTMLElement): void {
   }
 
   // Set data attributes for theme styles
-  const buttonStyle = theme.buttonStyle || '';
-  root.setAttribute('data-theme-styles', buttonStyle);
+  const buttonStyle = theme.buttonStyle || "";
+  root.setAttribute("data-theme-styles", buttonStyle);
 
-  if (theme.mostLike) {
-    root.style.setProperty(
-      'color-scheme',
-      theme.mostLike === 'light' ? 'dark' : 'light',
-      'important',
-    );
-  } else {
-    root.style.removeProperty('color-scheme');
-  }
+  const colorScheme = theme.mostLike === "dark" ? "dark" : "light";
+  document.documentElement.style.colorScheme = colorScheme;
+  document.documentElement.setAttribute("data-color-scheme", colorScheme);
 }
 
 function applyBackgroundImage(theme: Theme, root: HTMLElement): void {
   if (theme.backgroundImage) {
-    root.style.setProperty(
-      '--background-image',
-      `url(${theme.backgroundImage})`,
-    );
+    root.style.setProperty("--background-image", `url(${theme.backgroundImage})`);
 
-    root.style.setProperty(
-      '--background-size',
-      theme.backgroundSize || 'cover',
-    );
-    root.style.setProperty(
-      '--background-position',
-      theme.backgroundPosition || 'center',
-    );
-    root.style.setProperty(
-      '--background-repeat',
-      theme.backgroundRepeat || 'no-repeat',
-    );
-    root.classList.add('has-background-image');
+    root.style.setProperty("--background-size", theme.backgroundSize || "cover");
+    root.style.setProperty("--background-position", theme.backgroundPosition || "center");
+    root.style.setProperty("--background-repeat", theme.backgroundRepeat || "no-repeat");
+    root.classList.add("has-background-image");
   } else {
-    root.classList.remove('has-background-image');
+    root.classList.remove("has-background-image");
   }
 }
 
@@ -128,8 +108,7 @@ function applyMappedVariables(theme: Theme, root: HTMLElement): void {
   const variableMappings = [
     {
       themeObj: theme.colors,
-      transform: (key: string) =>
-        `--${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`,
+      transform: (key: string) => `--${key.replace(/([A-Z])/g, "-$1").toLowerCase()}`,
     },
     { themeObj: theme.fonts, transform: (key: string) => `--font-${key}` },
     { themeObj: theme.corners, transform: (key: string) => `--corner-${key}` },
@@ -149,12 +128,8 @@ function applyMappedVariables(theme: Theme, root: HTMLElement): void {
 
   if (theme.colors) {
     const backdropFilterMap: Record<string, string> = {};
-    [
-      'cardBackdropFilter',
-      'popoverBackdropFilter',
-      'inputBackdropFilter',
-    ].forEach((base) => {
-      const cssVar = `--${base.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
+    ["cardBackdropFilter", "popoverBackdropFilter", "inputBackdropFilter"].forEach((base) => {
+      const cssVar = `--${base.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
       backdropFilterMap[`${base}`] = cssVar;
     });
 
@@ -172,38 +147,38 @@ function applyTableVariables(theme: Theme, root: HTMLElement): void {
     const tableSections = [
       {
         obj: theme.tables,
-        prefix: 'table',
-        properties: ['background', 'border', 'borderRadius', 'boxShadow'],
+        prefix: "table",
+        properties: ["background", "border", "borderRadius", "boxShadow"],
       },
       {
         obj: theme.tables.header,
-        prefix: 'table-header',
-        properties: ['background', 'color', 'border', 'backdropFilter'],
+        prefix: "table-header",
+        properties: ["background", "color", "border", "backdropFilter"],
       },
       {
         obj: theme.tables.row,
-        prefix: 'table-row',
-        properties: ['background', 'color', 'border', 'backdropFilter'],
+        prefix: "table-row",
+        properties: ["background", "color", "border", "backdropFilter"],
       },
       {
         obj: theme.tables.row?.hover,
-        prefix: 'table-row-hover',
-        properties: ['background', 'color'],
+        prefix: "table-row-hover",
+        properties: ["background", "color"],
       },
       {
         obj: theme.tables.row?.selected,
-        prefix: 'table-row-selected',
-        properties: ['background', 'color'],
+        prefix: "table-row-selected",
+        properties: ["background", "color"],
       },
       {
         obj: theme.tables.cell,
-        prefix: 'table-cell',
-        properties: ['border'],
+        prefix: "table-cell",
+        properties: ["border"],
       },
       {
         obj: theme.tables.footer,
-        prefix: 'table-footer',
-        properties: ['background', 'color', 'border', 'backdropFilter'],
+        prefix: "table-footer",
+        properties: ["background", "color", "border", "backdropFilter"],
       },
     ];
 
@@ -211,12 +186,12 @@ function applyTableVariables(theme: Theme, root: HTMLElement): void {
       if (obj) {
         properties.forEach((property) => {
           const value = (obj as Record<string, unknown>)[property];
-          if (value && typeof value === 'string') {
-            const cssVar = `--${prefix}-${property.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
+          if (value && typeof value === "string") {
+            const cssVar = `--${prefix}-${property.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
             root.style.setProperty(cssVar, value);
 
             // For backdropFilter properties, also set the webkit version
-            if (property === 'backdropFilter') {
+            if (property === "backdropFilter") {
               const webkitCssVar = `${cssVar}-webkit`;
               root.style.setProperty(webkitCssVar, value);
             }
@@ -229,15 +204,15 @@ function applyTableVariables(theme: Theme, root: HTMLElement): void {
 
 function applySidebarVariables(theme: Theme, root: HTMLElement): void {
   if (theme.sidebar) {
-    const sidebarProperties = ['background', 'backdropFilter', 'border'];
+    const sidebarProperties = ["background", "backdropFilter", "border"];
 
     sidebarProperties.forEach((property) => {
       const value = (theme.sidebar as Record<string, unknown>)[property];
-      if (value && typeof value === 'string') {
-        const cssVar = `--sidebar-${property.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
+      if (value && typeof value === "string") {
+        const cssVar = `--sidebar-${property.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
         root.style.setProperty(cssVar, value);
 
-        if (property === 'backdropFilter') {
+        if (property === "backdropFilter") {
           const webkitCssVar = `${cssVar}-webkit`;
           root.style.setProperty(webkitCssVar, value);
         }
@@ -249,15 +224,15 @@ function applySidebarVariables(theme: Theme, root: HTMLElement): void {
 function applyButtonVariables(theme: Theme, root: HTMLElement): void {
   if (theme.buttons) {
     const propertyToCssMap = {
-      background: 'background',
-      color: 'color',
-      border: 'border',
-      borderStyle: 'border-style',
-      borderWidth: 'border-width',
-      borderColor: 'border-color',
-      borderRadius: 'radius',
-      boxShadow: 'shadow',
-      backdropFilter: 'backdrop-filter',
+      background: "background",
+      color: "color",
+      border: "border",
+      borderStyle: "border-style",
+      borderWidth: "border-width",
+      borderColor: "border-color",
+      borderRadius: "radius",
+      boxShadow: "shadow",
+      backdropFilter: "backdrop-filter",
     };
 
     Object.entries(theme.buttons).forEach(([variant, config]) => {
@@ -265,35 +240,27 @@ function applyButtonVariables(theme: Theme, root: HTMLElement): void {
         // Apply base styles
         Object.entries(propertyToCssMap).forEach(([property, cssName]) => {
           const value = config[property as keyof typeof config];
-          if (value && typeof value === 'string') {
+          if (value && typeof value === "string") {
             root.style.setProperty(`--btn-${variant}-${cssName}`, value);
           }
         });
 
         // Apply hover and active states using the same mapping
-        ['hover', 'active'].forEach((state) => {
+        ["hover", "active"].forEach((state) => {
           const stateConfig = config[state as keyof typeof config];
-          if (stateConfig && typeof stateConfig === 'object') {
-            Object.entries(propertyToCssMap).forEach(
-              ([property, baseCssName]) => {
-                const value = (stateConfig as Record<string, unknown>)[
-                  property
-                ];
-                if (value && typeof value === 'string') {
-                  const cssName = `${state}-${baseCssName}`;
-                  root.style.setProperty(`--btn-${variant}-${cssName}`, value);
-                }
-              },
-            );
+          if (stateConfig && typeof stateConfig === "object") {
+            Object.entries(propertyToCssMap).forEach(([property, baseCssName]) => {
+              const value = (stateConfig as Record<string, unknown>)[property];
+              if (value && typeof value === "string") {
+                const cssName = `${state}-${baseCssName}`;
+                root.style.setProperty(`--btn-${variant}-${cssName}`, value);
+              }
+            });
 
             // Handle transform property specifically for hover/active states
-            const transform = (stateConfig as Record<string, unknown>)
-              .transform;
-            if (transform && typeof transform === 'string') {
-              root.style.setProperty(
-                `--btn-${variant}-${state}-transform`,
-                transform,
-              );
+            const transform = (stateConfig as Record<string, unknown>).transform;
+            if (transform && typeof transform === "string") {
+              root.style.setProperty(`--btn-${variant}-${state}-transform`, transform);
             }
           }
         });
@@ -301,62 +268,51 @@ function applyButtonVariables(theme: Theme, root: HTMLElement): void {
     });
   }
 
-  const buttonStyle = theme.buttonStyle || '';
+  const buttonStyle = theme.buttonStyle || "";
   const buttonStyleMap = {
-    gradient: 'gradient-buttons',
-    shimmer: 'shimmer-effects',
-    'pixel-art': 'pixel-art',
-    '3d-effects': '3d-effects',
-    'rounded-buttons': 'rounded-buttons',
+    gradient: "gradient-buttons",
+    shimmer: "shimmer-effects",
+    "pixel-art": "pixel-art",
+    "3d-effects": "3d-effects",
+    "rounded-buttons": "rounded-buttons",
   };
 
   // Set CSS variables for button style flags
   Object.entries(buttonStyleMap).forEach(([style, cssName]) => {
-    root.style.setProperty(
-      `--theme-has-${cssName}`,
-      buttonStyle === style ? '1' : '0',
-    );
+    root.style.setProperty(`--theme-has-${cssName}`, buttonStyle === style ? "1" : "0");
   });
 
   // SSR-safe: Only set body attribute in browser environment
-  if (typeof document !== 'undefined' && document.body) {
-    document.body.setAttribute('data-theme-styles', buttonStyle);
+  if (typeof document !== "undefined" && document.body) {
+    document.body.setAttribute("data-theme-styles", buttonStyle);
   }
 }
 
 function applyOtherControlVariables(theme: Theme, root: HTMLElement): void {
   if (theme.colors?.inputBackground) {
-    root.style.setProperty(
-      '--input-background',
-      theme.colors.inputBackground || '',
-    );
+    root.style.setProperty("--input-background", theme.colors.inputBackground || "");
   } else if (theme.colors?.input) {
     // For other themes, use the regular input color
-    root.style.setProperty('--input-background', theme.colors.input || '');
+    root.style.setProperty("--input-background", theme.colors.input || "");
   }
 
   if (theme.switches) {
-    const switchStates = ['checked', 'unchecked'] as const;
+    const switchStates = ["checked", "unchecked"] as const;
 
     switchStates.forEach((state) => {
       const switchConfig = theme.switches?.[state];
       if (switchConfig?.background) {
-        root.style.setProperty(
-          `--switch-${state}-background`,
-          switchConfig.background,
-        );
+        root.style.setProperty(`--switch-${state}-background`, switchConfig.background);
       }
     });
 
     // Handle switch thumb background
     if (theme.switches.thumb?.background) {
-      root.style.setProperty(
-        '--switch-thumb-background',
-        theme.switches.thumb.background,
-      );
+      root.style.setProperty("--switch-thumb-background", theme.switches.thumb.background);
     }
   }
 }
+
 export function applyTheme(theme: Theme, root: HTMLElement) {
   clearThemeVariables(root);
   applyThemeProperties(theme, root);
@@ -368,22 +324,20 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
   applyOtherControlVariables(theme, root);
 
   // Apply document-wide background image handling for main theme (SSR-safe)
-  if (typeof document !== 'undefined' && document.body) {
+  if (typeof document !== "undefined" && document.body) {
     if (theme.backgroundImage) {
-      document.body.classList.add('has-background-image');
+      document.body.classList.add("has-background-image");
       // Also set the background image directly on the body
       document.body.style.backgroundImage = `url(${theme.backgroundImage})`;
-      document.body.style.backgroundSize = theme.backgroundSize || 'cover';
-      document.body.style.backgroundPosition =
-        theme.backgroundPosition || 'center';
-      document.body.style.backgroundRepeat =
-        theme.backgroundRepeat || 'no-repeat';
+      document.body.style.backgroundSize = theme.backgroundSize || "cover";
+      document.body.style.backgroundPosition = theme.backgroundPosition || "center";
+      document.body.style.backgroundRepeat = theme.backgroundRepeat || "no-repeat";
     } else {
-      document.body.classList.remove('has-background-image');
-      document.body.style.backgroundImage = '';
-      document.body.style.backgroundSize = '';
-      document.body.style.backgroundPosition = '';
-      document.body.style.backgroundRepeat = '';
+      document.body.classList.remove("has-background-image");
+      document.body.style.backgroundImage = "";
+      document.body.style.backgroundSize = "";
+      document.body.style.backgroundPosition = "";
+      document.body.style.backgroundRepeat = "";
     }
   }
 }
@@ -399,20 +353,17 @@ export function applyThemeIsolated(theme: Theme, root: HTMLElement): void {
 
   // Apply Tailwind v4 color mappings for isolation
   // Tailwind v4 uses --color-* variables, so we need to set them from --*
-  applyTailwindV4ColorMappings(theme, root);
+  applyTailwindV4Mappings(theme, root);
 
   const backgroundStyles = {
     backgroundImage: `url(${theme.backgroundImage})`,
-    backgroundSize: theme.backgroundSize || 'cover',
-    backgroundPosition: theme.backgroundPosition || 'center',
-    backgroundRepeat: theme.backgroundRepeat || 'no-repeat',
+    backgroundSize: theme.backgroundSize || "cover",
+    backgroundPosition: theme.backgroundPosition || "center",
+    backgroundRepeat: theme.backgroundRepeat || "no-repeat",
   };
 
   Object.entries(backgroundStyles).forEach(([property, value]) => {
-    root.style.setProperty(
-      property.replace(/([A-Z])/g, '-$1').toLowerCase(),
-      value,
-    );
+    root.style.setProperty(property.replace(/([A-Z])/g, "-$1").toLowerCase(), value);
   });
 
   // Set explicit background and text colors for complete isolation
@@ -428,29 +379,29 @@ export function applyThemeIsolated(theme: Theme, root: HTMLElement): void {
  * Apply Tailwind v4 color mappings for isolated theme cards
  * Tailwind v4 uses --color-* variables instead of direct --* variables
  */
-function applyTailwindV4ColorMappings(_theme: Theme, root: HTMLElement): void {
+function applyTailwindV4Mappings(_theme: Theme, root: HTMLElement): void {
   // Mapping of Tailwind v4 color variables to theme variables
   const colorMappings = {
-    '--color-background': '--background',
-    '--color-foreground': '--foreground',
-    '--color-card': '--card',
-    '--color-card-foreground': '--card-foreground',
-    '--color-popover': '--popover',
-    '--color-popover-foreground': '--popover-foreground',
-    '--color-primary': '--primary',
-    '--color-primary-foreground': '--primary-foreground',
-    '--color-secondary': '--secondary',
-    '--color-secondary-foreground': '--secondary-foreground',
-    '--color-muted': '--muted',
-    '--color-muted-foreground': '--muted-foreground',
-    '--color-accent': '--accent',
-    '--color-accent-foreground': '--accent-foreground',
-    '--color-destructive': '--destructive',
-    '--color-destructive-foreground': '--destructive-foreground',
-    '--color-border': '--border',
-    '--color-input': '--input',
-    '--color-input-background': '--input-background',
-    '--color-ring': '--ring',
+    "--color-background": "--background",
+    "--color-foreground": "--foreground",
+    "--color-card": "--card",
+    "--color-card-foreground": "--card-foreground",
+    "--color-popover": "--popover",
+    "--color-popover-foreground": "--popover-foreground",
+    "--color-primary": "--primary",
+    "--color-primary-foreground": "--primary-foreground",
+    "--color-secondary": "--secondary",
+    "--color-secondary-foreground": "--secondary-foreground",
+    "--color-muted": "--muted",
+    "--color-muted-foreground": "--muted-foreground",
+    "--color-accent": "--accent",
+    "--color-accent-foreground": "--accent-foreground",
+    "--color-destructive": "--destructive",
+    "--color-destructive-foreground": "--destructive-foreground",
+    "--color-border": "--border",
+    "--color-input": "--input",
+    "--color-input-background": "--input-background",
+    "--color-ring": "--ring",
   };
 
   // Get computed styles to read the theme variables we just set
@@ -467,30 +418,30 @@ function applyTailwindV4ColorMappings(_theme: Theme, root: HTMLElement): void {
   // Also map radius, shadow, and font variables for Tailwind v4
   const otherMappings = {
     // Radius
-    '--radius-none': '--corner-none',
-    '--radius-sm': '--corner-sm',
-    '--radius-md': '--corner-md',
-    '--radius-lg': '--corner-lg',
-    '--radius-xl': '--corner-xl',
-    '--radius-full': '--corner-full',
-    '--radius': '--radius',
+    "--radius-none": "--corner-none",
+    "--radius-sm": "--corner-sm",
+    "--radius-md": "--corner-md",
+    "--radius-lg": "--corner-lg",
+    "--radius-xl": "--corner-xl",
+    "--radius-full": "--corner-full",
+    "--radius": "--radius",
     // Shadows
-    '--shadow-none': '--shadow-none',
-    '--shadow-sm': '--shadow-sm',
-    '--shadow': '--shadow-md',
-    '--shadow-md': '--shadow-md',
-    '--shadow-lg': '--shadow-lg',
-    '--shadow-xl': '--shadow-xl',
-    '--shadow-inner': '--shadow-inner',
-    '--shadow-card': '--shadow-card',
-    '--shadow-button': '--shadow-button',
-    '--shadow-dropdown': '--shadow-dropdown',
+    "--shadow-none": "--shadow-none",
+    "--shadow-sm": "--shadow-sm",
+    "--shadow": "--shadow-md",
+    "--shadow-md": "--shadow-md",
+    "--shadow-lg": "--shadow-lg",
+    "--shadow-xl": "--shadow-xl",
+    "--shadow-inner": "--shadow-inner",
+    "--shadow-card": "--shadow-card",
+    "--shadow-button": "--shadow-button",
+    "--shadow-dropdown": "--shadow-dropdown",
     // Fonts
-    '--font-family-sans': '--font-sans',
-    '--font-family-serif': '--font-serif',
-    '--font-family-mono': '--font-mono',
-    '--font-family-heading': '--font-heading',
-    '--font-family-body': '--font-body',
+    "--font-family-sans": "--font-sans",
+    "--font-family-serif": "--font-serif",
+    "--font-family-mono": "--font-mono",
+    "--font-family-heading": "--font-heading",
+    "--font-family-body": "--font-body",
   };
 
   Object.entries(otherMappings).forEach(([tailwindVar, themeVar]) => {
@@ -502,153 +453,148 @@ function applyTailwindV4ColorMappings(_theme: Theme, root: HTMLElement): void {
 }
 
 const colorVariableNames = [
-  '--theme-color',
-  '--background',
-  '--foreground',
-  '--card',
-  '--card-foreground',
-  '--popover',
-  '--popover-foreground',
-  '--primary',
-  '--primary-foreground',
-  '--secondary',
-  '--secondary-foreground',
-  '--muted',
-  '--muted-foreground',
-  '--accent',
-  '--accent-foreground',
-  '--destructive',
-  '--destructive-foreground',
-  '--border',
-  '--input',
-  '--input-background',
-  '--ring',
+  "--theme-color",
+  "--background",
+  "--foreground",
+  "--card",
+  "--card-foreground",
+  "--popover",
+  "--popover-foreground",
+  "--primary",
+  "--primary-foreground",
+  "--secondary",
+  "--secondary-foreground",
+  "--muted",
+  "--muted-foreground",
+  "--accent",
+  "--accent-foreground",
+  "--destructive",
+  "--destructive-foreground",
+  "--border",
+  "--input",
+  "--input-background",
+  "--ring",
 ];
 
 const fontVariableNames = [
-  '--font-sans',
-  '--font-serif',
-  '--font-mono',
-  '--font-heading',
-  '--font-body',
+  "--font-sans",
+  "--font-serif",
+  "--font-mono",
+  "--font-heading",
+  "--font-body",
 ];
 
 const cornerVariableNames = [
-  '--corner-none',
-  '--corner-sm',
-  '--corner-md',
-  '--corner-lg',
-  '--corner-xl',
-  '--corner-full',
+  "--corner-none",
+  "--corner-sm",
+  "--corner-md",
+  "--corner-lg",
+  "--corner-xl",
+  "--corner-full",
 ];
 
 const shadowVariableNames = [
-  '--shadow-none',
-  '--shadow-sm',
-  '--shadow-md',
-  '--shadow-lg',
-  '--shadow-xl',
-  '--shadow-inner',
-  '--shadow-card',
-  '--shadow-button',
-  '--shadow-dropdown',
+  "--shadow-none",
+  "--shadow-sm",
+  "--shadow-md",
+  "--shadow-lg",
+  "--shadow-xl",
+  "--shadow-inner",
+  "--shadow-card",
+  "--shadow-button",
+  "--shadow-dropdown",
 ];
 
 const themeFeatureFlagVariableNames = [
-  '--theme-has-gradient-buttons',
-  '--theme-has-shimmer-effects',
-  '--theme-has-pixel-art',
-  '--theme-has-3d-effects',
-  '--theme-has-rounded-buttons',
+  "--theme-has-gradient-buttons",
+  "--theme-has-shimmer-effects",
+  "--theme-has-pixel-art",
+  "--theme-has-3d-effects",
+  "--theme-has-rounded-buttons",
 ];
 
-const navigationAndButtonVariableNames = [
-  '--outline-button-background',
-  '--nav-active-background',
-];
+const navigationAndButtonVariableNames = ["--outline-button-background", "--nav-active-background"];
 
 const backgroundImageVariableNames = [
-  '--background-image',
-  '--background-size',
-  '--background-position',
-  '--background-repeat',
+  "--background-image",
+  "--background-size",
+  "--background-position",
+  "--background-repeat",
 ];
 
 const tableVariableNames = [
-  '--table-background',
-  '--table-border',
-  '--table-box-shadow',
-  '--table-header-background',
-  '--table-header-color',
-  '--table-header-border',
-  '--table-row-background',
-  '--table-row-color',
-  '--table-row-border',
-  '--table-row-hover-background',
-  '--table-row-hover-color',
-  '--table-row-selected-background',
-  '--table-row-selected-color',
-  '--table-cell-border',
-  '--table-footer-background',
-  '--table-footer-color',
-  '--table-footer-border',
+  "--table-background",
+  "--table-border",
+  "--table-box-shadow",
+  "--table-header-background",
+  "--table-header-color",
+  "--table-header-border",
+  "--table-row-background",
+  "--table-row-color",
+  "--table-row-border",
+  "--table-row-hover-background",
+  "--table-row-hover-color",
+  "--table-row-selected-background",
+  "--table-row-selected-color",
+  "--table-cell-border",
+  "--table-footer-background",
+  "--table-footer-color",
+  "--table-footer-border",
 ];
 
 const switchVariableNames = [
-  '--switch-checked-background',
-  '--switch-unchecked-background',
-  '--switch-thumb-background',
+  "--switch-checked-background",
+  "--switch-unchecked-background",
+  "--switch-thumb-background",
 ];
 
 const backdropFilterVariableNames = [
-  '--card-backdrop-filter',
-  '--card-backdrop-filter-webkit',
-  '--popover-backdrop-filter',
-  '--popover-backdrop-filter-webkit',
-  '--input-backdrop-filter',
-  '--input-backdrop-filter-webkit',
-  '--sidebar-backdrop-filter',
-  '--sidebar-backdrop-filter-webkit',
-  '--table-header-backdrop-filter',
-  '--table-header-backdrop-filter-webkit',
-  '--table-footer-backdrop-filter',
-  '--table-footer-backdrop-filter-webkit',
-  '--table-row-backdrop-filter',
-  '--table-row-backdrop-filter-webkit',
+  "--card-backdrop-filter",
+  "--card-backdrop-filter-webkit",
+  "--popover-backdrop-filter",
+  "--popover-backdrop-filter-webkit",
+  "--input-backdrop-filter",
+  "--input-backdrop-filter-webkit",
+  "--sidebar-backdrop-filter",
+  "--sidebar-backdrop-filter-webkit",
+  "--table-header-backdrop-filter",
+  "--table-header-backdrop-filter-webkit",
+  "--table-footer-backdrop-filter",
+  "--table-footer-backdrop-filter-webkit",
+  "--table-row-backdrop-filter",
+  "--table-row-backdrop-filter-webkit",
 ];
 
 const buttonBaseVariableNames = [
-  'background',
-  'color',
-  'border',
-  'border-style',
-  'border-width',
-  'border-color',
-  'radius',
-  'shadow',
-  'backdrop-filter',
-  'hover-background',
-  'hover-color',
-  'hover-transform',
-  'hover-border-style',
-  'hover-border-color',
-  'hover-shadow',
-  'active-background',
-  'active-color',
-  'active-transform',
-  'active-border-style',
-  'active-border-color',
-  'active-shadow',
+  "background",
+  "color",
+  "border",
+  "border-style",
+  "border-width",
+  "border-color",
+  "radius",
+  "shadow",
+  "backdrop-filter",
+  "hover-background",
+  "hover-color",
+  "hover-transform",
+  "hover-border-style",
+  "hover-border-color",
+  "hover-shadow",
+  "active-background",
+  "active-color",
+  "active-transform",
+  "active-border-style",
+  "active-border-color",
+  "active-shadow",
 ];
 
 // Generate all button variable combinations
 const buttonVariableNames = [
-  'default',
-  'outline',
-  'secondary',
-  'destructive',
-  'ghost',
-  'link',
-].flatMap((variant) =>
-  buttonBaseVariableNames.map((baseName) => `--btn-${variant}-${baseName}`),
-);
+  "default",
+  "outline",
+  "secondary",
+  "destructive",
+  "ghost",
+  "link",
+].flatMap((variant) => buttonBaseVariableNames.map((baseName) => `--btn-${variant}-${baseName}`));

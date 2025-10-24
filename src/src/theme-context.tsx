@@ -1,20 +1,14 @@
-'use client';
+"use client";
 
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import colorTheme from './color.json' with { type: 'json' };
-import darkTheme from './dark.json' with { type: 'json' };
-import { applyTheme, Theme } from './index.js';
-import lightTheme from './light.json' with { type: 'json' };
-import { ImageResolver, ThemeLoader } from './theme-loader.js';
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import colorTheme from "./color.json" with { type: "json" };
+import darkTheme from "./dark.json" with { type: "json" };
+import { applyTheme, Theme } from "./index.js";
+import lightTheme from "./light.json" with { type: "json" };
+import { ImageResolver, ThemeLoader } from "./theme-loader.js";
 
 // Browser detection for SSR compatibility
-const isBrowser = typeof window !== 'undefined';
+const isBrowser = typeof window !== "undefined";
 
 // Theme discovery function type - can be provided by the consuming application
 export type ThemeDiscoveryFunction = () => Promise<Theme[]>;
@@ -47,7 +41,7 @@ export function ThemeProvider({
   children,
   discoverThemes = async (): Promise<Theme[]> => [],
   imageResolver,
-  defaultTheme = 'light',
+  defaultTheme = "light",
   onThemeChange,
 }: ThemeProviderProps) {
   const [currentTheme, setCurrentTheme] = useState<Theme | null>(null);
@@ -87,8 +81,8 @@ export function ThemeProvider({
 
       setError(null); // Clear any previous errors
     } catch (err) {
-      console.error('Error setting theme:', err);
-      setError('Failed to set theme');
+      console.error("Error setting theme:", err);
+      setError("Failed to set theme");
     } finally {
       setIsSettingTheme(false);
     }
@@ -100,10 +94,7 @@ export function ThemeProvider({
     setIsSettingTheme(true);
     try {
       if (themeJson) {
-        const theme = await themeLoader.loadThemeFromJson(
-          themeJson,
-          imageResolver,
-        );
+        const theme = await themeLoader.loadThemeFromJson(themeJson, imageResolver);
         if (theme) {
           setCurrentTheme(theme);
           if (isBrowser) {
@@ -120,14 +111,14 @@ export function ThemeProvider({
         }
       }
     } catch (err) {
-      console.error('Error setting custom theme:', err);
-      setError('Failed to load custom theme');
+      console.error("Error setting custom theme:", err);
+      setError("Failed to load custom theme");
       return false;
     } finally {
       setIsSettingTheme(false);
     }
 
-    setError('Invalid theme JSON');
+    setError("Invalid theme JSON");
     return false;
   };
 
@@ -155,8 +146,8 @@ export function ThemeProvider({
         applyTheme(theme, document.documentElement);
       }
     } catch (err) {
-      console.error('Error reloading themes:', err);
-      setError('Failed to reload themes');
+      console.error("Error reloading themes:", err);
+      setError("Failed to reload themes");
       setCurrentTheme(null);
     } finally {
       setIsLoading(false);
@@ -187,8 +178,8 @@ export function ThemeProvider({
           applyTheme(initialTheme, document.documentElement);
         }
       } catch (err) {
-        console.error('Error loading themes:', err);
-        setError('Failed to load themes');
+        console.error("Error loading themes:", err);
+        setError("Failed to load themes");
         // Don't set a fallback theme - let CSS defaults handle it
         setCurrentTheme(null);
       } finally {
@@ -226,7 +217,7 @@ export function ThemeProvider({
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    throw new Error("useTheme must be used within a ThemeProvider");
   }
   return context;
 }

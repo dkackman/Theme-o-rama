@@ -1,5 +1,5 @@
-import light from './light.json' with { type: 'json' };
-import { Theme } from './theme.type.js';
+import light from "./light.json" with { type: "json" };
+import { Theme } from "./theme.type.js";
 
 export class ThemeCache {
   private themesCache: Map<string, Theme>;
@@ -9,12 +9,12 @@ export class ThemeCache {
   }
 
   public getThemeSafe(themeName: string | null): Theme {
-    let theme = this.themesCache.get(themeName || 'light');
+    let theme = this.themesCache.get(themeName || "light");
     if (theme) {
       return theme;
     }
 
-    theme = this.themesCache.get('light');
+    theme = this.themesCache.get("light");
     if (theme) {
       return theme;
     }

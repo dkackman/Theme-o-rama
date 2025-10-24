@@ -36,16 +36,16 @@ The library is SSR-safe and includes proper guards for server-side rendering env
 ### Basic Theme Definition
 
 ```typescript
-import { Theme } from 'theme-o-rama';
+import { Theme } from "theme-o-rama";
 
 const myTheme: Theme = {
-  name: 'my-theme',
-  displayName: 'My Custom Theme',
+  name: "my-theme",
+  displayName: "My Custom Theme",
   schemaVersion: 1,
   colors: {
-    background: '#ffffff',
-    foreground: '#000000',
-    primary: '#007bff',
+    background: "#ffffff",
+    foreground: "#000000",
+    primary: "#007bff",
     // ... other theme properties
   },
 };
@@ -56,16 +56,16 @@ const myTheme: Theme = {
 Theme-o-rama provides Tailwind CSS extensions that work with the dynamic theming system. To use them in your app:
 
 ```css
-@import 'theme-o-rama/themes.css';
+@import "theme-o-rama/themes.css";
 ```
 
 ```javascript
 // tailwind.config.js
-import { themeExtensions } from 'theme-o-rama/tailwind.config.js';
+import { themeExtensions } from "theme-o-rama/tailwind.config.js";
 
 export default {
-  darkMode: ['class'],
-  content: ['src/**/*.{ts,tsx}', 'index.html'],
+  darkMode: ["class"],
+  content: ["src/**/*.{ts,tsx}", "index.html"],
   theme: {
     extend: {
       // Include Theme-o-rama theme extensions
@@ -76,7 +76,7 @@ export default {
       // animation: { ... },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require("tailwindcss-animate")],
 };
 ```
 
@@ -328,7 +328,7 @@ export default function Document() {
   color-scheme: light;
 }
 
-:root[data-theme='dark'],
+:root[data-theme="dark"],
 :root.theme-dark {
   color-scheme: dark;
 }
@@ -352,7 +352,7 @@ This allows you to load themes from source of your choice:
 ```typescript
 // Example: Loading themes from a file system (Vite)
 async function discoverThemes() {
-  const themeModules = import.meta.glob('../themes/*/theme.json', {
+  const themeModules = import.meta.glob("../themes/*/theme.json", {
     eager: true,
   });
 
@@ -369,16 +369,13 @@ async function discoverThemes() {
 
 // Example: Loading themes from an API
 async function discoverThemesFromAPI() {
-  const response = await fetch('/api/themes');
+  const response = await fetch("/api/themes");
   return response.json();
 }
 
 // Example: Loading themes from static imports
 async function discoverStaticThemes() {
-  return [
-    await import('./themes/amiga.json'),
-    await import('./themes/colorful.json'),
-  ];
+  return [await import("./themes/amiga.json"), await import("./themes/colorful.json")];
 }
 ```
 
@@ -387,10 +384,7 @@ The `imageResolver` prop allows you to resolve theme background images:
 ```typescript
 // Example: Resolving local theme images
 function resolveThemeImage(themeName: string, imagePath: string) {
-  const imageModules = import.meta.glob(
-    '../themes/*/*.{jpg,jpeg,png,gif,webp}',
-    { eager: true },
-  );
+  const imageModules = import.meta.glob("../themes/*/*.{jpg,jpeg,png,gif,webp}", { eager: true });
   const resolvedPath = `../themes/${themeName}/${imagePath}`;
   const imageModule = imageModules[resolvedPath];
 
@@ -416,13 +410,13 @@ Themes can inherit from other themes and override specific properties:
 ```typescript
 // Inherited theme
 const darkTheme: Theme = {
-  name: 'my-dark',
-  displayName: 'Dark Theme',
+  name: "my-dark",
+  displayName: "Dark Theme",
   schemaVersion: 1,
-  inherits: 'dark', // Inherits from dark theme
+  inherits: "dark", // Inherits from dark theme
   colors: {
-    background: '#1a1a1a',
-    foreground: '#ffffff',
+    background: "#1a1a1a",
+    foreground: "#ffffff",
     // primary is inherited from dark theme
   },
   // fonts and corners are inherited from dark theme
@@ -433,109 +427,109 @@ const darkTheme: Theme = {
 
 ```typescript
 const customTheme: Theme = {
-  name: 'cyberpunk',
-  displayName: 'Cyberpunk',
+  name: "cyberpunk",
+  displayName: "Cyberpunk",
   schemaVersion: 1,
-  mostLike: 'dark',
-  backgroundImage: 'cyberpunk-bg.jpg',
-  backgroundSize: 'cover',
+  mostLike: "dark",
+  backgroundImage: "cyberpunk-bg.jpg",
+  backgroundSize: "cover",
   colors: {
-    background: '#0a0a0a',
-    foreground: '#00ff41',
-    primary: '#ff0080',
-    secondary: '#00ffff',
-    accent: '#ffff00',
-    destructive: '#ff0040',
-    border: '#00ff41',
-    card: 'rgba(0, 255, 65, 0.1)',
-    cardForeground: '#00ff41',
+    background: "#0a0a0a",
+    foreground: "#00ff41",
+    primary: "#ff0080",
+    secondary: "#00ffff",
+    accent: "#ffff00",
+    destructive: "#ff0040",
+    border: "#00ff41",
+    card: "rgba(0, 255, 65, 0.1)",
+    cardForeground: "#00ff41",
   },
   fonts: {
-    sans: 'Orbitron, monospace',
-    mono: 'JetBrains Mono, monospace',
+    sans: "Orbitron, monospace",
+    mono: "JetBrains Mono, monospace",
   },
   corners: {
-    sm: '2px',
-    md: '4px',
-    lg: '8px',
+    sm: "2px",
+    md: "4px",
+    lg: "8px",
   },
   shadows: {
-    sm: '0 0 10px #00ff41',
-    md: '0 0 20px #00ff41',
-    lg: '0 0 30px #00ff41',
+    sm: "0 0 10px #00ff41",
+    md: "0 0 20px #00ff41",
+    lg: "0 0 30px #00ff41",
   },
   // Custom button styling
   buttons: {
     default: {
-      background: 'linear-gradient(45deg, #ff0080, #00ffff)',
-      color: '#000000',
-      border: '2px solid #00ff41',
-      borderRadius: '4px',
-      boxShadow: '0 0 15px #00ff41',
+      background: "linear-gradient(45deg, #ff0080, #00ffff)",
+      color: "#000000",
+      border: "2px solid #00ff41",
+      borderRadius: "4px",
+      boxShadow: "0 0 15px #00ff41",
       hover: {
-        background: 'linear-gradient(45deg, #ff40a0, #40ffff)',
-        transform: 'scale(1.05)',
-        boxShadow: '0 0 25px #00ff41',
+        background: "linear-gradient(45deg, #ff40a0, #40ffff)",
+        transform: "scale(1.05)",
+        boxShadow: "0 0 25px #00ff41",
       },
       active: {
-        transform: 'scale(0.95)',
+        transform: "scale(0.95)",
       },
     },
     outline: {
-      background: 'transparent',
-      color: '#00ff41',
-      border: '2px solid #00ff41',
+      background: "transparent",
+      color: "#00ff41",
+      border: "2px solid #00ff41",
       hover: {
-        background: 'rgba(0, 255, 65, 0.1)',
-        boxShadow: '0 0 15px #00ff41',
+        background: "rgba(0, 255, 65, 0.1)",
+        boxShadow: "0 0 15px #00ff41",
       },
     },
   },
   // Button style flags for CSS effects
-  buttonStyles: ['gradient', 'shimmer'],
+  buttonStyles: ["gradient", "shimmer"],
   // Custom table styling
   tables: {
-    background: 'rgba(0, 255, 65, 0.05)',
-    border: '1px solid #00ff41',
-    borderRadius: '8px',
-    boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
+    background: "rgba(0, 255, 65, 0.05)",
+    border: "1px solid #00ff41",
+    borderRadius: "8px",
+    boxShadow: "0 0 20px rgba(0, 255, 65, 0.3)",
     header: {
-      background: 'rgba(0, 255, 65, 0.1)',
-      color: '#00ff41',
-      border: '1px solid #00ff41',
-      fontWeight: 'bold',
-      backdropFilter: 'blur(10px)',
+      background: "rgba(0, 255, 65, 0.1)",
+      color: "#00ff41",
+      border: "1px solid #00ff41",
+      fontWeight: "bold",
+      backdropFilter: "blur(10px)",
     },
     row: {
-      background: 'transparent',
-      color: '#ffffff',
+      background: "transparent",
+      color: "#ffffff",
       hover: {
-        background: 'rgba(0, 255, 65, 0.1)',
-        color: '#00ff41',
+        background: "rgba(0, 255, 65, 0.1)",
+        color: "#00ff41",
       },
       selected: {
-        background: 'rgba(255, 0, 128, 0.2)',
-        color: '#ff0080',
+        background: "rgba(255, 0, 128, 0.2)",
+        color: "#ff0080",
       },
     },
   },
   // Custom switch styling
   switches: {
     checked: {
-      background: 'linear-gradient(45deg, #ff0080, #00ffff)',
+      background: "linear-gradient(45deg, #ff0080, #00ffff)",
     },
     unchecked: {
-      background: '#333333',
+      background: "#333333",
     },
     thumb: {
-      background: '#ffffff',
+      background: "#ffffff",
     },
   },
   // Sidebar styling
   sidebar: {
-    background: 'rgba(0, 255, 65, 0.1)',
-    border: '1px solid #00ff41',
-    backdropFilter: 'blur(20px)',
+    background: "rgba(0, 255, 65, 0.1)",
+    border: "1px solid #00ff41",
+    backdropFilter: "blur(20px)",
   },
 };
 ```
