@@ -373,11 +373,20 @@ export function applyThemeIsolated(theme: Theme, root: HTMLElement): void {
   if (theme.colors?.foreground) {
     root.style.color = theme.colors.foreground;
   }
+
+  // Set explicit font-family to override inherited fonts from ambient theme
+  // Fonts are inherited properties, so we need to explicitly set them on the root
+  if (theme.fonts?.body) {
+    root.style.fontFamily = theme.fonts.body;
+  } else if (theme.fonts?.sans) {
+    root.style.fontFamily = theme.fonts.sans;
+  }
 }
 
 /**
- * Apply Tailwind v4 color mappings for isolated theme cards
- * Tailwind v4 uses --color-* variables instead of direct --* variables
+ * Apply Tailwind v4 variable mappings for isolated theme cards
+ * Tailwind v4 uses prefixed variables (--color-*, --font-family-*, --radius-*, --shadow-*)
+ * instead of direct theme variables
  */
 function applyTailwindV4Mappings(_theme: Theme, root: HTMLElement): void {
   // Mapping of Tailwind v4 color variables to theme variables
