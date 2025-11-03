@@ -1,16 +1,8 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useCallback, useState } from "react";
-import { Theme, ThemeProvider } from "theme-o-rama";
+import { SimpleThemeProvider } from "theme-o-rama";
 import "theme-o-rama/themes.css";
-import colorfulTheme from "../../public/themes/colorful/theme.json";
-import win95Theme from "../../public/themes/win95/theme.json";
-
-// Discover custom themes for this app
-async function discoverThemes(): Promise<Theme[]> {
-  // Return app-specific themes
-  return [colorfulTheme as Theme, win95Theme as Theme];
-}
 
 // Image resolver for theme background images
 async function resolveThemeImage(themeName: string, imagePath: string): Promise<string> {
@@ -41,13 +33,8 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <ThemeProvider
-      defaultTheme={defaultTheme}
-      onThemeChange={handleThemeChange}
-      discoverThemes={discoverThemes}
-      imageResolver={resolveThemeImage}
-    >
+    <SimpleThemeProvider onThemeChange={handleThemeChange} imageResolver={resolveThemeImage}>
       <Component {...pageProps} />
-    </ThemeProvider>
+    </SimpleThemeProvider>
   );
 }

@@ -283,22 +283,23 @@
 }
 
 /* Special handling for background images - fade in/out */
+
 body {
   background-color: var(--background);
   color: var(--foreground);
   transition:
     background-color var(--theme-transition-duration)
       var(--theme-transition-timing),
-    background-image var(--theme-transition-duration)
-      var(--theme-transition-timing),
     color var(--theme-transition-duration) var(--theme-transition-timing);
 }
 
-body.has-background-image {
+html.has-background-image {
   background-image: var(--background-image);
   background-size: var(--background-size, cover);
   background-position: var(--background-position, center);
   background-repeat: var(--background-repeat, no-repeat);
+  transition: background-image var(--theme-transition-duration)
+    var(--theme-transition-timing);
 }
 
 /* Theme cards with background images */
