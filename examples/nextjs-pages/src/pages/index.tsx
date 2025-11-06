@@ -28,20 +28,24 @@ export default function Home() {
         </div>
 
         {/* Current Theme Info */}
-        <div className="p-6 space-y-4 rounded-lg border bg-card text-card-foreground shadow-sm">
-          <h2 className="text-2xl font-semibold">Current Theme</h2>
-          <div className="space-y-2">
-            <p>
-              <strong>Name:</strong> {currentTheme?.name || "None"}
-            </p>
-            <p>
-              <strong>Display Name:</strong> {currentTheme?.displayName || "None"}
-            </p>
-            <p>
-              <strong>Most Like:</strong> {currentTheme?.mostLike || "N/A"}
-            </p>
-          </div>
-        </div>
+        <Card className="p-6 space-y-4">
+          <CardHeader>
+            <CardTitle>Current Theme</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <p>
+                <strong>Name:</strong> {currentTheme?.name || "None"}
+              </p>
+              <p>
+                <strong>Display Name:</strong> {currentTheme?.displayName || "None"}
+              </p>
+              <p>
+                <strong>Most Like:</strong> {currentTheme?.mostLike || "N/A"}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
         <Card>
           <CardHeader>
             <CardTitle>Available Themes</CardTitle>

@@ -5,8 +5,9 @@ import colorTheme from "./color.json" with { type: "json" };
 import darkTheme from "./dark.json" with { type: "json" };
 import { applyTheme, Theme } from "./index.js";
 import lightTheme from "./light.json" with { type: "json" };
-import { ThemeChangeCallback } from "./theme-context.js";
 import { ImageResolver, ThemeLoader } from "./theme-loader.js";
+
+export type SimpleThemeChangeCallback = (theme: Theme) => void;
 
 // Browser detection for SSR compatibility
 const isBrowser = typeof window !== "undefined";
@@ -24,7 +25,7 @@ const SimpleThemeContext = createContext<SimpleThemeContextType | undefined>(und
 interface SimpleThemeProviderProps {
   children: React.ReactNode;
   imageResolver?: ImageResolver;
-  onThemeChange?: ThemeChangeCallback;
+  onThemeChange?: SimpleThemeChangeCallback;
 }
 
 export function SimpleThemeProvider({
@@ -60,7 +61,7 @@ export function SimpleThemeProvider({
 
       // Notify app of theme change (app handles storage)
       if (onThemeChangeRef.current) {
-        onThemeChangeRef.current(theme.name);
+        onThemeChangeRef.current(theme);
       }
 
       setError(null); // Clear any previous errors

@@ -5,6 +5,7 @@ import { validateTheme } from "./theme-schema-validation.js";
 import { applyTheme, applyThemeIsolated } from "./theme.js";
 import { Theme } from "./theme.type.js";
 export { SimpleThemeProvider, useSimpleTheme } from "./simple-theme-context.js";
+export type { SimpleThemeChangeCallback } from "./simple-theme-context.js";
 export { ThemeProvider, useTheme } from "./theme-context.js";
 export type { ThemeChangeCallback, ThemeDiscoveryFunction } from "./theme-context.js";
 export type { ImageResolver } from "./theme-loader.js";
