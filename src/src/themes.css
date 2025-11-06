@@ -808,8 +808,8 @@ body.has-background-image .switch-component.peer span {
 
 .table-theme thead tr {
   background: var(--table-header-background);
-  backdrop-filter: var(--table-header-backdrop-filter);
   -webkit-backdrop-filter: var(--table-header-backdrop-filter-webkit);
+  backdrop-filter: var(--table-header-backdrop-filter);
 }
 
 .table-theme thead th {
@@ -825,8 +825,8 @@ body.has-background-image .switch-component.peer span {
   background: var(--table-row-background);
   color: var(--table-row-color);
   border: var(--table-row-border);
-  backdrop-filter: var(--table-row-backdrop-filter);
   -webkit-backdrop-filter: var(--table-row-backdrop-filter-webkit);
+  backdrop-filter: var(--table-row-backdrop-filter);
 }
 
 .table-theme tbody tr:hover {
@@ -849,37 +849,37 @@ body.has-background-image .switch-component.peer span {
   background: var(--table-footer-background);
   color: var(--table-footer-color);
   border: var(--table-footer-border);
-  backdrop-filter: var(--table-footer-backdrop-filter);
   -webkit-backdrop-filter: var(--table-footer-backdrop-filter-webkit);
+  backdrop-filter: var(--table-footer-backdrop-filter);
 }
 
 /* Backdrop filter utility classes */
 .backdrop-blur-card {
-  backdrop-filter: var(--card-backdrop-filter);
   -webkit-backdrop-filter: var(--card-backdrop-filter);
+  backdrop-filter: var(--card-backdrop-filter);
 }
 
 .backdrop-blur-popover {
-  backdrop-filter: var(--popover-backdrop-filter);
   -webkit-backdrop-filter: var(--popover-backdrop-filter);
+  backdrop-filter: var(--popover-backdrop-filter);
 }
 
 .backdrop-blur-input {
-  backdrop-filter: var(--input-backdrop-filter);
   -webkit-backdrop-filter: var(--input-backdrop-filter);
+  backdrop-filter: var(--input-backdrop-filter);
 }
 
 /* Apply backdrop filters to existing components */
 .bg-card {
   background-color: var(--card);
-  backdrop-filter: var(--card-backdrop-filter);
   -webkit-backdrop-filter: var(--card-backdrop-filter);
+  backdrop-filter: var(--card-backdrop-filter);
 }
 
 .bg-popover {
   background-color: var(--popover);
-  backdrop-filter: var(--popover-backdrop-filter);
   -webkit-backdrop-filter: var(--popover-backdrop-filter);
+  backdrop-filter: var(--popover-backdrop-filter);
 }
 
 .bg-input,
@@ -889,14 +889,14 @@ input[type="email"],
 input[type="number"],
 textarea,
 select {
-  backdrop-filter: var(--input-backdrop-filter);
   -webkit-backdrop-filter: var(--input-backdrop-filter);
+  backdrop-filter: var(--input-backdrop-filter);
 }
 
 /* Table header backdrop filter is now applied via thead::before */
 
 .table-theme tfoot th,
 .table-theme tfoot td {
-  backdrop-filter: var(--table-footer-backdrop-filter);
   -webkit-backdrop-filter: var(--table-footer-backdrop-filter-webkit);
+  backdrop-filter: var(--table-footer-backdrop-filter);
 }
