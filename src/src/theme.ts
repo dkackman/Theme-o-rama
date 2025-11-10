@@ -83,11 +83,10 @@ function applyThemeProperties(theme: Theme, root: HTMLElement): void {
 
   // Set data attributes for theme styles
   const buttonStyle = theme.buttonStyle || "";
-  root.setAttribute("data-theme-styles", buttonStyle);
+  root.setAttribute("data-theme-style", buttonStyle);
 
   const colorScheme = theme.mostLike === "dark" ? "dark" : "light";
-  document.documentElement.style.colorScheme = colorScheme;
-  document.documentElement.setAttribute("data-color-scheme", colorScheme);
+  root.style.colorScheme = colorScheme;
 }
 
 function applyBackgroundImage(theme: Theme, root: HTMLElement): void {
@@ -285,8 +284,8 @@ function applyButtonVariables(theme: Theme, root: HTMLElement): void {
   });
 
   // SSR-safe: Only set body attribute in browser environment
-  if (typeof document !== "undefined" && document.body) {
-    document.body.setAttribute("data-theme-styles", buttonStyle);
+  if (typeof document !== "undefined" && root) {
+    root.setAttribute("data-theme-style", buttonStyle);
   }
 }
 
@@ -327,26 +326,26 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
 
   // Apply document-wide background image handling for main theme (SSR-safe)
   // Apply to html instead of body so it's fixed to viewport, not content height
-  if (typeof document !== "undefined" && document.documentElement) {
+  if (typeof document !== "undefined" && root) {
     if (theme.backgroundImage) {
       // Set all background properties atomically to prevent flicker
       // Set size, position, and repeat BEFORE the image to avoid resize flicker
-      document.documentElement.style.backgroundSize = theme.backgroundSize || "cover";
-      document.documentElement.style.backgroundPosition = theme.backgroundPosition || "center";
-      document.documentElement.style.backgroundRepeat = theme.backgroundRepeat || "no-repeat";
+      root.style.backgroundSize = theme.backgroundSize || "cover";
+      root.style.backgroundPosition = theme.backgroundPosition || "center";
+      root.style.backgroundRepeat = theme.backgroundRepeat || "no-repeat";
       // Use fixed attachment so background stays relative to viewport, not content
-      document.documentElement.style.backgroundAttachment = "fixed";
+      root.style.backgroundAttachment = "fixed";
       // Now set the image last so it loads with the correct size already applied
-      document.documentElement.style.backgroundImage = `url(${theme.backgroundImage})`;
-      document.documentElement.classList.add("has-background-image");
+      root.style.backgroundImage = `url(${theme.backgroundImage})`;
+      root.classList.add("has-background-image");
     } else {
-      document.documentElement.classList.remove("has-background-image");
+      root.classList.remove("has-background-image");
       // Clear properties in order to prevent flicker
-      document.documentElement.style.backgroundImage = "";
-      document.documentElement.style.backgroundSize = "";
-      document.documentElement.style.backgroundPosition = "";
-      document.documentElement.style.backgroundRepeat = "";
-      document.documentElement.style.backgroundAttachment = "";
+      root.style.backgroundImage = "";
+      root.style.backgroundSize = "";
+      root.style.backgroundPosition = "";
+      root.style.backgroundRepeat = "";
+      root.style.backgroundAttachment = "";
     }
   }
 }
@@ -355,6 +354,7 @@ export function applyThemeIsolated(theme: Theme, root: HTMLElement): void {
   clearThemeVariables(root);
   applyThemeProperties(theme, root);
   applyMappedVariables(theme, root);
+
   applyTableVariables(theme, root);
   applySidebarVariables(theme, root);
   applyButtonVariables(theme, root);
@@ -364,15 +364,16 @@ export function applyThemeIsolated(theme: Theme, root: HTMLElement): void {
   // Tailwind v4 uses --color-* variables, so we need to set them from --*
   applyTailwindV4Mappings(theme, root);
 
-  // Only apply background image if it exists
+  // apply background image directly to the root element
+  root.classList.remove("has-background-image");
   if (theme.backgroundImage) {
     // Set background properties in the correct order to prevent flicker
     // Set size, position, and repeat BEFORE the image to avoid resize flicker
-    root.style.setProperty("background-size", theme.backgroundSize || "cover");
-    root.style.setProperty("background-position", theme.backgroundPosition || "center");
-    root.style.setProperty("background-repeat", theme.backgroundRepeat || "no-repeat");
-    // Now set the image last so it loads with the correct size already applied
-    root.style.setProperty("background-image", `url(${theme.backgroundImage})`);
+    root.style.backgroundSize = theme.backgroundSize || "cover";
+    root.style.backgroundPosition = theme.backgroundPosition || "center";
+    root.style.backgroundRepeat = theme.backgroundRepeat || "no-repeat";
+    root.classList.add("has-background-image");
+    root.style.backgroundImage = `url(${theme.backgroundImage})`;
   }
 
   // Set explicit background and text colors for complete isolation
@@ -382,7 +383,6 @@ export function applyThemeIsolated(theme: Theme, root: HTMLElement): void {
   if (theme.colors?.foreground) {
     root.style.color = theme.colors.foreground;
   }
-
   // Set explicit font-family to override inherited fonts from ambient theme
   // Fonts are inherited properties, so we need to explicitly set them on the root
   if (theme.fonts?.body) {

@@ -1,0 +1,71 @@
+{
+  "name": "my-light",
+  "displayName": "My Light",
+  "mostLike": "light",
+  "inherits": "light",
+  "schemaVersion": 1,
+  "tags": [],
+  "buttonStyle": "shimmer",
+  "colors": {
+    "background": "transparent",
+    "secondary": "hsl(210 100% 85%)",
+    "secondaryForeground": "hsl(210 50% 25%)",
+    "accent": "hsl(280 100% 85%)",
+    "accentForeground": "hsl(280 50% 25%)",
+    "card": "transparent",
+    "popover": "transparent",
+    "popoverBackdropFilter": "blur(20px) saturate(180%) brightness(1.1)",
+    "inputBackdropFilter": "blur(8px) saturate(150%) brightness(1.05)"
+  },
+  "buttons": {
+    "outline": {
+      "background": "transparent",
+      "color": "hsl(0 0% 9%)",
+      "border": "1px solid hsl(280 100% 85%)",
+      "borderRadius": "0.75rem",
+      "boxShadow": "none",
+      "hover": {
+        "background": "hsl(280 100% 85% / 0.1)",
+        "color": "hsl(280 50% 25%)",
+        "transform": "scale(1.02)"
+      }
+    },
+    "default": {
+      "background": "orange",
+      "color": "hsl(210 50% 25%)",
+      "border": "1px solid hsl(210 100% 85%)",
+      "borderRadius": "0.75rem",
+      "boxShadow": "0 2px 8px hsl(210 100% 85% / 0.3)",
+      "hover": {
+        "background": "hsl(210 100% 80%)",
+        "transform": "translateY(-1px)"
+      }
+    },
+    "secondary": {
+      "background": "hsl(210 100% 85%)",
+      "color": "hsl(210 50% 25%)",
+      "border": "1px solid hsl(210 100% 85%)",
+      "borderRadius": "0.75rem",
+      "boxShadow": "0 2px 8px hsl(210 100% 85% / 0.3)",
+      "hover": {
+        "background": "hsl(210 100% 80%)",
+        "transform": "translateY(-1px)"
+      }
+    }
+  },
+  "sidebar": {
+    "backdropFilter": "blur(20px) saturate(180%) brightness(1.1)"
+  },
+  "tables": {
+    "header": {
+      "backdropFilter": "blur(8px) saturate(150%) brightness(1.05)"
+    },
+    "row": {
+      "backdropFilter": "blur(4px) saturate(120%) brightness(1.02)"
+    },
+    "footer": {
+      "backdropFilter": "blur(8px) saturate(150%) brightness(1.05)"
+    }
+  },
+  "backgroundImage": "https://vpmlokamxveoskhprxep.supabase.co/storage/v1/object/public/theme-files/cd910781-457f-4480-89e6-d9ce714a8ca6/0d2e742a-57d5-4221-adcf-3b15a35e2cff/51a41afe-b52b-441d-8fe2-7b9e3b292ab8.jpeg"
+}
