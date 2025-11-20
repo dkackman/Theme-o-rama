@@ -1,6 +1,7 @@
 # Theme-o-rama
 
 [![npm version](https://img.shields.io/npm/v/theme-o-rama.svg?sanitize=true)](https://www.npmjs.com/package/theme-o-rama)
+[![CI](https://github.com/dkackman/Theme-o-rama/actions/workflows/ci.yml/badge.svg)](https://github.com/dkackman/Theme-o-rama/actions/workflows/ci.yml)
 
 A reusable TypeScript library for dynamic theme management in React applications with shadcn/ui and Tailwind CSS. Features smooth transitions, theme inheritance, custom theme support, SSR compatibility, and Tailwind v3/v4 support. Originally created for the [Sage Wallet](https://github.com/Chia-Network/sage-wallet).
 
