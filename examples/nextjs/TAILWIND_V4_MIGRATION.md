@@ -24,7 +24,7 @@ This Next.js test app has been successfully migrated to **Tailwind CSS v4.1.14**
 // postcss.config.mjs
 const config = {
   plugins: {
-    '@tailwindcss/postcss': {},
+    "@tailwindcss/postcss": {},
   },
 };
 ```
@@ -42,7 +42,7 @@ const config = {
 #### New Way (v4)
 
 ```css
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   /* Theme configuration goes here */

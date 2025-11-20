@@ -108,7 +108,7 @@ Add custom themes in `src/themes/`:
 Reference in `_app.tsx`:
 
 ```tsx
-import myTheme from '../themes/my-theme.json';
+import myTheme from "../themes/my-theme.json";
 
 async function discoverThemes(): Promise<Theme[]> {
   return [myTheme as Theme];

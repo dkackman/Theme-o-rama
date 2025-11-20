@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useCallback, useState } from 'react';
-import { Theme, ThemeProvider } from 'theme-o-rama';
-import colorfulTheme from '../themes/colorful.json';
+import { useCallback, useState } from "react";
+import { Theme, ThemeProvider } from "theme-o-rama";
+import colorfulTheme from "../themes/colorful.json";
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -16,10 +16,7 @@ async function discoverThemes(): Promise<Theme[]> {
 }
 
 // Image resolver for theme background images
-async function resolveThemeImage(
-  themeName: string,
-  imagePath: string,
-): Promise<string> {
+async function resolveThemeImage(themeName: string, imagePath: string): Promise<string> {
   // Images are in /public/themes/{imagePath}
   // Next.js serves public files from root
   return `/themes/${themeName}/${imagePath}`;
@@ -28,9 +25,9 @@ async function resolveThemeImage(
 export function Providers({ children, initialTheme }: ProvidersProps) {
   // Read actual theme from localStorage on client
   const [defaultTheme] = useState(() => {
-    if (typeof window === 'undefined') return initialTheme;
+    if (typeof window === "undefined") return initialTheme;
     try {
-      return localStorage.getItem('theme') || initialTheme;
+      return localStorage.getItem("theme") || initialTheme;
     } catch {
       return initialTheme;
     }
@@ -39,10 +36,10 @@ export function Providers({ children, initialTheme }: ProvidersProps) {
   // Handle theme changes - save to localStorage
   const handleThemeChange = useCallback((themeName: string) => {
     try {
-      localStorage.setItem('theme', themeName);
-      console.log('Theme saved:', themeName);
+      localStorage.setItem("theme", themeName);
+      console.log("Theme saved:", themeName);
     } catch (error) {
-      console.warn('Failed to save theme preference:', error);
+      console.warn("Failed to save theme preference:", error);
     }
   }, []);
 
