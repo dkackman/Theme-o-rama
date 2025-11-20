@@ -9,6 +9,10 @@
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
     "build": "pnpm -r --filter theme-o-rama build",
+    "test": "pnpm --filter theme-o-rama test",
+    "test:watch": "pnpm --filter theme-o-rama test:watch",
+    "test:ui": "pnpm --filter theme-o-rama test:ui",
+    "test:coverage": "pnpm --filter theme-o-rama test:coverage",
     "dev:nextjs": "pnpm --filter theme-o-rama-nextjs-test dev",
     "dev:nextjs-pages": "pnpm --filter theme-o-rama-nextjs-pages-test dev",
     "dev:tauri": "pnpm --filter theme-o-rama-app dev"
