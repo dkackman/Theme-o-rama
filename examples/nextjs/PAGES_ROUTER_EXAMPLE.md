@@ -78,7 +78,7 @@ export default function Document() {
     color-scheme: light;
   }
 
-  :root[data-theme='dark'],
+  :root[data-theme="dark"],
   :root.theme-dark {
     color-scheme: dark;
   }
@@ -107,15 +107,12 @@ export default function Document() {
 
 ```javascript
 // @ts-check
-const { themeExtensions } = require('theme-o-rama/tailwind.config.js');
+const { themeExtensions } = require("theme-o-rama/tailwind.config.js");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ['class'],
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
-  ],
+  darkMode: ["class"],
+  content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       ...themeExtensions,

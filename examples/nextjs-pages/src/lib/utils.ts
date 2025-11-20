@@ -1,5 +1,5 @@
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -12,14 +12,14 @@ export function dbg<T>(value: T): T {
 
 export function formatTimestamp(
   timestamp: number | null,
-  dateStyle = 'medium',
+  dateStyle = "medium",
   timeStyle: string = dateStyle,
 ): string {
-  if (!timestamp) return '';
+  if (!timestamp) return "";
   const date = new Date(timestamp * 1000); // Convert from Unix timestamp to JavaScript timestamp
   return new Intl.DateTimeFormat(undefined, {
-    dateStyle: dateStyle as 'full' | 'long' | 'medium' | 'short',
-    timeStyle: timeStyle as 'full' | 'long' | 'medium' | 'short',
+    dateStyle: dateStyle as "full" | "long" | "medium" | "short",
+    timeStyle: timeStyle as "full" | "long" | "medium" | "short",
   }).format(date);
 }
 
@@ -36,25 +36,18 @@ export const isValidFilename = (filename: string): boolean => {
     }
     return false;
   };
-  return (
-    filename.trim().length > 0 &&
-    !invalidChars.test(filename) &&
-    !hasControlChars(filename)
-  );
+  return filename.trim().length > 0 && !invalidChars.test(filename) && !hasControlChars(filename);
 };
 
 export function isValidUrl(str: string) {
   try {
     // only allow http(s) schemes, not file, ftp, wss etc
     const trimmed = str.trimStart().toLowerCase();
-    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
       const url = new URL(str);
       // since this is used for nft links, we don't want to allow localhost,
       // or 127.0.0.1 to prevent links to local resources
-      return (
-        url.hostname.toLowerCase() !== 'localhost' &&
-        url.hostname !== '127.0.0.1'
-      );
+      return url.hostname.toLowerCase() !== "localhost" && url.hostname !== "127.0.0.1";
     }
   } catch {
     return false;
@@ -99,13 +92,12 @@ export const rgbToHsl = (r: number, g: number, b: number) => {
 
 export function isTauriEnvironment() {
   return (
-    typeof window !== 'undefined' &&
+    typeof window !== "undefined" &&
     (!!(window as unknown as { __TAURI__: boolean }).__TAURI__ ||
-      !!(window as unknown as { __TAURI_INTERNALS__: boolean })
-        .__TAURI_INTERNALS__ ||
+      !!(window as unknown as { __TAURI_INTERNALS__: boolean }).__TAURI_INTERNALS__ ||
       typeof (window as unknown as { __TAURI_PLUGIN_INTERNALS__: boolean })
-        .__TAURI_PLUGIN_INTERNALS__ !== 'undefined' ||
-      typeof (window as unknown as { __TAURI_METADATA__: boolean })
-        .__TAURI_METADATA__ !== 'undefined')
+        .__TAURI_PLUGIN_INTERNALS__ !== "undefined" ||
+      typeof (window as unknown as { __TAURI_METADATA__: boolean }).__TAURI_METADATA__ !==
+        "undefined")
   );
 }

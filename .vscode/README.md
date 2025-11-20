@@ -7,13 +7,11 @@ This directory contains VS Code configuration files for debugging the Theme-o-ra
 ### Launch Configurations
 
 1. **Launch Web App in Chrome** - Starts the development server and launches Chrome with debugger attached
-
    - Uses the regular `npm run dev` command (port 1425)
    - Automatically starts the Vite dev server
    - Opens Chrome with debugging enabled
 
 2. **Launch Web App in Edge** - Same as Chrome but uses Microsoft Edge
-
    - Uses the regular `npm run dev` command (port 1425)
    - Automatically starts the Vite dev server
    - Opens Edge with debugging enabled
@@ -26,7 +24,6 @@ This directory contains VS Code configuration files for debugging the Theme-o-ra
 ### Attach Configurations
 
 4. **Attach to Chrome** - Attaches to an already running Chrome instance
-
    - Requires Chrome to be started with `--remote-debugging-port=9222`
    - Useful when you want to debug an already running application
 

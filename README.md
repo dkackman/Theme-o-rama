@@ -29,15 +29,11 @@ yarn add theme-o-rama
 
 ```tsx
 // App.tsx or _app.tsx
-import { ThemeProvider } from 'theme-o-rama';
-import 'theme-o-rama/themes.css';
+import { ThemeProvider } from "theme-o-rama";
+import "theme-o-rama/themes.css";
 
 export default function App({ children }) {
-  return (
-    <ThemeProvider defaultTheme="light">
-      {children}
-    </ThemeProvider>
-  );
+  return <ThemeProvider defaultTheme="light">{children}</ThemeProvider>;
 }
 ```
 
@@ -45,29 +41,29 @@ export default function App({ children }) {
 
 ```js
 // tailwind.config.js
-import { themeExtensions } from 'theme-o-rama/tailwind.config.js';
+import { themeExtensions } from "theme-o-rama/tailwind.config.js";
 
 export default {
   theme: {
     extend: {
       ...themeExtensions,
       // Your custom extensions
-    }
-  }
-}
+    },
+  },
+};
 ```
 
 ### 3. Use Theme Hook
 
 ```tsx
-import { useTheme } from 'theme-o-rama';
+import { useTheme } from "theme-o-rama";
 
 function ThemeSwitcher() {
   const { currentTheme, setTheme, availableThemes } = useTheme();
-  
+
   return (
     <select onChange={(e) => setTheme(e.target.value)}>
-      {availableThemes.map(theme => (
+      {availableThemes.map((theme) => (
         <option key={theme.name} value={theme.name}>
           {theme.displayName}
         </option>
@@ -301,7 +297,7 @@ See [THEME_TRANSITIONS.md](./THEME_TRANSITIONS.md) for details.
 ### Custom Theme Discovery
 
 ```tsx
-import { ThemeProvider } from 'theme-o-rama';
+import { ThemeProvider } from "theme-o-rama";
 
 async function discoverThemes() {
   // Load your app-specific themes
@@ -309,9 +305,7 @@ async function discoverThemes() {
   return customThemes;
 }
 
-<ThemeProvider discoverThemes={discoverThemes}>
-  {children}
-</ThemeProvider>
+<ThemeProvider discoverThemes={discoverThemes}>{children}</ThemeProvider>;
 ```
 
 ### Image Resolution
@@ -322,9 +316,7 @@ async function resolveThemeImage(themeName, imagePath) {
   return `/themes/${themeName}/${imagePath}`;
 }
 
-<ThemeProvider imageResolver={resolveThemeImage}>
-  {children}
-</ThemeProvider>
+<ThemeProvider imageResolver={resolveThemeImage}>{children}</ThemeProvider>;
 ```
 
 ### Theme Persistence
@@ -333,7 +325,7 @@ async function resolveThemeImage(themeName, imagePath) {
 <ThemeProvider
   defaultTheme="light"
   onThemeChange={(themeName) => {
-    localStorage.setItem('theme', themeName);
+    localStorage.setItem("theme", themeName);
   }}
 >
   {children}
