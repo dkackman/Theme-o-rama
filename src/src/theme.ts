@@ -1,4 +1,14 @@
 import { Theme } from "./theme.type.js";
+import {
+  isValidCSSUrl,
+  sanitizeCSSUrl,
+  isValidCSSColor,
+  isValidCSSFont,
+  isValidCSSSize,
+  isValidCSSShadow,
+  isValidCSSBorder,
+  isValidCSSBackdropFilter,
+} from "./css-validation.js";
 
 // Tailwind v4 variable names (--color-*, --radius-*, --shadow-*, --font-family-*)
 const tailwindV4VariableNames = [
@@ -75,10 +85,12 @@ function clearThemeVariables(root: HTMLElement) {
 
 function applyThemeProperties(theme: Theme, root: HTMLElement): void {
   // Set theme class for CSS selectors
-  try {
+  // Validate theme name to prevent invalid CSS class names
+  if (/^[a-zA-Z0-9_-]+$/.test(theme.name) && theme.name.length > 0 && theme.name.length < 256) {
     root.classList.add(`theme-${theme.name}`);
-  } catch {
-    root.classList.add(`theme-invalid-name}`);
+  } else {
+    console.warn(`Invalid theme name: ${theme.name}, using fallback`);
+    root.classList.add("theme-invalid-name");
   }
 
   // Set data attributes for theme styles
@@ -91,13 +103,37 @@ function applyThemeProperties(theme: Theme, root: HTMLElement): void {
 
 function applyBackgroundImage(theme: Theme, root: HTMLElement): void {
   if (theme.backgroundImage) {
+    // Validate URL to prevent CSS injection
+    if (!isValidCSSUrl(theme.backgroundImage)) {
+      console.warn(`Invalid background image URL: ${theme.backgroundImage}`);
+      root.classList.remove("has-background-image");
+      return;
+    }
+
     // Set background properties in the correct order to prevent flicker
     // Set size, position, and repeat BEFORE the image to avoid resize flicker
-    root.style.setProperty("--background-size", theme.backgroundSize || "cover");
-    root.style.setProperty("--background-position", theme.backgroundPosition || "center");
-    root.style.setProperty("--background-repeat", theme.backgroundRepeat || "no-repeat");
+    if (theme.backgroundSize && isValidCSSSize(theme.backgroundSize)) {
+      root.style.setProperty("--background-size", theme.backgroundSize);
+    } else {
+      root.style.setProperty("--background-size", "cover");
+    }
+
+    if (theme.backgroundPosition) {
+      root.style.setProperty("--background-position", theme.backgroundPosition);
+    } else {
+      root.style.setProperty("--background-position", "center");
+    }
+
+    if (theme.backgroundRepeat) {
+      root.style.setProperty("--background-repeat", theme.backgroundRepeat);
+    } else {
+      root.style.setProperty("--background-repeat", "no-repeat");
+    }
+
     // Now set the image last so it loads with the correct size already applied
-    root.style.setProperty("--background-image", `url(${theme.backgroundImage})`);
+    // Sanitize URL by adding quotes and escaping
+    const sanitizedUrl = sanitizeCSSUrl(theme.backgroundImage);
+    root.style.setProperty("--background-image", `url("${sanitizedUrl}")`);
     root.classList.add("has-background-image");
   } else {
     root.classList.remove("has-background-image");
@@ -105,23 +141,41 @@ function applyBackgroundImage(theme: Theme, root: HTMLElement): void {
 }
 
 function applyMappedVariables(theme: Theme, root: HTMLElement): void {
-  // Create mappings from theme properties to CSS variables
+  // Create mappings from theme properties to CSS variables with validation
   const variableMappings = [
     {
       themeObj: theme.colors,
       transform: (key: string) => `--${key.replace(/([A-Z])/g, "-$1").toLowerCase()}`,
+      validate: isValidCSSColor,
     },
-    { themeObj: theme.fonts, transform: (key: string) => `--font-${key}` },
-    { themeObj: theme.corners, transform: (key: string) => `--corner-${key}` },
-    { themeObj: theme.shadows, transform: (key: string) => `--shadow-${key}` },
+    {
+      themeObj: theme.fonts,
+      transform: (key: string) => `--font-${key}`,
+      validate: isValidCSSFont,
+    },
+    {
+      themeObj: theme.corners,
+      transform: (key: string) => `--corner-${key}`,
+      validate: isValidCSSSize,
+    },
+    {
+      themeObj: theme.shadows,
+      transform: (key: string) => `--shadow-${key}`,
+      validate: isValidCSSShadow,
+    },
   ];
 
-  variableMappings.forEach(({ themeObj, transform }) => {
+  variableMappings.forEach(({ themeObj, transform, validate }) => {
     if (themeObj) {
       Object.entries(themeObj).forEach(([key, value]) => {
         if (value) {
-          const cssVar = transform(key);
-          root.style.setProperty(cssVar, value);
+          // Validate CSS value before applying
+          if (validate(value)) {
+            const cssVar = transform(key);
+            root.style.setProperty(cssVar, value as string);
+          } else {
+            console.warn(`Invalid CSS value for ${key}: ${value}`);
+          }
         }
       });
     }
@@ -136,8 +190,13 @@ function applyMappedVariables(theme: Theme, root: HTMLElement): void {
 
     Object.entries(backdropFilterMap).forEach(([themeKey, cssVar]) => {
       const value = theme.colors?.[themeKey as keyof typeof theme.colors];
-      if (value) {
-        root.style.setProperty(cssVar, value);
+      if (value && typeof value === "string") {
+        // Validate backdrop filter
+        if (isValidCSSBackdropFilter(value)) {
+          root.style.setProperty(cssVar, value);
+        } else {
+          console.warn(`Invalid backdrop filter for ${themeKey}: ${value}`);
+        }
       }
     });
   }
@@ -328,15 +387,39 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
   // Apply to html instead of body so it's fixed to viewport, not content height
   if (typeof document !== "undefined" && root) {
     if (theme.backgroundImage) {
+      // Validate URL to prevent CSS injection
+      if (!isValidCSSUrl(theme.backgroundImage)) {
+        console.warn(`Invalid background image URL: ${theme.backgroundImage}`);
+        root.classList.remove("has-background-image");
+        return;
+      }
+
       // Set all background properties atomically to prevent flicker
       // Set size, position, and repeat BEFORE the image to avoid resize flicker
-      root.style.backgroundSize = theme.backgroundSize || "cover";
-      root.style.backgroundPosition = theme.backgroundPosition || "center";
-      root.style.backgroundRepeat = theme.backgroundRepeat || "no-repeat";
+      if (theme.backgroundSize && isValidCSSSize(theme.backgroundSize)) {
+        root.style.backgroundSize = theme.backgroundSize;
+      } else {
+        root.style.backgroundSize = "cover";
+      }
+
+      if (theme.backgroundPosition) {
+        root.style.backgroundPosition = theme.backgroundPosition;
+      } else {
+        root.style.backgroundPosition = "center";
+      }
+
+      if (theme.backgroundRepeat) {
+        root.style.backgroundRepeat = theme.backgroundRepeat;
+      } else {
+        root.style.backgroundRepeat = "no-repeat";
+      }
+
       // Use fixed attachment so background stays relative to viewport, not content
       root.style.backgroundAttachment = "fixed";
       // Now set the image last so it loads with the correct size already applied
-      root.style.backgroundImage = `url(${theme.backgroundImage})`;
+      // Sanitize URL by adding quotes and escaping
+      const sanitizedUrl = sanitizeCSSUrl(theme.backgroundImage);
+      root.style.backgroundImage = `url("${sanitizedUrl}")`;
       root.classList.add("has-background-image");
     } else {
       root.classList.remove("has-background-image");
@@ -367,28 +450,101 @@ export function applyThemeIsolated(theme: Theme, root: HTMLElement): void {
   // apply background image directly to the root element
   root.classList.remove("has-background-image");
   if (theme.backgroundImage) {
+    // Validate URL to prevent CSS injection
+    if (!isValidCSSUrl(theme.backgroundImage)) {
+      console.warn(
+        `Invalid background image URL in isolated mode: ${theme.backgroundImage}`,
+      );
+      return;
+    }
+
     // Set background properties in the correct order to prevent flicker
     // Set size, position, and repeat BEFORE the image to avoid resize flicker
-    root.style.backgroundSize = theme.backgroundSize || "cover";
-    root.style.backgroundPosition = theme.backgroundPosition || "center";
-    root.style.backgroundRepeat = theme.backgroundRepeat || "no-repeat";
+    // Validate each property before applying
+    if (theme.backgroundSize) {
+      if (isValidCSSSize(theme.backgroundSize)) {
+        root.style.backgroundSize = theme.backgroundSize;
+      } else {
+        console.warn(`Invalid backgroundSize: ${theme.backgroundSize}`);
+        root.style.backgroundSize = "cover";
+      }
+    } else {
+      root.style.backgroundSize = "cover";
+    }
+
+    if (theme.backgroundPosition) {
+      // Position can be keywords or size values
+      if (
+        isValidCSSSize(theme.backgroundPosition) ||
+        /^(top|bottom|left|right|center)(\s+(top|bottom|left|right|center))?$/.test(
+          theme.backgroundPosition,
+        )
+      ) {
+        root.style.backgroundPosition = theme.backgroundPosition;
+      } else {
+        console.warn(
+          `Invalid backgroundPosition: ${theme.backgroundPosition}`,
+        );
+        root.style.backgroundPosition = "center";
+      }
+    } else {
+      root.style.backgroundPosition = "center";
+    }
+
+    if (theme.backgroundRepeat) {
+      const validRepeats = [
+        "repeat",
+        "repeat-x",
+        "repeat-y",
+        "no-repeat",
+        "space",
+        "round",
+      ];
+      if (validRepeats.includes(theme.backgroundRepeat)) {
+        root.style.backgroundRepeat = theme.backgroundRepeat;
+      } else {
+        console.warn(`Invalid backgroundRepeat: ${theme.backgroundRepeat}`);
+        root.style.backgroundRepeat = "no-repeat";
+      }
+    } else {
+      root.style.backgroundRepeat = "no-repeat";
+    }
+
+    // Sanitize URL and apply
+    const sanitizedUrl = sanitizeCSSUrl(theme.backgroundImage);
+    root.style.backgroundImage = `url("${sanitizedUrl}")`;
     root.classList.add("has-background-image");
-    root.style.backgroundImage = `url(${theme.backgroundImage})`;
   }
 
   // Set explicit background and text colors for complete isolation
   if (theme.colors?.background) {
-    root.style.backgroundColor = theme.colors.background;
+    if (isValidCSSColor(theme.colors.background)) {
+      root.style.backgroundColor = theme.colors.background;
+    } else {
+      console.warn(`Invalid background color: ${theme.colors.background}`);
+    }
   }
   if (theme.colors?.foreground) {
-    root.style.color = theme.colors.foreground;
+    if (isValidCSSColor(theme.colors.foreground)) {
+      root.style.color = theme.colors.foreground;
+    } else {
+      console.warn(`Invalid foreground color: ${theme.colors.foreground}`);
+    }
   }
   // Set explicit font-family to override inherited fonts from ambient theme
   // Fonts are inherited properties, so we need to explicitly set them on the root
   if (theme.fonts?.body) {
-    root.style.fontFamily = theme.fonts.body;
+    if (isValidCSSFont(theme.fonts.body)) {
+      root.style.fontFamily = theme.fonts.body;
+    } else {
+      console.warn(`Invalid font family (body): ${theme.fonts.body}`);
+    }
   } else if (theme.fonts?.sans) {
-    root.style.fontFamily = theme.fonts.sans;
+    if (isValidCSSFont(theme.fonts.sans)) {
+      root.style.fontFamily = theme.fonts.sans;
+    } else {
+      console.warn(`Invalid font family (sans): ${theme.fonts.sans}`);
+    }
   }
 }
 
