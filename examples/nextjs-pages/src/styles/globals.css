@@ -1,55 +1,9 @@
 @import "tailwindcss";
 
 /* App-specific styles - themes.css is imported in _app.tsx */
+/* Import theme-o-rama's default Tailwind v4 @theme configuration */
+@import "theme-o-rama/tailwind-v4-theme.css";
 
 @theme {
-  /* Colors - map theme-o-rama CSS variables to Tailwind colors */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-input-background: var(--input-background);
-  --color-ring: var(--ring);
-
-  /* Border radius - map theme-o-rama corner values */
-  --radius-none: var(--corner-none);
-  --radius-sm: var(--corner-sm);
-  --radius-md: var(--corner-md);
-  --radius-lg: var(--corner-lg);
-  --radius-xl: var(--corner-xl);
-  --radius-full: var(--corner-full);
-  --radius: var(--radius);
-
-  /* Box shadows - map theme-o-rama shadow values */
-  --shadow-none: var(--shadow-none);
-  --shadow-sm: var(--shadow-sm);
-  --shadow: var(--shadow-md);
-  --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
-  --shadow-xl: var(--shadow-xl);
-  --shadow-inner: var(--shadow-inner);
-  --shadow-card: var(--shadow-card);
-  --shadow-button: var(--shadow-button);
-  --shadow-dropdown: var(--shadow-dropdown);
-
-  /* Font families - map theme-o-rama font values */
-  --font-family-sans: var(--font-sans);
-  --font-family-serif: var(--font-serif);
-  --font-family-mono: var(--font-mono);
-  --font-family-heading: var(--font-heading);
-  --font-family-body: var(--font-body);
+  /* Your custom theme extensions can go here */
 }

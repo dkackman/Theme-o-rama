@@ -12,6 +12,7 @@ pnpm prettier --write src/schema.json
 
 echo "📋 Copying assets..."
 cp src/themes.css dist/themes.css 
+cp src/tailwind-v4-theme.css dist/tailwind-v4-theme.css
 cp tailwind.config.js dist/tailwind.config.js
 cp src/schema.json dist/schema.json
 
