@@ -105,79 +105,78 @@ function applyBackgroundImage(theme: Theme, root: HTMLElement): void {
 }
 
 /**
- * Maps old variable names to Tailwind v4 naming conventions
- * Sets both old and new naming conventions for backward compatibility
+ * Generates both old and Tailwind v4 variable names directly from a theme key
+ * Returns [oldName, v4Name] to avoid redundant string operations
  */
-function getTailwindV4VariableName(
-  oldName: string,
+function generateVariableNames(
+  key: string,
   category: "color" | "font" | "radius" | "shadow",
-): string {
-  // Remove leading -- if present
-  const cleanName = oldName.startsWith("--") ? oldName.slice(2) : oldName;
+): [string, string] {
+  // Convert camelCase to kebab-case
+  const kebabKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
+
+  let oldName: string;
+  let v4Name: string;
 
   switch (category) {
     case "color": {
-      // Colors: --background -> --color-background
-      // Colors: --primary-foreground -> --color-primary-foreground
-      // Preserves semantic names and suffixes
-      return `--color-${cleanName}`;
+      // Colors: background -> --background and --color-background
+      oldName = `--${kebabKey}`;
+      v4Name = `--color-${kebabKey}`;
+      break;
     }
     case "font": {
-      // Fonts: --font-sans -> --font-family-sans
-      const fontName = cleanName.replace(/^font-/, "");
-      return `--font-family-${fontName}`;
+      // Fonts: sans -> --font-sans and --font-family-sans
+      oldName = `--font-${kebabKey}`;
+      v4Name = `--font-family-${kebabKey}`;
+      break;
     }
     case "radius": {
-      // Radius: --corner-sm -> --radius-sm
-      // Radius: --corner-none -> --radius-none
-      const radiusName = cleanName.replace(/^corner-/, "");
-      return `--radius-${radiusName}`;
+      // Radius: sm -> --corner-sm and --radius-sm
+      oldName = `--corner-${kebabKey}`;
+      v4Name = `--radius-${kebabKey}`;
+      break;
     }
-    case "shadow":
-      // Shadows: --shadow-sm -> --shadow-sm (already correct for Tailwind v4)
-      return `--${cleanName}`;
-    default:
-      return `--${cleanName}`;
+    case "shadow": {
+      // Shadows: sm -> --shadow-sm (same for both)
+      oldName = `--shadow-${kebabKey}`;
+      v4Name = oldName; // Shadows already use correct format
+      break;
+    }
+    default: {
+      oldName = `--${kebabKey}`;
+      v4Name = oldName;
+    }
   }
+
+  return [oldName, v4Name];
 }
 
 function applyMappedVariables(theme: Theme, root: HTMLElement): void {
-  // Create mappings from theme properties to CSS variables
-  // Now sets BOTH old and new (Tailwind v4) naming conventions
-  const variableMappings = [
-    {
-      themeObj: theme.colors,
-      transform: (key: string) => `--${key.replace(/([A-Z])/g, "-$1").toLowerCase()}`,
-      category: "color" as const,
-    },
-    {
-      themeObj: theme.fonts,
-      transform: (key: string) => `--font-${key}`,
-      category: "font" as const,
-    },
-    {
-      themeObj: theme.corners,
-      transform: (key: string) => `--corner-${key}`,
-      category: "radius" as const,
-    },
-    {
-      themeObj: theme.shadows,
-      transform: (key: string) => `--shadow-${key}`,
-      category: "shadow" as const,
-    },
+  // Sets BOTH old and new (Tailwind v4) naming conventions directly
+  // Optimized to generate both names in one pass
+  const variableMappings: Array<{
+    themeObj: Record<string, string | null | undefined> | undefined;
+    category: "color" | "font" | "radius" | "shadow";
+  }> = [
+    { themeObj: theme.colors, category: "color" },
+    { themeObj: theme.fonts, category: "font" },
+    { themeObj: theme.corners, category: "radius" },
+    { themeObj: theme.shadows, category: "shadow" },
   ];
 
-  variableMappings.forEach(({ themeObj, transform, category }) => {
+  variableMappings.forEach(({ themeObj, category }) => {
     if (themeObj) {
       Object.entries(themeObj).forEach(([key, value]) => {
-        if (value) {
-          // Set old naming convention (backward compatible)
-          const oldCssVar = transform(key);
-          root.style.setProperty(oldCssVar, value);
-
-          // Also set Tailwind v4 naming convention directly
-          const v4CssVar = getTailwindV4VariableName(oldCssVar, category);
-          root.style.setProperty(v4CssVar, value);
+        // Filter out null, undefined, and empty string values
+        if (value && typeof value === "string") {
+          // Generate both variable names directly from the key
+          const [oldName, v4Name] = generateVariableNames(key, category);
+          root.style.setProperty(oldName, value);
+          // Only set v4 name if it's different (shadows are the same)
+          if (oldName !== v4Name) {
+            root.style.setProperty(v4Name, value);
+          }
         }
       });
     }
