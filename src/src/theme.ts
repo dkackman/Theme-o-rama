@@ -78,7 +78,7 @@ function applyThemeProperties(theme: Theme, root: HTMLElement): void {
   try {
     root.classList.add(`theme-${theme.name}`);
   } catch {
-    root.classList.add(`theme-invalid-name}`);
+    root.classList.add(`theme-invalid-name`);
   }
 
   // Set data attributes for theme styles

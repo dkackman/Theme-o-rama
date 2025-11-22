@@ -408,7 +408,7 @@ describe("theme", () => {
       applyTheme(theme, mockRoot);
 
       // Should add fallback class instead of crashing
-      expect(mockRoot.classList.contains("theme-invalid-name}")).toBe(true);
+      expect(mockRoot.classList.contains("theme-invalid-name")).toBe(true);
     });
   });
 

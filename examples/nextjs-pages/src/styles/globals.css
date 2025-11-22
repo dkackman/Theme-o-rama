@@ -1,9 +1,4 @@
 @import "tailwindcss";
 
-/* App-specific styles - themes.css is imported in _app.tsx */
 /* Import theme-o-rama's default Tailwind v4 @theme configuration */
 @import "theme-o-rama/tailwind-v4-theme.css";
-
-@theme {
-  /* Your custom theme extensions can go here */
-}
