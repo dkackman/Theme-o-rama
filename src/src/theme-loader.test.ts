@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ThemeLoader } from "./theme-loader";
 import { Theme } from "./theme.type";
 
@@ -141,6 +141,45 @@ describe("ThemeLoader", () => {
       });
 
       await expect(loader.loadThemeFromJson(invalidJson)).rejects.toThrow();
+    });
+
+    it("should throw error for circular inheritance in JSON theme", async () => {
+      // First load a parent theme
+      const parentTheme: Theme = {
+        name: "parent-json",
+        displayName: "Parent Theme",
+        schemaVersion: 1,
+        colors: {
+          background: "hsl(0 0% 100%)",
+        },
+      };
+
+      await loader.loadTheme(parentTheme);
+
+      // Now try to load a theme that creates a cycle with parent
+      const circularThemeJson = JSON.stringify({
+        name: "circular-json",
+        displayName: "Circular Theme",
+        schemaVersion: 1,
+        inherits: "parent-json",
+        colors: {
+          foreground: "hsl(0 0% 0%)",
+        },
+      });
+
+      // Load the child theme first (this is fine)
+      await loader.loadThemeFromJson(circularThemeJson);
+
+      // Now try to modify parent to inherit from child (creating cycle)
+      // This should be detected when we try to initialize the modified parent
+      const modifiedParent: Theme = {
+        ...parentTheme,
+        inherits: "circular-json", // Creates cycle: parent-json -> circular-json -> parent-json
+      };
+
+      await expect(loader.initializeTheme(modifiedParent)).rejects.toThrow(
+        "Circular inheritance detected",
+      );
     });
   });
 
@@ -287,6 +326,134 @@ describe("ThemeLoader", () => {
 
       const child = loader.getTheme("child");
       expect(child?.tags).toEqual(["child-tag"]);
+    });
+
+    it("should throw error for self-inheritance", async () => {
+      const selfInheritingTheme: Theme = {
+        name: "self-theme",
+        displayName: "Self Theme",
+        schemaVersion: 1,
+        inherits: "self-theme", // Inherits from itself
+        colors: {
+          background: "hsl(0 0% 100%)",
+        },
+      };
+
+      await expect(loader.loadTheme(selfInheritingTheme)).rejects.toThrow(
+        "cannot inherit from itself",
+      );
+    });
+
+    it("should throw error for direct circular inheritance (A -> B -> A)", async () => {
+      const themeA: Theme = {
+        name: "theme-a",
+        displayName: "Theme A",
+        schemaVersion: 1,
+        inherits: "theme-b",
+        colors: {
+          background: "hsl(0 0% 100%)",
+        },
+      };
+
+      const themeB: Theme = {
+        name: "theme-b",
+        displayName: "Theme B",
+        schemaVersion: 1,
+        inherits: "theme-a", // Creates cycle: A -> B -> A
+        colors: {
+          foreground: "hsl(0 0% 0%)",
+        },
+      };
+
+      await loader.loadTheme(themeA);
+      await expect(loader.loadTheme(themeB)).rejects.toThrow("Circular inheritance detected");
+    });
+
+    it("should throw error when initializing theme with circular inheritance", async () => {
+      const themeA: Theme = {
+        name: "theme-a",
+        displayName: "Theme A",
+        schemaVersion: 1,
+        colors: {
+          background: "hsl(0 0% 100%)",
+        },
+      };
+
+      const themeB: Theme = {
+        name: "theme-b",
+        displayName: "Theme B",
+        schemaVersion: 1,
+        inherits: "theme-a",
+        colors: {
+          foreground: "hsl(0 0% 0%)",
+        },
+      };
+
+      const themeC: Theme = {
+        name: "theme-c",
+        displayName: "Theme C",
+        schemaVersion: 1,
+        inherits: "theme-b",
+        colors: {
+          primary: "hsl(221 83% 53%)",
+        },
+      };
+
+      // Load themes normally first
+      await loader.loadTheme(themeA);
+      await loader.loadTheme(themeB);
+      await loader.loadTheme(themeC);
+
+      // Now create a circular dependency by making themeA inherit from themeC
+      const circularThemeA: Theme = {
+        ...themeA,
+        inherits: "theme-c", // Creates cycle: A -> C -> B -> A
+      };
+
+      await expect(loader.initializeTheme(circularThemeA)).rejects.toThrow(
+        "Circular inheritance detected",
+      );
+    });
+
+    it("should not throw error for valid multi-level inheritance", async () => {
+      const grandparentTheme: Theme = {
+        name: "grandparent",
+        displayName: "Grandparent Theme",
+        schemaVersion: 1,
+        colors: {
+          background: "hsl(0 0% 100%)",
+        },
+      };
+
+      const parentTheme: Theme = {
+        name: "parent",
+        displayName: "Parent Theme",
+        schemaVersion: 1,
+        inherits: "grandparent",
+        colors: {
+          foreground: "hsl(0 0% 0%)",
+        },
+      };
+
+      const childTheme: Theme = {
+        name: "child",
+        displayName: "Child Theme",
+        schemaVersion: 1,
+        inherits: "parent",
+        colors: {
+          primary: "hsl(221 83% 53%)",
+        },
+      };
+
+      // This should not throw - it's a valid inheritance chain
+      await loader.loadTheme(grandparentTheme);
+      await loader.loadTheme(parentTheme);
+      await expect(loader.loadTheme(childTheme)).resolves.toBeUndefined();
+
+      const child = loader.getTheme("child");
+      expect(child?.colors?.background).toBe("hsl(0 0% 100%)"); // From grandparent
+      expect(child?.colors?.foreground).toBe("hsl(0 0% 0%)"); // From parent
+      expect(child?.colors?.primary).toBe("hsl(221 83% 53%)"); // From child
     });
   });
 

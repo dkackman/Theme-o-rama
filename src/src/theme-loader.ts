@@ -40,6 +40,13 @@ export class ThemeLoader {
       );
       this.themesCache.addTheme(workingTheme);
     } catch (error) {
+      // Re-throw circular inheritance errors
+      if (error instanceof Error && error.message.includes("Circular inheritance")) {
+        throw error;
+      }
+      if (error instanceof Error && error.message.includes("cannot inherit from itself")) {
+        throw error;
+      }
       console.error(`Error loading theme`, error);
     }
   }
@@ -58,12 +65,44 @@ export class ThemeLoader {
   public async initializeTheme(
     theme: Theme,
     imageResolver: ImageResolver | null = null,
+    visitedThemes: Set<string> = new Set(),
   ): Promise<Theme> {
     try {
       if (theme.inherits) {
+        // Check for self-inheritance (theme inherits from itself)
+        if (theme.inherits === theme.name) {
+          throw new Error(
+            `Theme "${theme.name}" cannot inherit from itself. Self-inheritance creates a circular dependency.`,
+          );
+        }
+
+        // Check for circular inheritance: if inherited theme is already in the chain, we have a cycle
+        if (visitedThemes.has(theme.inherits)) {
+          // Build the cycle path: visited themes -> current theme -> inherited theme (which closes the cycle)
+          const cyclePath = Array.from(visitedThemes);
+          cyclePath.push(theme.name);
+          cyclePath.push(theme.inherits); // This closes the cycle
+          const cycle = cyclePath.join(" -> ");
+          throw new Error(
+            `Circular inheritance detected: ${cycle}. A theme cannot create a circular dependency chain.`,
+          );
+        }
+
+        // Add current theme to visited set before resolving inheritance
+        visitedThemes.add(theme.name);
+
         const inheritedTheme = this.themesCache.getThemeSafe(theme.inherits);
         const tags = theme.tags || [];
-        theme = deepMerge(inheritedTheme, theme);
+
+        // Recursively initialize inherited theme to detect cycles in the chain
+        // Pass the same visitedThemes set to track the full inheritance chain
+        const initializedParent = await this.initializeTheme(
+          inheritedTheme,
+          imageResolver,
+          visitedThemes,
+        );
+
+        theme = deepMerge(initializedParent, theme);
         theme.tags = tags;
       }
 
@@ -80,6 +119,13 @@ export class ThemeLoader {
         }
       }
     } catch (error) {
+      // Re-throw circular inheritance errors
+      if (error instanceof Error && error.message.includes("Circular inheritance")) {
+        throw error;
+      }
+      if (error instanceof Error && error.message.includes("cannot inherit from itself")) {
+        throw error;
+      }
       console.error(`Error loading theme`, error);
     }
     return theme;
