@@ -19,15 +19,22 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.38.0",
-    "eslint": "^9.38.0",
-    "prettier": "^3.6.2",
     "@typescript-eslint/eslint-plugin": "^8.36.0",
     "@typescript-eslint/parser": "^8.36.0",
+    "eslint": "^9.38.0",
+    "prettier": "^3.6.2",
     "typescript-eslint": "^8.36.0"
   },
   "pnpm": {
     "overrides": {
       "parse5": "^7.1.2"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@swc/core",
+      "@tailwindcss/oxide",
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ]
   }
 }

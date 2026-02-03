@@ -79,7 +79,9 @@ describe("Theme Integration Tests - Full Lifecycle", () => {
       expect(themeNames).toContain("child-integration");
 
       // Step 3: Verify inheritance was resolved
-      const childThemeLoaded = result.current.availableThemes.find((t) => t.name === "child-integration");
+      const childThemeLoaded = result.current.availableThemes.find(
+        (t) => t.name === "child-integration",
+      );
       expect(childThemeLoaded).toBeDefined();
       // Verify child theme has its own properties
       expect(childThemeLoaded?.colors?.primary).toBe("hsl(0 100% 50%)"); // Overridden by child
@@ -329,16 +331,20 @@ describe("Theme Integration Tests - Full Lifecycle", () => {
       // Note: Themes need to be loaded in order for inheritance to work
       // The loader should handle this, but we need to wait for all themes to be processed
       await waitFor(() => {
-        const loadedChild = result.current.availableThemes.find((t) => t.name === "child-integration-2");
+        const loadedChild = result.current.availableThemes.find(
+          (t) => t.name === "child-integration-2",
+        );
         expect(loadedChild).toBeDefined();
       });
 
-      const loadedChild = result.current.availableThemes.find((t) => t.name === "child-integration-2");
+      const loadedChild = result.current.availableThemes.find(
+        (t) => t.name === "child-integration-2",
+      );
       expect(loadedChild).toBeDefined();
-      
+
       // Verify child theme has its own properties
       expect(loadedChild?.colors?.primary).toBe("hsl(300 100% 50%)"); // From child
-      
+
       // Note: Due to parallel loading, inheritance might resolve to fallback (light theme)
       // if parent isn't in cache yet. This tests the integration works even with timing issues.
       // In a real scenario, themes would be loaded sequentially or parent would be loaded first.
@@ -347,8 +353,12 @@ describe("Theme Integration Tests - Full Lifecycle", () => {
 
       // Verify image resolution for parent
       expect(imageResolver).toHaveBeenCalledWith("parent-integration-2", "parent-bg.png");
-      const loadedParent = result.current.availableThemes.find((t) => t.name === "parent-integration-2");
-      expect(loadedParent?.backgroundImage).toBe("https://cdn.example.com/themes/parent-integration-2/parent-bg.png");
+      const loadedParent = result.current.availableThemes.find(
+        (t) => t.name === "parent-integration-2",
+      );
+      expect(loadedParent?.backgroundImage).toBe(
+        "https://cdn.example.com/themes/parent-integration-2/parent-bg.png",
+      );
 
       // Apply child theme and verify DOM application
       const applyThemeSpy = vi.spyOn(themeModule, "applyTheme");
@@ -366,7 +376,6 @@ describe("Theme Integration Tests - Full Lifecycle", () => {
         document.documentElement,
       );
     });
-
   });
 
   describe("Integration: Theme Provider → Hook → DOM Updates", () => {
@@ -380,16 +389,10 @@ describe("Theme Integration Tests - Full Lifecycle", () => {
           <div>
             <div data-testid="current-theme">{currentTheme?.name || "none"}</div>
             <div data-testid="theme-count">{availableThemes.length}</div>
-            <button
-              data-testid="switch-dark"
-              onClick={() => setTheme("dark")}
-            >
+            <button data-testid="switch-dark" onClick={() => setTheme("dark")}>
               Switch to Dark
             </button>
-            <button
-              data-testid="switch-color"
-              onClick={() => setTheme("color")}
-            >
+            <button data-testid="switch-color" onClick={() => setTheme("color")}>
               Switch to Color
             </button>
           </div>
@@ -416,7 +419,7 @@ describe("Theme Integration Tests - Full Lifecycle", () => {
       // Switch theme via UI interaction
       const applyThemeSpy = vi.spyOn(themeModule, "applyTheme");
       const darkButton = screen.getByTestId("switch-dark");
-      
+
       await act(async () => {
         darkButton.click();
       });
@@ -452,9 +455,7 @@ describe("Theme Integration Tests - Full Lifecycle", () => {
 
       const { result } = renderHook(() => useTheme(), {
         wrapper: ({ children }) => (
-          <ThemeProvider discoverThemes={failingDiscoverThemes}>
-            {children}
-          </ThemeProvider>
+          <ThemeProvider discoverThemes={failingDiscoverThemes}>{children}</ThemeProvider>
         ),
       });
 
@@ -500,4 +501,3 @@ describe("Theme Integration Tests - Full Lifecycle", () => {
     });
   });
 });
-
