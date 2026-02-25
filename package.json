@@ -52,7 +52,7 @@
     "react-toastify": "^11.0.3",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "theme-o-rama": "^0.2.0",
+    "theme-o-rama": "^0.2.4",
     "usehooks-ts": "^3.1.0",
     "zod": "^3.23.8",
     "zustand": "^4.5.5"

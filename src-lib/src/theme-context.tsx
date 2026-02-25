@@ -51,9 +51,6 @@ export function ThemeProvider({
   const [savedTheme, setSavedTheme] = useState<string | null>(
     () => localStorage.getItem('theme') || null,
   );
-  const [dark] = useState<boolean>(
-    () => localStorage.getItem('dark') === 'true',
-  );
   const [lastUsedNonCoreTheme, setLastUsedNonCoreTheme] = useState<
     string | null
   >(
@@ -157,12 +154,6 @@ export function ThemeProvider({
 
         await loadAndCacheThemes(discoverThemes, imageResolver);
 
-        // Check for legacy dark setting and migrate if needed
-        if (dark && !savedTheme) {
-          setSavedTheme('dark');
-          localStorage.setItem('theme', 'dark');
-        }
-
         // Set initial theme after loading
         const initialTheme = themeLoader.getTheme(savedTheme);
         setCurrentTheme(initialTheme);
@@ -178,7 +169,7 @@ export function ThemeProvider({
     };
 
     initializeThemes();
-  }, [savedTheme, dark, setSavedTheme]);
+  }, [savedTheme, setSavedTheme]);
 
   async function loadAndCacheThemes(
     discoverThemes: ThemeDiscoveryFunction,

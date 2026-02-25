@@ -4,11 +4,12 @@ set -e  # Exit on any error
 
 echo "🔨 Building theme-o-rama library..."
 
-echo "📦 Compiling TypeScript..."
-tsc
-
+echo "📋 Generating JSON schema..."
 typescript-json-schema src/theme.type.ts Theme --required > src/schema.json
 pnpm prettier --write src/schema.json
+
+echo "📦 Compiling TypeScript..."
+tsc
 
 echo "📋 Copying assets..."
 cp src/themes.css dist/themes.css 

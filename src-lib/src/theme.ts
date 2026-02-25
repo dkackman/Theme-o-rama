@@ -267,8 +267,6 @@ function applyButtonVariables(theme: Theme, root: HTMLElement): void {
       buttonStyle === style ? '1' : '0',
     );
   });
-
-  document.body.setAttribute('data-theme-styles', buttonStyle);
 }
 
 function applyOtherControlVariables(theme: Theme, root: HTMLElement): void {
@@ -313,6 +311,9 @@ export function applyTheme(theme: Theme, root: HTMLElement) {
   applySidebarVariables(theme, root);
   applyButtonVariables(theme, root);
   applyOtherControlVariables(theme, root);
+
+  // Set global body attribute — only done for the active theme, not isolated previews
+  document.body.setAttribute('data-theme-styles', theme.buttonStyle || '');
 
   // Apply document-wide background image handling for main theme
   if (theme.backgroundImage) {
@@ -494,15 +495,23 @@ const buttonBaseVariableNames = [
   'hover-background',
   'hover-color',
   'hover-transform',
+  'hover-border',
   'hover-border-style',
+  'hover-border-width',
   'hover-border-color',
+  'hover-radius',
   'hover-shadow',
+  'hover-backdrop-filter',
   'active-background',
   'active-color',
   'active-transform',
+  'active-border',
   'active-border-style',
+  'active-border-width',
   'active-border-color',
+  'active-radius',
   'active-shadow',
+  'active-backdrop-filter',
 ];
 
 // Generate all button variable combinations
